@@ -93,40 +93,44 @@
   <!-- 打字机标题 -->
   <div id="typed-title"></div>
 
+  <!-- <div id="current-lang" class="text-center text-gray-400 mb-4"></div> -->
+
   <!-- LOGO -->
   <section class="flex-grow text-center py-16 sm:py-24 fade-in">
     <img src="assert/images/logo.png" alt="KEY GENE Logo" class="mx-auto w-72 sm:w-96 mb-6 animate-pulse" />
     <h2 class="text-2xl sm:text-4xl font-extrabold mb-4 leading-tight">
-      KEY CRACKS CIRCLE,<br />
-      <span class="text-orange-500 font-bold">GENE</span> TRIGGERS <span class="text-red-500 animate-pulse">BOOOOM!!!</span>
+      <span data-key="line1">KEY CRACKS CIRCLE,</span><br />
+      <span class="text-orange-500 font-bold" data-key="gene">GENE</span> 
+      <span data-key="triggers">TRIGGERS</span> 
+      <span class="text-red-500 animate-pulse" data-key="boom">BOOOOM!!!</span>
     </h2>
-    <p class="text-gray-400 text-sm sm:text-lg">Welcome to the official portal of the KEY GENE esports team.</p>
+    <p class="text-gray-400 text-sm sm:text-lg" data-key="welcome">Welcome to the official portal of the KEY GENE esports team.</p>
   </section>
 
   <!-- 美化分隔元素 -->
   <section class="relative py-8 sm:py-12">
     <div class="w-24 h-1 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 mx-auto mb-4 rounded-full animate-pulse"></div>
-    <p class="text-center text-gray-300 italic text-sm sm:text-base fade-in">"In the silence between chaos, GENE ignites the storm."</p>
+    <p class="text-center text-gray-300 italic text-sm sm:text-base fade-in" data-key="quote">"In the silence between chaos, GENE ignites the storm."</p>
   </section>
 
   <!-- About KEY GENE -->
   <section id="about" class="py-16 px-4 fade-in">
     <div class="max-w-4xl mx-auto text-center bg-white/20 rounded-xl p-8">
-      <h3 class="text-3xl font-bold mb-4 text-red-500">About KEY GENE</h3>
-      <p class="text-lg leading-relaxed">
-        <span class="block" style="color: #ff4500">Born from childhood dreams and after-school battles,</span>  <!-- 橙红 -->
-        <span class="block" style="color: #ff8c00">KEY GENE is a tribute to the fearless spirit of youth.</span>  <!-- 深橙 -->
-        <span class="block" style="color: #ffa500">Fueled by passion,</span>  <!-- 橙黄 -->
-        <span class="block" style="color: #ff6347">we play to ignite the arena———because the dream never faded,</span>  <!-- 番茄红 -->
-        <span class="block font-extrabold" style="color: #ff7f50">it just got louder.</span>  <!-- 珊瑚色 -->
-        <span class="block text-2xl font-bold animate-pulse" style="color: #ff2400">BOOOOM!!!</span>  <!-- 火焰红 -->
+      <h3 class="text-3xl font-bold mb-4 text-red-500" data-key="aboutTitle">About KEY GENE</h3>
+      <p class="text-lg leading-relaxed" style="color: #ff4500">
+        <span class="block" data-key="aboutLine1" style="color: #ff4500">Born from childhood dreams and after-school battles,</span>
+        <span class="block" data-key="aboutLine2" style="color: #ff8c00">KEY GENE is a tribute to the fearless spirit of youth.</span>
+        <span class="block" data-key="aboutLine3" style="color: #ffa500">Fueled by passion,</span>
+        <span class="block" data-key="aboutLine4" style="color: #ff6347">we play to ignite the arena———because the dream never faded,</span>
+        <span class="block font-extrabold" data-key="aboutLine5" style="color: #ff7f50">it just got louder.</span>
+        <span class="block text-2xl font-bold animate-pulse" data-key="boom" style="color: #ff2400">BOOOOM!!!</span>
       </p>
     </div>
   </section>
 
   <section id="stats-query" class="py-16 px-4 fade-in">
     <div class="max-w-3xl mx-auto text-center bg-white/10 rounded-xl p-8">
-      <h3 class="text-3xl font-bold mb-6 text-orange-400">Check Player Stats</h3>
+      <h3 class="text-3xl font-bold mb-6 text-orange-400" data-key="checkStats">Check Player Stats</h3>
       <form id="playerForm" class="flex flex-col sm:flex-row justify-center items-center gap-4">
         <input
           type="text"
@@ -138,6 +142,7 @@
         <button
           type="submit"
           class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg"
+          data-key="searchBtn"
         >
           Search
         </button>
@@ -150,7 +155,7 @@
 
       <!-- 复制按钮 -->
       <div id="copyContainer" class="text-center mt-4 hidden">
-        <button id="copyBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded">
+        <button id="copyBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" data-key="copyBtn">
           📋 Copy Stats
         </button>
       </div>
@@ -161,8 +166,8 @@
   <!-- Join KEY GENE -->
   <section id="contact" class="py-16 px-4 fade-in">
     <div class="max-w-2xl mx-auto text-center bg-white/10 rounded-xl p-8">
-      <h3 class="text-3xl font-bold mb-4 text-orange-400">Join KEY GENE</h3>
-      <p class="text-lg text-gray-200 leading-relaxed">
+      <h3 class="text-3xl font-bold mb-4 text-orange-400" data-key="joinTitle">Join KEY GENE</h3>
+      <p class="text-lg text-gray-200 leading-relaxed" data-key="joinDesc1">
         If you don’t have teammates to rely on,<br />
         come join us and be part of the family.
       </p>
@@ -170,12 +175,12 @@
         keygene@hotmail.com
       </a>
       <p class="mt-6 text-gray-300 text-lg">
-        Find us in <span class="font-extrabold text-orange-400">PUBG</span> by searching <span class="font-extrabold text-yellow-400">KEYGENE</span> and join the team!
+        Find us in <span class="font-extrabold text-orange-400" data-key="pubg">PUBG</span> by searching <span class="font-extrabold text-yellow-400" data-key="keygene">KEYGENE</span> and join the team!
       </p>
     </div>
   </section>
 
-  <footer class="bg-black py-6 text-center text-gray-500 text-sm">
+  <footer class="bg-black py-6 text-center text-gray-500 text-sm" data-key="footerText">
     © 2025 KEY GENE. All Rights Reserved.
   </footer>
 
@@ -248,85 +253,184 @@
   </script>
 
   <script>
+    // 多语言文本对象
+    const texts = {
+      en: {
+        line1: "KEY CRACKS CIRCLE,",
+        gene: "GENE",
+        triggers: "TRIGGERS",
+        boom: "BOOOOM!!!",
+        welcome: "Welcome to the official portal of the KEY GENE esports team.",
+        quote: "\"In the silence between chaos, GENE ignites the storm.\"",
+        aboutTitle: "About KEY GENE",
+        aboutLine1: "Born from childhood dreams and after-school battles,",
+        aboutLine2: "KEY GENE is a tribute to the fearless spirit of youth.",
+        aboutLine3: "Fueled by passion,",
+        aboutLine4: "we play to ignite the arena———because the dream never faded,",
+        aboutLine5: "it just got louder.",
+        checkStats: "Check Player Stats",
+        searchBtn: "Search",
+        copyBtn: "📋 Copy Stats",
+        joinTitle: "Join KEY GENE",
+        joinDesc1: "If you don’t have teammates to rely on,<br />come join us and be part of the family.",
+        pubg: "PUBG",
+        keygene: "KEYGENE",
+        footerText: "© 2025 KEY GENE. All Rights Reserved.",
+        playerLabel: "Player",
+        matchesPlayed: "Matches Played",
+        kills: "Kills",
+        deaths: "Deaths",
+        winRate: "Win Rate",
+        kdRatio: "KD Ratio",
+        longestKill: "Longest Kill",
+        copyBtn: "📋 Copy Stats",
+        loading: "Loading...",
+        playerNotFound: "❌ Player not found or an error occurred. Please check the name and try again."
+      },
+      zh: {
+        line1: "KEY 攻入决赛圈，",
+        gene: "GENE",
+        triggers: "引爆",
+        boom: "BOOOOM!!!",
+        welcome: "欢迎来到 KEY GENE 电竞战队官方网站。",
+        quote: "“混战将起，GENE 掀起风暴！”",
+        aboutTitle: "关于 KEY GENE",
+        aboutLine1: "源于儿时的梦想与课后的对决，",
+        aboutLine2: "KEY GENE 致敬无畏的青春，",
+        aboutLine3: "燃烧热血！",
+        aboutLine4: "战火再燃绝地——旧梦未熄，",
+        aboutLine5: "雷霆怒起！",
+        checkStats: "查询玩家战绩",
+        searchBtn: "搜索",
+        copyBtn: "📋 复制战绩",
+        joinTitle: "加入 KEY GENE",
+        joinDesc1: "如果你没有稳定的队友，<br />加入我们，成为我们的战友。",
+        pubg: "绝地求生",
+        keygene: "KEYGENE",
+        footerText: "© 2025 KEY GENE。保留所有权利。",
+        playerLabel: "玩家",
+        matchesPlayed: "比赛场数",
+        kills: "击杀数",
+        deaths: "死亡数",
+        winRate: "胜率",
+        kdRatio: "击杀/死亡比",
+        longestKill: "最长击杀距离",
+        copyBtn: "📋 复制战绩",
+        loading: "加载中...",
+        playerNotFound: "❌ 未找到玩家或出现错误，请检查名称后重试。"
+      }
+    };
+
+    function setLanguageText(lang) {
+      currentLang = lang;
+      // 这里是给页面其他带 data-key 的元素做切换（你可以自己加）
+      const langData = texts[lang];
+      // const langData = lang === 'zh' ? texts.zh : texts.en;
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (!langData[key]) return;
+        // 对于带有 <br /> 的内容，使用 innerHTML；否则用 textContent
+        if (langData[key].includes('<br')) {
+          el.innerHTML = langData[key];
+        } else {
+          el.textContent = langData[key];
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log(navigator.languages);  // 打印语言数组
+      let userLang = navigator.languages && navigator.languages.length 
+        ? navigator.languages[0] 
+        : navigator.language || 'en';
+      userLang = userLang.toLowerCase();
+      const isChinese = userLang.startsWith('zh');
+      setLanguageText(isChinese ? 'zh' : 'en');
+
+      // const langDisplay = document.getElementById('current-lang');
+      // langDisplay.textContent = isChinese ? '当前语言：中文 (Chinese)' : `Current language: ${userLang}`;
+
+    });
+
+  </script>
+
+  <script>
+    
     const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3ODRiMmVmMC01NTk1LTAxM2UtNWVjZi03NmNhZDljYTc2ODYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzU0NTU0OTAxLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImtleWdlbmUifQ.ohw1lzkMISXKdGTilPhVd4V5FLaVASbhyYQ4Zms9Sms'; // 替换成你的 PUBG API Key
     const SHARD = 'steam';
 
     document.getElementById('playerForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const playerName = document.getElementById('playerName').value.trim();
-      const output = document.getElementById('playerStats');
-      const copyBtn = document.getElementById('copyBtn');
-      const copyContainer = document.getElementById('copyContainer');
+    e.preventDefault();
+    const playerName = document.getElementById('playerName').value.trim();
+    const output = document.getElementById('playerStats');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyContainer = document.getElementById('copyContainer');
 
-      // 初始化状态
-      output.innerHTML = `<span class="animate-spin inline-block mr-2">🔄</span> <span class="text-orange-400 font-bold">Loading...</span>`;
-      copyContainer.classList.add("hidden");
-      let rawText = "";
+    output.innerHTML = `<span class="animate-spin inline-block mr-2">🔄</span> <span class="text-orange-400 font-bold">${texts[currentLang].loading}</span>`;
+    copyContainer.classList.add("hidden");
+    let rawText = "";
 
-      try {
-        // 获取玩家 ID
-        const playerRes = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${playerName}`, {
-          headers: {
-            Authorization: `Bearer ${API_KEY}`,
-            Accept: 'application/vnd.api+json'
-          }
+    try {
+      const playerRes = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${playerName}`, {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          Accept: 'application/vnd.api+json'
+        }
+      });
+
+      if (!playerRes.ok) throw new Error("Player not found");
+
+      const playerData = await playerRes.json();
+      const playerId = playerData.data[0].id;
+
+      const seasonRes = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${playerId}/seasons/lifetime`, {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          Accept: 'application/vnd.api+json'
+        }
+      });
+
+      const seasonData = await seasonRes.json();
+      const stats = seasonData.data.attributes.gameModeStats.squad;
+
+      // 构造多语言复制文本
+      rawText = `
+  ${texts[currentLang].playerLabel}: ${playerName}
+  ${texts[currentLang].matchesPlayed}: ${stats.roundsPlayed}
+  ${texts[currentLang].kills}: ${stats.kills}
+  ${texts[currentLang].deaths}: ${stats.losses}
+  ${texts[currentLang].winRate}: ${(stats.wins / stats.roundsPlayed * 100).toFixed(2)}%
+  ${texts[currentLang].kdRatio}: ${(stats.kills / stats.losses).toFixed(2)}
+  ${texts[currentLang].longestKill}: ${stats.longestKill.toFixed(1)}m
+      `.trim();
+
+      output.innerHTML = `
+  <span class="text-orange-400 text-lg font-bold">🔫 ${texts[currentLang].playerLabel}:</span> <span class="text-white">${playerName}</span><br/>
+  🏆 <span class="text-orange-300">${texts[currentLang].matchesPlayed}:</span> ${stats.roundsPlayed}<br/>
+  🎯 <span class="text-yellow-400">${texts[currentLang].kills}:</span> ${stats.kills}<br/>
+  💀 <span class="text-red-400">${texts[currentLang].deaths}:</span> ${stats.losses}<br/>
+  🥇 <span class="text-green-400">${texts[currentLang].winRate}:</span> ${(stats.wins / stats.roundsPlayed * 100).toFixed(2)}%<br/>
+  🔥 <span class="text-pink-400">${texts[currentLang].kdRatio}:</span> ${(stats.kills / stats.losses).toFixed(2)}<br/>
+  🚗 <span class="text-blue-400">${texts[currentLang].longestKill}:</span> ${stats.longestKill.toFixed(1)}m
+      `;
+
+      copyContainer.classList.remove("hidden");
+
+      copyBtn.textContent = texts[currentLang].copyBtn;
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(rawText).then(() => {
+          copyBtn.textContent = "✅ Copied!";
+          setTimeout(() => (copyBtn.textContent = texts[currentLang].copyBtn), 2000);
         });
+      };
 
-        if (!playerRes.ok) throw new Error("Player not found");
-
-        const playerData = await playerRes.json();
-        const playerId = playerData.data[0].id;
-
-        // 获取战绩
-        const seasonRes = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${playerId}/seasons/lifetime`, {
-          headers: {
-            Authorization: `Bearer ${API_KEY}`,
-            Accept: 'application/vnd.api+json'
-          }
-        });
-
-        const seasonData = await seasonRes.json();
-        const stats = seasonData.data.attributes.gameModeStats.squad;
-
-        // 构造原始文本用于复制
-        rawText = `
-    Player: ${playerName}
-    Matches Played: ${stats.roundsPlayed}
-    Kills: ${stats.kills}
-    Deaths: ${stats.losses}
-    Win Rate: ${(stats.wins / stats.roundsPlayed * 100).toFixed(2)}%
-    KD Ratio: ${(stats.kills / stats.losses).toFixed(2)}
-    Longest Kill: ${stats.longestKill.toFixed(1)}m
-        `.trim();
-
-        // 渲染美化后的内容
-        output.innerHTML = `
-    <span class="text-orange-400 text-lg font-bold">🔫 Player:</span> <span class="text-white">${playerName}</span><br/>
-    🏆 <span class="text-orange-300">Matches Played:</span> ${stats.roundsPlayed}<br/>
-    🎯 <span class="text-yellow-400">Kills:</span> ${stats.kills}<br/>
-    💀 <span class="text-red-400">Deaths:</span> ${stats.losses}<br/>
-    🥇 <span class="text-green-400">Win Rate:</span> ${(stats.wins / stats.roundsPlayed * 100).toFixed(2)}%<br/>
-    🔥 <span class="text-pink-400">KD Ratio:</span> ${(stats.kills / stats.losses).toFixed(2)}<br/>
-    🚗 <span class="text-blue-400">Longest Kill:</span> ${stats.longestKill.toFixed(1)}m
-        `;
-
-        // 显示复制按钮
-        copyContainer.classList.remove("hidden");
-
-        // 复制功能
-        copyBtn.onclick = () => {
-          navigator.clipboard.writeText(rawText).then(() => {
-            copyBtn.textContent = "✅ Copied!";
-            setTimeout(() => (copyBtn.textContent = "📋 Copy Stats"), 2000);
-          });
-        };
-      } catch (err) {
-        console.error(err);
-        output.innerHTML = `<div class="bg-red-600 text-white px-4 py-3 rounded shadow-md">
-          ❌ <strong>Player not found</strong> or an error occurred. Please check the name and try again.
-        </div>`;
-      }
-    });
+    } catch (err) {
+      console.error(err);
+      output.innerHTML = `<div class="bg-red-600 text-white px-4 py-3 rounded shadow-md">
+        ${texts[currentLang].playerNotFound}
+      </div>`;
+    }
+  });
   </script>
 
 </body>
