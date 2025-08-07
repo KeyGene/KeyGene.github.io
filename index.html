@@ -71,6 +71,12 @@
     .animate-breathe {
       animation: breathe 3s ease-in-out infinite;
     }
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
   <link href="assert/css/tailwind.min.css" rel="stylesheet" />
 </head>
@@ -117,6 +123,40 @@
       </p>
     </div>
   </section>
+
+  <section id="stats-query" class="py-16 px-4 fade-in">
+    <div class="max-w-3xl mx-auto text-center bg-white/10 rounded-xl p-8">
+      <h3 class="text-3xl font-bold mb-6 text-orange-400">Check Player Stats</h3>
+      <form id="playerForm" class="flex flex-col sm:flex-row justify-center items-center gap-4">
+        <input
+          type="text"
+          id="playerName"
+          placeholder="Enter PUBG Player Name"
+          class="w-full sm:w-2/3 px-4 py-2 text-black rounded-lg focus:outline-none"
+          required
+        />
+        <button
+          type="submit"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg"
+        >
+          Search
+        </button>
+      </form>
+  
+      <!-- 战绩输出区域（无背景框） -->
+      <div id="playerStats" class="mt-8 text-left text-sm sm:text-base text-gray-200 whitespace-pre-wrap
+            px-4 sm:px-6 py-2 max-w-2xl mx-auto font-mono leading-relaxed">
+      </div>
+
+      <!-- 复制按钮 -->
+      <div id="copyContainer" class="text-center mt-4 hidden">
+        <button id="copyBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded">
+          📋 Copy Stats
+        </button>
+      </div>
+    </div>
+  </section>
+  
 
   <!-- Join KEY GENE -->
   <section id="contact" class="py-16 px-4 fade-in">
@@ -206,5 +246,88 @@
 
     typeWriter();
   </script>
+
+  <script>
+    const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3ODRiMmVmMC01NTk1LTAxM2UtNWVjZi03NmNhZDljYTc2ODYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzU0NTU0OTAxLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImtleWdlbmUifQ.ohw1lzkMISXKdGTilPhVd4V5FLaVASbhyYQ4Zms9Sms'; // 替换成你的 PUBG API Key
+    const SHARD = 'steam';
+
+    document.getElementById('playerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const playerName = document.getElementById('playerName').value.trim();
+      const output = document.getElementById('playerStats');
+      const copyBtn = document.getElementById('copyBtn');
+      const copyContainer = document.getElementById('copyContainer');
+
+      // 初始化状态
+      output.innerHTML = `<span class="animate-spin inline-block mr-2">🔄</span> <span class="text-orange-400 font-bold">Loading...</span>`;
+      copyContainer.classList.add("hidden");
+      let rawText = "";
+
+      try {
+        // 获取玩家 ID
+        const playerRes = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${playerName}`, {
+          headers: {
+            Authorization: `Bearer ${API_KEY}`,
+            Accept: 'application/vnd.api+json'
+          }
+        });
+
+        if (!playerRes.ok) throw new Error("Player not found");
+
+        const playerData = await playerRes.json();
+        const playerId = playerData.data[0].id;
+
+        // 获取战绩
+        const seasonRes = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${playerId}/seasons/lifetime`, {
+          headers: {
+            Authorization: `Bearer ${API_KEY}`,
+            Accept: 'application/vnd.api+json'
+          }
+        });
+
+        const seasonData = await seasonRes.json();
+        const stats = seasonData.data.attributes.gameModeStats.squad;
+
+        // 构造原始文本用于复制
+        rawText = `
+    Player: ${playerName}
+    Matches Played: ${stats.roundsPlayed}
+    Kills: ${stats.kills}
+    Deaths: ${stats.losses}
+    Win Rate: ${(stats.wins / stats.roundsPlayed * 100).toFixed(2)}%
+    KD Ratio: ${(stats.kills / stats.losses).toFixed(2)}
+    Longest Kill: ${stats.longestKill.toFixed(1)}m
+        `.trim();
+
+        // 渲染美化后的内容
+        output.innerHTML = `
+    <span class="text-orange-400 text-lg font-bold">🔫 Player:</span> <span class="text-white">${playerName}</span><br/>
+    🏆 <span class="text-orange-300">Matches Played:</span> ${stats.roundsPlayed}<br/>
+    🎯 <span class="text-yellow-400">Kills:</span> ${stats.kills}<br/>
+    💀 <span class="text-red-400">Deaths:</span> ${stats.losses}<br/>
+    🥇 <span class="text-green-400">Win Rate:</span> ${(stats.wins / stats.roundsPlayed * 100).toFixed(2)}%<br/>
+    🔥 <span class="text-pink-400">KD Ratio:</span> ${(stats.kills / stats.losses).toFixed(2)}<br/>
+    🚗 <span class="text-blue-400">Longest Kill:</span> ${stats.longestKill.toFixed(1)}m
+        `;
+
+        // 显示复制按钮
+        copyContainer.classList.remove("hidden");
+
+        // 复制功能
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(rawText).then(() => {
+            copyBtn.textContent = "✅ Copied!";
+            setTimeout(() => (copyBtn.textContent = "📋 Copy Stats"), 2000);
+          });
+        };
+      } catch (err) {
+        console.error(err);
+        output.innerHTML = `<div class="bg-red-600 text-white px-4 py-3 rounded shadow-md">
+          ❌ <strong>Player not found</strong> or an error occurred. Please check the name and try again.
+        </div>`;
+      }
+    });
+  </script>
+
 </body>
 </html>
