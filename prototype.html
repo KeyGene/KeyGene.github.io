@@ -948,9 +948,24 @@
     // Since PUBG API doesn't list clan members, we try known names
     const CLAN_MEMBERS = ['SymarsYoung', 'Alrscw'];
 
-    (async function loadClanData() {
+    // Hide roster section until data loads
+    document.getElementById('roster').style.display = 'none';
+
+    async function loadClanData() {
       const headers = { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' };
       const t = texts[currentLang];
+      const rosterSection = document.getElementById('roster');
+      const clanInfo = document.getElementById('clanInfo');
+      const grid = document.getElementById('rosterGrid');
+      const colors = [
+        'linear-gradient(135deg, var(--red), #ff5a4a)',
+        'linear-gradient(135deg, #ff6b35, #ffa500)',
+        'linear-gradient(135deg, #c0392b, #e74c3c)',
+        'linear-gradient(135deg, #8e44ad, #c0392b)'
+      ];
+
+      let clanOk = false;
+      let membersOk = false;
 
       // 1. Load clan info
       try {
@@ -961,20 +976,12 @@
           document.getElementById('clanTag').textContent = c.clanTag;
           document.getElementById('clanLevel').textContent = 'Lv.' + c.clanLevel;
           document.getElementById('clanMembers').textContent = c.clanMemberCount;
+          clanOk = true;
         }
       } catch(e) {}
 
       // 2. Load each member's stats
-      const grid = document.getElementById('rosterGrid');
-      const loading = document.getElementById('rosterLoading');
       const cards = [];
-      const colors = [
-        'linear-gradient(135deg, var(--red), #ff5a4a)',
-        'linear-gradient(135deg, #ff6b35, #ffa500)',
-        'linear-gradient(135deg, #c0392b, #e74c3c)',
-        'linear-gradient(135deg, #8e44ad, #c0392b)'
-      ];
-
       for (let i = 0; i < CLAN_MEMBERS.length; i++) {
         const name = CLAN_MEMBERS[i];
         try {
@@ -1000,23 +1007,25 @@
               </div>
             </div>
           `);
-        } catch(e) {
-          cards.push(`
-            <div class="roster-card">
-              <div class="roster-avatar" style="background:${colors[i % colors.length]}">${name[0].toUpperCase()}</div>
-              <div class="roster-name">${name}</div>
-              <div class="roster-role" style="color:var(--gray-500)">--</div>
-            </div>
-          `);
-        }
+        } catch(e) { continue; }
       }
 
       if (cards.length > 0) {
         grid.innerHTML = cards.join('');
-      } else {
-        loading.textContent = t.rosterError || 'Failed to load clan data.';
+        membersOk = true;
       }
-    })();
+
+      // Show section only if we got any data
+      if (clanOk || membersOk) {
+        if (!clanOk) clanInfo.style.display = 'none';
+        rosterSection.style.display = '';
+      } else {
+        // Retry after 8 seconds
+        setTimeout(loadClanData, 8000);
+      }
+    }
+
+    loadClanData();
 
     // ===== Hero Stats: Dynamic fetch for SymarsYoung =====
     (async function loadHeroStats() {
