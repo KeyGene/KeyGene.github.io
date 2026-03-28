@@ -930,6 +930,18 @@
       }
     });
 
+    // ===== Rank Mapping =====
+    function getRank(rp) {
+      if (!rp || rp <= 0) return { name: 'Unranked', icon: '—' };
+      if (rp < 1500) return { name: 'Bronze', icon: '🥉' };
+      if (rp < 2000) return { name: 'Silver', icon: '🥈' };
+      if (rp < 2500) return { name: 'Gold', icon: '🥇' };
+      if (rp < 3000) return { name: 'Platinum', icon: '💎' };
+      if (rp < 3500) return { name: 'Diamond', icon: '💠' };
+      if (rp < 4000) return { name: 'Master', icon: '🏆' };
+      return { name: 'Grandmaster', icon: '👑' };
+    }
+
     // ===== Clan & Member Stats =====
     const CLAN_ID = 'clan.c674616417f749be98b20b53e7b01edf';
     // Members will be looked up dynamically via clan member count
@@ -973,11 +985,14 @@
           const s = (await r2.json()).data.attributes.gameModeStats.squad;
           const kd = s.losses > 0 ? (s.kills / s.losses).toFixed(2) : '∞';
           const wr = s.roundsPlayed > 0 ? (s.wins / s.roundsPlayed * 100).toFixed(1) : '0';
+          const rp = s.bestRankPoint || 0;
+          const rank = getRank(rp);
 
           cards.push(`
             <div class="roster-card">
               <div class="roster-avatar" style="background:${colors[i % colors.length]}">${name[0].toUpperCase()}</div>
               <div class="roster-name">${name}</div>
+              <div style="margin:6px 0 8px;"><span style="font-size:16px;">${rank.icon}</span> <span style="color:#FFD700;font-size:12px;font-weight:700;">${rank.name}</span></div>
               <div class="roster-role" style="color:var(--gray-500)">${s.roundsPlayed} ${t.matchesPlayed || 'Matches'}</div>
               <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
                 <div class="roster-stat">K/D <span class="val">${kd}</span></div>
