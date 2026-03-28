@@ -630,15 +630,15 @@
     <!-- Stats Bar (right side) -->
     <div class="stats-bar">
       <div class="stat-item">
-        <div class="stat-value">1.7K<span class="accent">+</span></div>
+        <div class="stat-value" id="heroMatches">--</div>
         <div class="stat-label" data-key="statMatches">Matches Played</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">62<span class="accent">%</span></div>
+        <div class="stat-value" id="heroTop10">--</div>
         <div class="stat-label" data-key="statTop10">Top 10 Rate</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">5.33</div>
+        <div class="stat-value" id="heroKD">--</div>
         <div class="stat-label" data-key="statKD">Avg K/D</div>
       </div>
     </div>
@@ -924,6 +924,61 @@
         output.innerHTML = `<p style="text-align:center;color:var(--gray-400);padding:20px;">${t.playerNotFound}</p>`;
       }
     });
+
+    // ===== Hero Stats: Dynamic fetch for SymarsYoung =====
+    (async function loadHeroStats() {
+      const HERO_PLAYER = 'SymarsYoung';
+      try {
+        const r1 = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${HERO_PLAYER}`, {
+          headers: { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' }
+        });
+        if (!r1.ok) return;
+        const pid = (await r1.json()).data[0].id;
+        const r2 = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid}/seasons/lifetime`, {
+          headers: { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' }
+        });
+        const s = (await r2.json()).data.attributes.gameModeStats.squad;
+        const matches = s.roundsPlayed;
+        const top10 = (s.top10s / matches * 100).toFixed(1);
+        const kd = (s.kills / s.losses).toFixed(2);
+
+        // Format matches: 1761 → "1.7K+"
+        const mStr = matches >= 1000 ? (matches / 1000).toFixed(1) + 'K' : matches;
+
+        // Animate count up
+        function countUp(el, target, suffix, accent) {
+          const duration = 1200;
+          const start = performance.now();
+          const end = parseFloat(target);
+          function tick(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - t, 3); // ease-out cubic
+            const val = (end * ease).toFixed(target.includes('.') ? target.split('.')[1].length : 0);
+            el.innerHTML = val + (accent ? `<span class="accent">${suffix}</span>` : suffix);
+            if (t < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        }
+
+        const elM = document.getElementById('heroMatches');
+        const elT = document.getElementById('heroTop10');
+        const elK = document.getElementById('heroKD');
+
+        // Observe when stats bar enters viewport, then animate
+        const bar = document.querySelector('.stats-bar');
+        const obs = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            countUp(elM, mStr.replace('K',''), 'K+', true);
+            countUp(elT, top10, '%', true);
+            countUp(elK, kd, '', false);
+            obs.disconnect();
+          }
+        }, { threshold: 0.5 });
+        obs.observe(bar);
+      } catch(e) {
+        // Fallback: keep "--"
+      }
+    })();
   </script>
 
 </body>
