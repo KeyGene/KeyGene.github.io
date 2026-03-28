@@ -137,18 +137,42 @@
     .export-btn:hover { background: var(--red-hover); }
 
     /* ===== MATCHES TAB ===== */
-    .matches-table { width: 100%; border-collapse: collapse; }
-    .matches-table th {
-      text-align: left; font-size: 11px; color: var(--gray-500); text-transform: uppercase;
-      letter-spacing: 0.06em; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    .match-list { display: flex; flex-direction: column; gap: 12px; }
+    .match-card {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 16px 20px; transition: border-color 0.2s, transform 0.2s;
     }
-    .matches-table td {
-      padding: 12px 14px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    .match-card:hover { border-color: rgba(238,63,44,0.3); transform: translateY(-2px); }
+    .match-map {
+      width: 80px; height: 60px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--white);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      background: linear-gradient(135deg, #1a1a2e, #0a0a0a); border: 1px solid rgba(255,255,255,0.08);
     }
-    .matches-table tr:hover td { background: rgba(255,255,255,0.02); }
-    .rank-gold { color: #FFD700; font-weight: 700; }
-    .rank-top10 { color: #10B981; font-weight: 600; }
+    .match-rank-col {
+      width: 56px; text-align: center; flex-shrink: 0;
+    }
+    .match-rank-num { font-size: 28px; font-weight: 800; line-height: 1; }
+    .match-rank-label { font-size: 9px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; }
+    .rank-gold { color: #FFD700; }
+    .rank-top10 { color: #10B981; }
     .rank-normal { color: var(--gray-400); }
+    .match-details { flex: 1; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+    .match-detail-item { text-align: center; min-width: 50px; }
+    .match-detail-value { font-size: 16px; font-weight: 700; color: var(--white); }
+    .match-detail-label { font-size: 10px; color: var(--gray-500); margin-top: 2px; }
+    .match-meta { text-align: right; flex-shrink: 0; }
+    .match-time { font-size: 12px; color: var(--gray-500); }
+    .match-mode { font-size: 10px; color: var(--gray-500); margin-top: 2px; }
+    @media (max-width: 768px) {
+      .match-card { flex-wrap: wrap; gap: 12px; }
+      .match-map { width: 60px; height: 45px; font-size: 9px; }
+      .match-rank-num { font-size: 22px; }
+      .match-details { gap: 12px; }
+      .match-meta { width: 100%; text-align: left; }
+    }
 
     /* ===== WEAPONS TAB ===== */
     .chart-container { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
@@ -601,7 +625,14 @@
 
       el.innerHTML = `<div class="loading-msg">${t('loadingMatches')}</div>`;
       const ids = currentPlayer.matchIds.slice(0, 20);
-      const rows = [];
+      const cards = [];
+
+      // Map color accents
+      const mapColors = {
+        'Erangel':'#2d8a4e','Miramar':'#c2a040','Sanhok':'#4a9e3f','Vikendi':'#5b8fb9',
+        'Taego':'#8b6e4e','Deston':'#6b5b95','Karakin':'#d4a04a','Rondo':'#e06050',
+        'Paramo':'#7a8b5c','Haven':'#4a6fa5',
+      };
 
       for (const mid of ids) {
         try {
@@ -616,34 +647,53 @@
           if (!roster) continue;
           const ps = roster.attributes.stats;
 
-          // Find roster rank
           const rosterRef = m.included.find(i => i.type === 'roster' && i.relationships.participants.data.some(p => p.id === roster.id));
           const rk = rosterRef ? rosterRef.attributes.stats.rank : '?';
-
           const rkClass = rk === 1 ? 'rank-gold' : rk <= 10 ? 'rank-top10' : 'rank-normal';
-          rows.push(`<tr>
-            <td>${timeAgo(attr.createdAt)}</td>
-            <td>${mapName(attr.mapName)}</td>
-            <td>${attr.gameMode}</td>
-            <td class="${rkClass}">#${rk}</td>
-            <td>${ps.kills}</td>
-            <td>${ps.damageDealt.toFixed(0)}</td>
-            <td>${ps.deathType === 'alive' ? '🐔' : (ps.kills / Math.max(ps.deathType === 'byplayer' ? 1 : 1, 1))}</td>
-          </tr>`);
+          const mn = mapName(attr.mapName);
+          const mapBg = mapColors[mn] || '#333';
+          const isWin = rk === 1;
+
+          cards.push(`
+            <div class="match-card" style="${isWin ? 'border-left:3px solid #FFD700;' : ''}">
+              <div class="match-map" style="background:linear-gradient(135deg, ${mapBg}, ${mapBg}88);">${mn}</div>
+              <div class="match-rank-col">
+                <div class="match-rank-num ${rkClass}">${isWin ? '🐔' : '#' + rk}</div>
+                <div class="match-rank-label">${t('rankCol')}</div>
+              </div>
+              <div class="match-details">
+                <div class="match-detail-item">
+                  <div class="match-detail-value" style="color:var(--red)">${ps.kills}</div>
+                  <div class="match-detail-label">${t('kills')}</div>
+                </div>
+                <div class="match-detail-item">
+                  <div class="match-detail-value">${ps.damageDealt.toFixed(0)}</div>
+                  <div class="match-detail-label">${t('damage')}</div>
+                </div>
+                <div class="match-detail-item">
+                  <div class="match-detail-value">${ps.assists || 0}</div>
+                  <div class="match-detail-label">Assists</div>
+                </div>
+                <div class="match-detail-item">
+                  <div class="match-detail-value">${Math.floor(ps.timeSurvived / 60)}m</div>
+                  <div class="match-detail-label">Survived</div>
+                </div>
+              </div>
+              <div class="match-meta">
+                <div class="match-time">${timeAgo(attr.createdAt)}</div>
+                <div class="match-mode">${attr.gameMode}</div>
+              </div>
+            </div>
+          `);
         } catch(e) { continue; }
 
-        // Update table progressively
-        el.innerHTML = `<div style="overflow-x:auto;"><table class="matches-table">
-          <thead><tr><th>${t('time')}</th><th>${t('map')}</th><th>${t('mode')}</th><th>${t('rankCol')}</th><th>${t('kills')}</th><th>${t('damage')}</th><th>Status</th></tr></thead>
-          <tbody>${rows.join('')}</tbody>
-        </table></div>` + (rows.length < ids.length ? `<div class="loading-msg" style="padding:20px">${t('loadingMatches')}</div>` : '');
+        // Progressive update
+        el.innerHTML = `<div class="match-list">${cards.join('')}</div>`
+          + (cards.length < ids.length ? `<div class="loading-msg" style="padding:20px">${t('loadingMatches')}</div>` : '');
       }
 
-      if (rows.length === 0) el.innerHTML = `<div class="empty-msg">${t('noMatches')}</div>`;
-      else el.innerHTML = `<div style="overflow-x:auto;"><table class="matches-table">
-        <thead><tr><th>${t('time')}</th><th>${t('map')}</th><th>${t('mode')}</th><th>${t('rankCol')}</th><th>${t('kills')}</th><th>${t('damage')}</th><th>Status</th></tr></thead>
-        <tbody>${rows.join('')}</tbody>
-      </table></div>`;
+      if (cards.length === 0) el.innerHTML = `<div class="empty-msg">${t('noMatches')}</div>`;
+      else el.innerHTML = `<div class="match-list">${cards.join('')}</div>`;
     }
 
     // ===== WEAPONS =====
