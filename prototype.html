@@ -121,7 +121,7 @@
       overflow: hidden;
     }
 
-    .hero-video {
+    .hero-bg {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -594,9 +594,10 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline>
-      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260227_042027_c4b2f2ea-1c7c-4d6e-9e3d-81a78063703f.mp4" type="video/mp4" />
-    </video>
+    <picture>
+      <source media="(max-width: 768px)" srcset="assert/images/hero-bg-mobile.jpg" />
+      <img class="hero-bg" src="assert/images/hero-bg.jpg" alt="" loading="eager" />
+    </picture>
 
     <div class="hero-content">
       <div class="hero-tag" data-key="heroTag">PUBG Esports Squad</div>
@@ -659,14 +660,7 @@
           </div>
         </div>
         <div class="about-visual">
-          <div class="about-visual-placeholder">
-            <!-- Replace with team screenshot or artwork -->
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-              <rect width="80" height="80" rx="12" fill="rgba(238,63,44,0.1)"/>
-              <path d="M28 52V28L40 40L52 28V52" stroke="#EE3F2C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p style="margin-top:12px; font-size:12px;">Team Photo / Artwork</p>
-          </div>
+          <img src="assert/images/about-team.jpg" alt="KEY GENE Team" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" />
         </div>
       </div>
     </div>
