@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KEY GENE - PUBG Stats</title>
+  <link rel="icon" href="assert/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #000000;
+      --red: #EE3F2C;
+      --red-hover: #ff5240;
+      --white: #ffffff;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-800: #1f1f1f;
+      --card-bg: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --font: 'Rubik', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--black); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 48px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-icon { width: 32px; height: 32px; object-fit: contain; }
+    .logo-text { font-size: 18px; font-weight: 800; color: var(--white); text-transform: uppercase; }
+    .logo-text .accent { color: var(--red); }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-right a, .header-right button { color: var(--gray-500); font-size: 13px; text-decoration: none; font-family: var(--font); background: none; border: none; cursor: pointer; transition: color 0.2s; }
+    .header-right a:hover, .header-right button:hover { color: var(--white); }
+    .lang-toggle { padding: 4px 10px; border: 1px solid rgba(255,255,255,0.15) !important; border-radius: 4px; }
+
+    /* ===== SEARCH BAR ===== */
+    .search-area {
+      margin-top: 64px; padding: 24px 48px;
+      background: #0a0a0a; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .search-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 10px; }
+    .search-input {
+      flex: 1; padding: 14px 20px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+      color: var(--white); font-family: var(--font); font-size: 14px; outline: none; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--red); }
+    .search-input::placeholder { color: var(--gray-500); }
+    .search-btn {
+      padding: 14px 28px; background: var(--red); color: var(--white);
+      border: none; border-radius: 8px; font-family: var(--font); font-size: 14px;
+      font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .search-btn:hover { background: var(--red-hover); }
+
+    /* ===== TAB BAR ===== */
+    .tab-bar {
+      display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 48px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      padding: 14px 20px; font-family: var(--font); font-size: 13px; font-weight: 600;
+      color: var(--gray-500); background: none; border: none; border-bottom: 2px solid transparent;
+      cursor: pointer; white-space: nowrap; transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover { color: var(--gray-400); }
+    .tab-btn.active { color: var(--white); border-bottom-color: var(--red); }
+
+    /* ===== TAB CONTENT ===== */
+    .tab-content { display: none; padding: 32px 48px; max-width: 1100px; margin: 0 auto; }
+    .tab-content.active { display: block; }
+
+    /* ===== COMMON COMPONENTS ===== */
+    .stat-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 20px; text-align: center;
+    }
+    .stat-card-value { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; }
+    .stat-card-label { font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red);
+      margin-bottom: 14px;
+    }
+    .section-label::before { content: ''; width: 20px; height: 2px; background: var(--red); }
+
+    /* ===== OVERVIEW TAB ===== */
+    .player-banner {
+      display: flex; align-items: center; gap: 16px; padding: 24px;
+      background: linear-gradient(135deg, #1a0a08, #0a0a0a);
+      border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 20px;
+    }
+    .player-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), #ff5a4a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 800; color: var(--white); flex-shrink: 0;
+    }
+    .player-info { flex: 1; }
+    .player-name { font-size: 20px; font-weight: 800; }
+    .player-meta { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+    .rank-badge {
+      text-align: center; background: #1a1a1a; border-radius: 10px;
+      padding: 10px 18px; border: 1px solid #333; flex-shrink: 0;
+    }
+    .rank-badge-icon { font-size: 24px; }
+    .rank-badge-name { font-size: 13px; font-weight: 800; color: #FFD700; margin-top: 2px; }
+    .rank-badge-label { font-size: 9px; color: var(--gray-500); }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .records-row { display: flex; gap: 12px; margin-bottom: 24px; }
+    .record-card {
+      flex: 1; background: #1a1a1a; border-radius: 8px; padding: 16px; border-left: 3px solid var(--red);
+    }
+    .record-card-value { font-size: 22px; font-weight: 800; color: var(--white); }
+    .record-card-label { font-size: 10px; color: var(--gray-500); margin-top: 2px; }
+    .export-bar { text-align: center; }
+    .export-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: var(--red); color: var(--white);
+      border: none; border-radius: 8px; font-family: var(--font);
+      font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s;
+    }
+    .export-btn:hover { background: var(--red-hover); }
+
+    /* ===== MATCHES TAB ===== */
+    .matches-table { width: 100%; border-collapse: collapse; }
+    .matches-table th {
+      text-align: left; font-size: 11px; color: var(--gray-500); text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .matches-table td {
+      padding: 12px 14px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .matches-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .rank-gold { color: #FFD700; font-weight: 700; }
+    .rank-top10 { color: #10B981; font-weight: 600; }
+    .rank-normal { color: var(--gray-400); }
+
+    /* ===== WEAPONS TAB ===== */
+    .chart-container { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .chart-container canvas { max-height: 350px; }
+    .weapons-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .weapons-table th { text-align: left; font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .weapons-table td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+
+    /* ===== MAP TAB ===== */
+    .map-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+    .map-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 20px; text-align: center;
+    }
+    .map-card-name { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+    .map-card-stat { font-size: 12px; color: var(--gray-400); margin: 4px 0; }
+    .map-card-stat span { color: var(--white); font-weight: 700; }
+
+    /* ===== COMPARE TAB ===== */
+    .compare-search { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
+    .compare-search input { flex: 1; min-width: 150px; padding: 12px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: var(--white); font-family: var(--font); font-size: 14px; outline: none; }
+    .compare-search input:focus { border-color: var(--red); }
+    .vs-label { font-size: 18px; font-weight: 800; color: var(--red); flex-shrink: 0; }
+    .compare-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .compare-table th { font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; }
+    .compare-table td { padding: 12px 14px; font-size: 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .compare-winner { color: var(--red); font-weight: 800; }
+    .compare-loser { color: var(--gray-500); }
+
+    /* ===== HEATMAP TAB ===== */
+    .heatmap-grid { display: grid; grid-template-columns: 50px repeat(24, 1fr); gap: 3px; }
+    .heatmap-label { font-size: 10px; color: var(--gray-500); display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
+    .heatmap-hour { font-size: 9px; color: var(--gray-500); text-align: center; padding-bottom: 4px; }
+    .heatmap-cell {
+      aspect-ratio: 1; border-radius: 3px; background: rgba(255,255,255,0.04);
+      position: relative; cursor: default; transition: transform 0.1s;
+    }
+    .heatmap-cell:hover { transform: scale(1.3); z-index: 1; }
+    .heatmap-cell[title]:hover::after {
+      content: attr(title); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%);
+      background: #222; color: #fff; font-size: 10px; padding: 4px 8px; border-radius: 4px; white-space: nowrap; z-index: 10;
+    }
+
+    /* ===== LOADING & EMPTY ===== */
+    .loading-msg, .empty-msg { text-align: center; padding: 60px 20px; color: var(--gray-500); font-size: 14px; }
+    .loading-msg::before { content: ''; display: block; width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--red); border-radius: 50%; margin: 0 auto 16px; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      header { padding: 0 20px; height: 56px; }
+      .search-area { padding: 16px 20px; }
+      .search-inner { flex-direction: column; }
+      .tab-bar { padding: 0 20px; }
+      .tab-btn { padding: 12px 14px; font-size: 12px; }
+      .tab-content { padding: 24px 20px; }
+      .player-banner { flex-direction: column; text-align: center; gap: 12px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .records-row { flex-direction: column; }
+      .compare-search { flex-direction: column; }
+      .matches-table { display: block; overflow-x: auto; }
+      .heatmap-grid { gap: 2px; }
+      .heatmap-cell { border-radius: 2px; }
+      .map-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="assert/images/helmet-red.png" alt="KEY GENE" class="logo-icon" />
+      <span class="logo-text">Key<span class="accent">Gene</span> <span style="font-weight:500;font-size:13px;color:var(--gray-500);margin-left:4px;">STATS</span></span>
+    </a>
+    <div class="header-right">
+      <a href="index.html" data-key="backHome">&larr; Back</a>
+      <button class="lang-toggle" id="langToggle">EN / ZH</button>
+    </div>
+  </header>
+
+  <!-- SEARCH -->
+  <div class="search-area">
+    <div class="search-inner">
+      <input type="text" id="searchInput" class="search-input" placeholder="Enter PUBG player name..." data-placeholder-en="Enter PUBG player name..." data-placeholder-zh="输入 PUBG 玩家名..." />
+      <button class="search-btn" id="searchBtn" data-key="searchBtn">Search</button>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="overview" data-key="tabOverview">Overview</button>
+    <button class="tab-btn" data-tab="matches" data-key="tabMatches">Recent Matches</button>
+    <button class="tab-btn" data-tab="weapons" data-key="tabWeapons">Weapons</button>
+    <button class="tab-btn" data-tab="maps" data-key="tabMaps">Map Stats</button>
+    <button class="tab-btn" data-tab="compare" data-key="tabCompare">Compare</button>
+    <button class="tab-btn" data-tab="heatmap" data-key="tabHeatmap">Heatmap</button>
+  </div>
+
+  <!-- TAB CONTENTS -->
+
+  <!-- OVERVIEW -->
+  <div class="tab-content active" id="tab-overview">
+    <div id="overviewContent">
+      <div class="empty-msg" data-key="searchPrompt">Search a player to view stats</div>
+    </div>
+  </div>
+
+  <!-- RECENT MATCHES -->
+  <div class="tab-content" id="tab-matches">
+    <div id="matchesContent">
+      <div class="empty-msg" data-key="searchPrompt">Search a player to view stats</div>
+    </div>
+  </div>
+
+  <!-- WEAPONS -->
+  <div class="tab-content" id="tab-weapons">
+    <div id="weaponsContent">
+      <div class="empty-msg" data-key="searchPrompt">Search a player to view stats</div>
+    </div>
+  </div>
+
+  <!-- MAP STATS -->
+  <div class="tab-content" id="tab-maps">
+    <div id="mapsContent">
+      <div class="empty-msg" data-key="searchPrompt">Search a player to view stats</div>
+    </div>
+  </div>
+
+  <!-- COMPARE -->
+  <div class="tab-content" id="tab-compare">
+    <div id="compareContent">
+      <div class="empty-msg" data-key="searchPrompt">Search a player to view stats</div>
+    </div>
+  </div>
+
+  <!-- HEATMAP -->
+  <div class="tab-content" id="tab-heatmap">
+    <div id="heatmapContent">
+      <div class="empty-msg" data-key="searchPrompt">Search a player to view stats</div>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3ODRiMmVmMC01NTk1LTAxM2UtNWVjZi03NmNhZDljYTc2ODYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzU0NTU0OTAxLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImtleWdlbmUifQ.ohw1lzkMISXKdGTilPhVd4V5FLaVASbhyYQ4Zms9Sms';
+    const SHARD = 'steam';
+    const HEADERS = { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' };
+
+    // ===== STATE =====
+    let currentLang = 'en';
+    let currentPlayer = null; // { id, name, stats, matchIds }
+    let matchCache = {};      // matchId → match data
+    let telemetryCache = {};  // matchId → telemetry data
+    let tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false };
+
+    // ===== i18n =====
+    const texts = {
+      en: {
+        backHome: "\u2190 Back", searchBtn: "Search",
+        tabOverview: "Overview", tabMatches: "Recent Matches", tabWeapons: "Weapons",
+        tabMaps: "Map Stats", tabCompare: "Compare", tabHeatmap: "Heatmap",
+        searchPrompt: "Search a player to view stats",
+        loading: "Loading...", playerNotFound: "Player not found. Check the name and try again.",
+        rateLimited: "Rate limited. Please wait a moment...",
+        platform: "Steam \u00b7 Squad \u00b7 Lifetime", rank: "Rank",
+        kd: "K/D", winRate: "Win Rate", matches: "Matches", kills: "Kills",
+        top10Rate: "Top 10 Rate", wins: "Wins", deaths: "Deaths",
+        longestKill: "Longest Kill", mostKills: "Most Kills (Single)", mostDamage: "Most Damage (Single)",
+        bestRecords: "Best Records", exportImage: "Generate Stats Image",
+        exportDone: "Image saved!",
+        // matches
+        time: "Time", map: "Map", mode: "Mode", rankCol: "Rank", damage: "Damage",
+        loadingMatches: "Loading match data...", noMatches: "No match data available.",
+        ago_m: "m ago", ago_h: "h ago", ago_d: "d ago",
+        // weapons
+        weaponKills: "Kills by Weapon", weaponDamage: "Damage by Weapon",
+        weapon: "Weapon", headshots: "Headshots", loadingWeapons: "Analyzing weapon data...",
+        noWeapons: "Weapon data unavailable (telemetry expires after 14 days).",
+        // maps
+        mapWinRate: "Map Win Rates", games: "Games", loadingMaps: "Loading map data...",
+        // compare
+        enterPlayer2: "Enter second player name...", compareBtn: "Compare",
+        vs: "VS", stat: "Stat",
+        // heatmap
+        heatmapTitle: "Activity Heatmap",
+        heatmapDesc: "Based on recent match times (local timezone)",
+        matchCount: "matches",
+        mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun",
+      },
+      zh: {
+        backHome: "\u2190 \u8fd4\u56de", searchBtn: "\u641c\u7d22",
+        tabOverview: "\u6982\u89c8", tabMatches: "\u6700\u8fd1\u6bd4\u8d5b", tabWeapons: "\u6b66\u5668\u5206\u6790",
+        tabMaps: "\u5730\u56fe\u80dc\u7387", tabCompare: "\u5bf9\u6bd4", tabHeatmap: "\u70ed\u529b\u56fe",
+        searchPrompt: "\u641c\u7d22\u73a9\u5bb6\u67e5\u770b\u6218\u7ee9",
+        loading: "\u52a0\u8f7d\u4e2d...", playerNotFound: "\u672a\u627e\u5230\u8be5\u73a9\u5bb6\uff0c\u8bf7\u68c0\u67e5\u540d\u79f0\u540e\u91cd\u8bd5\u3002",
+        rateLimited: "\u8bf7\u6c42\u8fc7\u4e8e\u9891\u7e41\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5...",
+        platform: "Steam \u00b7 \u7ec4\u6392 \u00b7 \u7ec8\u8eab", rank: "\u6bb5\u4f4d",
+        kd: "K/D", winRate: "\u80dc\u7387", matches: "\u573a\u6b21", kills: "\u51fb\u6740",
+        top10Rate: "\u524d\u5341\u7387", wins: "\u5403\u9e21", deaths: "\u6b7b\u4ea1",
+        longestKill: "\u6700\u8fdc\u51fb\u6740", mostKills: "\u5355\u573a\u6700\u591a\u51fb\u6740", mostDamage: "\u5355\u573a\u6700\u9ad8\u4f24\u5bb3",
+        bestRecords: "\u6700\u4f73\u8bb0\u5f55", exportImage: "\u751f\u6210\u6218\u7ee9\u56fe\u7247",
+        exportDone: "\u56fe\u7247\u5df2\u4fdd\u5b58\uff01",
+        time: "\u65f6\u95f4", map: "\u5730\u56fe", mode: "\u6a21\u5f0f", rankCol: "\u6392\u540d", damage: "\u4f24\u5bb3",
+        loadingMatches: "\u52a0\u8f7d\u6bd4\u8d5b\u6570\u636e...", noMatches: "\u6682\u65e0\u6bd4\u8d5b\u6570\u636e\u3002",
+        ago_m: "\u5206\u949f\u524d", ago_h: "\u5c0f\u65f6\u524d", ago_d: "\u5929\u524d",
+        weaponKills: "\u6b66\u5668\u51fb\u6740\u6392\u884c", weaponDamage: "\u6b66\u5668\u4f24\u5bb3\u6392\u884c",
+        weapon: "\u6b66\u5668", headshots: "\u7206\u5934", loadingWeapons: "\u5206\u6790\u6b66\u5668\u6570\u636e...",
+        noWeapons: "\u6b66\u5668\u6570\u636e\u4e0d\u53ef\u7528\uff08\u9065\u6d4b\u6570\u636e14\u5929\u540e\u8fc7\u671f\uff09\u3002",
+        mapWinRate: "\u5730\u56fe\u80dc\u7387", games: "\u573a", loadingMaps: "\u52a0\u8f7d\u5730\u56fe\u6570\u636e...",
+        enterPlayer2: "\u8f93\u5165\u7b2c\u4e8c\u4e2a\u73a9\u5bb6\u540d...", compareBtn: "\u5bf9\u6bd4",
+        vs: "VS", stat: "\u6570\u636e",
+        heatmapTitle: "\u6d3b\u8dc3\u70ed\u529b\u56fe",
+        heatmapDesc: "\u57fa\u4e8e\u6700\u8fd1\u6bd4\u8d5b\u65f6\u95f4\uff08\u672c\u5730\u65f6\u533a\uff09",
+        matchCount: "\u573a",
+        mon: "\u5468\u4e00", tue: "\u5468\u4e8c", wed: "\u5468\u4e09", thu: "\u5468\u56db", fri: "\u5468\u4e94", sat: "\u5468\u516d", sun: "\u5468\u65e5",
+      }
+    };
+
+    function t(key) { return texts[currentLang][key] || texts.en[key] || key; }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        const val = t(key);
+        if (val) el.textContent = val;
+      });
+      const input = document.getElementById('searchInput');
+      input.placeholder = lang === 'zh' ? input.dataset.placeholderZh : input.dataset.placeholderEn;
+      document.querySelectorAll('[data-placeholder-key]').forEach(el => {
+        el.placeholder = t(el.dataset.placeholderKey);
+      });
+    }
+
+    // ===== WEAPON NAME MAP =====
+    const WEAPON_NAMES = {
+      'Item_Weapon_M416_C':'M416','Item_Weapon_AK47_C':'AKM','Item_Weapon_SCAR-L_C':'SCAR-L',
+      'Item_Weapon_Mini14_C':'Mini 14','Item_Weapon_Kar98k_C':'Kar98k','Item_Weapon_SKS_C':'SKS',
+      'Item_Weapon_AWM_C':'AWM','Item_Weapon_M24_C':'M24','Item_Weapon_UMP_C':'UMP45',
+      'Item_Weapon_Vector_C':'Vector','Item_Weapon_Groza_C':'Groza','Item_Weapon_AUG_C':'AUG',
+      'Item_Weapon_QBZ95_C':'QBZ','Item_Weapon_SLR_C':'SLR','Item_Weapon_QBU88_C':'QBU',
+      'Item_Weapon_DP28_C':'DP-28','Item_Weapon_M249_C':'M249','Item_Weapon_UZI_C':'Micro UZI',
+      'Item_Weapon_Tommy_C':'Tommy Gun','Item_Weapon_Win94_C':'Win94','Item_Weapon_Saiga12_C':'S12K',
+      'Item_Weapon_DoubleBarrel_C':'Double Barrel','Item_Weapon_Berreta686_C':'S686',
+      'Item_Weapon_Winchester_C':'S1897','Item_Weapon_VSS_C':'VSS','Item_Weapon_MK14_C':'Mk14',
+      'Item_Weapon_Mosin_C':'Mosin','Item_Weapon_M16A4_C':'M16A4','Item_Weapon_Mk47Mutant_C':'Mk47 Mutant',
+      'Item_Weapon_BerylM762_C':'Beryl M762','Item_Weapon_G36C_C':'G36C','Item_Weapon_MP5K_C':'MP5K',
+      'Item_Weapon_Bizon_C':'Bizon','Item_Weapon_MG3_C':'MG3','Item_Weapon_ACE32_C':'ACE32',
+      'Item_Weapon_K2_C':'K2','Item_Weapon_FAMAS_C':'FAMAS','Item_Weapon_L6_C':'Lynx AMR',
+      'Item_Weapon_P90_C':'P90','Item_Weapon_MP9_C':'MP9',
+      'Item_Weapon_Pan_C':'Pan','Item_Weapon_Machete_C':'Machete','Item_Weapon_Sickle_C':'Sickle',
+      'Item_Weapon_Crowbar_C':'Crowbar',
+      'Item_Weapon_M9_C':'P92','Item_Weapon_Desert_Eagle_C':'Deagle','Item_Weapon_Rhino_C':'R45',
+      'Item_Weapon_NagantM1895_C':'R1895','Item_Weapon_Skorpion_C':'Skorpion','Item_Weapon_vz61Skorpion_C':'Skorpion',
+      'Item_Weapon_P18C_C':'P18C','Item_Weapon_FlareGun_C':'Flare Gun',
+      'Item_Weapon_G18_C':'P18C',
+      'Item_Weapon_Crossbow_C':'Crossbow',
+    };
+    function weaponName(raw) { return WEAPON_NAMES[raw] || raw.replace(/^Item_Weapon_/,'').replace(/_C$/,'').replace(/_/g,' '); }
+
+    // ===== MAP NAME MAP =====
+    const MAP_NAMES = {
+      'Baltic_Main':'Erangel','Chimera_Main':'Paramo','Desert_Main':'Miramar',
+      'DihorOtok_Main':'Vikendi','Erangel_Main':'Erangel','Heaven_Main':'Haven',
+      'Kiki_Main':'Deston','Range_Main':'Camp Jackal','Savage_Main':'Sanhok',
+      'Summerland_Main':'Karakin','Tiger_Main':'Taego','Neon_Main':'Rondo',
+    };
+    function mapName(raw) { return MAP_NAMES[raw] || raw.replace(/_Main$/,''); }
+
+    // ===== RANK MAPPING =====
+    function getRank(rp) {
+      if (!rp || rp <= 0) return { name: 'Unranked', icon: '—' };
+      if (rp < 1500) return { name: 'Bronze', icon: '🥉' };
+      if (rp < 2000) return { name: 'Silver', icon: '🥈' };
+      if (rp < 2500) return { name: 'Gold', icon: '🥇' };
+      if (rp < 3000) return { name: 'Platinum', icon: '💎' };
+      if (rp < 3500) return { name: 'Diamond', icon: '💠' };
+      if (rp < 4000) return { name: 'Master', icon: '🏆' };
+      return { name: 'Grandmaster', icon: '👑' };
+    }
+
+    // ===== RATE-LIMITED FETCH =====
+    const fetchQueue = [];
+    let fetching = false;
+    function queueFetch(url) {
+      return new Promise((resolve, reject) => {
+        fetchQueue.push({ url, resolve, reject });
+        processQueue();
+      });
+    }
+    async function processQueue() {
+      if (fetching || fetchQueue.length === 0) return;
+      fetching = true;
+      const { url, resolve, reject } = fetchQueue.shift();
+      try {
+        const r = await fetch(url, { headers: HEADERS });
+        if (r.status === 429) {
+          fetchQueue.unshift({ url, resolve, reject });
+          await new Promise(r => setTimeout(r, 6500));
+        } else {
+          resolve(r);
+        }
+      } catch (e) { reject(e); }
+      fetching = false;
+      if (fetchQueue.length > 0) setTimeout(processQueue, 350);
+    }
+
+    // ===== TIME AGO =====
+    function timeAgo(dateStr) {
+      const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+      if (diff < 3600) return Math.floor(diff / 60) + t('ago_m');
+      if (diff < 86400) return Math.floor(diff / 3600) + t('ago_h');
+      return Math.floor(diff / 86400) + t('ago_d');
+    }
+
+    // ===== TAB SWITCHING =====
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        if (currentPlayer && !tabLoaded[btn.dataset.tab]) {
+          loadTab(btn.dataset.tab);
+        }
+      });
+    });
+
+    // ===== SEARCH =====
+    document.getElementById('searchBtn').addEventListener('click', doSearch);
+    document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+
+    async function doSearch() {
+      const name = document.getElementById('searchInput').value.trim();
+      if (!name) return;
+      // Reset
+      currentPlayer = null;
+      matchCache = {};
+      telemetryCache = {};
+      tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false };
+
+      showAllTabs(`<div class="loading-msg">${t('loading')}</div>`);
+
+      try {
+        const r = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
+        if (!r.ok) throw new Error('not found');
+        const data = await r.json();
+        const player = data.data[0];
+        const pid = player.id;
+        const matchIds = (player.relationships.matches.data || []).map(m => m.id);
+
+        const sr = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
+        const sData = await sr.json();
+        const stats = sData.data.attributes.gameModeStats.squad;
+
+        currentPlayer = { id: pid, name: player.attributes.name, stats, matchIds };
+
+        // Load overview immediately
+        loadTab('overview');
+        // Switch to overview tab
+        document.querySelector('.tab-btn[data-tab="overview"]').click();
+      } catch (e) {
+        showAllTabs(`<div class="empty-msg">${t('playerNotFound')}</div>`);
+      }
+    }
+
+    function showAllTabs(html) {
+      ['overview','matches','weapons','maps','compare','heatmap'].forEach(id => {
+        document.getElementById(id + 'Content').innerHTML = html;
+      });
+    }
+
+    // ===== LOAD TAB =====
+    function loadTab(tab) {
+      if (!currentPlayer) return;
+      tabLoaded[tab] = true;
+      switch(tab) {
+        case 'overview': renderOverview(); break;
+        case 'matches': renderMatches(); break;
+        case 'weapons': renderWeapons(); break;
+        case 'maps': renderMaps(); break;
+        case 'compare': renderCompare(); break;
+        case 'heatmap': renderHeatmap(); break;
+      }
+    }
+
+    // ===== OVERVIEW =====
+    function renderOverview() {
+      const s = currentPlayer.stats;
+      const kd = s.losses > 0 ? (s.kills / s.losses).toFixed(2) : '∞';
+      const wr = s.roundsPlayed > 0 ? (s.wins / s.roundsPlayed * 100).toFixed(1) : '0';
+      const t10 = s.roundsPlayed > 0 ? (s.top10s / s.roundsPlayed * 100).toFixed(1) : '0';
+      const lk = s.longestKill ? s.longestKill.toFixed(0) : '0';
+      const mk = s.roundMostKills || 0;
+      const md = s.bestRankPoint || 0;
+      const rank = getRank(s.bestRankPoint);
+
+      const el = document.getElementById('overviewContent');
+      el.innerHTML = `
+        <div class="player-banner" id="overviewCapture">
+          <div class="player-avatar">${currentPlayer.name[0].toUpperCase()}</div>
+          <div class="player-info">
+            <div class="player-name">${currentPlayer.name}</div>
+            <div class="player-meta">${t('platform')}</div>
+          </div>
+          <div class="rank-badge">
+            <div class="rank-badge-icon">${rank.icon}</div>
+            <div class="rank-badge-name">${rank.name}</div>
+            <div class="rank-badge-label">${t('rank')}</div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-card-value" style="color:var(--red)">${kd}</div><div class="stat-card-label">${t('kd')}</div></div>
+          <div class="stat-card"><div class="stat-card-value" style="color:#10B981">${wr}%</div><div class="stat-card-label">${t('winRate')}</div></div>
+          <div class="stat-card"><div class="stat-card-value">${s.roundsPlayed.toLocaleString()}</div><div class="stat-card-label">${t('matches')}</div></div>
+          <div class="stat-card"><div class="stat-card-value">${s.kills.toLocaleString()}</div><div class="stat-card-label">${t('kills')}</div></div>
+          <div class="stat-card"><div class="stat-card-value">${t10}%</div><div class="stat-card-label">${t('top10Rate')}</div></div>
+          <div class="stat-card"><div class="stat-card-value">${s.wins.toLocaleString()}</div><div class="stat-card-label">${t('wins')}</div></div>
+        </div>
+
+        <div class="section-label">${t('bestRecords')}</div>
+        <div class="records-row">
+          <div class="record-card"><div class="record-card-value">${lk}m</div><div class="record-card-label">${t('longestKill')}</div></div>
+          <div class="record-card" style="border-left-color:#FFD700"><div class="record-card-value">${mk}</div><div class="record-card-label">${t('mostKills')}</div></div>
+          <div class="record-card" style="border-left-color:#10B981"><div class="record-card-value">${s.maxKillStreaks || 0}</div><div class="record-card-label">${t('mostDamage')}</div></div>
+        </div>
+
+        <div class="export-bar">
+          <button class="export-btn" onclick="exportImage()">📸 ${t('exportImage')}</button>
+        </div>
+      `;
+    }
+
+    // ===== EXPORT IMAGE =====
+    async function exportImage() {
+      const el = document.getElementById('tab-overview');
+      const canvas = await html2canvas(el, { backgroundColor: '#000000', scale: 2 });
+      const link = document.createElement('a');
+      link.download = `${currentPlayer.name}-stats.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    // ===== RECENT MATCHES =====
+    async function renderMatches() {
+      const el = document.getElementById('matchesContent');
+      if (currentPlayer.matchIds.length === 0) { el.innerHTML = `<div class="empty-msg">${t('noMatches')}</div>`; return; }
+
+      el.innerHTML = `<div class="loading-msg">${t('loadingMatches')}</div>`;
+      const ids = currentPlayer.matchIds.slice(0, 20);
+      const rows = [];
+
+      for (const mid of ids) {
+        try {
+          if (!matchCache[mid]) {
+            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            if (r.ok) matchCache[mid] = await r.json();
+            else continue;
+          }
+          const m = matchCache[mid];
+          const attr = m.data.attributes;
+          const roster = m.included.find(i => i.type === 'participant' && i.attributes.stats.playerId === currentPlayer.id);
+          if (!roster) continue;
+          const ps = roster.attributes.stats;
+
+          // Find roster rank
+          const rosterRef = m.included.find(i => i.type === 'roster' && i.relationships.participants.data.some(p => p.id === roster.id));
+          const rk = rosterRef ? rosterRef.attributes.stats.rank : '?';
+
+          const rkClass = rk === 1 ? 'rank-gold' : rk <= 10 ? 'rank-top10' : 'rank-normal';
+          rows.push(`<tr>
+            <td>${timeAgo(attr.createdAt)}</td>
+            <td>${mapName(attr.mapName)}</td>
+            <td>${attr.gameMode}</td>
+            <td class="${rkClass}">#${rk}</td>
+            <td>${ps.kills}</td>
+            <td>${ps.damageDealt.toFixed(0)}</td>
+            <td>${ps.deathType === 'alive' ? '🐔' : (ps.kills / Math.max(ps.deathType === 'byplayer' ? 1 : 1, 1))}</td>
+          </tr>`);
+        } catch(e) { continue; }
+
+        // Update table progressively
+        el.innerHTML = `<div style="overflow-x:auto;"><table class="matches-table">
+          <thead><tr><th>${t('time')}</th><th>${t('map')}</th><th>${t('mode')}</th><th>${t('rankCol')}</th><th>${t('kills')}</th><th>${t('damage')}</th><th>Status</th></tr></thead>
+          <tbody>${rows.join('')}</tbody>
+        </table></div>` + (rows.length < ids.length ? `<div class="loading-msg" style="padding:20px">${t('loadingMatches')}</div>` : '');
+      }
+
+      if (rows.length === 0) el.innerHTML = `<div class="empty-msg">${t('noMatches')}</div>`;
+      else el.innerHTML = `<div style="overflow-x:auto;"><table class="matches-table">
+        <thead><tr><th>${t('time')}</th><th>${t('map')}</th><th>${t('mode')}</th><th>${t('rankCol')}</th><th>${t('kills')}</th><th>${t('damage')}</th><th>Status</th></tr></thead>
+        <tbody>${rows.join('')}</tbody>
+      </table></div>`;
+    }
+
+    // ===== WEAPONS =====
+    async function renderWeapons() {
+      const el = document.getElementById('weaponsContent');
+      el.innerHTML = `<div class="loading-msg">${t('loadingWeapons')}</div>`;
+
+      const weaponStats = {}; // weaponId → { kills, headshots, damage }
+      const ids = currentPlayer.matchIds.slice(0, 10);
+      let anyTelemetry = false;
+
+      for (const mid of ids) {
+        try {
+          if (!matchCache[mid]) {
+            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            if (r.ok) matchCache[mid] = await r.json();
+            else continue;
+          }
+          const m = matchCache[mid];
+          const telAsset = m.included.find(i => i.type === 'asset');
+          if (!telAsset) continue;
+          const telUrl = telAsset.attributes.URL;
+
+          if (!telemetryCache[mid]) {
+            const tr = await fetch(telUrl);
+            if (tr.ok) telemetryCache[mid] = await tr.json();
+            else continue;
+          }
+          const tel = telemetryCache[mid];
+          anyTelemetry = true;
+
+          tel.forEach(ev => {
+            if (ev._T === 'LogPlayerKillV2' && ev.killer && ev.killer.accountId === currentPlayer.id) {
+              const w = ev.killerDamageInfo?.damageCauserName || 'Unknown';
+              if (!weaponStats[w]) weaponStats[w] = { kills: 0, headshots: 0, damage: 0 };
+              weaponStats[w].kills++;
+              if (ev.killerDamageInfo?.damageReason === 'HeadShot') weaponStats[w].headshots++;
+            }
+            if (ev._T === 'LogPlayerTakeDamage' && ev.attacker && ev.attacker.accountId === currentPlayer.id && ev.damage > 0) {
+              const w = ev.damageCauserName || 'Unknown';
+              if (!weaponStats[w]) weaponStats[w] = { kills: 0, headshots: 0, damage: 0 };
+              weaponStats[w].damage += ev.damage;
+            }
+          });
+        } catch(e) { continue; }
+      }
+
+      if (!anyTelemetry || Object.keys(weaponStats).length === 0) {
+        el.innerHTML = `<div class="empty-msg">${t('noWeapons')}</div>`;
+        return;
+      }
+
+      const sorted = Object.entries(weaponStats).sort((a, b) => b[1].kills - a[1].kills).slice(0, 15);
+      const labels = sorted.map(([w]) => weaponName(w));
+      const killData = sorted.map(([, s]) => s.kills);
+      const dmgData = sorted.map(([, s]) => Math.round(s.damage));
+
+      el.innerHTML = `
+        <div class="section-label">${t('weaponKills')}</div>
+        <div class="chart-container"><canvas id="weaponKillChart"></canvas></div>
+        <div class="section-label" style="margin-top:24px">${t('weaponDamage')}</div>
+        <div class="chart-container"><canvas id="weaponDmgChart"></canvas></div>
+        <table class="weapons-table" style="margin-top:20px">
+          <thead><tr><th>${t('weapon')}</th><th>${t('kills')}</th><th>${t('headshots')}</th><th>${t('damage')}</th></tr></thead>
+          <tbody>${sorted.map(([w, s]) => `<tr><td>${weaponName(w)}</td><td style="color:var(--red);font-weight:700">${s.kills}</td><td>${s.headshots}</td><td>${Math.round(s.damage).toLocaleString()}</td></tr>`).join('')}</tbody>
+        </table>
+      `;
+
+      const chartOpts = { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } },
+        scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#6b7280' } }, y: { grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 11 } } } } };
+
+      new Chart(document.getElementById('weaponKillChart'), {
+        type: 'bar', data: { labels, datasets: [{ data: killData, backgroundColor: '#EE3F2C', borderRadius: 4 }] }, options: chartOpts
+      });
+      new Chart(document.getElementById('weaponDmgChart'), {
+        type: 'bar', data: { labels, datasets: [{ data: dmgData, backgroundColor: '#ff6b4a', borderRadius: 4 }] }, options: chartOpts
+      });
+    }
+
+    // ===== MAP STATS =====
+    async function renderMaps() {
+      const el = document.getElementById('mapsContent');
+      el.innerHTML = `<div class="loading-msg">${t('loadingMaps')}</div>`;
+
+      const mapStats = {}; // mapName → { games, wins, kills, deaths }
+      const ids = currentPlayer.matchIds.slice(0, 20);
+
+      for (const mid of ids) {
+        try {
+          if (!matchCache[mid]) {
+            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            if (r.ok) matchCache[mid] = await r.json();
+            else continue;
+          }
+          const m = matchCache[mid];
+          const mn = mapName(m.data.attributes.mapName);
+          const roster = m.included.find(i => i.type === 'participant' && i.attributes.stats.playerId === currentPlayer.id);
+          if (!roster) continue;
+          const ps = roster.attributes.stats;
+          const rosterRef = m.included.find(i => i.type === 'roster' && i.relationships.participants.data.some(p => p.id === roster.id));
+          const won = rosterRef ? rosterRef.attributes.stats.rank === 1 : false;
+
+          if (!mapStats[mn]) mapStats[mn] = { games: 0, wins: 0, kills: 0, deaths: 0 };
+          mapStats[mn].games++;
+          if (won) mapStats[mn].wins++;
+          mapStats[mn].kills += ps.kills;
+          if (ps.deathType !== 'alive') mapStats[mn].deaths++;
+        } catch(e) { continue; }
+      }
+
+      if (Object.keys(mapStats).length === 0) {
+        el.innerHTML = `<div class="empty-msg">${t('noMatches')}</div>`;
+        return;
+      }
+
+      const entries = Object.entries(mapStats).sort((a, b) => b[1].games - a[1].games);
+
+      el.innerHTML = `
+        <div class="section-label">${t('mapWinRate')}</div>
+        <div class="chart-container" style="max-width:400px;margin:0 auto 24px;"><canvas id="mapChart"></canvas></div>
+        <div class="map-grid">
+          ${entries.map(([name, s]) => {
+            const wr = (s.wins / s.games * 100).toFixed(1);
+            const kd = s.deaths > 0 ? (s.kills / s.deaths).toFixed(2) : '∞';
+            return `<div class="map-card">
+              <div class="map-card-name">${name}</div>
+              <div class="map-card-stat">${t('winRate')}: <span style="color:#10B981">${wr}%</span></div>
+              <div class="map-card-stat">${t('games')}: <span>${s.games}</span></div>
+              <div class="map-card-stat">${t('kd')}: <span style="color:var(--red)">${kd}</span></div>
+            </div>`;
+          }).join('')}
+        </div>
+      `;
+
+      new Chart(document.getElementById('mapChart'), {
+        type: 'doughnut',
+        data: {
+          labels: entries.map(([n]) => n),
+          datasets: [{ data: entries.map(([, s]) => s.games),
+            backgroundColor: ['#EE3F2C','#ff6b4a','#FFD700','#10B981','#3b82f6','#8b5cf6','#f59e0b','#ec4899'],
+            borderWidth: 0
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#9ca3af', padding: 16 } } } }
+      });
+    }
+
+    // ===== COMPARE =====
+    function renderCompare() {
+      const el = document.getElementById('compareContent');
+      el.innerHTML = `
+        <div class="compare-search">
+          <input type="text" value="${currentPlayer.name}" disabled style="opacity:0.6;flex:1;min-width:150px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:var(--white);font-family:var(--font);font-size:14px;" />
+          <span class="vs-label">${t('vs')}</span>
+          <input type="text" id="compareInput" placeholder="${t('enterPlayer2')}" data-placeholder-key="enterPlayer2" style="flex:1;min-width:150px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:var(--white);font-family:var(--font);font-size:14px;outline:none;" />
+          <button class="search-btn" onclick="doCompare()">${t('compareBtn')}</button>
+        </div>
+        <div id="compareResult"></div>
+      `;
+      document.getElementById('compareInput').addEventListener('keydown', e => { if (e.key === 'Enter') doCompare(); });
+    }
+
+    let radarChart = null;
+    async function doCompare() {
+      const name2 = document.getElementById('compareInput').value.trim();
+      if (!name2) return;
+      const result = document.getElementById('compareResult');
+      result.innerHTML = `<div class="loading-msg">${t('loading')}</div>`;
+
+      try {
+        const r1 = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name2)}`, { headers: HEADERS });
+        if (!r1.ok) throw new Error();
+        const pid2 = (await r1.json()).data[0].id;
+        const r2 = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid2}/seasons/lifetime`, { headers: HEADERS });
+        const s2 = (await r2.json()).data.attributes.gameModeStats.squad;
+
+        const s1 = currentPlayer.stats;
+        const p1 = currentPlayer.name;
+        const p2 = name2;
+
+        const metrics = [
+          { key: 'kd', label: t('kd'), v1: s1.losses > 0 ? s1.kills/s1.losses : 0, v2: s2.losses > 0 ? s2.kills/s2.losses : 0, fmt: v => v.toFixed(2), max: 10 },
+          { key: 'wr', label: t('winRate'), v1: s1.roundsPlayed > 0 ? s1.wins/s1.roundsPlayed*100 : 0, v2: s2.roundsPlayed > 0 ? s2.wins/s2.roundsPlayed*100 : 0, fmt: v => v.toFixed(1) + '%', max: 100 },
+          { key: 'matches', label: t('matches'), v1: s1.roundsPlayed, v2: s2.roundsPlayed, fmt: v => v.toLocaleString(), max: Math.max(s1.roundsPlayed, s2.roundsPlayed) * 1.1 },
+          { key: 'kills', label: t('kills'), v1: s1.kills, v2: s2.kills, fmt: v => v.toLocaleString(), max: Math.max(s1.kills, s2.kills) * 1.1 },
+          { key: 't10', label: t('top10Rate'), v1: s1.roundsPlayed > 0 ? s1.top10s/s1.roundsPlayed*100 : 0, v2: s2.roundsPlayed > 0 ? s2.top10s/s2.roundsPlayed*100 : 0, fmt: v => v.toFixed(1) + '%', max: 100 },
+          { key: 'lk', label: t('longestKill'), v1: s1.longestKill || 0, v2: s2.longestKill || 0, fmt: v => v.toFixed(0) + 'm', max: Math.max(s1.longestKill||0, s2.longestKill||0) * 1.1 || 1 },
+        ];
+
+        result.innerHTML = `
+          <div class="chart-container" style="max-width:500px;margin:0 auto 24px;"><canvas id="radarChart"></canvas></div>
+          <table class="compare-table">
+            <thead><tr><th>${p1}</th><th>${t('stat')}</th><th>${p2}</th></tr></thead>
+            <tbody>${metrics.map(m => {
+              const w1 = m.v1 >= m.v2 ? 'compare-winner' : 'compare-loser';
+              const w2 = m.v2 >= m.v1 ? 'compare-winner' : 'compare-loser';
+              return `<tr><td class="${w1}">${m.fmt(m.v1)}</td><td style="color:var(--gray-500)">${m.label}</td><td class="${w2}">${m.fmt(m.v2)}</td></tr>`;
+            }).join('')}</tbody>
+          </table>
+        `;
+
+        if (radarChart) radarChart.destroy();
+        radarChart = new Chart(document.getElementById('radarChart'), {
+          type: 'radar',
+          data: {
+            labels: metrics.map(m => m.label),
+            datasets: [
+              { label: p1, data: metrics.map(m => m.v1 / m.max * 100), borderColor: '#EE3F2C', backgroundColor: 'rgba(238,63,44,0.15)', borderWidth: 2, pointBackgroundColor: '#EE3F2C' },
+              { label: p2, data: metrics.map(m => m.v2 / m.max * 100), borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.15)', borderWidth: 2, pointBackgroundColor: '#3b82f6' },
+            ]
+          },
+          options: {
+            responsive: true,
+            scales: { r: { grid: { color: 'rgba(255,255,255,0.08)' }, angleLines: { color: 'rgba(255,255,255,0.08)' }, ticks: { display: false }, pointLabels: { color: '#9ca3af', font: { size: 11 } }, suggestedMin: 0, suggestedMax: 100 } },
+            plugins: { legend: { labels: { color: '#9ca3af' } } }
+          }
+        });
+      } catch(e) {
+        result.innerHTML = `<div class="empty-msg">${t('playerNotFound')}</div>`;
+      }
+    }
+
+    // ===== HEATMAP =====
+    async function renderHeatmap() {
+      const el = document.getElementById('heatmapContent');
+      el.innerHTML = `<div class="loading-msg">${t('loadingMatches')}</div>`;
+
+      const grid = Array.from({ length: 7 }, () => Array(24).fill(0));
+      const ids = currentPlayer.matchIds.slice(0, 50);
+
+      for (const mid of ids) {
+        try {
+          if (!matchCache[mid]) {
+            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            if (r.ok) matchCache[mid] = await r.json();
+            else continue;
+          }
+          const d = new Date(matchCache[mid].data.attributes.createdAt);
+          const day = (d.getDay() + 6) % 7; // Mon=0
+          grid[day][d.getHours()]++;
+        } catch(e) { continue; }
+      }
+
+      const maxVal = Math.max(1, ...grid.flat());
+      const days = [t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat'), t('sun')];
+
+      let html = `
+        <div class="section-label">${t('heatmapTitle')}</div>
+        <p style="color:var(--gray-500);font-size:12px;margin-bottom:16px;">${t('heatmapDesc')}</p>
+        <div class="heatmap-grid">
+          <div></div>
+          ${Array.from({ length: 24 }, (_, i) => `<div class="heatmap-hour">${i}</div>`).join('')}
+      `;
+
+      for (let d = 0; d < 7; d++) {
+        html += `<div class="heatmap-label">${days[d]}</div>`;
+        for (let h = 0; h < 24; h++) {
+          const v = grid[d][h];
+          const intensity = v / maxVal;
+          const bg = v === 0 ? 'rgba(255,255,255,0.04)' : `rgba(238,63,44,${0.2 + intensity * 0.8})`;
+          html += `<div class="heatmap-cell" style="background:${bg}" title="${days[d]} ${h}:00 - ${v} ${t('matchCount')}"></div>`;
+        }
+      }
+
+      html += '</div>';
+      el.innerHTML = html;
+    }
+
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', () => {
+      const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
+      setLanguage(userLang.startsWith('zh') ? 'zh' : 'en');
+    });
+    document.getElementById('langToggle').addEventListener('click', () => {
+      setLanguage(currentLang === 'en' ? 'zh' : 'en');
+    });
+  </script>
+</body>
+</html>
