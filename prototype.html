@@ -1002,21 +1002,18 @@
     });
 
     // ===== Rank Mapping =====
-    function getRank(rp) {
-      if (!rp || rp <= 0) return { name: 'Unranked', icon: '—' };
-      if (rp < 1500) return { name: 'Bronze', icon: '🥉' };
-      if (rp < 2000) return { name: 'Silver', icon: '🥈' };
-      if (rp < 2500) return { name: 'Gold', icon: '🥇' };
-      if (rp < 3000) return { name: 'Platinum', icon: '💎' };
-      if (rp < 3500) return { name: 'Diamond', icon: '💠' };
-      if (rp < 4000) return { name: 'Master', icon: '🏆' };
-      return { name: 'Grandmaster', icon: '👑' };
+    const TIER_ICONS = {
+      'Bronze': '🥉', 'Silver': '🥈', 'Gold': '🥇',
+      'Platinum': '💎', 'Diamond': '💠', 'Master': '🏆', 'Grandmaster': '👑'
+    };
+    function formatTier(tierObj) {
+      if (!tierObj || !tierObj.tier) return { name: 'Unranked', icon: '—' };
+      const name = tierObj.subTier ? `${tierObj.tier} ${tierObj.subTier}` : tierObj.tier;
+      return { name, icon: TIER_ICONS[tierObj.tier] || '—' };
     }
 
     // ===== Clan & Member Stats =====
     const CLAN_ID = 'clan.c674616417f749be98b20b53e7b01edf';
-    // Members will be looked up dynamically via clan member count
-    // Since PUBG API doesn't list clan members, we try known names
     const CLAN_MEMBERS = ['SymarsYoung', 'Alrscw'];
 
     // Hide roster section until data loads
@@ -1038,7 +1035,18 @@
       let clanOk = false;
       let membersOk = false;
 
-      // 1. Load clan info
+      // 1. Get current season ID
+      let currentSeason = '';
+      try {
+        const sr = await fetch(`${PUBG_PROXY}/shards/${SHARD}/seasons`, { headers });
+        if (sr.ok) {
+          const seasons = (await sr.json()).data;
+          const cur = seasons.find(s => s.attributes.isCurrentSeason);
+          if (cur) currentSeason = cur.id;
+        }
+      } catch(e) {}
+
+      // 2. Load clan info
       try {
         const r = await fetch(`${PUBG_PROXY}/shards/${SHARD}/clans/${CLAN_ID}`, { headers });
         if (r.ok) {
@@ -1051,7 +1059,7 @@
         }
       } catch(e) {}
 
-      // 2. Load each member's stats
+      // 3. Load each member's stats + ranked tier
       const cards = [];
       for (let i = 0; i < CLAN_MEMBERS.length; i++) {
         const name = CLAN_MEMBERS[i];
@@ -1059,12 +1067,25 @@
           const r1 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${name}`, { headers });
           if (!r1.ok) continue;
           const pid = (await r1.json()).data[0].id;
+
+          // Fetch lifetime stats
           const r2 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers });
           const s = (await r2.json()).data.attributes.gameModeStats.squad;
           const kd = s.losses > 0 ? (s.kills / s.losses).toFixed(2) : '∞';
           const wr = s.roundsPlayed > 0 ? (s.wins / s.roundsPlayed * 100).toFixed(1) : '0';
-          const rp = s.bestRankPoint || 0;
-          const rank = getRank(rp);
+
+          // Fetch ranked tier from current season
+          let rank = { name: 'Unranked', icon: '—' };
+          if (currentSeason) {
+            try {
+              const r3 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/${currentSeason}/ranked`, { headers });
+              if (r3.ok) {
+                const rd = (await r3.json()).data.attributes.rankedGameModeStats;
+                const sq = rd.squad || rd['squad-fpp'];
+                if (sq) rank = formatTier(sq.currentTier);
+              }
+            } catch(e) {}
+          }
 
           cards.push(`
             <div class="roster-card">
@@ -1086,12 +1107,10 @@
         membersOk = true;
       }
 
-      // Show section only if we got any data
       if (clanOk || membersOk) {
         if (!clanOk) clanInfo.style.display = 'none';
         rosterSection.style.display = '';
       } else {
-        // Retry after 8 seconds
         setTimeout(loadClanData, 8000);
       }
     }

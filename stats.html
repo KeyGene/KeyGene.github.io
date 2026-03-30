@@ -453,15 +453,14 @@
     function mapName(raw) { return MAP_NAMES[raw] || raw.replace(/_Main$/,''); }
 
     // ===== RANK MAPPING =====
-    function getRank(rp) {
-      if (!rp || rp <= 0) return { name: 'Unranked', icon: '—' };
-      if (rp < 1500) return { name: 'Bronze', icon: '🥉' };
-      if (rp < 2000) return { name: 'Silver', icon: '🥈' };
-      if (rp < 2500) return { name: 'Gold', icon: '🥇' };
-      if (rp < 3000) return { name: 'Platinum', icon: '💎' };
-      if (rp < 3500) return { name: 'Diamond', icon: '💠' };
-      if (rp < 4000) return { name: 'Master', icon: '🏆' };
-      return { name: 'Grandmaster', icon: '👑' };
+    const TIER_ICONS = {
+      'Bronze': '🥉', 'Silver': '🥈', 'Gold': '🥇',
+      'Platinum': '💎', 'Diamond': '💠', 'Master': '🏆', 'Grandmaster': '👑'
+    };
+    function formatTier(tierObj) {
+      if (!tierObj || !tierObj.tier) return { name: 'Unranked', icon: '—' };
+      const name = tierObj.subTier ? `${tierObj.tier} ${tierObj.subTier}` : tierObj.tier;
+      return { name, icon: TIER_ICONS[tierObj.tier] || '—' };
     }
 
     // ===== RATE-LIMITED FETCH =====
@@ -538,7 +537,25 @@
         const sData = await sr.json();
         const stats = sData.data.attributes.gameModeStats.squad;
 
-        currentPlayer = { id: pid, name: player.attributes.name, stats, matchIds };
+        // Fetch ranked tier from current season
+        let rankedTier = null;
+        try {
+          const seasonsR = await fetch(`${PUBG_PROXY}/shards/${SHARD}/seasons`, { headers: HEADERS });
+          if (seasonsR.ok) {
+            const seasons = (await seasonsR.json()).data;
+            const cur = seasons.find(s => s.attributes.isCurrentSeason);
+            if (cur) {
+              const rr = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/${cur.id}/ranked`, { headers: HEADERS });
+              if (rr.ok) {
+                const rd = (await rr.json()).data.attributes.rankedGameModeStats;
+                const sq = rd.squad || rd['squad-fpp'];
+                if (sq) rankedTier = sq.currentTier;
+              }
+            }
+          }
+        } catch(e) {}
+
+        currentPlayer = { id: pid, name: player.attributes.name, stats, matchIds, rankedTier };
 
         // Load overview immediately
         loadTab('overview');
@@ -577,8 +594,7 @@
       const t10 = s.roundsPlayed > 0 ? (s.top10s / s.roundsPlayed * 100).toFixed(1) : '0';
       const lk = s.longestKill ? s.longestKill.toFixed(0) : '0';
       const mk = s.roundMostKills || 0;
-      const md = s.bestRankPoint || 0;
-      const rank = getRank(s.bestRankPoint);
+      const rank = formatTier(currentPlayer.rankedTier);
 
       const el = document.getElementById('overviewContent');
       el.innerHTML = `
