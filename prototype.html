@@ -910,7 +910,7 @@
     document.getElementById('mobileNavClose').addEventListener('click', closeMobileNav);
 
     // ===== PUBG Stats (same API logic, better UI) =====
-    const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3ODRiMmVmMC01NTk1LTAxM2UtNWVjZi03NmNhZDljYTc2ODYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzU0NTU0OTAxLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImtleWdlbmUifQ.ohw1lzkMISXKdGTilPhVd4V5FLaVASbhyYQ4Zms9Sms';
+    const PUBG_PROXY = '/api';  // Cloudflare Worker proxy — API key stays server-side
     const SHARD = 'steam';
 
     document.getElementById('playerForm').addEventListener('submit', async (e) => {
@@ -926,15 +926,15 @@
       copyContainer.style.display = 'none';
 
       try {
-        const res = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${name}`, {
-          headers: { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' }
+        const res = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${name}`, {
+          headers: { Accept: 'application/vnd.api+json' }
         });
         if (!res.ok) throw new Error();
         const data = await res.json();
         const pid = data.data[0].id;
 
-        const sRes = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid}/seasons/lifetime`, {
-          headers: { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' }
+        const sRes = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, {
+          headers: { Accept: 'application/vnd.api+json' }
         });
         const sData = await sRes.json();
         const s = sData.data.attributes.gameModeStats.squad;
@@ -994,7 +994,7 @@
     document.getElementById('roster').style.display = 'none';
 
     async function loadClanData() {
-      const headers = { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' };
+      const headers = { Accept: 'application/vnd.api+json' };
       const t = texts[currentLang];
       const rosterSection = document.getElementById('roster');
       const clanInfo = document.getElementById('clanInfo');
@@ -1011,7 +1011,7 @@
 
       // 1. Load clan info
       try {
-        const r = await fetch(`https://api.pubg.com/shards/${SHARD}/clans/${CLAN_ID}`, { headers });
+        const r = await fetch(`${PUBG_PROXY}/shards/${SHARD}/clans/${CLAN_ID}`, { headers });
         if (r.ok) {
           const c = (await r.json()).data.attributes;
           document.getElementById('clanName').textContent = c.clanName;
@@ -1027,10 +1027,10 @@
       for (let i = 0; i < CLAN_MEMBERS.length; i++) {
         const name = CLAN_MEMBERS[i];
         try {
-          const r1 = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${name}`, { headers });
+          const r1 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${name}`, { headers });
           if (!r1.ok) continue;
           const pid = (await r1.json()).data[0].id;
-          const r2 = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers });
+          const r2 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers });
           const s = (await r2.json()).data.attributes.gameModeStats.squad;
           const kd = s.losses > 0 ? (s.kills / s.losses).toFixed(2) : '∞';
           const wr = s.roundsPlayed > 0 ? (s.wins / s.roundsPlayed * 100).toFixed(1) : '0';
@@ -1073,13 +1073,13 @@
     (async function loadHeroStats() {
       const HERO_PLAYER = 'SymarsYoung';
       try {
-        const r1 = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${HERO_PLAYER}`, {
-          headers: { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' }
+        const r1 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${HERO_PLAYER}`, {
+          headers: { Accept: 'application/vnd.api+json' }
         });
         if (!r1.ok) return;
         const pid = (await r1.json()).data[0].id;
-        const r2 = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid}/seasons/lifetime`, {
-          headers: { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' }
+        const r2 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, {
+          headers: { Accept: 'application/vnd.api+json' }
         });
         const s = (await r2.json()).data.attributes.gameModeStats.squad;
         const matches = s.roundsPlayed;

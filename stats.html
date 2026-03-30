@@ -326,9 +326,9 @@
 
   <script>
     // ===== CONFIG =====
-    const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3ODRiMmVmMC01NTk1LTAxM2UtNWVjZi03NmNhZDljYTc2ODYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzU0NTU0OTAxLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImtleWdlbmUifQ.ohw1lzkMISXKdGTilPhVd4V5FLaVASbhyYQ4Zms9Sms';
+    const PUBG_PROXY = '/api';  // Cloudflare Worker proxy — API key stays server-side
     const SHARD = 'steam';
-    const HEADERS = { Authorization: `Bearer ${API_KEY}`, Accept: 'application/vnd.api+json' };
+    const HEADERS = { Accept: 'application/vnd.api+json' };
 
     // ===== STATE =====
     let currentLang = 'en';
@@ -526,14 +526,14 @@
       showAllTabs(`<div class="loading-msg">${t('loading')}</div>`);
 
       try {
-        const r = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
+        const r = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
         if (!r.ok) throw new Error('not found');
         const data = await r.json();
         const player = data.data[0];
         const pid = player.id;
         const matchIds = (player.relationships.matches.data || []).map(m => m.id);
 
-        const sr = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
+        const sr = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
         const sData = await sr.json();
         const stats = sData.data.attributes.gameModeStats.squad;
 
@@ -645,7 +645,7 @@
       for (const mid of ids) {
         try {
           if (!matchCache[mid]) {
-            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            const r = await queueFetch(`${PUBG_PROXY}/shards/${SHARD}/matches/${mid}`);
             if (r.ok) matchCache[mid] = await r.json();
             else continue;
           }
@@ -716,7 +716,7 @@
       for (const mid of ids) {
         try {
           if (!matchCache[mid]) {
-            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            const r = await queueFetch(`${PUBG_PROXY}/shards/${SHARD}/matches/${mid}`);
             if (r.ok) matchCache[mid] = await r.json();
             else continue;
           }
@@ -792,7 +792,7 @@
       for (const mid of ids) {
         try {
           if (!matchCache[mid]) {
-            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            const r = await queueFetch(`${PUBG_PROXY}/shards/${SHARD}/matches/${mid}`);
             if (r.ok) matchCache[mid] = await r.json();
             else continue;
           }
@@ -872,10 +872,10 @@
       result.innerHTML = `<div class="loading-msg">${t('loading')}</div>`;
 
       try {
-        const r1 = await fetch(`https://api.pubg.com/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name2)}`, { headers: HEADERS });
+        const r1 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name2)}`, { headers: HEADERS });
         if (!r1.ok) throw new Error();
         const pid2 = (await r1.json()).data[0].id;
-        const r2 = await fetch(`https://api.pubg.com/shards/${SHARD}/players/${pid2}/seasons/lifetime`, { headers: HEADERS });
+        const r2 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid2}/seasons/lifetime`, { headers: HEADERS });
         const s2 = (await r2.json()).data.attributes.gameModeStats.squad;
 
         const s1 = currentPlayer.stats;
@@ -935,7 +935,7 @@
       for (const mid of ids) {
         try {
           if (!matchCache[mid]) {
-            const r = await queueFetch(`https://api.pubg.com/shards/${SHARD}/matches/${mid}`);
+            const r = await queueFetch(`${PUBG_PROXY}/shards/${SHARD}/matches/${mid}`);
             if (r.ok) matchCache[mid] = await r.json();
             else continue;
           }
