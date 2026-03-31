@@ -38,6 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" href="assert/maps/Erangel.webp" as="image" type="image/webp" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>@font-face{font-family:'Rubik';font-display:swap;}</style>
   <style>
@@ -415,7 +416,7 @@
       sidebar.innerHTML = MAPS.map((m, i) => {
         const name = currentLang === 'zh' ? m.zh : m.en;
         return `<div class="map-sidebar-item${i === currentMapIndex ? ' active' : ''}" data-index="${i}">
-          <img class="thumb" src="assert/maps/${m.id}.png" alt="${m.en}" loading="lazy" />
+          <img class="thumb" src="assert/maps/${m.id}_thumb.webp" alt="${m.en}" loading="lazy" />
           <div class="name">${name}</div>
         </div>`;
       }).join('');
@@ -450,7 +451,7 @@
       if (currentOverlay) {
         leafletMap.removeLayer(currentOverlay);
       }
-      currentOverlay = L.imageOverlay(`assert/maps/${m.id}.png`, bounds).addTo(leafletMap);
+      currentOverlay = L.imageOverlay(`assert/maps/${m.id}.webp`, bounds).addTo(leafletMap);
       leafletMap.fitBounds(bounds);
     }
 
