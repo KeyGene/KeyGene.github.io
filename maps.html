@@ -38,6 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>@font-face{font-family:'Rubik';font-display:swap;}</style>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -110,61 +111,141 @@
     .mobile-nav-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; }
     .mobile-nav-close svg { width: 28px; height: 28px; stroke: var(--white); stroke-width: 2; fill: none; }
 
-    /* ===== PAGE CONTENT ===== */
-    .page-hero {
-      padding: 120px 48px 40px;
-      text-align: center;
-    }
-    .page-tag {
-      display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
-    }
-    .page-title {
-      font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 12px;
-    }
-    .page-sub {
-      font-size: 16px; color: var(--gray-400); max-width: 520px; margin: 0 auto;
+    /* ===== MAP VIEWER LAYOUT ===== */
+    .map-viewer-wrapper {
+      display: flex;
+      margin-top: 64px;
+      height: calc(100vh - 64px);
+      overflow: hidden;
     }
 
-    /* ===== MAPS GRID ===== */
-    .maps-section { padding: 0 48px 80px; }
-    .maps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-      max-width: 1200px;
+    /* Sidebar */
+    .map-sidebar {
+      width: 120px;
+      min-width: 120px;
+      background: rgba(0,0,0,0.8);
+      border-right: 1px solid var(--card-border);
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gray-800) transparent;
+    }
+    .map-sidebar::-webkit-scrollbar { width: 4px; }
+    .map-sidebar::-webkit-scrollbar-track { background: transparent; }
+    .map-sidebar::-webkit-scrollbar-thumb { background: var(--gray-800); border-radius: 2px; }
+
+    .map-sidebar-item {
+      padding: 10px 8px;
+      cursor: pointer;
+      text-align: center;
+      border-left: 3px solid transparent;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .map-sidebar-item:hover {
+      background: rgba(255,255,255,0.04);
+    }
+    .map-sidebar-item.active {
+      background: rgba(238,63,44,0.1);
+      border-left-color: var(--red);
+    }
+    .map-sidebar-item .thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+      display: block;
       margin: 0 auto;
     }
-    .map-card {
+    .map-sidebar-item.active .thumb {
+      border-color: var(--red);
+    }
+    .map-sidebar-item .name {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 6px;
+      color: var(--gray-400);
+      transition: color 0.2s;
+      line-height: 1.2;
+    }
+    .map-sidebar-item.active .name {
+      color: var(--white);
+    }
+
+    /* Leaflet container */
+    .map-container {
+      flex: 1;
       position: relative;
-      border-radius: 12px;
-      overflow: hidden;
+    }
+    #leafletMap {
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+    }
+
+    /* Dark theme overrides for Leaflet */
+    .leaflet-container { background: #0a0a0a; }
+    .leaflet-control-zoom { border: 1px solid var(--card-border) !important; }
+    .leaflet-control-zoom a {
+      background: rgba(0,0,0,0.8) !important;
+      color: var(--white) !important;
+      border-bottom-color: var(--card-border) !important;
+      width: 36px !important;
+      height: 36px !important;
+      line-height: 36px !important;
+      font-size: 18px !important;
+    }
+    .leaflet-control-zoom a:hover {
+      background: rgba(30,30,30,0.9) !important;
+    }
+    .leaflet-control-attribution {
+      background: rgba(0,0,0,0.5) !important;
+      color: var(--gray-500) !important;
+      font-size: 10px !important;
+    }
+    .leaflet-control-attribution a { color: var(--gray-400) !important; }
+
+    /* Map info overlay */
+    .map-info-overlay {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      z-index: 90;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-      cursor: default;
+      border-radius: 10px;
+      padding: 16px 20px;
+      min-width: 180px;
+      pointer-events: none;
     }
-    .map-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(238,63,44,0.15);
-      border-color: rgba(238,63,44,0.3);
+    .map-info-name {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 4px;
     }
-    .map-image {
-      width: 100%; height: 180px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 32px; font-weight: 900; color: rgba(255,255,255,0.25);
-      letter-spacing: 0.04em; text-transform: uppercase;
+    .map-info-desc {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-bottom: 10px;
     }
-    .map-body { padding: 20px; }
-    .map-name { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
-    .map-badges { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-    .badge {
-      display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.04em; text-transform: uppercase;
+    .map-info-badges {
+      display: flex;
+      gap: 8px;
+    }
+    .map-info-badges .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
     .badge-size { background: rgba(238,63,44,0.15); color: var(--red); }
     .badge-players { background: rgba(255,255,255,0.08); color: var(--gray-400); }
-    .map-desc { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
 
     /* ===== FOOTER ===== */
     footer {
@@ -184,15 +265,56 @@
       .hamburger { display: block; }
       .logo { gap: 8px; }
       .logo-text { font-size: 18px; }
-      .page-hero { padding: 100px 24px 32px; }
-      .page-title { font-size: 32px; }
-      .page-sub { font-size: 14px; }
-      .maps-section { padding: 0 24px 60px; }
-      .maps-grid { grid-template-columns: 1fr; }
+
+      .map-viewer-wrapper {
+        flex-direction: column;
+        margin-top: 60px;
+        height: calc(100vh - 60px);
+      }
+      .map-sidebar {
+        width: 100%;
+        min-width: unset;
+        height: 90px;
+        min-height: 90px;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: none;
+        border-bottom: 1px solid var(--card-border);
+        scrollbar-width: none;
+      }
+      .map-sidebar::-webkit-scrollbar { display: none; }
+      .map-sidebar-item {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+      }
+      .map-sidebar-item.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--red);
+      }
+      .map-sidebar-item .thumb {
+        width: 48px;
+        height: 48px;
+      }
+      .map-sidebar-item .name {
+        font-size: 10px;
+        margin-top: 4px;
+      }
+
+      .map-info-overlay {
+        bottom: 12px;
+        right: 12px;
+        padding: 10px 14px;
+        min-width: 140px;
+      }
+      .map-info-name { font-size: 14px; }
+      .map-info-desc { font-size: 11px; margin-bottom: 6px; }
+      .map-info-badges .badge { font-size: 10px; padding: 2px 8px; }
+
       footer { flex-direction: column; gap: 12px; padding: 24px 32px; }
-    }
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .maps-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -237,17 +359,21 @@
     <a href="index.html#join" data-key="navJoin" onclick="closeMobileNav()">Join Us</a>
   </div>
 
-  <!-- ===== PAGE HERO ===== -->
-  <section class="page-hero">
-    <span class="page-tag" data-key="mapsTag">Battle Arenas</span>
-    <h1 class="page-title" data-key="mapsTitle">PUBG Maps</h1>
-    <p class="page-sub" data-key="mapsSub">Explore every battleground — from vast open fields to tight urban streets.</p>
-  </section>
-
-  <!-- ===== MAPS GRID ===== -->
-  <section class="maps-section">
-    <div class="maps-grid" id="mapsGrid"></div>
-  </section>
+  <!-- ===== MAP VIEWER ===== -->
+  <div class="map-viewer-wrapper">
+    <div class="map-sidebar" id="mapSidebar"></div>
+    <div class="map-container">
+      <div id="leafletMap"></div>
+      <div class="map-info-overlay" id="mapInfo">
+        <div class="map-info-name" id="infoName"></div>
+        <div class="map-info-desc" id="infoDesc"></div>
+        <div class="map-info-badges">
+          <span class="badge badge-size" id="infoSize"></span>
+          <span class="badge badge-players" id="infoPlayers"></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== FOOTER ===== -->
   <footer>
@@ -260,58 +386,111 @@
     </div>
   </footer>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // ===== MAP DATA =====
-    const maps = [
-      { id: 'erangel',  size: '8×8 km',  players: 100, gradient: 'linear-gradient(135deg, #1a3a2a, #2d5a3e)', en: { name: 'Erangel', desc: 'The original classic — open fields, military bases, and the iconic Pochinki.' }, zh: { name: 'Erangel 艾伦格', desc: '经典原始地图 — 开阔的田野、军事基地和标志性的P城。' } },
-      { id: 'miramar',  size: '8×8 km',  players: 100, gradient: 'linear-gradient(135deg, #4a3520, #8b6914)', en: { name: 'Miramar', desc: 'A vast desert landscape with long-range fights and rugged terrain.' }, zh: { name: 'Miramar 米拉玛', desc: '广袤的沙漠地形，远距离交火与崎岖地貌。' } },
-      { id: 'sanhok',   size: '4×4 km',  players: 100, gradient: 'linear-gradient(135deg, #1a4a1a, #3d7a2a)', en: { name: 'Sanhok', desc: 'Fast-paced tropical jungle with dense cover and quick circles.' }, zh: { name: 'Sanhok 萨诺', desc: '快节奏热带丛林，茂密植被与快速缩圈。' } },
-      { id: 'vikendi',  size: '6×6 km',  players: 100, gradient: 'linear-gradient(135deg, #2a3a5a, #6a8ab0)', en: { name: 'Vikendi', desc: 'Snow-covered terrain where footprints reveal your position.' }, zh: { name: 'Vikendi 维寒迪', desc: '冰雪覆盖的地形，脚印会暴露你的位置。' } },
-      { id: 'taego',    size: '8×8 km',  players: 100, gradient: 'linear-gradient(135deg, #3a4a2a, #6a7a3a)', en: { name: 'Taego', desc: 'Korean countryside with comeback mechanics and self-revive.' }, zh: { name: 'Taego 泰戈', desc: '韩国乡村风格，拥有复活和自救机制。' } },
-      { id: 'deston',   size: '8×8 km',  players: 100, gradient: 'linear-gradient(135deg, #2a2a4a, #5a4a7a)', en: { name: 'Deston', desc: 'Urban skyscrapers meet swampland — vertical and horizontal combat.' }, zh: { name: 'Deston 德斯顿', desc: '城市高楼与沼泽地交汇 — 立体多维战斗。' } },
-      { id: 'karakin',  size: '2×2 km',  players: 64,  gradient: 'linear-gradient(135deg, #5a3a2a, #a06030)', en: { name: 'Karakin', desc: 'Tiny and intense — destructible walls and constant action.' }, zh: { name: 'Karakin 卡拉金', desc: '小而激烈 — 可破坏墙壁与不间断战斗。' } },
-      { id: 'haven',    size: '1×1 km',  players: 32,  gradient: 'linear-gradient(135deg, #1a1a2a, #3a2a4a)', en: { name: 'Haven', desc: 'The smallest map — tight urban combat with AI-controlled helicopters.' }, zh: { name: 'Haven 黑港', desc: '最小地图 — 紧凑城市战斗与AI直升机巡逻。' } },
-      { id: 'paramo',   size: '3×3 km',  players: 64,  gradient: 'linear-gradient(135deg, #3a2a1a, #7a5030)', en: { name: 'Paramo', desc: 'Volcanic highlands with dynamic map changes every match.' }, zh: { name: 'Paramo 帕拉莫', desc: '火山高地，每局地图布局动态变化。' } },
-      { id: 'rondo',    size: '8×8 km',  players: 100, gradient: 'linear-gradient(135deg, #1a1a3a, #4a2a6a)', en: { name: 'Rondo', desc: 'Neon-lit futuristic cityscape with vertical gameplay and bright lights.' }, zh: { name: 'Rondo 朗多', desc: '霓虹灯照耀的未来都市，垂直玩法与炫目灯光。' } }
+    const MAPS = [
+      { id: 'Erangel', size: '8\u00d78 km', players: 100, en: 'Erangel', zh: '\u827e\u4f26\u683c', descEn: 'Classic island map', descZh: '\u7ecf\u5178\u6d77\u5c9b\u5730\u56fe' },
+      { id: 'Miramar', size: '8\u00d78 km', players: 100, en: 'Miramar', zh: '\u7c73\u62c9\u739b', descEn: 'Desert terrain', descZh: '\u6c99\u6f20\u5730\u5f62' },
+      { id: 'Sanhok', size: '4\u00d74 km', players: 100, en: 'Sanhok', zh: '\u8428\u8bfa', descEn: 'Tropical jungle', descZh: '\u70ed\u5e26\u4e1b\u6797' },
+      { id: 'Vikendi', size: '6\u00d76 km', players: 100, en: 'Vikendi', zh: '\u7ef4\u5bd2\u8fea', descEn: 'Snow map', descZh: '\u96ea\u5730\u5730\u56fe' },
+      { id: 'Taego', size: '8\u00d78 km', players: 100, en: 'Taego', zh: '\u6cf0\u6208', descEn: 'Korean countryside', descZh: '\u97e9\u56fd\u4e61\u6751' },
+      { id: 'Deston', size: '8\u00d78 km', players: 100, en: 'Deston', zh: '\u5e1d\u65af\u987f', descEn: 'Urban metropolis', descZh: '\u90fd\u5e02\u5927\u90fd\u4f1a' },
+      { id: 'Karakin', size: '2\u00d72 km', players: 64, en: 'Karakin', zh: '\u5361\u62c9\u91d1', descEn: 'Small arid map', descZh: '\u5c0f\u578b\u5e72\u65f1\u5730\u56fe' },
+      { id: 'Haven', size: '1\u00d71 km', players: 32, en: 'Haven', zh: '\u6d77\u6587', descEn: 'Urban CQB', descZh: '\u57ce\u5e02\u8fd1\u6218' },
+      { id: 'Paramo', size: '3\u00d73 km', players: 64, en: 'Paramo', zh: '\u5e15\u62c9\u83ab', descEn: 'Volcanic terrain', descZh: '\u706b\u5c71\u5730\u5f62' },
+      { id: 'Rondo', size: '8\u00d78 km', players: 100, en: 'Rondo', zh: '\u8363\u90fd', descEn: 'Neon city', descZh: '\u9713\u8679\u90fd\u5e02' },
     ];
 
-    function renderMaps(lang) {
-      const grid = document.getElementById('mapsGrid');
-      grid.innerHTML = maps.map(m => {
-        const t = m[lang];
-        return `
-          <div class="map-card">
-            <div class="map-image" style="background:${m.gradient}">${t.name.split(' ')[0]}</div>
-            <div class="map-body">
-              <div class="map-name">${t.name}</div>
-              <div class="map-badges">
-                <span class="badge badge-size">${m.size}</span>
-                <span class="badge badge-players">${m.players} <span data-key="playersLabel">${lang === 'zh' ? '人' : 'Players'}</span></span>
-              </div>
-              <div class="map-desc">${t.desc}</div>
-            </div>
-          </div>`;
+    let currentLang = 'en';
+    let currentMapIndex = 0;
+    let leafletMap = null;
+    let currentOverlay = null;
+
+    // ===== BUILD SIDEBAR =====
+    function buildSidebar() {
+      const sidebar = document.getElementById('mapSidebar');
+      sidebar.innerHTML = MAPS.map((m, i) => {
+        const name = currentLang === 'zh' ? m.zh : m.en;
+        return `<div class="map-sidebar-item${i === currentMapIndex ? ' active' : ''}" data-index="${i}">
+          <img class="thumb" src="assert/maps/${m.id}.png" alt="${m.en}" loading="lazy" />
+          <div class="name">${name}</div>
+        </div>`;
       }).join('');
+
+      sidebar.querySelectorAll('.map-sidebar-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const idx = parseInt(item.dataset.index);
+          selectMap(idx);
+        });
+      });
+    }
+
+    // ===== INIT LEAFLET =====
+    function initLeaflet() {
+      const bounds = [[0, 0], [1024, 1024]];
+      leafletMap = L.map('leafletMap', {
+        crs: L.CRS.Simple,
+        minZoom: -1,
+        maxZoom: 3,
+        maxBounds: bounds,
+        maxBoundsViscosity: 1.0,
+        zoomControl: true,
+        attributionControl: false,
+      });
+      leafletMap.fitBounds(bounds);
+      loadMapImage(0);
+    }
+
+    function loadMapImage(index) {
+      const m = MAPS[index];
+      const bounds = [[0, 0], [1024, 1024]];
+      if (currentOverlay) {
+        leafletMap.removeLayer(currentOverlay);
+      }
+      currentOverlay = L.imageOverlay(`assert/maps/${m.id}.png`, bounds).addTo(leafletMap);
+      leafletMap.fitBounds(bounds);
+    }
+
+    // ===== SELECT MAP =====
+    function selectMap(index) {
+      currentMapIndex = index;
+      loadMapImage(index);
+      updateInfo();
+      // Update sidebar active state
+      document.querySelectorAll('.map-sidebar-item').forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+        const m = MAPS[i];
+        item.querySelector('.name').textContent = currentLang === 'zh' ? m.zh : m.en;
+      });
+      // Scroll active item into view on mobile
+      const activeItem = document.querySelector('.map-sidebar-item.active');
+      if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    // ===== UPDATE INFO OVERLAY =====
+    function updateInfo() {
+      const m = MAPS[currentMapIndex];
+      const isZh = currentLang === 'zh';
+      document.getElementById('infoName').textContent = isZh ? m.zh : m.en;
+      document.getElementById('infoDesc').textContent = isZh ? m.descZh : m.descEn;
+      document.getElementById('infoSize').textContent = m.size;
+      document.getElementById('infoPlayers').textContent = m.players + (isZh ? ' \u4eba' : ' Players');
     }
 
     // ===== i18n =====
-    let currentLang = 'en';
     const texts = {
       en: {
         navHome: "Home", navAbout: "About", navRoster: "Roster", navStats: "Stats",
         navMaps: "Maps", navLeaderboard: "Leaderboard", navJoin: "Join Us",
-        mapsTag: "Battle Arenas", mapsTitle: "PUBG Maps",
-        mapsSub: "Explore every battleground — from vast open fields to tight urban streets.",
         footAbout: "About", footStats: "Stats", footMaps: "Maps", footContact: "Contact"
       },
       zh: {
-        navHome: "首页", navAbout: "关于", navRoster: "阵容", navStats: "战绩",
-        navMaps: "地图", navLeaderboard: "排行榜", navJoin: "加入",
-        mapsTag: "战斗地图", mapsTitle: "PUBG 地图大全",
-        mapsSub: "探索每一个战场 — 从广袤的原野到紧凑的城市街道。",
-        footAbout: "关于", footStats: "战绩", footMaps: "地图", footContact: "联系"
+        navHome: "\u9996\u9875", navAbout: "\u5173\u4e8e", navRoster: "\u9635\u5bb9", navStats: "\u6218\u7ee9",
+        navMaps: "\u5730\u56fe", navLeaderboard: "\u6392\u884c\u699c", navJoin: "\u52a0\u5165",
+        footAbout: "\u5173\u4e8e", footStats: "\u6218\u7ee9", footMaps: "\u5730\u56fe", footContact: "\u8054\u7cfb"
       }
     };
 
@@ -323,13 +502,18 @@
         if (!data[key]) return;
         el.textContent = data[key];
       });
-      renderMaps(lang);
+      buildSidebar();
+      updateInfo();
     }
 
-    // Auto-detect
+    // Auto-detect language
     document.addEventListener('DOMContentLoaded', () => {
       const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
       const lang = userLang.startsWith('zh') ? 'zh' : 'en';
+      currentLang = lang;
+      buildSidebar();
+      initLeaflet();
+      updateInfo();
       setLanguageText(lang);
     });
 
