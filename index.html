@@ -114,82 +114,105 @@
     }
     .btn-outline:hover { border-color: rgba(255,255,255,0.6); }
 
-    /* ===== SERVER STATUS (Version A: Floating top-right) ===== */
+    /* ===== SERVER STATUS (Floating top-right) ===== */
     .server-status-float {
       position: fixed;
       top: 82px; right: 48px;
       z-index: 90;
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 14px;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; flex-direction: column; gap: 0;
+      min-width: 180px;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      font-size: 12px; font-weight: 600;
-      color: var(--gray-500);
+      border-radius: 10px;
+      overflow: hidden;
       cursor: default;
-      transition: border-color 0.4s, opacity 0.4s;
-      opacity: 0; animation: statusFadeIn 0.5s 1s forwards;
+      opacity: 0; animation: statusFadeIn 0.6s 0.8s forwards;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      transition: border-color 0.4s;
     }
     @keyframes statusFadeIn { to { opacity: 1; } }
-    .server-status-float .status-dot {
-      width: 8px; height: 8px; border-radius: 50%;
+    .server-status-float.online { border-color: rgba(16,185,129,0.2); }
+    .server-status-float.offline { border-color: rgba(238,63,44,0.2); }
+
+    /* Header row */
+    .ss-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .ss-dot {
+      width: 9px; height: 9px; border-radius: 50%;
       background: var(--gray-500);
       flex-shrink: 0;
       transition: background 0.3s, box-shadow 0.3s;
     }
-    .server-status-float .status-ping {
-      font-size: 11px; color: var(--gray-500);
-      font-weight: 500;
-    }
-    .server-status-float.online { border-color: rgba(16,185,129,0.25); }
-    .server-status-float.online .status-dot {
+    .ss-dot.online {
       background: #10B981;
-      box-shadow: 0 0 8px rgba(16,185,129,0.5);
-      animation: statusPulse 2s infinite;
+      box-shadow: 0 0 8px rgba(16,185,129,0.6);
+      animation: ssPulse 2s infinite;
     }
-    .server-status-float.online .status-text { color: #10B981; }
-    .server-status-float.offline { border-color: rgba(238,63,44,0.25); }
-    .server-status-float.offline .status-dot {
+    .ss-dot.offline {
       background: var(--red);
-      box-shadow: 0 0 8px rgba(238,63,44,0.5);
+      box-shadow: 0 0 8px rgba(238,63,44,0.6);
     }
-    .server-status-float.offline .status-text { color: var(--red); }
-    @keyframes statusPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    @keyframes ssPulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    .ss-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--gray-400);
     }
-    @media (max-width: 768px) {
-      .server-status-float { top: 68px; right: 24px; padding: 6px 10px; font-size: 11px; }
-      .server-status-float .status-dot { width: 6px; height: 6px; }
+    .ss-status-text {
+      margin-left: auto;
+      font-size: 12px; font-weight: 700;
+      color: var(--gray-500);
+      transition: color 0.3s;
     }
+    .ss-status-text.online { color: #10B981; }
+    .ss-status-text.offline { color: var(--red); }
 
-    /* ===== SERVER STATUS (Version B: Bar below Hero) ===== */
-    .server-status-bar {
-      background: #0a0a0a;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding: 12px 48px;
-      display: flex; align-items: center; justify-content: center; gap: 24px;
-      font-size: 12px; font-weight: 500; color: var(--gray-500);
+    /* Detail rows */
+    .ss-details {
+      display: flex; flex-direction: column; gap: 0;
+      padding: 6px 14px 10px;
     }
-    .server-status-bar .status-item {
-      display: flex; align-items: center; gap: 6px;
+    .ss-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 0;
     }
-    .server-status-bar .status-dot {
-      width: 8px; height: 8px; border-radius: 50%;
+    .ss-row-label {
+      font-size: 11px; color: var(--gray-500); font-weight: 500;
+    }
+    .ss-row-value {
+      font-size: 11px; color: var(--gray-400); font-weight: 600;
+    }
+    .ss-row-value.good { color: #10B981; }
+    .ss-row-value.warn { color: #F59E0B; }
+    .ss-row-value.bad { color: var(--red); }
+
+    /* Refresh indicator */
+    .ss-refresh {
+      display: flex; align-items: center; gap: 4px;
+      padding: 6px 14px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 10px; color: var(--gray-500);
+    }
+    .ss-refresh-dot {
+      width: 4px; height: 4px; border-radius: 50%;
       background: var(--gray-500);
-      transition: background 0.3s;
+      animation: ssRefreshBlink 3s infinite;
     }
-    .server-status-bar .status-dot.online { background: #10B981; box-shadow: 0 0 6px rgba(16,185,129,0.6); }
-    .server-status-bar .status-dot.offline { background: var(--red); box-shadow: 0 0 6px rgba(238,63,44,0.6); }
-    .server-status-bar .status-label { color: var(--gray-400); }
-    .server-status-bar .status-value { color: var(--white); font-weight: 600; }
-    .server-status-bar .status-value.online { color: #10B981; }
-    .server-status-bar .status-value.offline { color: var(--red); }
+    @keyframes ssRefreshBlink { 0%,90%,100% { opacity:0.3; } 95% { opacity:1; } }
+
     @media (max-width: 768px) {
-      .server-status-bar { padding: 10px 24px; gap: 16px; font-size: 11px; flex-wrap: wrap; }
-      .server-status-header .status-text { display: none; }
-      .server-status-header { padding: 4px 6px; min-width: auto; }
+      .server-status-float {
+        top: auto; bottom: 24px; right: 16px; left: 16px;
+        min-width: auto;
+        flex-direction: column;
+        border-radius: 12px;
+      }
+      .ss-header { padding: 8px 12px; }
+      .ss-details { padding: 4px 12px 8px; }
+      .ss-refresh { padding: 5px 12px; }
     }
 
     /* ===== HEADER ===== */
@@ -731,11 +754,31 @@
     </div>
   </header>
 
-  <!-- Version A: Floating Server Status (top-right below header) -->
+  <!-- Floating Server Status (top-right below header) -->
   <div class="server-status-float" id="serverStatusFloat">
-    <span class="status-dot"></span>
-    <span class="status-text" data-key="serverChecking">Checking...</span>
-    <span class="status-ping" id="floatPing"></span>
+    <div class="ss-header">
+      <span class="ss-dot" id="ssDot"></span>
+      <span class="ss-title" data-key="serverLabel">PUBG Server</span>
+      <span class="ss-status-text" id="ssStatusText" data-key="serverChecking">Checking...</span>
+    </div>
+    <div class="ss-details">
+      <div class="ss-row">
+        <span class="ss-row-label" data-key="serverPing">Ping</span>
+        <span class="ss-row-value" id="ssPing">--</span>
+      </div>
+      <div class="ss-row">
+        <span class="ss-row-label" data-key="serverPlatform">Platform</span>
+        <span class="ss-row-value" id="ssPlatform">Steam</span>
+      </div>
+      <div class="ss-row">
+        <span class="ss-row-label" data-key="serverUpdated">Updated</span>
+        <span class="ss-row-value" id="ssUpdated">--</span>
+      </div>
+    </div>
+    <div class="ss-refresh">
+      <span class="ss-refresh-dot"></span>
+      <span data-key="serverAutoRefresh">Auto-refresh 60s</span>
+    </div>
   </div>
 
   <!-- Mobile Nav Overlay -->
@@ -802,23 +845,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ===== SERVER STATUS BAR (Version B: Below Hero) ===== -->
-  <div class="server-status-bar" id="serverStatusBar">
-    <div class="status-item">
-      <span class="status-dot" id="barStatusDot"></span>
-      <span class="status-label" data-key="serverLabel">PUBG Servers:</span>
-      <span class="status-value" id="barStatusText" data-key="serverChecking">Checking...</span>
-    </div>
-    <div class="status-item" id="barPingItem" style="display:none;">
-      <span class="status-label" data-key="serverPing">Ping:</span>
-      <span class="status-value" id="barPingValue">--</span>
-    </div>
-    <div class="status-item" id="barUpdatedItem" style="display:none;">
-      <span class="status-label" data-key="serverUpdated">Updated:</span>
-      <span class="status-value" id="barUpdatedValue">--</span>
-    </div>
-  </div>
 
   <!-- ===== ABOUT ===== -->
   <section id="about" class="reveal">
@@ -976,8 +1002,8 @@
         joinTag: "Recruitment Open", joinTitle2: "Ready to<br/>drop in<span style=\"color:var(--red)\">?</span>",
         joinDesc: "We're looking for competitive players who communicate, commit, and clutch. No rank requirement — just bring the fire.",
         joinBtn1: "Get in Touch", joinBtn2: "Look Us Up", joinOr: "or email us at",
-        serverLabel: "PUBG Servers:", serverChecking: "Checking...", serverOnline: "Online", serverOffline: "Offline",
-        serverPing: "Ping:", serverUpdated: "Updated:",
+        serverLabel: "PUBG Server", serverChecking: "Checking...", serverOnline: "Online", serverOffline: "Offline",
+        serverPing: "Ping", serverPlatform: "Platform", serverUpdated: "Updated", serverAutoRefresh: "Auto-refresh 60s",
         footAbout: "About", footStats: "Stats", footContact: "Contact",
         playerLabel: "Player", matchesPlayed: "Matches", kills: "Kills", deaths: "Deaths",
         winRate: "Win Rate", kdRatio: "K/D", longestKill: "Longest Kill",
@@ -1005,8 +1031,8 @@
         joinTag: "正在招募", joinTitle2: "准备好<br/>跳伞了<span style=\"color:var(--red)\">吗？</span>",
         joinDesc: "我们在寻找善于沟通、敢于拼搏的竞技玩家。不限段位，只要你有那股劲。",
         joinBtn1: "联系我们", joinBtn2: "查看我们", joinOr: "或发邮件至",
-        serverLabel: "PUBG 服务器:", serverChecking: "检测中...", serverOnline: "正常", serverOffline: "离线",
-        serverPing: "延迟:", serverUpdated: "更新:",
+        serverLabel: "PUBG 服务器", serverChecking: "检测中...", serverOnline: "正常", serverOffline: "离线",
+        serverPing: "延迟", serverPlatform: "平台", serverUpdated: "更新时间", serverAutoRefresh: "每60秒刷新",
         footAbout: "关于", footStats: "战绩", footContact: "联系",
         playerLabel: "玩家", matchesPlayed: "场次", kills: "击杀", deaths: "死亡",
         winRate: "胜率", kdRatio: "K/D", longestKill: "最远击杀",
@@ -1285,58 +1311,60 @@
       }
     })();
 
-    // ===== Server Status Check =====
-    (async function checkServerStatus() {
+    // ===== Server Status Check with Polling =====
+    (function serverStatusPoller() {
       const floatEl = document.getElementById('serverStatusFloat');
-      const floatText = floatEl.querySelector('.status-text');
-      const floatPing = document.getElementById('floatPing');
-      const barDot = document.getElementById('barStatusDot');
-      const barText = document.getElementById('barStatusText');
-      const barPingItem = document.getElementById('barPingItem');
-      const barPingValue = document.getElementById('barPingValue');
-      const barUpdatedItem = document.getElementById('barUpdatedItem');
-      const barUpdatedValue = document.getElementById('barUpdatedValue');
+      const dot = document.getElementById('ssDot');
+      const statusText = document.getElementById('ssStatusText');
+      const pingEl = document.getElementById('ssPing');
+      const updatedEl = document.getElementById('ssUpdated');
 
       function timeStr() {
         const now = new Date();
-        return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+        return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+      }
+
+      function pingClass(ms) {
+        if (ms < 200) return 'good';
+        if (ms < 500) return 'warn';
+        return 'bad';
       }
 
       function setOnline(pingMs) {
         const t = texts[currentLang];
-        // Version A: Float
         floatEl.className = 'server-status-float online';
-        floatText.textContent = t.serverOnline;
-        if (pingMs) floatPing.textContent = pingMs + 'ms';
-        // Version B: Bar
-        barDot.className = 'status-dot online';
-        barText.textContent = t.serverOnline;
-        barText.className = 'status-value online';
-        if (pingMs) { barPingItem.style.display = 'flex'; barPingValue.textContent = pingMs + 'ms'; }
-        barUpdatedItem.style.display = 'flex';
-        barUpdatedValue.textContent = timeStr();
+        dot.className = 'ss-dot online';
+        statusText.textContent = t.serverOnline;
+        statusText.className = 'ss-status-text online';
+        pingEl.textContent = pingMs + 'ms';
+        pingEl.className = 'ss-row-value ' + pingClass(pingMs);
+        updatedEl.textContent = timeStr();
       }
 
       function setOffline() {
         const t = texts[currentLang];
         floatEl.className = 'server-status-float offline';
-        floatText.textContent = t.serverOffline;
-        floatPing.textContent = '';
-        barDot.className = 'status-dot offline';
-        barText.textContent = t.serverOffline;
-        barText.className = 'status-value offline';
-        barUpdatedItem.style.display = 'flex';
-        barUpdatedValue.textContent = timeStr();
+        dot.className = 'ss-dot offline';
+        statusText.textContent = t.serverOffline;
+        statusText.className = 'ss-status-text offline';
+        pingEl.textContent = '--';
+        pingEl.className = 'ss-row-value bad';
+        updatedEl.textContent = timeStr();
       }
 
-      try {
-        const start = performance.now();
-        const res = await fetch(`${PUBG_PROXY}/status`, {
-          headers: { Accept: 'application/vnd.api+json' }
-        });
-        const pingMs = Math.round(performance.now() - start);
-        if (res.ok) { setOnline(pingMs); } else { setOffline(); }
-      } catch { setOffline(); }
+      async function check() {
+        try {
+          const start = performance.now();
+          const res = await fetch(`${PUBG_PROXY}/status`, {
+            headers: { Accept: 'application/vnd.api+json' }
+          });
+          const pingMs = Math.round(performance.now() - start);
+          if (res.ok) { setOnline(pingMs); } else { setOffline(); }
+        } catch { setOffline(); }
+      }
+
+      check();
+      setInterval(check, 60000);
     })();
   </script>
 
