@@ -246,6 +246,72 @@
       background: #222; color: #fff; font-size: 10px; padding: 4px 8px; border-radius: 4px; white-space: nowrap; z-index: 10;
     }
 
+    /* ===== BAN CHECK TAB ===== */
+    .ban-check-wrap {
+      max-width: 480px; margin: 0 auto; padding: 20px 0;
+    }
+    .ban-search-box {
+      display: flex; gap: 10px; margin-bottom: 20px;
+    }
+    .ban-search-box input {
+      flex: 1; padding: 14px 20px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+      color: var(--white); font-family: var(--font); font-size: 14px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .ban-search-box input:focus { border-color: var(--red); }
+    .ban-search-box input::placeholder { color: var(--gray-500); }
+    .ban-check-btn {
+      padding: 14px 24px; background: var(--red); color: var(--white);
+      border: none; border-radius: 8px; font-family: var(--font); font-size: 14px;
+      font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .ban-check-btn:hover { background: var(--red-hover); }
+    .ban-result {
+      border-radius: 10px; padding: 20px; text-align: center;
+      font-size: 18px; font-weight: 800; margin-bottom: 20px;
+      transition: opacity 0.3s;
+    }
+    .ban-result.not-banned {
+      background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #10B981;
+    }
+    .ban-result.banned {
+      background: rgba(238,63,44,0.12); border: 1px solid rgba(238,63,44,0.3); color: var(--red);
+    }
+    .ban-result.unknown {
+      background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #F59E0B;
+    }
+    .ban-info {
+      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    }
+    .ban-info-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; color: var(--gray-400);
+    }
+    .ban-info-value { color: var(--white); font-weight: 700; }
+    .ban-history {
+      margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px;
+    }
+    .ban-history-title {
+      font-size: 11px; color: var(--gray-500); text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: 8px;
+    }
+    .ban-history-list {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .ban-history-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 12px; background: rgba(255,255,255,0.04); border-radius: 6px;
+      font-size: 13px; color: var(--gray-400); cursor: pointer; transition: background 0.2s;
+    }
+    .ban-history-item:hover { background: rgba(255,255,255,0.08); }
+    .ban-history-remove { color: var(--gray-500); font-size: 16px; cursor: pointer; }
+    .ban-history-remove:hover { color: var(--red); }
+    @media (max-width: 768px) {
+      .ban-search-box { flex-direction: column; }
+      .ban-info { gap: 12px; }
+    }
+
     /* ===== LOADING & EMPTY ===== */
     .loading-msg, .empty-msg { text-align: center; padding: 60px 20px; color: var(--gray-500); font-size: 14px; }
     .loading-msg::before { content: ''; display: block; width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--red); border-radius: 50%; margin: 0 auto 16px; animation: spin 0.8s linear infinite; }
@@ -300,6 +366,7 @@
     <button class="tab-btn" data-tab="maps" data-key="tabMaps">Map Stats</button>
     <button class="tab-btn" data-tab="compare" data-key="tabCompare">Compare</button>
     <button class="tab-btn" data-tab="heatmap" data-key="tabHeatmap">Heatmap</button>
+    <button class="tab-btn" data-tab="bancheck" data-key="tabBanCheck">Ban Check</button>
   </div>
 
   <!-- TAB CONTENTS -->
@@ -346,6 +413,21 @@
     </div>
   </div>
 
+  <!-- BAN CHECK -->
+  <div class="tab-content" id="tab-bancheck">
+    <div class="ban-check-wrap">
+      <div class="ban-search-box">
+        <input type="text" id="banInput" placeholder="Enter player name..." data-placeholder-en="Enter player name..." data-placeholder-zh="输入玩家名..." />
+        <button class="ban-check-btn" id="banCheckBtn" data-key="banCheckBtn">Check</button>
+      </div>
+      <div id="banResult"></div>
+      <div class="ban-history" id="banHistoryWrap" style="display:none;">
+        <div class="ban-history-title" data-key="banHistory">Search History</div>
+        <div class="ban-history-list" id="banHistoryList"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ===== CONFIG =====
     const PUBG_PROXY = '/api';  // Cloudflare Worker proxy — API key stays server-side
@@ -357,7 +439,7 @@
     let currentPlayer = null; // { id, name, stats, matchIds }
     let matchCache = {};      // matchId → match data
     let telemetryCache = {};  // matchId → telemetry data
-    let tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false };
+    let tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false, bancheck: false };
 
     // ===== i18n =====
     const texts = {
@@ -392,6 +474,12 @@
         heatmapDesc: "Based on recent match times (local timezone)",
         matchCount: "matches",
         mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun",
+        // ban check
+        tabBanCheck: "Ban Check", banCheckBtn: "Check", banHistory: "Search History",
+        banNotBanned: "Not Banned", banLikelyBanned: "Likely Banned",
+        banUncertain: "Uncertain", banPlayerNotFound: "Player not found",
+        banLevel: "Level", banTotalMatches: "Total Matches", banRecent2w: "Last 2 Weeks",
+        banChecking: "Checking...",
       },
       zh: {
         backHome: "\u2190 \u8fd4\u56de", searchBtn: "\u641c\u7d22",
@@ -419,6 +507,11 @@
         heatmapDesc: "\u57fa\u4e8e\u6700\u8fd1\u6bd4\u8d5b\u65f6\u95f4\uff08\u672c\u5730\u65f6\u533a\uff09",
         matchCount: "\u573a",
         mon: "\u5468\u4e00", tue: "\u5468\u4e8c", wed: "\u5468\u4e09", thu: "\u5468\u56db", fri: "\u5468\u4e94", sat: "\u5468\u516d", sun: "\u5468\u65e5",
+        tabBanCheck: "\u5c01\u7981\u67e5\u8be2", banCheckBtn: "\u67e5\u8be2", banHistory: "\u641c\u7d22\u5386\u53f2",
+        banNotBanned: "\u672a\u5c01\u7981", banLikelyBanned: "\u53ef\u80fd\u5df2\u5c01\u7981",
+        banUncertain: "\u65e0\u6cd5\u786e\u5b9a", banPlayerNotFound: "\u672a\u627e\u5230\u8be5\u73a9\u5bb6",
+        banLevel: "\u7b49\u7ea7", banTotalMatches: "\u603b\u573a\u6b21", banRecent2w: "2\u5468\u5185",
+        banChecking: "\u67e5\u8be2\u4e2d...",
       }
     };
 
@@ -542,7 +635,7 @@
       currentPlayer = null;
       matchCache = {};
       telemetryCache = {};
-      tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false };
+      tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false, bancheck: false };
 
       showAllTabs(`<div class="loading-msg">${t('loading')}</div>`);
 
@@ -588,7 +681,7 @@
     }
 
     function showAllTabs(html) {
-      ['overview','matches','weapons','maps','compare','heatmap'].forEach(id => {
+      ['overview','matches','weapons','maps','compare','heatmap'].forEach(id => { // bancheck excluded - independent
         document.getElementById(id + 'Content').innerHTML = html;
       });
     }
@@ -1007,6 +1100,158 @@
       html += '</div>';
       el.innerHTML = html;
     }
+
+    // ===== BAN CHECK =====
+    (function initBanCheck() {
+      const STORAGE_KEY = 'keygene_ban_history';
+      const input = document.getElementById('banInput');
+      const btn = document.getElementById('banCheckBtn');
+      const resultEl = document.getElementById('banResult');
+      const historyWrap = document.getElementById('banHistoryWrap');
+      const historyList = document.getElementById('banHistoryList');
+
+      function getHistory() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+      }
+      function saveHistory(list) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, 10)));
+      }
+      function addToHistory(name, status) {
+        let h = getHistory().filter(x => x.name.toLowerCase() !== name.toLowerCase());
+        h.unshift({ name, status, time: Date.now() });
+        saveHistory(h);
+        renderHistory();
+      }
+      function renderHistory() {
+        const h = getHistory();
+        if (h.length === 0) { historyWrap.style.display = 'none'; return; }
+        historyWrap.style.display = 'block';
+        historyList.innerHTML = h.map((item, i) => `
+          <div class="ban-history-item" data-name="${item.name}">
+            <span>${item.name}</span>
+            <span style="display:flex;align-items:center;gap:12px;">
+              <span style="color:${item.status === 'ok' ? '#10B981' : item.status === 'banned' ? 'var(--red)' : '#F59E0B'};font-weight:600;font-size:12px;">
+                ${item.status === 'ok' ? t('banNotBanned') : item.status === 'banned' ? t('banLikelyBanned') : t('banUncertain')}
+              </span>
+              <span class="ban-history-remove" data-idx="${i}">&times;</span>
+            </span>
+          </div>
+        `).join('');
+        // Click to re-search
+        historyList.querySelectorAll('.ban-history-item').forEach(el => {
+          el.addEventListener('click', (e) => {
+            if (e.target.classList.contains('ban-history-remove')) return;
+            input.value = el.dataset.name;
+            doBanCheck();
+          });
+        });
+        // Remove button
+        historyList.querySelectorAll('.ban-history-remove').forEach(el => {
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const h = getHistory();
+            h.splice(parseInt(el.dataset.idx), 1);
+            saveHistory(h);
+            renderHistory();
+          });
+        });
+      }
+
+      async function doBanCheck() {
+        const name = input.value.trim();
+        if (!name) return;
+        resultEl.innerHTML = `<div class="loading-msg">${t('banChecking')}</div>`;
+
+        try {
+          // 1. Look up player
+          const r = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
+          if (!r.ok) {
+            resultEl.innerHTML = `<div class="ban-result banned">${t('banPlayerNotFound')} — ${t('banLikelyBanned')}</div>`;
+            addToHistory(name, 'banned');
+            return;
+          }
+          const data = await r.json();
+          const player = data.data[0];
+          const pid = player.id;
+          const matchIds = (player.relationships.matches.data || []).map(m => m.id);
+
+          // 2. Get lifetime stats for total matches
+          const sr = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
+          const sData = await sr.json();
+          const modes = sData.data.attributes.gameModeStats;
+          let totalMatches = 0;
+          for (const mode of Object.values(modes)) {
+            totalMatches += (mode.roundsPlayed || 0);
+          }
+
+          // 3. Count recent matches (last 14 days)
+          let recent2w = 0;
+          const twoWeeksAgo = Date.now() - 14 * 24 * 60 * 60 * 1000;
+          // matchIds from player data are recent, fetch a few to check dates
+          const recentCheck = matchIds.slice(0, 20);
+          for (const mid of recentCheck) {
+            try {
+              const mr = await queueFetch(`${PUBG_PROXY}/shards/${SHARD}/matches/${mid}`);
+              if (mr.ok) {
+                const md = await mr.json();
+                const matchDate = new Date(md.data.attributes.createdAt).getTime();
+                if (matchDate >= twoWeeksAgo) recent2w++;
+              }
+            } catch {}
+          }
+
+          // 4. Get account level from player attributes (survivalMastery or accountId-based)
+          let level = '--';
+          try {
+            const mr = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/survival_mastery`, { headers: HEADERS });
+            if (mr.ok) {
+              const md = await mr.json();
+              level = 'Lv.' + (md.data.attributes.level || '--');
+            }
+          } catch {}
+
+          // 5. Determine ban status
+          let status, statusClass, statusText;
+          if (recent2w > 0) {
+            status = 'ok';
+            statusClass = 'not-banned';
+            statusText = t('banNotBanned') + ' \uD83D\uDC4D';
+          } else if (totalMatches > 50) {
+            // Has history but no recent activity
+            status = 'banned';
+            statusClass = 'banned';
+            statusText = t('banLikelyBanned') + ' \u26A0\uFE0F';
+          } else {
+            status = 'unknown';
+            statusClass = 'unknown';
+            statusText = t('banUncertain') + ' \u2753';
+          }
+
+          resultEl.innerHTML = `
+            <div class="ban-result ${statusClass}">${statusText}</div>
+            <div class="ban-info">
+              <div class="ban-info-item"><span class="ban-info-value">${level}</span><span>${t('banLevel')}</span></div>
+              <div class="ban-info-item"><span class="ban-info-value">${totalMatches}</span><span>${t('banTotalMatches')}</span></div>
+              <div class="ban-info-item"><span class="ban-info-value">${recent2w}</span><span>${t('banRecent2w')}</span></div>
+            </div>
+          `;
+          addToHistory(name, status);
+        } catch (e) {
+          resultEl.innerHTML = `<div class="ban-result unknown">${t('banUncertain')} \u2753</div>`;
+          addToHistory(name, 'unknown');
+        }
+      }
+
+      btn.addEventListener('click', doBanCheck);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') doBanCheck(); });
+
+      // Pre-fill from main search if available
+      document.querySelector('.tab-btn[data-tab="bancheck"]').addEventListener('click', () => {
+        if (!input.value && currentPlayer) input.value = currentPlayer.name;
+        renderHistory();
+      });
+      renderHistory();
+    })();
 
     // ===== INIT =====
     document.addEventListener('DOMContentLoaded', () => {
