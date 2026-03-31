@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG排行榜 - KEY GENE | 绝地求生排行榜 PUBG Leaderboard</title>
+  <meta name="description" content="PUBG绝地求生赛季排行榜，查看各模式顶尖玩家排名、击杀、胜率、场均伤害。PUBG seasonal leaderboard - top players by kills, win rate, KDA." />
+  <meta name="keywords" content="PUBG排行榜,绝地求生排行榜,PUBG leaderboard,PUBG排名,PUBG top players,KEYGENE" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://keygene.top/leaderboard.html" />
+  <link rel="alternate" hreflang="zh" href="https://keygene.top/leaderboard.html" />
+  <link rel="alternate" hreflang="en" href="https://keygene.top/leaderboard.html" />
+  <link rel="alternate" hreflang="x-default" href="https://keygene.top/leaderboard.html" />
+
+  <meta property="og:title" content="PUBG排行榜 - KEY GENE" />
+  <meta property="og:description" content="PUBG绝地求生赛季排行榜，查看各模式顶尖玩家排名。" />
+  <meta property="og:url" content="https://keygene.top/leaderboard.html" />
+  <meta property="og:image" content="https://keygene.top/assert/images/hero-bg.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PUBG排行榜 - KEY GENE",
+    "alternateName": "PUBG Leaderboard",
+    "description": "PUBG绝地求生赛季排行榜，查看各模式顶尖玩家排名、击杀、胜率、场均伤害。",
+    "url": "https://keygene.top/leaderboard.html",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "author": { "@type": "Organization", "name": "KEY GENE", "url": "https://keygene.top" }
+  }
+  </script>
+
+  <link rel="icon" href="assert/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>@font-face{font-family:'Rubik';font-display:swap;}</style>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #000000;
+      --red: #EE3F2C;
+      --red-hover: #ff5240;
+      --white: #ffffff;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-800: #1f1f1f;
+      --card-bg: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --font: 'Rubik', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--black); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 48px; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-icon { width: 36px; height: 36px; }
+    .logo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--white); text-transform: uppercase; }
+    .logo-text .accent { color: var(--red); }
+
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a {
+      color: var(--gray-400); text-decoration: none; font-size: 14px; font-weight: 500;
+      letter-spacing: 0.02em; transition: color 0.2s;
+    }
+    nav a:hover { color: var(--white); }
+    nav a.active { color: var(--white); }
+
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .lang-toggle {
+      font-size: 13px; color: var(--gray-500); cursor: pointer;
+      padding: 4px 10px; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;
+      background: transparent; font-family: var(--font); transition: border-color 0.2s, color 0.2s;
+    }
+    .lang-toggle:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+    .btn-clip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; font-family: var(--font); font-weight: 700; font-size: 14px;
+      letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+      border: none; cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-clip:hover { transform: translateY(-1px); }
+    .btn-red { background: var(--red); color: var(--white); }
+    .btn-red:hover { background: var(--red-hover); }
+
+    /* ===== HAMBURGER ===== */
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger svg { width: 24px; height: 24px; stroke: var(--white); stroke-width: 2; fill: none; }
+    .mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      color: var(--white); text-decoration: none; font-size: 24px; font-weight: 700;
+      letter-spacing: 0.02em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--red); }
+    .mobile-nav-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; }
+    .mobile-nav-close svg { width: 28px; height: 28px; stroke: var(--white); stroke-width: 2; fill: none; }
+
+    /* ===== PAGE CONTENT ===== */
+    .page-wrapper { margin-top: 72px; min-height: calc(100vh - 72px - 80px); }
+
+    .page-header {
+      padding: 48px 48px 0;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .page-title {
+      font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .page-title .accent { color: var(--red); }
+
+    /* ===== MODE SELECTOR ===== */
+    .mode-bar {
+      display: flex; gap: 0; padding: 0 48px; margin-top: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      max-width: 1200px; margin-left: auto; margin-right: auto;
+    }
+    .mode-bar::-webkit-scrollbar { display: none; }
+    .mode-btn {
+      padding: 14px 20px; font-family: var(--font); font-size: 13px; font-weight: 600;
+      color: var(--gray-500); background: none; border: none; border-bottom: 2px solid transparent;
+      cursor: pointer; white-space: nowrap; transition: color 0.2s, border-color 0.2s;
+    }
+    .mode-btn:hover { color: var(--gray-400); }
+    .mode-btn.active { color: var(--white); border-bottom-color: var(--red); }
+
+    /* ===== TABLE ===== */
+    .table-wrapper {
+      padding: 24px 48px 48px; max-width: 1200px; margin: 0 auto;
+    }
+    .lb-table { width: 100%; border-collapse: collapse; }
+    .lb-table th {
+      text-align: left; font-size: 11px; color: var(--gray-500); text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .lb-table td {
+      padding: 12px 16px; font-size: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .lb-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.02); }
+    .lb-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.04); }
+    .lb-table tbody tr { transition: background 0.15s; }
+    .lb-table tbody tr:hover { background: rgba(255,255,255,0.08); }
+
+    .lb-table tbody tr.rank-1 { border-left: 3px solid #FFD700; }
+    .lb-table tbody tr.rank-2 { border-left: 3px solid #C0C0C0; }
+    .lb-table tbody tr.rank-3 { border-left: 3px solid #CD7F32; }
+
+    .rank-num { font-weight: 800; min-width: 32px; display: inline-block; }
+    .rank-1 .rank-num { color: #FFD700; }
+    .rank-2 .rank-num { color: #C0C0C0; }
+    .rank-3 .rank-num { color: #CD7F32; }
+
+    .player-name-cell { font-weight: 600; }
+
+    /* ===== LOADING / ERROR ===== */
+    .lb-status {
+      text-align: center; padding: 80px 24px; color: var(--gray-500); font-size: 14px;
+    }
+    .lb-status .spinner {
+      width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--red); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .lb-status.error { color: var(--red); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 32px 48px; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer p { font-size: 13px; color: var(--gray-500); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--gray-500); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      header { padding: 0 24px; height: 60px; }
+      nav { display: none; }
+      .nav-right .btn-clip { display: none; }
+      .hamburger { display: block; }
+      .logo-icon { width: 32px; height: 32px; }
+      .logo-text { font-size: 18px; }
+      .page-wrapper { margin-top: 60px; }
+      .page-header { padding: 32px 24px 0; }
+      .page-title { font-size: 28px; }
+      .mode-bar { padding: 0 24px; margin-top: 16px; }
+      .mode-btn { padding: 12px 14px; font-size: 12px; }
+      .table-wrapper { padding: 16px 16px 32px; }
+      .lb-table th, .lb-table td { padding: 10px 10px; font-size: 12px; }
+      .col-avgdmg { display: none; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="assert/images/helmet-red.png" alt="KEY GENE" class="logo-icon" style="object-fit:contain;" />
+      <span class="logo-text">Key<span class="accent">Gene</span></span>
+    </a>
+
+    <nav>
+      <a href="index.html" data-key="navHome">Home</a>
+      <a href="index.html#about" data-key="navAbout">About</a>
+      <a href="index.html#roster" data-key="navRoster">Roster</a>
+      <a href="stats.html" data-key="navStats">Stats</a>
+      <a href="maps.html" data-key="navMaps">Maps</a>
+      <a href="leaderboard.html" class="active" data-key="navLeaderboard">Leaderboard</a>
+    </nav>
+
+    <div class="nav-right">
+      <button class="lang-toggle" id="langToggle">EN / ZH</button>
+      <a href="index.html#join" class="btn-clip btn-red" style="padding:8px 20px; font-size:12px;" data-key="navJoin">Join Us</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="index.html" data-key="navHome" onclick="closeMobileNav()">Home</a>
+    <a href="index.html#about" data-key="navAbout" onclick="closeMobileNav()">About</a>
+    <a href="index.html#roster" data-key="navRoster" onclick="closeMobileNav()">Roster</a>
+    <a href="stats.html" data-key="navStats" onclick="closeMobileNav()">Stats</a>
+    <a href="maps.html" data-key="navMaps" onclick="closeMobileNav()">Maps</a>
+    <a href="leaderboard.html" data-key="navLeaderboard" onclick="closeMobileNav()">Leaderboard</a>
+    <a href="index.html#join" data-key="navJoin" onclick="closeMobileNav()">Join Us</a>
+  </div>
+
+  <!-- ===== PAGE CONTENT ===== -->
+  <div class="page-wrapper">
+    <div class="page-header">
+      <h1 class="page-title" data-key="lbTitle">Leaderboard</h1>
+    </div>
+
+    <!-- Mode Selector -->
+    <div class="mode-bar" id="modeBar">
+      <button class="mode-btn active" data-mode="squad-fpp" data-key="modeSquadFpp">Squad FPP</button>
+      <button class="mode-btn" data-mode="squad" data-key="modeSquad">Squad</button>
+      <button class="mode-btn" data-mode="duo-fpp" data-key="modeDuoFpp">Duo FPP</button>
+      <button class="mode-btn" data-mode="duo" data-key="modeDuo">Duo</button>
+      <button class="mode-btn" data-mode="solo-fpp" data-key="modeSoloFpp">Solo FPP</button>
+      <button class="mode-btn" data-mode="solo" data-key="modeSolo">Solo</button>
+    </div>
+
+    <!-- Leaderboard Table -->
+    <div class="table-wrapper">
+      <div class="lb-status" id="lbStatus">
+        <div class="spinner"></div>
+        <div data-key="lbLoading">Loading leaderboard...</div>
+      </div>
+      <table class="lb-table" id="lbTable" style="display:none;">
+        <thead>
+          <tr>
+            <th data-key="lbRank">#</th>
+            <th data-key="lbPlayer">Player</th>
+            <th data-key="lbGames">Games</th>
+            <th data-key="lbWinRate">Win %</th>
+            <th data-key="lbKills">Kills</th>
+            <th data-key="lbKDA">K/D/A</th>
+            <th class="col-avgdmg" data-key="lbAvgDmg">Avg Dmg</th>
+          </tr>
+        </thead>
+        <tbody id="lbBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>&copy; <span id="year"></span> KEY GENE. All Rights Reserved.</p>
+    <div class="footer-links">
+      <a href="index.html#about" data-key="footAbout">About</a>
+      <a href="stats.html" data-key="footStats">Stats</a>
+      <a href="mailto:keygene@hotmail.com" data-key="footContact">Contact</a>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== i18n =====
+    let currentLang = 'en';
+    const texts = {
+      en: {
+        navHome: "Home", navAbout: "About", navRoster: "Roster", navStats: "Stats",
+        navMaps: "Maps", navLeaderboard: "Leaderboard", navJoin: "Join Us",
+        lbTitle: "Leaderboard", lbRank: "#", lbPlayer: "Player", lbGames: "Games",
+        lbWinRate: "Win %", lbKills: "Kills", lbKDA: "K/D/A", lbAvgDmg: "Avg Dmg",
+        lbLoading: "Loading leaderboard...", lbError: "Failed to load leaderboard data.",
+        modeSquad: "Squad", modeSquadFpp: "Squad FPP", modeSolo: "Solo",
+        modeSoloFpp: "Solo FPP", modeDuo: "Duo", modeDuoFpp: "Duo FPP",
+        footAbout: "About", footStats: "Stats", footContact: "Contact"
+      },
+      zh: {
+        navHome: "首页", navAbout: "关于", navRoster: "阵容", navStats: "战绩",
+        navMaps: "地图", navLeaderboard: "排行榜", navJoin: "加入",
+        lbTitle: "排行榜", lbRank: "#", lbPlayer: "玩家", lbGames: "场次",
+        lbWinRate: "胜率", lbKills: "击杀", lbKDA: "K/D/A", lbAvgDmg: "场均伤害",
+        lbLoading: "加载排行榜...", lbError: "排行榜数据加载失败。",
+        modeSquad: "组排", modeSquadFpp: "组排FPP", modeSolo: "单排",
+        modeSoloFpp: "单排FPP", modeDuo: "双排", modeDuoFpp: "双排FPP",
+        footAbout: "关于", footStats: "战绩", footContact: "联系"
+      }
+    };
+
+    function setLanguageText(lang) {
+      currentLang = lang;
+      const data = texts[lang];
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (!data[key]) return;
+        if (data[key].includes('<')) {
+          el.innerHTML = data[key];
+        } else {
+          el.textContent = data[key];
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
+      const lang = userLang.startsWith('zh') ? 'zh' : 'en';
+      setLanguageText(lang);
+    });
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+      const next = currentLang === 'en' ? 'zh' : 'en';
+      setLanguageText(next);
+    });
+
+    // ===== Mobile nav =====
+    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+    document.getElementById('hamburgerBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.add('open');
+    });
+    document.getElementById('mobileNavClose').addEventListener('click', closeMobileNav);
+
+    // ===== Leaderboard =====
+    const PUBG_PROXY = '/api';
+    const SHARD = 'steam';
+    const HEADERS = { Accept: 'application/vnd.api+json' };
+
+    let currentSeasonId = null;
+    let currentMode = 'squad-fpp';
+
+    const statusEl = document.getElementById('lbStatus');
+    const tableEl = document.getElementById('lbTable');
+    const bodyEl = document.getElementById('lbBody');
+
+    function showLoading() {
+      statusEl.className = 'lb-status';
+      statusEl.innerHTML = '<div class="spinner"></div><div data-key="lbLoading">' +
+        (texts[currentLang]?.lbLoading || 'Loading leaderboard...') + '</div>';
+      statusEl.style.display = '';
+      tableEl.style.display = 'none';
+    }
+
+    function showError() {
+      statusEl.className = 'lb-status error';
+      statusEl.innerHTML = '<div data-key="lbError">' +
+        (texts[currentLang]?.lbError || 'Failed to load leaderboard data.') + '</div>';
+      statusEl.style.display = '';
+      tableEl.style.display = 'none';
+    }
+
+    async function fetchCurrentSeason() {
+      const res = await fetch(`${PUBG_PROXY}/shards/${SHARD}/seasons`, { headers: HEADERS });
+      if (!res.ok) throw new Error('Failed to fetch seasons');
+      const json = await res.json();
+      const current = json.data.find(s => s.attributes.isCurrentSeason);
+      if (!current) throw new Error('No current season found');
+      return current.id;
+    }
+
+    async function fetchLeaderboard(seasonId, gameMode) {
+      const res = await fetch(`${PUBG_PROXY}/shards/${SHARD}/leaderboards/${seasonId}/${gameMode}`, { headers: HEADERS });
+      if (!res.ok) throw new Error('Failed to fetch leaderboard');
+      return res.json();
+    }
+
+    function renderTable(data) {
+      const players = data.included || [];
+      if (players.length === 0) {
+        showError();
+        return;
+      }
+
+      // Sort by rank
+      players.sort((a, b) => a.attributes.rank - b.attributes.rank);
+
+      bodyEl.innerHTML = '';
+      players.forEach(p => {
+        const a = p.attributes;
+        const s = a.stats || {};
+        const rank = a.rank;
+        const tr = document.createElement('tr');
+        if (rank <= 3) tr.className = 'rank-' + rank;
+
+        const winRate = s.winRatio != null ? (s.winRatio * 100).toFixed(1) + '%' : '--';
+        const kda = s.kda != null ? s.kda.toFixed(2) : '--';
+        const avgDmg = s.averageDamage != null ? Math.round(s.averageDamage) : '--';
+
+        tr.innerHTML =
+          '<td><span class="rank-num">' + rank + '</span></td>' +
+          '<td class="player-name-cell">' + (p.id || '--') + '</td>' +
+          '<td>' + (s.games ?? '--') + '</td>' +
+          '<td>' + winRate + '</td>' +
+          '<td>' + (s.kills ?? '--') + '</td>' +
+          '<td>' + kda + '</td>' +
+          '<td class="col-avgdmg">' + avgDmg + '</td>';
+        bodyEl.appendChild(tr);
+      });
+
+      statusEl.style.display = 'none';
+      tableEl.style.display = '';
+    }
+
+    async function loadLeaderboard(gameMode) {
+      showLoading();
+      try {
+        if (!currentSeasonId) {
+          currentSeasonId = await fetchCurrentSeason();
+        }
+        const data = await fetchLeaderboard(currentSeasonId, gameMode);
+        renderTable(data);
+      } catch (err) {
+        console.error('Leaderboard error:', err);
+        showError();
+      }
+    }
+
+    // Mode buttons
+    document.getElementById('modeBar').addEventListener('click', (e) => {
+      const btn = e.target.closest('.mode-btn');
+      if (!btn) return;
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentMode = btn.dataset.mode;
+      loadLeaderboard(currentMode);
+    });
+
+    // Initial load
+    loadLeaderboard(currentMode);
+  </script>
+</body>
+</html>
