@@ -114,6 +114,84 @@
     }
     .btn-outline:hover { border-color: rgba(255,255,255,0.6); }
 
+    /* ===== SERVER STATUS (Version A: Floating top-right) ===== */
+    .server-status-float {
+      position: fixed;
+      top: 82px; right: 48px;
+      z-index: 90;
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      font-size: 12px; font-weight: 600;
+      color: var(--gray-500);
+      cursor: default;
+      transition: border-color 0.4s, opacity 0.4s;
+      opacity: 0; animation: statusFadeIn 0.5s 1s forwards;
+    }
+    @keyframes statusFadeIn { to { opacity: 1; } }
+    .server-status-float .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gray-500);
+      flex-shrink: 0;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .server-status-float .status-ping {
+      font-size: 11px; color: var(--gray-500);
+      font-weight: 500;
+    }
+    .server-status-float.online { border-color: rgba(16,185,129,0.25); }
+    .server-status-float.online .status-dot {
+      background: #10B981;
+      box-shadow: 0 0 8px rgba(16,185,129,0.5);
+      animation: statusPulse 2s infinite;
+    }
+    .server-status-float.online .status-text { color: #10B981; }
+    .server-status-float.offline { border-color: rgba(238,63,44,0.25); }
+    .server-status-float.offline .status-dot {
+      background: var(--red);
+      box-shadow: 0 0 8px rgba(238,63,44,0.5);
+    }
+    .server-status-float.offline .status-text { color: var(--red); }
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @media (max-width: 768px) {
+      .server-status-float { top: 68px; right: 24px; padding: 6px 10px; font-size: 11px; }
+      .server-status-float .status-dot { width: 6px; height: 6px; }
+    }
+
+    /* ===== SERVER STATUS (Version B: Bar below Hero) ===== */
+    .server-status-bar {
+      background: #0a0a0a;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 12px 48px;
+      display: flex; align-items: center; justify-content: center; gap: 24px;
+      font-size: 12px; font-weight: 500; color: var(--gray-500);
+    }
+    .server-status-bar .status-item {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .server-status-bar .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gray-500);
+      transition: background 0.3s;
+    }
+    .server-status-bar .status-dot.online { background: #10B981; box-shadow: 0 0 6px rgba(16,185,129,0.6); }
+    .server-status-bar .status-dot.offline { background: var(--red); box-shadow: 0 0 6px rgba(238,63,44,0.6); }
+    .server-status-bar .status-label { color: var(--gray-400); }
+    .server-status-bar .status-value { color: var(--white); font-weight: 600; }
+    .server-status-bar .status-value.online { color: #10B981; }
+    .server-status-bar .status-value.offline { color: var(--red); }
+    @media (max-width: 768px) {
+      .server-status-bar { padding: 10px 24px; gap: 16px; font-size: 11px; flex-wrap: wrap; }
+      .server-status-header .status-text { display: none; }
+      .server-status-header { padding: 4px 6px; min-width: auto; }
+    }
+
     /* ===== HEADER ===== */
     header {
       position: fixed;
@@ -653,6 +731,13 @@
     </div>
   </header>
 
+  <!-- Version A: Floating Server Status (top-right below header) -->
+  <div class="server-status-float" id="serverStatusFloat">
+    <span class="status-dot"></span>
+    <span class="status-text" data-key="serverChecking">Checking...</span>
+    <span class="status-ping" id="floatPing"></span>
+  </div>
+
   <!-- Mobile Nav Overlay -->
   <div class="mobile-nav" id="mobileNav">
     <button class="mobile-nav-close" id="mobileNavClose">
@@ -717,6 +802,23 @@
       </div>
     </div>
   </section>
+
+  <!-- ===== SERVER STATUS BAR (Version B: Below Hero) ===== -->
+  <div class="server-status-bar" id="serverStatusBar">
+    <div class="status-item">
+      <span class="status-dot" id="barStatusDot"></span>
+      <span class="status-label" data-key="serverLabel">PUBG Servers:</span>
+      <span class="status-value" id="barStatusText" data-key="serverChecking">Checking...</span>
+    </div>
+    <div class="status-item" id="barPingItem" style="display:none;">
+      <span class="status-label" data-key="serverPing">Ping:</span>
+      <span class="status-value" id="barPingValue">--</span>
+    </div>
+    <div class="status-item" id="barUpdatedItem" style="display:none;">
+      <span class="status-label" data-key="serverUpdated">Updated:</span>
+      <span class="status-value" id="barUpdatedValue">--</span>
+    </div>
+  </div>
 
   <!-- ===== ABOUT ===== -->
   <section id="about" class="reveal">
@@ -874,6 +976,8 @@
         joinTag: "Recruitment Open", joinTitle2: "Ready to<br/>drop in<span style=\"color:var(--red)\">?</span>",
         joinDesc: "We're looking for competitive players who communicate, commit, and clutch. No rank requirement — just bring the fire.",
         joinBtn1: "Get in Touch", joinBtn2: "Look Us Up", joinOr: "or email us at",
+        serverLabel: "PUBG Servers:", serverChecking: "Checking...", serverOnline: "Online", serverOffline: "Offline",
+        serverPing: "Ping:", serverUpdated: "Updated:",
         footAbout: "About", footStats: "Stats", footContact: "Contact",
         playerLabel: "Player", matchesPlayed: "Matches", kills: "Kills", deaths: "Deaths",
         winRate: "Win Rate", kdRatio: "K/D", longestKill: "Longest Kill",
@@ -901,6 +1005,8 @@
         joinTag: "正在招募", joinTitle2: "准备好<br/>跳伞了<span style=\"color:var(--red)\">吗？</span>",
         joinDesc: "我们在寻找善于沟通、敢于拼搏的竞技玩家。不限段位，只要你有那股劲。",
         joinBtn1: "联系我们", joinBtn2: "查看我们", joinOr: "或发邮件至",
+        serverLabel: "PUBG 服务器:", serverChecking: "检测中...", serverOnline: "正常", serverOffline: "离线",
+        serverPing: "延迟:", serverUpdated: "更新:",
         footAbout: "关于", footStats: "战绩", footContact: "联系",
         playerLabel: "玩家", matchesPlayed: "场次", kills: "击杀", deaths: "死亡",
         winRate: "胜率", kdRatio: "K/D", longestKill: "最远击杀",
@@ -1177,6 +1283,60 @@
       } catch(e) {
         // Fallback: keep "--"
       }
+    })();
+
+    // ===== Server Status Check =====
+    (async function checkServerStatus() {
+      const floatEl = document.getElementById('serverStatusFloat');
+      const floatText = floatEl.querySelector('.status-text');
+      const floatPing = document.getElementById('floatPing');
+      const barDot = document.getElementById('barStatusDot');
+      const barText = document.getElementById('barStatusText');
+      const barPingItem = document.getElementById('barPingItem');
+      const barPingValue = document.getElementById('barPingValue');
+      const barUpdatedItem = document.getElementById('barUpdatedItem');
+      const barUpdatedValue = document.getElementById('barUpdatedValue');
+
+      function timeStr() {
+        const now = new Date();
+        return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+      }
+
+      function setOnline(pingMs) {
+        const t = texts[currentLang];
+        // Version A: Float
+        floatEl.className = 'server-status-float online';
+        floatText.textContent = t.serverOnline;
+        if (pingMs) floatPing.textContent = pingMs + 'ms';
+        // Version B: Bar
+        barDot.className = 'status-dot online';
+        barText.textContent = t.serverOnline;
+        barText.className = 'status-value online';
+        if (pingMs) { barPingItem.style.display = 'flex'; barPingValue.textContent = pingMs + 'ms'; }
+        barUpdatedItem.style.display = 'flex';
+        barUpdatedValue.textContent = timeStr();
+      }
+
+      function setOffline() {
+        const t = texts[currentLang];
+        floatEl.className = 'server-status-float offline';
+        floatText.textContent = t.serverOffline;
+        floatPing.textContent = '';
+        barDot.className = 'status-dot offline';
+        barText.textContent = t.serverOffline;
+        barText.className = 'status-value offline';
+        barUpdatedItem.style.display = 'flex';
+        barUpdatedValue.textContent = timeStr();
+      }
+
+      try {
+        const start = performance.now();
+        const res = await fetch(`${PUBG_PROXY}/status`, {
+          headers: { Accept: 'application/vnd.api+json' }
+        });
+        const pingMs = Math.round(performance.now() - start);
+        if (res.ok) { setOnline(pingMs); } else { setOffline(); }
+      } catch { setOffline(); }
     })();
   </script>
 
