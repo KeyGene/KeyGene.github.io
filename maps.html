@@ -616,13 +616,13 @@
     // ===== INIT LEAFLET =====
     function initLeaflet() {
       const bounds = [[0, 0], [4096, 4096]];
-      const padded = [[-512, -512], [4608, 4608]];
+      const padded = [[-2048, -2048], [6144, 6144]];
       leafletMap = L.map('leafletMap', {
         crs: L.CRS.Simple,
-        minZoom: -2,
+        minZoom: -3,
         maxZoom: 5,
         maxBounds: padded,
-        maxBoundsViscosity: 0.8,
+        maxBoundsViscosity: 0.5,
         zoomControl: false,
         attributionControl: false,
       });
