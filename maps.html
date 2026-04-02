@@ -774,22 +774,6 @@
     let markerLayers = {}; // type -> L.layerGroup
     let markerHidden = {}; // type -> bool
 
-    // Coordinate calibration: scale + offset to align markers with our map images
-    // Markers from pubgmap.top cover ~[465,3879] x [466,3869] in a 4096 space
-    // Our map images may have slightly different borders
-    const MARKER_CALIBRATION = {
-      scale: 1.03,    // slightly expand spread
-      offsetX: -60,   // shift left
-      offsetY: -120,  // shift up (markers center was ~53%, nudge toward 50%)
-    };
-    function calibrate(x, y) {
-      const cx = 2048, cy = 2048; // center of 4096
-      const s = MARKER_CALIBRATION.scale;
-      return [
-        (y - cy) * s + cy + MARKER_CALIBRATION.offsetY,
-        (x - cx) * s + cx + MARKER_CALIBRATION.offsetX,
-      ];
-    }
 
     async function loadMarkers() {
       if (!allMarkerData) {
@@ -837,8 +821,7 @@
             iconAnchor: [12, 12],
             popupAnchor: [0, -14],
           });
-          const [cy, cx] = calibrate(item.x, item.y);
-          const marker = L.marker([cy, cx], { icon });
+          const marker = L.marker([item.y, item.x], { icon });
           const label = isZh ? type : mt.en;
           const popupContent = item.title ? '<b>' + label + '</b><br>' + item.title : '<b>' + label + '</b>';
           marker.bindPopup(popupContent, {
