@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="preload" href="assert/maps/Erangel.webp" as="image" type="image/webp" />
+  <link rel="preconnect" href="https://r2.pubgmaptile.top" crossorigin />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>@font-face{font-family:'Rubik';font-display:swap;}</style>
   <style>
@@ -576,6 +576,11 @@
       { id: 'Rondo', size: '8\u00d78 km', players: 100, en: 'Rondo', zh: '\u8363\u90fd', descEn: 'Neon city', descZh: '\u9713\u8679\u90fd\u5e02' },
     ];
 
+    // Tile server base URL
+    const TILE_URL = 'https://r2.pubgmaptile.top/maptile/';
+    // Maps with tiles available on the tile server
+    const TILE_MAPS = ['Erangel','Miramar','Vikendi','Taego','Deston','Rondo'];
+
     // Map real-world sizes in km (for distance calc)
     const MAP_KM = {
       Erangel:8, Miramar:8, Sanhok:4, Vikendi:6, Taego:8,
@@ -585,7 +590,8 @@
     let currentLang = 'en';
     let currentMapIndex = 0;
     let leafletMap = null;
-    let currentOverlay = null;
+    let currentTileLayer = null;
+    let currentOverlay = null; // fallback for non-tiled maps
     let gridLayer = null;
     let gridVisible = true;
     let measureMode = false;
@@ -593,6 +599,11 @@
     let measureLine = null;
     let measureTooltip = null;
     let measureMarkers = [];
+
+    // ===== Custom CRS matching pubgmap.top =====
+    const pubgCRS = L.extend({}, L.CRS.EPSG4326, {
+      transformation: new L.Transformation(1/360, 0.5, 1/180, 0.5)
+    });
 
     // ===== BUILD SIDEBAR =====
     function buildSidebar() {
@@ -615,40 +626,52 @@
 
     // ===== INIT LEAFLET =====
     function initLeaflet() {
-      const bounds = [[0, 0], [4096, 4096]];
-      const padded = [[-2048, -2048], [6144, 6144]];
       leafletMap = L.map('leafletMap', {
-        crs: L.CRS.Simple,
-        minZoom: -3,
+        crs: pubgCRS,
+        minZoom: 0,
         maxZoom: 5,
-        maxBounds: padded,
-        maxBoundsViscosity: 0.5,
+        center: [0, 0],
+        zoom: 2,
         zoomControl: false,
         attributionControl: false,
       });
+      leafletMap.setMaxBounds(L.latLngBounds([[-90, -180], [90, 180]]));
       L.control.zoom({ position: 'bottomright' }).addTo(leafletMap);
-      leafletMap.fitBounds(bounds, { padding: [20, 20] });
       leafletMap.on('click', onMapClick);
-      loadMapImage(0);
+      loadMapTiles(0);
       createGrid();
       setupCoordDisplay();
       loadMarkers();
     }
 
-    function loadMapImage(index) {
+    function loadMapTiles(index) {
       const m = MAPS[index];
-      const bounds = [[0, 0], [4096, 4096]];
-      if (currentOverlay) {
-        leafletMap.removeLayer(currentOverlay);
+      const tileBounds = L.latLngBounds([[-90, -180], [90, 180]]);
+      // Remove previous layers
+      if (currentTileLayer) { leafletMap.removeLayer(currentTileLayer); currentTileLayer = null; }
+      if (currentOverlay) { leafletMap.removeLayer(currentOverlay); currentOverlay = null; }
+
+      if (TILE_MAPS.includes(m.id)) {
+        // Use tile layer (same as pubgmap.top)
+        currentTileLayer = L.tileLayer(TILE_URL + m.id + '/{z}/{x}/{y}.webp', {
+          minZoom: 0,
+          maxZoom: 5,
+          tms: true,
+          noWrap: true,
+          tileSize: 256,
+          bounds: tileBounds,
+        }).addTo(leafletMap);
+      } else {
+        // Fallback: imageOverlay for maps without tiles
+        currentOverlay = L.imageOverlay('assert/maps/' + m.id + '.webp', tileBounds).addTo(leafletMap);
       }
-      currentOverlay = L.imageOverlay(`assert/maps/${m.id}.webp`, bounds).addTo(leafletMap);
-      leafletMap.fitBounds(bounds, { padding: [20, 20] });
+      leafletMap.setView([0, 0], 2);
     }
 
     // ===== SELECT MAP =====
     function selectMap(index) {
       currentMapIndex = index;
-      loadMapImage(index);
+      loadMapTiles(index);
       clearMeasure();
       showMarkersForCurrentMap();
       updateInfo();
@@ -674,26 +697,28 @@
     }
 
     // ===== GRID OVERLAY =====
+    // In pubgCRS: lng -180..180 = left..right, lat -90..90 = bottom..top (but visually flipped by CRS)
     function createGrid() {
       if (gridLayer) leafletMap.removeLayer(gridLayer);
       gridLayer = L.layerGroup();
-      const S = 4096;
-      const cols = 10; // A-J columns, 1-10 rows (PUBG grid)
-      const step = S / cols;
+      const cols = 10;
+      const lngStep = 360 / cols; // 36 degrees per cell
+      const latStep = 180 / cols; // 18 degrees per cell
       const letters = 'ABCDEFGHIJ';
       // Grid lines
       for (let i = 1; i < cols; i++) {
-        const pos = i * step;
-        L.polyline([[pos, 0],[pos, S]], {color:'rgba(255,255,255,0.15)', weight:1, interactive:false}).addTo(gridLayer);
-        L.polyline([[0, pos],[S, pos]], {color:'rgba(255,255,255,0.15)', weight:1, interactive:false}).addTo(gridLayer);
+        const lng = -180 + i * lngStep;
+        const lat = -90 + i * latStep;
+        L.polyline([[-90, lng],[90, lng]], {color:'rgba(255,255,255,0.15)', weight:1, interactive:false}).addTo(gridLayer);
+        L.polyline([[lat, -180],[lat, 180]], {color:'rgba(255,255,255,0.15)', weight:1, interactive:false}).addTo(gridLayer);
       }
       // Labels
       for (let r = 0; r < cols; r++) {
         for (let c = 0; c < cols; c++) {
           const label = letters[c] + (r + 1);
-          const y = S - (r * step + step / 2); // flip Y
-          const x = c * step + step / 2;
-          L.marker([y, x], {
+          const lng = -180 + (c + 0.5) * lngStep;
+          const lat = 90 - (r + 0.5) * latStep; // row 1 = top (north)
+          L.marker([lat, lng], {
             interactive: false,
             icon: L.divIcon({ className: 'grid-label', html: label, iconSize: [30, 18], iconAnchor: [15, 9] })
           }).addTo(gridLayer);
@@ -708,11 +733,11 @@
       leafletMap.on('mousemove', function(e) {
         const m = MAPS[currentMapIndex];
         const kmSize = MAP_KM[m.id] || 8;
-        const x = (e.latlng.lng / 4096 * kmSize).toFixed(2);
-        const y = ((4096 - e.latlng.lat) / 4096 * kmSize).toFixed(2);
-        // Grid cell
-        const col = Math.min(9, Math.max(0, Math.floor(e.latlng.lng / 4096 * 10)));
-        const row = Math.min(9, Math.max(0, Math.floor((4096 - e.latlng.lat) / 4096 * 10)));
+        // Map lng [-180,180] to [0, kmSize], lat [-90,90] to [0, kmSize] (top=0)
+        const x = ((e.latlng.lng + 180) / 360 * kmSize).toFixed(2);
+        const y = ((90 - e.latlng.lat) / 180 * kmSize).toFixed(2);
+        const col = Math.min(9, Math.max(0, Math.floor((e.latlng.lng + 180) / 360 * 10)));
+        const row = Math.min(9, Math.max(0, Math.floor((90 - e.latlng.lat) / 180 * 10)));
         const cell = 'ABCDEFGHIJ'[col] + (row + 1);
         display.textContent = cell + ' | ' + x + ', ' + y + ' km';
       });
@@ -736,7 +761,6 @@
     function onMapClick(e) {
       if (!measureMode) return;
       measurePoints.push(e.latlng);
-      // Add point marker
       const dot = L.circleMarker(e.latlng, {radius:4, color:'#EE3F2C', fillColor:'#EE3F2C', fillOpacity:1, weight:2});
       dot.addTo(leafletMap);
       measureMarkers.push(dot);
@@ -744,17 +768,15 @@
       if (measurePoints.length === 2) {
         const p1 = measurePoints[0], p2 = measurePoints[1];
         measureLine = L.polyline([p1, p2], {color:'#EE3F2C', weight:2, dashArray:'6,4', className:'measure-line'}).addTo(leafletMap);
-        // Calculate distance in km
         const m = MAPS[currentMapIndex];
         const kmSize = MAP_KM[m.id] || 8;
-        const dx = (p2.lng - p1.lng) / 4096 * kmSize;
-        const dy = (p2.lat - p1.lat) / 4096 * kmSize;
+        const dx = (p2.lng - p1.lng) / 360 * kmSize;
+        const dy = (p2.lat - p1.lat) / 180 * kmSize;
         const dist = Math.sqrt(dx*dx + dy*dy);
         const mid = L.latLng((p1.lat+p2.lat)/2, (p1.lng+p2.lng)/2);
         const label = dist >= 1 ? dist.toFixed(2) + ' km' : (dist * 1000).toFixed(0) + ' m';
         measureTooltip = L.tooltip({permanent:true, direction:'top', className:'measure-tooltip', offset:[0,-8]})
           .setLatLng(mid).setContent(label).addTo(leafletMap);
-        // Reset for next measurement
         measurePoints = [];
       }
     }
@@ -821,7 +843,7 @@
             iconAnchor: [12, 12],
             popupAnchor: [0, -14],
           });
-          const marker = L.marker([item.y, item.x], { icon });
+          const marker = L.marker([item.lat, item.lng], { icon });
           const label = isZh ? type : mt.en;
           const popupContent = item.title ? '<b>' + label + '</b><br>' + item.title : '<b>' + label + '</b>';
           marker.bindPopup(popupContent, {
