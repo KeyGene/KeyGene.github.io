@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" style="color-scheme: dark;">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,6 +42,10 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
     :root {
       --black: #000000;
       --red: #EE3F2C;
@@ -70,7 +74,7 @@
     .logo-text { font-size: 18px; font-weight: 800; color: var(--white); text-transform: uppercase; }
     .logo-text .accent { color: var(--red); }
     .header-right { display: flex; align-items: center; gap: 16px; }
-    .header-right a, .header-right button { color: var(--gray-500); font-size: 13px; text-decoration: none; font-family: var(--font); background: none; border: none; cursor: pointer; transition: color 0.2s; }
+    .header-right a, .header-right button { color: var(--gray-500); font-size: 13px; text-decoration: none; font-family: var(--font); background: none; border: none; cursor: pointer; padding: 12px 8px; transition: color 0.2s; }
     .header-right a:hover, .header-right button:hover { color: var(--white); }
     .lang-toggle { padding: 4px 10px; border: 1px solid rgba(255,255,255,0.15) !important; border-radius: 4px; }
 
@@ -457,6 +461,7 @@
         bestRecords: "Best Records", exportImage: "Generate Stats Image",
         exportDone: "Image saved!",
         // matches
+        assists: "Assists", survived: "Survived",
         time: "Time", map: "Map", mode: "Mode", rankCol: "Rank", damage: "Damage",
         loadingMatches: "Loading match data...", noMatches: "No match data available.",
         ago_m: "m ago", ago_h: "h ago", ago_d: "d ago",
@@ -494,6 +499,7 @@
         longestKill: "\u6700\u8fdc\u51fb\u6740", mostKills: "\u5355\u573a\u6700\u591a\u51fb\u6740", mostDamage: "\u5355\u573a\u6700\u9ad8\u4f24\u5bb3",
         bestRecords: "\u6700\u4f73\u8bb0\u5f55", exportImage: "\u751f\u6210\u6218\u7ee9\u56fe\u7247",
         exportDone: "\u56fe\u7247\u5df2\u4fdd\u5b58\uff01",
+        assists: "\u52a9\u653b", survived: "\u5b58\u6d3b",
         time: "\u65f6\u95f4", map: "\u5730\u56fe", mode: "\u6a21\u5f0f", rankCol: "\u6392\u540d", damage: "\u4f24\u5bb3",
         loadingMatches: "\u52a0\u8f7d\u6bd4\u8d5b\u6570\u636e...", noMatches: "\u6682\u65e0\u6bd4\u8d5b\u6570\u636e\u3002",
         ago_m: "\u5206\u949f\u524d", ago_h: "\u5c0f\u65f6\u524d", ago_d: "\u5929\u524d",
@@ -818,11 +824,11 @@
                 </div>
                 <div class="match-detail-item">
                   <div class="match-detail-value">${ps.assists || 0}</div>
-                  <div class="match-detail-label">Assists</div>
+                  <div class="match-detail-label">${t('assists')}</div>
                 </div>
                 <div class="match-detail-item">
                   <div class="match-detail-value">${Math.floor(ps.timeSurvived / 60)}m</div>
-                  <div class="match-detail-label">Survived</div>
+                  <div class="match-detail-label">${t('survived')}</div>
                 </div>
               </div>
               <div class="match-meta">
