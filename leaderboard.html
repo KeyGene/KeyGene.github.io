@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PUBG排行榜 - KEY GENE | 绝地求生排行榜 PUBG Leaderboard</title>
-  <meta name="description" content="PUBG绝地求生赛季排行榜，查看各模式顶尖玩家排名、击杀、胜率、场均伤害。PUBG seasonal leaderboard - top players by kills, win rate, KDA." />
-  <meta name="keywords" content="PUBG排行榜,绝地求生排行榜,PUBG leaderboard,PUBG排名,PUBG top players,KEYGENE" />
+  <title>PUBG竞技榜 - KEY GENE | 绝地求生竞技榜 PUBG Competitive Board</title>
+  <meta name="description" content="PUBG绝地求生竞技榜，按服务器和赛季查看顶尖玩家排名、击杀、胜率、场均伤害。PUBG competitive board - top players by kills, win rate, KDA." />
+  <meta name="keywords" content="PUBG竞技榜,绝地求生竞技榜,PUBG competitive,PUBG排名,PUBG top players,KEYGENE" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://keygene.top/leaderboard.html" />
   <link rel="alternate" hreflang="zh" href="https://keygene.top/leaderboard.html" />
   <link rel="alternate" hreflang="en" href="https://keygene.top/leaderboard.html" />
   <link rel="alternate" hreflang="x-default" href="https://keygene.top/leaderboard.html" />
 
-  <meta property="og:title" content="PUBG排行榜 - KEY GENE" />
-  <meta property="og:description" content="PUBG绝地求生赛季排行榜，查看各模式顶尖玩家排名。" />
+  <meta property="og:title" content="PUBG竞技榜 - KEY GENE" />
+  <meta property="og:description" content="PUBG绝地求生竞技榜，按服务器和赛季查看顶尖玩家排名。" />
   <meta property="og:url" content="https://keygene.top/leaderboard.html" />
   <meta property="og:image" content="https://keygene.top/assert/images/hero-bg.jpg" />
 
@@ -21,9 +21,9 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "PUBG排行榜 - KEY GENE",
-    "alternateName": "PUBG Leaderboard",
-    "description": "PUBG绝地求生赛季排行榜，查看各模式顶尖玩家排名、击杀、胜率、场均伤害。",
+    "name": "PUBG竞技榜 - KEY GENE",
+    "alternateName": "PUBG Competitive Board",
+    "description": "PUBG绝地求生竞技榜，按服务器和赛季查看顶尖玩家排名、击杀、胜率、场均伤害。",
     "url": "https://keygene.top/leaderboard.html",
     "applicationCategory": "GameApplication",
     "operatingSystem": "Web",
@@ -123,21 +123,30 @@
     }
     .page-title .accent { color: var(--red); }
 
-    /* ===== MODE SELECTOR ===== */
-    .mode-bar {
-      display: flex; gap: 0; padding: 0 48px; margin-top: 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    /* ===== FILTER BAR ===== */
+    .filter-bar {
+      display: flex; gap: 16px; padding: 0 48px; margin-top: 24px;
       max-width: 1200px; margin-left: auto; margin-right: auto;
+      align-items: center; flex-wrap: wrap;
     }
-    .mode-bar::-webkit-scrollbar { display: none; }
-    .mode-btn {
-      padding: 14px 20px; font-family: var(--font); font-size: 13px; font-weight: 600;
-      color: var(--gray-500); background: none; border: none; border-bottom: 2px solid transparent;
-      cursor: pointer; white-space: nowrap; transition: color 0.2s, border-color 0.2s;
+    .filter-group { display: flex; align-items: center; gap: 8px; }
+    .filter-label {
+      font-size: 13px; font-weight: 600; color: var(--gray-400);
+      text-transform: uppercase; letter-spacing: 0.04em;
     }
-    .mode-btn:hover { color: var(--gray-400); }
-    .mode-btn.active { color: var(--white); border-bottom-color: var(--red); }
+    .filter-select {
+      font-family: var(--font); font-size: 13px; font-weight: 500;
+      color: var(--white); background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+      padding: 8px 32px 8px 12px; cursor: pointer;
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+      transition: border-color 0.2s;
+    }
+    .filter-select:hover { border-color: rgba(255,255,255,0.4); }
+    .filter-select:focus { outline: none; border-color: var(--red); }
+    .filter-select option { background: #1a1a1a; color: var(--white); }
 
     /* ===== TABLE ===== */
     .table-wrapper {
@@ -202,8 +211,8 @@
       .page-wrapper { margin-top: 60px; }
       .page-header { padding: 32px 24px 0; }
       .page-title { font-size: 28px; }
-      .mode-bar { padding: 0 24px; margin-top: 16px; }
-      .mode-btn { padding: 12px 14px; font-size: 12px; }
+      .filter-bar { padding: 0 24px; margin-top: 16px; gap: 12px; }
+      .filter-select { font-size: 12px; padding: 6px 28px 6px 10px; }
       .table-wrapper { padding: 16px 16px 32px; }
       .lb-table th, .lb-table td { padding: 10px 10px; font-size: 12px; }
       .col-avgdmg { display: none; }
@@ -258,14 +267,34 @@
       <h1 class="page-title" data-key="lbTitle">Leaderboard</h1>
     </div>
 
-    <!-- Mode Selector -->
-    <div class="mode-bar" id="modeBar">
-      <button class="mode-btn active" data-mode="squad-fpp" data-key="modeSquadFpp">Squad FPP</button>
-      <button class="mode-btn" data-mode="squad" data-key="modeSquad">Squad</button>
-      <button class="mode-btn" data-mode="duo-fpp" data-key="modeDuoFpp">Duo FPP</button>
-      <button class="mode-btn" data-mode="duo" data-key="modeDuo">Duo</button>
-      <button class="mode-btn" data-mode="solo-fpp" data-key="modeSoloFpp">Solo FPP</button>
-      <button class="mode-btn" data-mode="solo" data-key="modeSolo">Solo</button>
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label" data-key="filterServer">Server</span>
+        <select class="filter-select" id="serverSelect">
+          <option value="steam">Steam</option>
+          <option value="kakao">Kakao</option>
+          <option value="console">Console</option>
+          <option value="stadia">Stadia</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label" data-key="filterSeason">Season</span>
+        <select class="filter-select" id="seasonSelect">
+          <option value="" data-key="optLoading">Loading...</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label" data-key="filterMode">Mode</span>
+        <select class="filter-select" id="modeSelect">
+          <option value="squad-fpp">Squad FPP</option>
+          <option value="squad">Squad</option>
+          <option value="duo-fpp">Duo FPP</option>
+          <option value="duo">Duo</option>
+          <option value="solo-fpp">Solo FPP</option>
+          <option value="solo">Solo</option>
+        </select>
+      </div>
     </div>
 
     <!-- Leaderboard Table -->
@@ -297,6 +326,8 @@
     <div class="footer-links">
       <a href="index.html#about" data-key="footAbout">About</a>
       <a href="stats.html" data-key="footStats">Stats</a>
+      <a href="maps.html" data-key="footMaps">Maps</a>
+      <a href="leaderboard.html" data-key="footLeaderboard">Leaderboard</a>
       <a href="mailto:keygene@hotmail.com" data-key="footContact">Contact</a>
     </div>
   </footer>
@@ -310,23 +341,23 @@
     const texts = {
       en: {
         navHome: "Home", navAbout: "About", navRoster: "Roster", navStats: "Stats",
-        navMaps: "Maps", navLeaderboard: "Leaderboard", navJoin: "Join Us",
-        lbTitle: "Leaderboard", lbRank: "#", lbPlayer: "Player", lbGames: "Games",
+        navMaps: "Maps", navLeaderboard: "Competitive", navJoin: "Join Us",
+        lbTitle: "Competitive Board", lbRank: "#", lbPlayer: "Player", lbGames: "Games",
         lbWinRate: "Win %", lbKills: "Kills", lbKDA: "K/D/A", lbAvgDmg: "Avg Dmg",
-        lbLoading: "Loading leaderboard...", lbError: "Failed to load leaderboard data.",
-        modeSquad: "Squad", modeSquadFpp: "Squad FPP", modeSolo: "Solo",
-        modeSoloFpp: "Solo FPP", modeDuo: "Duo", modeDuoFpp: "Duo FPP",
-        footAbout: "About", footStats: "Stats", footContact: "Contact"
+        lbLoading: "Loading data...", lbError: "Failed to load data.",
+        filterServer: "Server", filterSeason: "Season", filterMode: "Mode",
+        optLoading: "Loading...",
+        footAbout: "About", footStats: "Stats", footMaps: "Maps", footLeaderboard: "Leaderboard", footContact: "Contact"
       },
       zh: {
         navHome: "首页", navAbout: "关于", navRoster: "阵容", navStats: "战绩",
-        navMaps: "地图", navLeaderboard: "排行榜", navJoin: "加入",
+        navMaps: "地图", navLeaderboard: "竞技榜", navJoin: "加入",
         lbTitle: "排行榜", lbRank: "#", lbPlayer: "玩家", lbGames: "场次",
         lbWinRate: "胜率", lbKills: "击杀", lbKDA: "K/D/A", lbAvgDmg: "场均伤害",
-        lbLoading: "加载排行榜...", lbError: "排行榜数据加载失败。",
-        modeSquad: "组排", modeSquadFpp: "组排FPP", modeSolo: "单排",
-        modeSoloFpp: "单排FPP", modeDuo: "双排", modeDuoFpp: "双排FPP",
-        footAbout: "关于", footStats: "战绩", footContact: "联系"
+        lbLoading: "加载数据中...", lbError: "排行榜数据加载失败。",
+        filterServer: "服务器", filterSeason: "赛季", filterMode: "模式",
+        optLoading: "加载中...",
+        footAbout: "关于", footStats: "战绩", footMaps: "地图", footLeaderboard: "排行榜", footContact: "联系"
       }
     };
 
@@ -362,46 +393,83 @@
     });
     document.getElementById('mobileNavClose').addEventListener('click', closeMobileNav);
 
-    // ===== Leaderboard =====
+    // ===== Competitive Board =====
     const PUBG_PROXY = '/api';
-    const SHARD = 'steam';
     const HEADERS = { Accept: 'application/vnd.api+json' };
 
-    let currentSeasonId = null;
-    let currentMode = 'squad-fpp';
-
+    const serverSelect = document.getElementById('serverSelect');
+    const seasonSelect = document.getElementById('seasonSelect');
+    const modeSelect = document.getElementById('modeSelect');
     const statusEl = document.getElementById('lbStatus');
     const tableEl = document.getElementById('lbTable');
     const bodyEl = document.getElementById('lbBody');
 
+    let allSeasons = [];
+
     function showLoading() {
       statusEl.className = 'lb-status';
       statusEl.innerHTML = '<div class="spinner"></div><div data-key="lbLoading">' +
-        (texts[currentLang]?.lbLoading || 'Loading leaderboard...') + '</div>';
+        (texts[currentLang]?.lbLoading || 'Loading data...') + '</div>';
       statusEl.style.display = '';
       tableEl.style.display = 'none';
     }
 
-    function showError() {
+    function showError(detail) {
       statusEl.className = 'lb-status error';
-      statusEl.innerHTML = '<div data-key="lbError">' +
-        (texts[currentLang]?.lbError || 'Failed to load leaderboard data.') + '</div>';
+      const msg = detail || (texts[currentLang]?.lbError || 'Failed to load data.');
+      statusEl.innerHTML = '<div>' + msg + '</div>';
       statusEl.style.display = '';
       tableEl.style.display = 'none';
     }
 
-    async function fetchCurrentSeason() {
-      const res = await fetch(`${PUBG_PROXY}/shards/${SHARD}/seasons`, { headers: HEADERS });
+    async function fetchSeasons(shard) {
+      const res = await fetch(`${PUBG_PROXY}/shards/${shard}/seasons`, { headers: HEADERS });
       if (!res.ok) throw new Error('Failed to fetch seasons');
       const json = await res.json();
-      const current = json.data.find(s => s.attributes.isCurrentSeason);
-      if (!current) throw new Error('No current season found');
-      return current.id;
+      return json.data || [];
     }
 
-    async function fetchLeaderboard(seasonId, gameMode) {
-      const res = await fetch(`${PUBG_PROXY}/shards/${SHARD}/leaderboards/${seasonId}/${gameMode}`, { headers: HEADERS });
-      if (!res.ok) throw new Error('Failed to fetch leaderboard');
+    async function loadSeasons() {
+      const shard = serverSelect.value;
+      seasonSelect.innerHTML = '<option value="" data-key="optLoading">' +
+        (texts[currentLang]?.optLoading || 'Loading...') + '</option>';
+      try {
+        allSeasons = await fetchSeasons(shard);
+        // Sort: current season first, then by id descending
+        allSeasons.sort((a, b) => {
+          if (a.attributes.isCurrentSeason) return -1;
+          if (b.attributes.isCurrentSeason) return 1;
+          return b.id.localeCompare(a.id);
+        });
+        seasonSelect.innerHTML = '';
+        allSeasons.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          const label = s.id.replace('division.bro.official.pc-', 'S').replace('division.bro.official.', 'S');
+          opt.textContent = label + (s.attributes.isCurrentSeason ? (currentLang === 'zh' ? ' (当前)' : ' (Current)') : '');
+          seasonSelect.appendChild(opt);
+        });
+        loadLeaderboard();
+      } catch (err) {
+        console.error('Seasons error:', err);
+        seasonSelect.innerHTML = '<option value="">Error</option>';
+        showError();
+      }
+    }
+
+    async function fetchLeaderboard(shard, seasonId, gameMode) {
+      const res = await fetch(`${PUBG_PROXY}/shards/${shard}/leaderboards/${seasonId}/${gameMode}`, { headers: HEADERS });
+      if (!res.ok) {
+        let detail = '';
+        try { const j = await res.json(); detail = j.errors?.[0]?.detail || ''; } catch(e) {}
+        if (res.status === 400 && detail.includes('missing data')) {
+          const noDataMsg = currentLang === 'zh'
+            ? '该服务器/赛季暂无排行榜数据。请尝试切换服务器或赛季。'
+            : 'No leaderboard data available for this server/season. Try switching server or season.';
+          throw new Error(noDataMsg);
+        }
+        throw new Error('Failed to fetch leaderboard');
+      }
       return res.json();
     }
 
@@ -411,8 +479,6 @@
         showError();
         return;
       }
-
-      // Sort by rank
       players.sort((a, b) => a.attributes.rank - b.attributes.rank);
 
       bodyEl.innerHTML = '';
@@ -442,32 +508,28 @@
       tableEl.style.display = '';
     }
 
-    async function loadLeaderboard(gameMode) {
+    async function loadLeaderboard() {
+      const shard = serverSelect.value;
+      const seasonId = seasonSelect.value;
+      const gameMode = modeSelect.value;
+      if (!seasonId) return;
       showLoading();
       try {
-        if (!currentSeasonId) {
-          currentSeasonId = await fetchCurrentSeason();
-        }
-        const data = await fetchLeaderboard(currentSeasonId, gameMode);
+        const data = await fetchLeaderboard(shard, seasonId, gameMode);
         renderTable(data);
       } catch (err) {
         console.error('Leaderboard error:', err);
-        showError();
+        showError(err.message !== 'Failed to fetch leaderboard' ? err.message : null);
       }
     }
 
-    // Mode buttons
-    document.getElementById('modeBar').addEventListener('click', (e) => {
-      const btn = e.target.closest('.mode-btn');
-      if (!btn) return;
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentMode = btn.dataset.mode;
-      loadLeaderboard(currentMode);
-    });
+    // Filter change handlers
+    serverSelect.addEventListener('change', loadSeasons);
+    seasonSelect.addEventListener('change', loadLeaderboard);
+    modeSelect.addEventListener('change', loadLeaderboard);
 
     // Initial load
-    loadLeaderboard(currentMode);
+    loadSeasons();
   </script>
 </body>
 </html>

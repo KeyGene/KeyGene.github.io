@@ -524,8 +524,9 @@
         const val = t(key);
         if (val) el.textContent = val;
       });
-      const input = document.getElementById('searchInput');
-      input.placeholder = lang === 'zh' ? input.dataset.placeholderZh : input.dataset.placeholderEn;
+      document.querySelectorAll('[data-placeholder-zh]').forEach(el => {
+        el.placeholder = lang === 'zh' ? el.dataset.placeholderZh : el.dataset.placeholderEn;
+      });
       document.querySelectorAll('[data-placeholder-key]').forEach(el => {
         el.placeholder = t(el.dataset.placeholderKey);
       });
@@ -564,7 +565,13 @@
       'Kiki_Main':'Deston','Range_Main':'Camp Jackal','Savage_Main':'Sanhok',
       'Summerland_Main':'Karakin','Tiger_Main':'Taego','Neon_Main':'Rondo',
     };
-    function mapName(raw) { return MAP_NAMES[raw] || raw.replace(/_Main$/,''); }
+    function mapName(raw) {
+      if (MAP_NAMES[raw]) return MAP_NAMES[raw];
+      // Handle variant suffixes like Desert_Main_BinarySP → try prefix match
+      const base = raw.replace(/_Main.*$/, '_Main');
+      if (MAP_NAMES[base]) return MAP_NAMES[base];
+      return raw.replace(/_Main.*$/, '');
+    }
 
     // ===== RANK MAPPING =====
     const TIER_ICONS = {
@@ -1257,6 +1264,13 @@
     document.addEventListener('DOMContentLoaded', () => {
       const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
       setLanguage(userLang.startsWith('zh') ? 'zh' : 'en');
+      // Auto-search from query param (e.g. ?player=SymarsYoung)
+      const urlParams = new URLSearchParams(window.location.search);
+      const playerParam = urlParams.get('player');
+      if (playerParam) {
+        document.getElementById('searchInput').value = playerParam;
+        doSearch();
+      }
     });
     document.getElementById('langToggle').addEventListener('click', () => {
       setLanguage(currentLang === 'en' ? 'zh' : 'en');
