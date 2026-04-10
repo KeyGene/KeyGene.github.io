@@ -989,7 +989,7 @@
       </div>
 
       <!-- Member Cards (dynamically loaded) -->
-      <div class="roster-grid" id="rosterGrid">
+      <div class="roster-grid" id="rosterGrid" style="display:none"
         <div class="skeleton-card" id="rosterLoading"><div class="skeleton skeleton-circle"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-short"></div></div>
         <div class="skeleton-card"><div class="skeleton skeleton-circle"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-short"></div></div>
       </div>
@@ -1157,6 +1157,7 @@
 
     function setLanguageText(lang) {
       currentLang = lang;
+      localStorage.setItem('keygene_lang', lang);
       const data = texts[lang];
       document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
@@ -1172,10 +1173,10 @@
       input.placeholder = lang === 'zh' ? input.dataset.placeholderZh : input.dataset.placeholderEn;
     }
 
-    // Auto-detect language
+    // Load saved language or auto-detect
     document.addEventListener('DOMContentLoaded', () => {
-      const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
-      const lang = userLang.startsWith('zh') ? 'zh' : 'en';
+      const saved = localStorage.getItem('keygene_lang');
+      const lang = saved || ((navigator.languages?.[0] || navigator.language || 'en').toLowerCase().startsWith('zh') ? 'zh' : 'en');
       setLanguageText(lang);
     });
 

@@ -582,6 +582,7 @@
 
     function setLanguage(lang) {
       currentLang = lang;
+      localStorage.setItem('keygene_lang', lang);
       document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
         const val = t(key);
@@ -1325,8 +1326,9 @@
 
     // ===== INIT =====
     document.addEventListener('DOMContentLoaded', () => {
-      const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
-      setLanguage(userLang.startsWith('zh') ? 'zh' : 'en');
+      const saved = localStorage.getItem('keygene_lang');
+      const lang = saved || ((navigator.languages?.[0] || navigator.language || 'en').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+      setLanguage(lang);
       // Auto-search from query param (e.g. ?player=SymarsYoung)
       const urlParams = new URLSearchParams(window.location.search);
       const playerParam = urlParams.get('player');

@@ -968,6 +968,7 @@
 
     function setLanguageText(lang) {
       currentLang = lang;
+      localStorage.setItem('keygene_lang', lang);
       const data = texts[lang];
       document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
@@ -979,10 +980,10 @@
       if (allMarkerData) showMarkersForCurrentMap();
     }
 
-    // Auto-detect language
+    // Load saved language or auto-detect
     document.addEventListener('DOMContentLoaded', () => {
-      const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
-      const lang = userLang.startsWith('zh') ? 'zh' : 'en';
+      const saved = localStorage.getItem('keygene_lang');
+      const lang = saved || ((navigator.languages?.[0] || navigator.language || 'en').toLowerCase().startsWith('zh') ? 'zh' : 'en');
       currentLang = lang;
       buildSidebar();
       initLeaflet();
