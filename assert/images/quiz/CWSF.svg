@@ -1,35 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 伏地魔 - Pale skin, dark green hair, ghillie suit, lying prone with sniper, only eyes visible -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 伏地魔 Prone Sniper - ghillie suit, prone with sniper, low-poly style -->
   <!-- Ground -->
-  <rect x="0" y="130" width="200" height="70" fill="#4A7C3F" stroke="none"/>
-  <!-- Ghillie suit body - lying flat -->
-  <ellipse cx="100" cy="135" rx="70" ry="22" fill="#3B6E30" stroke="#1B5E20" stroke-width="2.5"/>
-  <!-- Grass tufts on ghillie suit -->
-  <path d="M40,125 L38,110 L44,122" fill="#4CAF50" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M55,120 L52,105 L58,118" fill="#388E3C" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M70,118 L68,102 L74,115" fill="#4CAF50" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M90,116 L88,100 L94,113" fill="#388E3C" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M110,117 L108,101 L114,114" fill="#4CAF50" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M125,119 L123,104 L129,117" fill="#388E3C" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M140,122 L138,108 L144,120" fill="#4CAF50" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M155,125 L153,112 L159,123" fill="#388E3C" stroke="#2E7D32" stroke-width="1.5"/>
-  <!-- Head bump in ghillie -->
-  <ellipse cx="45" cy="128" rx="22" ry="16" fill="#3B6E30" stroke="#1B5E20" stroke-width="2"/>
+  <polygon points="0,140 200,140 200,220 0,220" fill="#4A7C3F"/>
+  <polygon points="0,140 200,140 200,155 0,155" fill="#5A8C4F"/>
+  <!-- Ghillie body - lying flat, angular -->
+  <polygon points="25,125 175,125 180,158 20,158" fill="#3B6E30"/>
+  <polygon points="25,125 175,125 170,130 30,130" fill="#4A8040"/>
+  <!-- Grass tufts - angular -->
+  <polygon points="40,125 36,108 46,122" fill="#4CAF50"/>
+  <polygon points="60,122 55,105 65,118" fill="#388E3C"/>
+  <polygon points="80,120 76,102 86,116" fill="#4CAF50"/>
+  <polygon points="100,118 96,100 106,114" fill="#388E3C"/>
+  <polygon points="120,120 116,102 126,116" fill="#4CAF50"/>
+  <polygon points="140,122 136,106 146,118" fill="#388E3C"/>
+  <polygon points="155,125 152,110 162,122" fill="#4CAF50"/>
+  <!-- Head bump -->
+  <polygon points="22,118 60,118 62,140 20,140" fill="#3B6E30"/>
+  <polygon points="22,118 60,118 55,122 26,122" fill="#4A8040"/>
   <!-- More grass on head -->
-  <path d="M35,118 L32,105 L38,115" fill="#4CAF50" stroke="#2E7D32" stroke-width="1.5"/>
-  <path d="M50,115 L48,100 L54,112" fill="#388E3C" stroke="#2E7D32" stroke-width="1.5"/>
-  <!-- Eyes peeking out - only feature visible -->
-  <ellipse cx="38" cy="128" rx="5" ry="3" fill="white" stroke="#1B5E20" stroke-width="1.5"/>
-  <ellipse cx="52" cy="128" rx="5" ry="3" fill="white" stroke="#1B5E20" stroke-width="1.5"/>
-  <ellipse cx="39" cy="128" rx="2.5" ry="2" fill="#27AE60"/>
-  <ellipse cx="53" cy="128" rx="2.5" ry="2" fill="#27AE60"/>
-  <!-- Sniper rifle extending forward -->
-  <rect x="130" y="126" width="60" height="6" rx="2" fill="#4A4A4A" stroke="#333" stroke-width="2"/>
+  <polygon points="28,118 24,105 34,115" fill="#4CAF50"/>
+  <polygon points="48,116 44,100 54,112" fill="#388E3C"/>
+  <!-- Eyes peeking - angular -->
+  <polygon points="30,128 42,126 41,134 31,135" fill="white"/>
+  <polygon points="46,126 58,128 57,135 47,134" fill="white"/>
+  <polygon points="33,129 40,128 39,133 34,133" fill="#27AE60"/>
+  <polygon points="49,128 56,129 55,133 50,133" fill="#27AE60"/>
+  <!-- Sniper rifle -->
+  <polygon points="140,128 200,126 200,134 140,135" fill="#4A4A4A"/>
+  <polygon points="140,128 200,126 200,130 140,131" fill="#5A5A5A"/>
   <!-- Scope -->
-  <circle cx="170" cy="122" r="5" fill="#555" stroke="#333" stroke-width="2"/>
-  <!-- Barrel tip -->
-  <rect x="188" y="127" width="10" height="4" rx="1" fill="#333" stroke="#222" stroke-width="1.5"/>
+  <polygon points="175,118 185,118 186,128 174,128" fill="#555"/>
+  <polygon points="175,118 185,118 183,120 177,120" fill="#666"/>
   <!-- Bipod -->
-  <line x1="145" y1="132" x2="140" y2="148" stroke="#555" stroke-width="2"/>
-  <line x1="150" y1="132" x2="155" y2="148" stroke="#555" stroke-width="2"/>
+  <line x1="155" y1="135" x2="148" y2="155" stroke="#555" stroke-width="2.5"/>
+  <line x1="162" y1="135" x2="168" y2="155" stroke="#555" stroke-width="2.5"/>
+  <!-- Suppressor -->
+  <polygon points="196,127 200,127 200,133 196,133" fill="#333"/>
 </svg>

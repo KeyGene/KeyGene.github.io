@@ -1,43 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 占楼钉子户 - Tan skin, dark brown neat hair, gold-rim glasses, gold military coat, medal, hands on hips -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 占楼钉子户 Building Squatter - hard hat, sandbags, fortified pose -->
+  <!-- Sandbags behind -->
+  <polygon points="10,130 60,130 62,155 8,155" fill="#C89040"/>
+  <polygon points="10,130 60,130 55,135 15,135" fill="#D4A050"/>
+  <polygon points="5,150 55,150 57,175 3,175" fill="#C89040"/>
+  <polygon points="140,130 190,130 192,155 138,155" fill="#C89040"/>
+  <polygon points="140,130 190,130 185,135 145,135" fill="#D4A050"/>
+  <polygon points="145,150 195,150 197,175 143,175" fill="#C89040"/>
   <!-- Head -->
-  <circle cx="100" cy="55" r="36" fill="#D4A574" stroke="#C49B09" stroke-width="2.5"/>
-  <!-- Neat dark brown hair -->
-  <path d="M64,48 Q66,22 100,16 Q134,22 136,48 L132,42 Q130,28 100,23 Q70,28 68,42 Z" fill="#3E2723" stroke="#C49B09" stroke-width="2"/>
-  <!-- Hair part -->
-  <line x1="90" y1="17" x2="88" y2="30" stroke="#2A1A0A" stroke-width="1.5"/>
-  <!-- Gold-rim glasses -->
-  <circle cx="85" cy="54" r="10" fill="none" stroke="#FFD700" stroke-width="2.5"/>
-  <circle cx="115" cy="54" r="10" fill="none" stroke="#FFD700" stroke-width="2.5"/>
-  <line x1="95" y1="54" x2="105" y2="54" stroke="#FFD700" stroke-width="2"/>
-  <line x1="75" y1="52" x2="68" y2="48" stroke="#FFD700" stroke-width="2"/>
-  <line x1="125" y1="52" x2="132" y2="48" stroke="#FFD700" stroke-width="2"/>
-  <!-- Eyes behind glasses -->
-  <circle cx="85" cy="55" r="4" fill="white"/><circle cx="115" cy="55" r="4" fill="white"/>
-  <circle cx="86" cy="56" r="2.5" fill="#3E2723"/><circle cx="116" cy="56" r="2.5" fill="#3E2723"/>
-  <!-- Confident smirk -->
-  <path d="M92,72 Q100,78 108,72" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-  <!-- Body - gold military coat -->
-  <rect x="72" y="91" width="56" height="52" rx="10" fill="#F1C40F" stroke="#C49B09" stroke-width="2.5"/>
-  <!-- Coat buttons -->
-  <circle cx="100" cy="102" r="3" fill="#C49B09"/><circle cx="100" cy="115" r="3" fill="#C49B09"/>
-  <circle cx="100" cy="128" r="3" fill="#C49B09"/>
-  <!-- Epaulettes -->
-  <rect x="68" y="91" width="16" height="8" rx="3" fill="#C49B09" stroke="#9A7D0A" stroke-width="1.5"/>
-  <rect x="116" y="91" width="16" height="8" rx="3" fill="#C49B09" stroke="#9A7D0A" stroke-width="1.5"/>
-  <!-- Medal -->
-  <circle cx="85" cy="108" r="5" fill="#E74C3C" stroke="#C0392B" stroke-width="1.5"/>
-  <rect x="82" y="100" width="6" height="5" fill="#3498DB"/>
-  <!-- Arms on hips -->
-  <path d="M72,98 L52,110 L58,135 L72,125" fill="#F1C40F" stroke="#C49B09" stroke-width="2.5"/>
-  <path d="M128,98 L148,110 L142,135 L128,125" fill="#F1C40F" stroke="#C49B09" stroke-width="2.5"/>
-  <!-- Hands on hips -->
-  <circle cx="58" cy="133" r="6" fill="#D4A574" stroke="#C49B09" stroke-width="2"/>
-  <circle cx="142" cy="133" r="6" fill="#D4A574" stroke="#C49B09" stroke-width="2"/>
-  <!-- Legs -->
-  <rect x="82" y="141" width="14" height="28" rx="6" fill="#2C3E50" stroke="#C49B09" stroke-width="2"/>
-  <rect x="104" y="141" width="14" height="28" rx="6" fill="#2C3E50" stroke="#C49B09" stroke-width="2"/>
+  <polygon points="74,30 126,30 130,55 128,82 72,82 70,55" fill="#F2D0A4"/>
+  <polygon points="126,30 130,55 128,82 122,80 125,55 122,32" fill="#E8BE8C"/>
+  <!-- Hard hat -->
+  <polygon points="65,18 135,18 138,32 62,32" fill="#F39C12"/>
+  <polygon points="65,18 135,18 130,22 70,22" fill="#F5B041"/>
+  <polygon points="60,32 140,32 142,38 58,38" fill="#E67E22"/>
+  <!-- Eyes - watchful -->
+  <polygon points="80,48 92,48 91,58 81,58" fill="white"/>
+  <polygon points="108,48 120,48 119,58 109,58" fill="white"/>
+  <polygon points="84,50 90,50 89,57 85,57" fill="#222"/>
+  <polygon points="112,50 118,50 117,57 113,57" fill="#222"/>
+  <!-- Serious brows -->
+  <polygon points="78,44 94,42 93,46 79,47" fill="#3A2A1C"/>
+  <polygon points="106,42 122,44 121,47 107,46" fill="#3A2A1C"/>
+  <!-- Mouth -->
+  <polygon points="92,66 108,66 106,70 94,70" fill="#C4846C"/>
+  <!-- Neck -->
+  <polygon points="90,82 110,82 112,92 88,92" fill="#E8BE8C"/>
+  <!-- Body - construction vest -->
+  <polygon points="58,92 142,92 146,172 54,172" fill="#F39C12"/>
+  <polygon points="142,92 146,172 138,170 135,94" fill="#E67E22"/>
+  <!-- Reflective stripes -->
+  <polygon points="56,120 144,120 145,126 55,126" fill="#C0C0C0"/>
+  <polygon points="56,145 144,145 145,151 55,151" fill="#C0C0C0"/>
+  <!-- Arms crossed -->
+  <polygon points="58,92 42,105 40,130 55,132 57,108" fill="#F39C12"/>
+  <polygon points="142,92 158,105 160,130 145,132 143,108" fill="#E67E22"/>
+  <!-- Crossed forearms -->
+  <polygon points="55,115 100,108 98,118 53,124" fill="#F2D0A4"/>
+  <polygon points="100,108 145,115 147,124 102,118" fill="#E8BE8C"/>
+  <!-- Pants -->
+  <polygon points="60,172 95,172 92,212 56,212" fill="#2C3E50"/>
+  <polygon points="105,172 140,172 144,212 108,212" fill="#1A2533"/>
   <!-- Boots -->
-  <rect x="78" y="165" width="20" height="10" rx="5" fill="#1A1A1A" stroke="#C49B09" stroke-width="2"/>
-  <rect x="102" y="165" width="20" height="10" rx="5" fill="#1A1A1A" stroke="#C49B09" stroke-width="2"/>
+  <polygon points="52,210 95,210 97,220 48,220" fill="#333"/>
+  <polygon points="105,210 148,210 150,220 102,220" fill="#2A2A2A"/>
 </svg>

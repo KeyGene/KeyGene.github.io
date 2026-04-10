@@ -1,40 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 顺丰快递 - Normal skin, black bangs, blue delivery cap+uniform, tripping with box, sad -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 顺丰快递 Express Delivery - delivery hat, carrying packages, running pose -->
   <!-- Head -->
-  <circle cx="105" cy="55" r="34" fill="#F0D5B8" stroke="#3B8FD4" stroke-width="2.5"/>
-  <!-- Black bangs -->
-  <path d="M71,48 Q73,25 105,20 Q137,25 139,48 L135,42 Q132,30 105,26 Q78,30 75,42 Z" fill="#1A1A1A" stroke="#3B8FD4" stroke-width="2"/>
-  <!-- Delivery cap -->
-  <path d="M68,42 Q70,30 105,26 Q140,30 142,42" fill="#5DADE2" stroke="#3B8FD4" stroke-width="2"/>
-  <rect x="65" y="40" width="80" height="8" rx="3" fill="#5DADE2" stroke="#3B8FD4" stroke-width="2"/>
+  <polygon points="78,28 128,28 132,52 130,80 74,80 72,52" fill="#F2D0A4"/>
+  <polygon points="128,28 132,52 130,80 124,78 127,52 124,30" fill="#E8BE8C"/>
+  <!-- Cap -->
+  <polygon points="68,20 135,20 138,35 65,35" fill="#E74C3C"/>
+  <polygon points="68,20 135,20 128,24 72,24" fill="#FF5555"/>
   <!-- Cap brim -->
-  <path d="M120,44 L148,40 L145,48 L120,48" fill="#5DADE2" stroke="#3B8FD4" stroke-width="2"/>
-  <!-- Sad eyes -->
-  <circle cx="92" cy="55" r="5" fill="white"/><circle cx="118" cy="55" r="5" fill="white"/>
-  <circle cx="93" cy="57" r="3" fill="#111"/><circle cx="119" cy="57" r="3" fill="#111"/>
-  <!-- Sad eyebrows -->
-  <line x1="84" y1="46" x2="96" y2="48" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-  <line x1="126" y1="48" x2="114" y2="46" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-  <!-- Sad mouth -->
-  <path d="M95,70 Q105,64 115,70" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-  <!-- Sweat drop -->
-  <path d="M140,50 Q143,56 140,62 Q137,56 140,50" fill="#85C1E9"/>
-  <!-- Body - blue uniform, tilted forward (tripping) -->
-  <rect x="82" y="89" width="42" height="45" rx="10" fill="#5DADE2" stroke="#3B8FD4" stroke-width="2.5" transform="rotate(8,103,111)"/>
-  <!-- Arms holding overflowing box -->
-  <rect x="48" y="88" width="38" height="12" rx="6" fill="#F0D5B8" stroke="#3B8FD4" stroke-width="2" transform="rotate(-5,67,94)"/>
-  <!-- Overflowing delivery box -->
-  <rect x="22" y="75" width="35" height="28" rx="3" fill="#C4913A" stroke="#8B6914" stroke-width="2"/>
-  <!-- Items overflowing -->
-  <circle cx="30" cy="72" r="6" fill="#E74C3C" stroke="#A33" stroke-width="1.5"/>
-  <rect x="38" y="65" width="8" height="12" rx="2" fill="#27AE60" stroke="#1A7" stroke-width="1.5" transform="rotate(15,42,71)"/>
-  <rect x="28" y="67" width="12" height="6" rx="2" fill="#F39C12" stroke="#C87" stroke-width="1.5" transform="rotate(-10,34,70)"/>
-  <!-- Right arm -->
-  <rect x="124" y="95" width="14" height="28" rx="6" fill="#5DADE2" stroke="#3B8FD4" stroke-width="2"/>
-  <!-- Legs - one tripping -->
-  <rect x="86" y="132" width="13" height="28" rx="5" fill="#2C3E50" stroke="#3B8FD4" stroke-width="2"/>
-  <rect x="108" y="130" width="13" height="30" rx="5" fill="#2C3E50" stroke="#3B8FD4" stroke-width="2" transform="rotate(15,114,145)"/>
+  <polygon points="65,35 140,35 145,40 60,40" fill="#C0392B"/>
+  <!-- Hair -->
+  <polygon points="74,35 128,35 126,42 76,42" fill="#2C2C2C"/>
+  <!-- Eyes - determined -->
+  <polygon points="82,48 94,48 93,56 83,56" fill="white"/>
+  <polygon points="108,48 120,48 119,56 109,56" fill="white"/>
+  <polygon points="86,50 92,50 91,55 87,55" fill="#222"/>
+  <polygon points="112,50 118,50 117,55 113,55" fill="#222"/>
+  <!-- Brows -->
+  <polygon points="80,44 95,43 94,47 81,47" fill="#2C2C2C"/>
+  <polygon points="107,43 122,44 121,47 108,47" fill="#2C2C2C"/>
+  <!-- Mouth - grinning -->
+  <polygon points="90,64 112,64 108,72 94,72" fill="#333"/>
+  <polygon points="94,65 108,65 106,68 96,68" fill="white"/>
+  <!-- Neck -->
+  <polygon points="92,80 112,80 114,90 90,90" fill="#E8BE8C"/>
+  <!-- Body - red uniform -->
+  <polygon points="58,90 145,90 148,170 55,170" fill="#E74C3C"/>
+  <polygon points="145,90 148,170 140,168 137,92" fill="#C0392B"/>
+  <!-- Package on back -->
+  <polygon points="118,70 158,70 160,130 120,130" fill="#C89040"/>
+  <polygon points="158,70 160,130 152,128 150,72" fill="#A87830"/>
+  <!-- Package tape -->
+  <polygon points="135,70 141,70 142,130 136,130" fill="#F5DEB3"/>
+  <!-- Left arm forward (running) -->
+  <polygon points="58,90 35,105 30,95 42,82 50,88" fill="#E74C3C"/>
+  <polygon points="30,92 38,80 35,75 25,86" fill="#F2D0A4"/>
+  <!-- Right arm holding package -->
+  <polygon points="145,90 160,100 158,130 143,125" fill="#C0392B"/>
+  <!-- Legs - running -->
+  <polygon points="62,170 92,170 78,212 48,212" fill="#2C3E50"/>
+  <polygon points="108,170 140,170 155,212 118,212" fill="#1A2533"/>
   <!-- Feet -->
-  <rect x="82" y="156" width="19" height="10" rx="5" fill="#333" stroke="#3B8FD4" stroke-width="2"/>
-  <rect x="112" y="158" width="19" height="10" rx="5" fill="#333" stroke="#3B8FD4" stroke-width="2" transform="rotate(15,121,163)"/>
+  <polygon points="44,210 82,210 85,220 40,220" fill="#E74C3C"/>
+  <polygon points="115,210 158,210 162,220 112,220" fill="#C0392B"/>
 </svg>

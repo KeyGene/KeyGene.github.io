@@ -1,34 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 苟王 - Fair skin, black center-parted long bangs covering one eye, olive-gold camo jacket, tiptoeing, finger to temple -->
-  <!-- Head -->
-  <circle cx="100" cy="58" r="36" fill="#FAE5D3" stroke="#9A8509" stroke-width="2.5"/>
-  <!-- Center-parted long black bangs -->
-  <path d="M64,50 Q66,22 100,16 Q134,22 136,50" fill="#1A1A1A" stroke="#9A8509" stroke-width="2"/>
-  <!-- Left bang covering eye -->
-  <path d="M64,50 Q68,35 85,28 L80,62 Q72,60 64,50" fill="#1A1A1A" stroke="#9A8509" stroke-width="1.5"/>
-  <!-- Right bang -->
-  <path d="M136,50 Q132,35 115,28 L118,52 Q128,50 136,50" fill="#1A1A1A" stroke="#9A8509" stroke-width="1.5"/>
-  <!-- One visible eye (right) - sly look -->
-  <circle cx="115" cy="56" r="5" fill="white"/><circle cx="117" cy="57" r="3" fill="#1A1A1A"/>
-  <!-- Sly smirk -->
-  <path d="M96,72 Q105,78 114,74" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-  <!-- Body - olive-gold camo jacket -->
-  <rect x="76" y="94" width="48" height="48" rx="10" fill="#D4AC0D" stroke="#9A8509" stroke-width="2.5"/>
-  <!-- Camo patches -->
-  <ellipse cx="88" cy="108" rx="8" ry="5" fill="#8B7D2E" opacity="0.6"/>
-  <ellipse cx="112" cy="118" rx="7" ry="6" fill="#6B5B1E" opacity="0.5"/>
-  <ellipse cx="95" cy="128" rx="9" ry="4" fill="#8B7D2E" opacity="0.6"/>
-  <!-- Right arm - finger pointing to temple "smart" -->
-  <rect x="124" y="96" width="14" height="16" rx="6" fill="#D4AC0D" stroke="#9A8509" stroke-width="2"/>
-  <rect x="130" y="82" width="12" height="18" rx="6" fill="#FAE5D3" stroke="#9A8509" stroke-width="2"/>
-  <!-- Finger at temple -->
-  <rect x="132" y="62" width="5" height="22" rx="2.5" fill="#FAE5D3" stroke="#9A8509" stroke-width="1.5"/>
-  <!-- Left arm -->
-  <rect x="62" y="98" width="14" height="34" rx="6" fill="#D4AC0D" stroke="#9A8509" stroke-width="2"/>
-  <!-- Legs - tiptoeing -->
-  <rect x="84" y="140" width="12" height="30" rx="5" fill="#555" stroke="#9A8509" stroke-width="2"/>
-  <rect x="104" y="140" width="12" height="30" rx="5" fill="#555" stroke="#9A8509" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 苟王 Stealth King - bush costume, sneaky eyes, tiptoeing -->
+  <!-- Bush body (main shape) -->
+  <polygon points="40,60 160,60 170,170 30,170" fill="#3B6E30"/>
+  <polygon points="40,60 160,60 155,68 45,68" fill="#4A8040"/>
+  <!-- Bush leaves - angular clusters -->
+  <polygon points="30,80 45,60 55,85" fill="#4CAF50"/>
+  <polygon points="145,60 170,80 155,85" fill="#388E3C"/>
+  <polygon points="60,58 80,42 85,62" fill="#4CAF50"/>
+  <polygon points="115,42 140,58 130,62" fill="#388E3C"/>
+  <polygon points="85,55 100,38 115,55" fill="#2E7D32"/>
+  <polygon points="25,110 40,90 48,115" fill="#4CAF50"/>
+  <polygon points="152,90 175,110 162,115" fill="#388E3C"/>
+  <polygon points="28,145 42,125 50,148" fill="#2E7D32"/>
+  <polygon points="150,125 172,145 158,148" fill="#2E7D32"/>
+  <!-- Eyes peeking through bush -->
+  <polygon points="72,95 90,95 89,108 73,108" fill="white"/>
+  <polygon points="110,95 128,95 127,108 111,108" fill="white"/>
+  <polygon points="77,98 87,98 86,106 78,106" fill="#222"/>
+  <polygon points="114,98 124,98 123,106 115,106" fill="#222"/>
+  <!-- Pupils looking sideways (sneaky) -->
+  <polygon points="82,100 87,100 86,105 83,105" fill="#111"/>
+  <polygon points="119,100 124,100 123,105 120,105" fill="#111"/>
+  <!-- Small sweat drop -->
+  <polygon points="135,88 138,82 140,90 137,92" fill="#87CEEB" opacity="0.6"/>
+  <!-- Tiny legs visible below bush -->
+  <polygon points="72,170 90,170 88,200 70,200" fill="#2C3E50"/>
+  <polygon points="110,170 128,170 130,200 112,200" fill="#1A2533"/>
   <!-- Tippy-toe feet -->
-  <ellipse cx="90" cy="172" rx="7" ry="5" fill="#333" stroke="#9A8509" stroke-width="2"/>
-  <ellipse cx="110" cy="172" rx="7" ry="5" fill="#333" stroke="#9A8509" stroke-width="2"/>
+  <polygon points="68,198 92,198 94,210 65,210" fill="#333"/>
+  <polygon points="108,198 132,198 135,210 106,210" fill="#2A2A2A"/>
+  <!-- Small hands holding bush edges -->
+  <polygon points="30,115 42,112 44,122 32,120" fill="#F2D0A4"/>
+  <polygon points="158,112 170,115 168,120 156,122" fill="#E8BE8C"/>
 </svg>

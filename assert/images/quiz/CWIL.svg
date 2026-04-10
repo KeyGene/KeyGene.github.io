@@ -1,43 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 0杀吃鸡王 - Fair skin, bald, mint green kimono, meditating, eyes closed, pan on back, golden chicken above -->
-  <!-- Golden chicken above -->
-  <ellipse cx="100" cy="16" rx="14" ry="10" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
-  <!-- Chicken head -->
-  <circle cx="112" cy="10" r="6" fill="#FFD700" stroke="#B8860B" stroke-width="1.5"/>
-  <!-- Beak -->
-  <polygon points="118,10 124,8 118,12" fill="#FF8C00" stroke="#B8860B" stroke-width="1"/>
-  <!-- Comb -->
-  <path d="M110,4 L108,0 L112,2 L111,0 L114,3" fill="#E74C3C" stroke="#C0392B" stroke-width="1"/>
-  <!-- Chicken eye -->
-  <circle cx="114" cy="9" r="1.5" fill="#111"/>
-  <!-- Wings -->
-  <path d="M88,14 Q82,18 86,22" fill="#FFD700" stroke="#B8860B" stroke-width="1.5"/>
-  <!-- Head - bald -->
-  <circle cx="100" cy="62" r="36" fill="#FAE5D3" stroke="#5BA87A" stroke-width="2.5"/>
-  <!-- Shine on bald head -->
-  <ellipse cx="92" cy="42" rx="8" ry="4" fill="white" opacity="0.4"/>
-  <!-- Closed eyes - peaceful -->
-  <path d="M82,60 Q89,55 96,60" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M104,60 Q111,55 118,60" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Peaceful smile -->
-  <path d="M90,74 Q100,82 110,74" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round"/>
-  <!-- Body - mint green kimono, sitting cross-legged -->
-  <path d="M68,98 L60,160 Q100,165 140,160 L132,98 Q100,102 68,98" fill="#82E0AA" stroke="#5BA87A" stroke-width="2.5"/>
-  <!-- Kimono V collar -->
-  <path d="M82,98 L100,118 L118,98" fill="none" stroke="#5BA87A" stroke-width="2.5"/>
-  <!-- Kimono sash/obi -->
-  <rect x="72" y="120" width="56" height="10" rx="3" fill="#27AE60" stroke="#5BA87A" stroke-width="1.5"/>
-  <!-- Pan on back (visible handle sticking up) -->
-  <line x1="130" y1="88" x2="140" y2="55" stroke="#555" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="140" cy="52" r="3" fill="#555"/>
-  <!-- Pan disk visible behind -->
-  <ellipse cx="128" cy="92" rx="15" ry="8" fill="#444" stroke="#333" stroke-width="2" transform="rotate(-15,128,92)"/>
-  <!-- Arms on knees (meditating pose) -->
-  <circle cx="68" cy="148" r="8" fill="#FAE5D3" stroke="#5BA87A" stroke-width="2"/>
-  <circle cx="132" cy="148" r="8" fill="#FAE5D3" stroke="#5BA87A" stroke-width="2"/>
-  <!-- Crossed legs -->
-  <path d="M70,155 Q85,170 100,162 Q115,170 130,155" fill="#82E0AA" stroke="#5BA87A" stroke-width="2.5"/>
-  <!-- Feet -->
-  <ellipse cx="75" cy="165" rx="10" ry="6" fill="#FAE5D3" stroke="#5BA87A" stroke-width="2"/>
-  <ellipse cx="125" cy="165" rx="10" ry="6" fill="#FAE5D3" stroke="#5BA87A" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 0杀吃鸡王 Zero Kill Winner - winner crown, peace sign, clean outfit -->
+  <!-- Sparkles around -->
+  <polygon points="30,15 34,5 38,15 28,10 40,10" fill="#FFD700" opacity="0.6"/>
+  <polygon points="160,20 164,10 168,20 158,15 170,15" fill="#FFD700" opacity="0.6"/>
+  <polygon points="20,80 24,70 28,80 18,75 30,75" fill="#FFD700" opacity="0.4"/>
+  <!-- Crown -->
+  <polygon points="76,18 82,5 92,14 100,0 108,14 118,5 124,18" fill="#FFD700"/>
+  <polygon points="76,18 124,18 122,22 78,22" fill="#E6C200"/>
+  <!-- Head -->
+  <polygon points="72,22 128,22 132,50 130,82 70,82 68,50" fill="#F2D0A4"/>
+  <polygon points="128,22 132,50 130,82 124,80 127,50 124,24" fill="#E8BE8C"/>
+  <!-- Hair neat -->
+  <polygon points="70,22 130,22 128,35 72,35" fill="#2C2C2C"/>
+  <polygon points="68,18 72,22 130,22 132,18 125,16 75,16" fill="#2C2C2C"/>
+  <!-- Eyes - happy closed -->
+  <polygon points="80,52 92,48 90,55 82,56" fill="#2C2C2C"/>
+  <polygon points="108,48 120,52 118,56 110,55" fill="#2C2C2C"/>
+  <!-- Blush -->
+  <polygon points="72,56 82,54 80,62 70,60" fill="#F5A0A0" opacity="0.5"/>
+  <polygon points="118,54 128,56 130,60 120,62" fill="#F5A0A0" opacity="0.5"/>
+  <!-- Big smile -->
+  <polygon points="88,66 112,66 108,76 92,76" fill="#333"/>
+  <polygon points="92,67 108,67 106,71 94,71" fill="white"/>
+  <!-- Neck -->
+  <polygon points="90,82 110,82 112,92 88,92" fill="#E8BE8C"/>
+  <!-- Body - clean white shirt -->
+  <polygon points="58,92 142,92 146,172 54,172" fill="white"/>
+  <polygon points="142,92 146,172 138,170 135,94" fill="#E8E8E8"/>
+  <!-- #1 on chest -->
+  <polygon points="94,105 106,105 106,135 94,135" fill="#FFD700"/>
+  <text x="96" y="128" font-family="sans-serif" font-weight="bold" font-size="20" fill="#333">#1</text>
+  <!-- Left arm - peace sign -->
+  <polygon points="58,92 38,105 32,92 42,80 50,86" fill="white"/>
+  <!-- Peace sign hand -->
+  <polygon points="32,88 40,78 38,70 30,78" fill="#F2D0A4"/>
+  <polygon points="36,78 42,68 40,62 34,70" fill="#F2D0A4"/>
+  <polygon points="30,82 38,78 36,88 28,90" fill="#F2D0A4"/>
+  <!-- Right arm waving -->
+  <polygon points="142,92 162,105 160,140 145,142 143,108" fill="#E8E8E8"/>
+  <!-- Pants -->
+  <polygon points="60,172 95,172 92,212 56,212" fill="#2C3E50"/>
+  <polygon points="105,172 140,172 144,212 108,212" fill="#1A2533"/>
+  <!-- Clean shoes -->
+  <polygon points="52,210 95,210 97,220 48,220" fill="white"/>
+  <polygon points="105,210 148,210 150,220 102,220" fill="#E8E8E8"/>
 </svg>

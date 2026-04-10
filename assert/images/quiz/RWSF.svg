@@ -1,30 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 单排战神 - Dark skin, buzz cut, red vest, arms crossed, crown -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 单排战神 Solo War God - Low-poly papercraft style, confident pose with crown -->
+  <defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F2D0A4"/><stop offset="100%" stop-color="#E8BE8C"/></linearGradient>
+    <linearGradient id="skinS" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8BE8C"/><stop offset="100%" stop-color="#D4A872"/></linearGradient>
+  </defs>
   <!-- Crown -->
-  <polygon points="80,18 85,8 90,15 95,5 100,15 105,5 110,15 115,8 120,18" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
-  <!-- Head -->
-  <circle cx="100" cy="55" r="38" fill="#8B6914" stroke="#A0321E" stroke-width="2.5"/>
-  <!-- Buzz cut hair -->
-  <path d="M62,48 Q65,22 100,18 Q135,22 138,48" fill="#1A1A1A" stroke="#A0321E" stroke-width="2"/>
-  <!-- Eyes -->
-  <circle cx="86" cy="55" r="5" fill="white"/><circle cx="114" cy="55" r="5" fill="white"/>
-  <circle cx="88" cy="55" r="3" fill="#111"/><circle cx="116" cy="55" r="3" fill="#111"/>
-  <!-- Mouth - determined -->
-  <line x1="90" y1="70" x2="110" y2="70" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-  <!-- Body -->
-  <rect x="78" y="93" width="44" height="50" rx="10" fill="#E74C3C" stroke="#A0321E" stroke-width="2.5"/>
-  <!-- Vest lines -->
-  <line x1="100" y1="93" x2="100" y2="143" stroke="#A0321E" stroke-width="2"/>
-  <!-- Arms crossed -->
-  <rect x="60" y="100" width="18" height="35" rx="8" fill="#8B6914" stroke="#A0321E" stroke-width="2" transform="rotate(15,69,117)"/>
-  <rect x="122" y="100" width="18" height="35" rx="8" fill="#8B6914" stroke="#A0321E" stroke-width="2" transform="rotate(-15,131,117)"/>
-  <!-- Crossed forearms -->
-  <rect x="72" y="108" width="30" height="14" rx="6" fill="#8B6914" stroke="#A0321E" stroke-width="2"/>
-  <rect x="98" y="108" width="30" height="14" rx="6" fill="#8B6914" stroke="#A0321E" stroke-width="2"/>
+  <polygon points="72,22 80,6 88,18 96,2 104,18 112,2 120,18 128,6 136,22" fill="#FFD700"/>
+  <polygon points="80,22 88,18 96,22 104,18 112,22 120,18 128,22" fill="#E6C200"/>
+  <!-- Head - angular box shape -->
+  <polygon points="70,30 130,30 135,55 132,90 68,90 65,55" fill="url(#skin)"/>
+  <!-- Head side shadow -->
+  <polygon points="130,30 135,55 132,90 125,88 128,55 125,32" fill="url(#skinS)"/>
+  <!-- Hair - angular dark block -->
+  <polygon points="68,30 132,30 128,48 72,48" fill="#1A1A1A"/>
+  <polygon points="68,30 72,48 72,30" fill="#2A2A2A"/>
+  <!-- Eyes - angular -->
+  <polygon points="80,58 92,58 90,66 82,66" fill="white"/>
+  <polygon points="108,58 120,58 118,66 110,66" fill="white"/>
+  <polygon points="84,60 90,60 89,65 85,65" fill="#222"/>
+  <polygon points="112,60 118,60 117,65 113,65" fill="#222"/>
+  <!-- Eyebrows - sharp -->
+  <polygon points="78,54 94,52 93,55 79,56" fill="#1A1A1A"/>
+  <polygon points="106,52 122,54 121,56 107,55" fill="#1A1A1A"/>
+  <!-- Mouth - confident smirk -->
+  <polygon points="90,74 110,72 108,76 92,77" fill="#C4846C"/>
+  <!-- Neck -->
+  <polygon points="90,90 110,90 112,100 88,100" fill="url(#skinS)"/>
+  <!-- Body - red vest, angular -->
+  <polygon points="60,100 140,100 145,170 55,170" fill="#E74C3C"/>
+  <!-- Body right shadow -->
+  <polygon points="140,100 145,170 135,168 132,102" fill="#C0392B"/>
+  <!-- Vest line -->
+  <polygon points="98,100 102,100 103,170 97,170" fill="#C0392B"/>
+  <!-- Arms - flexing pose -->
+  <polygon points="60,100 42,108 35,95 48,80 55,90" fill="url(#skin)"/>
+  <polygon points="140,100 158,108 165,95 152,80 145,90" fill="url(#skin)"/>
+  <!-- Fists -->
+  <polygon points="35,88 52,78 48,72 32,82" fill="url(#skinS)"/>
+  <polygon points="165,88 148,78 152,72 168,82" fill="url(#skinS)"/>
+  <!-- Belt -->
+  <polygon points="58,155 142,155 143,162 57,162" fill="#333"/>
+  <polygon points="95,155 105,155 106,162 94,162" fill="#FFD700"/>
   <!-- Legs -->
-  <rect x="82" y="140" width="14" height="30" rx="6" fill="#333" stroke="#A0321E" stroke-width="2"/>
-  <rect x="104" y="140" width="14" height="30" rx="6" fill="#333" stroke="#A0321E" stroke-width="2"/>
+  <polygon points="62,170 95,170 92,210 58,210" fill="#2C3E50"/>
+  <polygon points="105,170 138,170 142,210 108,210" fill="#2C3E50"/>
+  <!-- Leg shadow -->
+  <polygon points="105,170 138,170 142,210 130,208 128,172 108,170" fill="#1A2533"/>
   <!-- Feet -->
-  <rect x="78" y="165" width="20" height="10" rx="5" fill="#222" stroke="#A0321E" stroke-width="2"/>
-  <rect x="102" y="165" width="20" height="10" rx="5" fill="#222" stroke="#A0321E" stroke-width="2"/>
+  <polygon points="55,208 95,208 97,220 52,220" fill="#1A1A1A"/>
+  <polygon points="105,208 145,208 148,220 102,220" fill="#1A1A1A"/>
 </svg>

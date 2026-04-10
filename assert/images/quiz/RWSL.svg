@@ -1,24 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 独狼 - Pale skin, silver hair bangs over eye, purple hooded cloak, "shh" pose -->
-  <!-- Hood -->
-  <path d="M55,55 Q50,15 100,8 Q150,15 145,55 L140,90 Q100,95 60,90 Z" fill="#6C3483" stroke="#5B2C6F" stroke-width="2.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 意识钢枪 Tactical Fragger - headset, tactical vest, pointing forward -->
   <!-- Head -->
-  <circle cx="100" cy="58" r="34" fill="#F0E6D8" stroke="#5B2C6F" stroke-width="2.5"/>
-  <!-- Silver hair with bangs over one eye -->
-  <path d="M66,50 Q68,28 100,22 Q132,28 134,50 L130,45 Q128,32 100,28 Q72,32 70,45 Z" fill="#C0C0C0" stroke="#5B2C6F" stroke-width="2"/>
-  <!-- Long bang over left eye -->
-  <path d="M70,45 Q72,35 82,30 L95,55 Q88,60 78,55 Z" fill="#C0C0C0" stroke="#5B2C6F" stroke-width="1.5"/>
-  <!-- Visible right eye -->
-  <ellipse cx="115" cy="56" rx="6" ry="5" fill="white"/>
-  <circle cx="116" cy="57" r="3" fill="#6C3483"/>
-  <circle cx="117" cy="56" r="1.5" fill="white"/>
-  <!-- Slight smirk -->
-  <path d="M102,72 Q110,76 118,72" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"/>
-  <!-- Body - cloak -->
-  <path d="M60,90 L55,170 Q100,175 145,170 L140,90 Q100,95 60,90 Z" fill="#8E44AD" stroke="#5B2C6F" stroke-width="2.5"/>
-  <!-- Finger on lips "shh" -->
-  <rect x="98" y="62" width="6" height="18" rx="3" fill="#F0E6D8" stroke="#5B2C6F" stroke-width="1.5"/>
-  <!-- Feet peeking out -->
-  <ellipse cx="82" cy="172" rx="12" ry="6" fill="#333" stroke="#5B2C6F" stroke-width="2"/>
-  <ellipse cx="118" cy="172" rx="12" ry="6" fill="#333" stroke="#5B2C6F" stroke-width="2"/>
+  <polygon points="74,22 126,22 130,50 128,82 72,82 70,50" fill="#F2D0A4"/>
+  <polygon points="126,22 130,50 128,82 122,80 125,50 122,24" fill="#E8BE8C"/>
+  <!-- Hair - military short -->
+  <polygon points="72,22 128,22 126,34 74,34" fill="#2C2C2C"/>
+  <polygon points="72,22 68,18 80,15 100,13 120,15 132,18 128,22" fill="#2C2C2C"/>
+  <!-- Headset -->
+  <polygon points="64,38 70,35 72,55 66,55" fill="#444"/>
+  <polygon points="128,35 136,38 134,55 128,55" fill="#444"/>
+  <polygon points="64,38 136,38 134,34 66,34" fill="#555"/>
+  <!-- Headset mic -->
+  <polygon points="64,55 58,58 54,68 60,70 64,60" fill="#444"/>
+  <!-- Eyes - focused -->
+  <polygon points="80,48 93,48 92,56 81,56" fill="white"/>
+  <polygon points="108,48 121,48 120,56 109,56" fill="white"/>
+  <polygon points="84,50 91,50 90,55 85,55" fill="#2C5F2C"/>
+  <polygon points="112,50 119,50 118,55 113,55" fill="#2C5F2C"/>
+  <!-- Brows -->
+  <polygon points="79,44 94,43 93,47 80,47" fill="#2C2C2C"/>
+  <polygon points="107,43 122,44 121,47 108,47" fill="#2C2C2C"/>
+  <!-- Mouth - determined -->
+  <polygon points="92,66 108,66 106,70 94,70" fill="#C4846C"/>
+  <!-- Neck -->
+  <polygon points="90,82 110,82 112,92 88,92" fill="#E8BE8C"/>
+  <!-- Tactical vest -->
+  <polygon points="55,92 145,92 148,172 52,172" fill="#556B2F"/>
+  <polygon points="145,92 148,172 140,170 137,94" fill="#4A5F25"/>
+  <!-- Vest pouches -->
+  <polygon points="62,108 82,108 81,125 61,125" fill="#4A5F25"/>
+  <polygon points="88,108 112,108 111,125 87,125" fill="#4A5F25"/>
+  <polygon points="118,108 138,108 139,125 119,125" fill="#3E5220"/>
+  <!-- Right arm pointing -->
+  <polygon points="145,92 165,105 175,95 185,100 172,115 148,108" fill="#556B2F"/>
+  <!-- Pointing finger -->
+  <polygon points="185,96 198,92 200,98 188,100" fill="#F2D0A4"/>
+  <!-- Left arm -->
+  <polygon points="55,92 38,108 36,145 52,148 55,110" fill="#556B2F"/>
+  <!-- Belt -->
+  <polygon points="54,158 146,158 147,165 53,165" fill="#333"/>
+  <!-- Legs -->
+  <polygon points="58,172 95,172 92,212 55,212" fill="#556B2F"/>
+  <polygon points="105,172 142,172 145,212 108,212" fill="#4A5F25"/>
+  <!-- Boots -->
+  <polygon points="52,210 95,210 97,220 48,220" fill="#333"/>
+  <polygon points="105,210 148,210 150,220 102,220" fill="#2A2A2A"/>
 </svg>

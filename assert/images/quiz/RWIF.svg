@@ -1,33 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 1V4莽夫 - Dark skin, red spiky flame hair, orange tank, dual pistols, crazy grin -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 独狼 Lone Wolf - hoodie with wolf ears, hands in pockets -->
   <!-- Head -->
-  <circle cx="100" cy="62" r="38" fill="#8B6914" stroke="#C87A10" stroke-width="2.5"/>
-  <!-- Spiky flame hair -->
-  <polygon points="70,40 65,10 80,30 78,5 92,25 95,0 105,25 112,2 118,25 125,8 130,30 138,12 135,42" fill="#E74C3C" stroke="#C87A10" stroke-width="2"/>
-  <!-- Crazy eyes -->
-  <circle cx="85" cy="58" r="7" fill="white"/><circle cx="115" cy="58" r="7" fill="white"/>
-  <circle cx="87" cy="57" r="4" fill="#111"/><circle cx="117" cy="57" r="4" fill="#111"/>
-  <!-- Highlight -->
-  <circle cx="84" cy="55" r="2" fill="white"/><circle cx="114" cy="55" r="2" fill="white"/>
-  <!-- Crazy grin -->
-  <path d="M82,76 Q100,92 118,76" fill="white" stroke="#111" stroke-width="2"/>
-  <line x1="90" y1="80" x2="90" y2="76" stroke="#111" stroke-width="1"/>
-  <line x1="100" y1="82" x2="100" y2="76" stroke="#111" stroke-width="1"/>
-  <line x1="110" y1="80" x2="110" y2="76" stroke="#111" stroke-width="1"/>
-  <!-- Body - orange tank top -->
-  <rect x="80" y="100" width="40" height="42" rx="8" fill="#F39C12" stroke="#C87A10" stroke-width="2.5"/>
-  <!-- Arms holding pistols outward -->
-  <rect x="42" y="100" width="38" height="12" rx="6" fill="#8B6914" stroke="#C87A10" stroke-width="2"/>
-  <rect x="120" y="100" width="38" height="12" rx="6" fill="#8B6914" stroke="#C87A10" stroke-width="2"/>
-  <!-- Pistols -->
-  <rect x="22" y="98" width="22" height="8" rx="2" fill="#444" stroke="#222" stroke-width="2"/>
-  <rect x="28" y="106" width="6" height="10" rx="2" fill="#444" stroke="#222" stroke-width="1.5"/>
-  <rect x="156" y="98" width="22" height="8" rx="2" fill="#444" stroke="#222" stroke-width="2"/>
-  <rect x="166" y="106" width="6" height="10" rx="2" fill="#444" stroke="#222" stroke-width="1.5"/>
+  <polygon points="72,28 128,28 133,55 130,88 70,88 67,55" fill="#F2D0A4"/>
+  <polygon points="128,28 133,55 130,88 124,86 127,55 124,30" fill="#E8BE8C"/>
+  <!-- Hood -->
+  <polygon points="60,22 140,22 144,58 136,72 128,30 72,30 64,72 56,58" fill="#444"/>
+  <polygon points="60,22 72,30 64,72 56,58" fill="#555"/>
+  <polygon points="140,22 128,30 136,72 144,58" fill="#333"/>
+  <!-- Wolf ears on hood -->
+  <polygon points="66,22 58,4 74,16" fill="#444"/>
+  <polygon points="134,22 142,4 126,16" fill="#333"/>
+  <!-- Hair peeking -->
+  <polygon points="74,30 126,30 124,42 76,42" fill="#2A2A2A"/>
+  <!-- Eyes - narrow focused -->
+  <polygon points="80,56 93,56 92,63 81,63" fill="white"/>
+  <polygon points="107,56 120,56 119,63 108,63" fill="white"/>
+  <polygon points="85,58 91,58 90,62 86,62" fill="#1A3A1A"/>
+  <polygon points="111,58 117,58 116,62 112,62" fill="#1A3A1A"/>
+  <!-- Brows -->
+  <polygon points="78,52 95,50 94,54 79,55" fill="#2A2A2A"/>
+  <polygon points="105,50 122,52 121,55 106,54" fill="#2A2A2A"/>
+  <!-- Mouth -->
+  <polygon points="92,73 108,73 107,76 93,76" fill="#C4846C"/>
+  <!-- Neck -->
+  <polygon points="90,88 110,88 112,98 88,98" fill="#E8BE8C"/>
+  <!-- Hoodie body -->
+  <polygon points="52,96 148,96 152,175 48,175" fill="#444"/>
+  <polygon points="148,96 152,175 142,173 140,98" fill="#333"/>
+  <!-- Center zip -->
+  <polygon points="98,96 102,96 103,175 97,175" fill="#333"/>
+  <!-- Arms in pockets -->
+  <polygon points="52,96 38,112 36,148 50,152 52,114" fill="#444"/>
+  <polygon points="148,96 162,112 164,148 150,152 148,114" fill="#333"/>
+  <!-- Pockets -->
+  <polygon points="58,146 93,146 91,160 56,160" fill="#3A3A3A"/>
+  <polygon points="107,146 142,146 144,160 109,160" fill="#303030"/>
   <!-- Legs -->
-  <rect x="84" y="140" width="13" height="30" rx="6" fill="#555" stroke="#C87A10" stroke-width="2"/>
-  <rect x="103" y="140" width="13" height="30" rx="6" fill="#555" stroke="#C87A10" stroke-width="2"/>
+  <polygon points="56,175 95,175 92,212 52,212" fill="#2C3E50"/>
+  <polygon points="105,175 144,175 148,212 108,212" fill="#1A2533"/>
   <!-- Feet -->
-  <rect x="80" y="165" width="19" height="10" rx="5" fill="#333" stroke="#C87A10" stroke-width="2"/>
-  <rect x="101" y="165" width="19" height="10" rx="5" fill="#333" stroke="#C87A10" stroke-width="2"/>
+  <polygon points="48,210 95,210 97,220 45,220" fill="#222"/>
+  <polygon points="105,210 150,210 153,220 102,220" fill="#1A1A1A"/>
 </svg>
