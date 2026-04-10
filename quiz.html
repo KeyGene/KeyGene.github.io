@@ -20,146 +20,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>@font-face{font-family:'Rubik';font-display:swap;}</style>
+  <link rel="stylesheet" href="assert/css/shared.css" />
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    *:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-    }
-
-    :root {
-      --black: #000000;
-      --red: #EE3F2C;
-      --red-hover: #ff5240;
-      --white: #ffffff;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --gray-800: #1f1f1f;
-      --card-bg: rgba(255,255,255,0.06);
-      --card-border: rgba(255,255,255,0.12);
-      --font: 'Rubik', sans-serif;
-      --header-bg: rgba(0,0,0,0.4);
-      --header-border: rgba(255,255,255,0.06);
-      --overlay-bg: rgba(0,0,0,0.95);
-      --subtle-bg: rgba(255,255,255,0.04);
-      --subtle-border: rgba(255,255,255,0.08);
-      --btn-outline-border: rgba(255,255,255,0.3);
-      --btn-outline-hover: rgba(255,255,255,0.6);
-      --toggle-border: rgba(255,255,255,0.15);
-      --toggle-hover: rgba(255,255,255,0.4);
-    }
-    [data-theme="light"] {
-      --black: #ffffff;
-      --white: #111111;
-      --gray-400: #6b7280;
-      --gray-500: #9ca3af;
-      --gray-800: #f0f0f0;
-      --card-bg: rgba(0,0,0,0.03);
-      --card-border: rgba(0,0,0,0.08);
-      --header-bg: rgba(255,255,255,0.85);
-      --header-border: rgba(0,0,0,0.08);
-      --overlay-bg: rgba(255,255,255,0.97);
-      --subtle-bg: rgba(0,0,0,0.03);
-      --subtle-border: rgba(0,0,0,0.06);
-      --btn-outline-border: rgba(0,0,0,0.2);
-      --btn-outline-hover: rgba(0,0,0,0.4);
-      --toggle-border: rgba(0,0,0,0.15);
-      --toggle-hover: rgba(0,0,0,0.3);
-    }
-    [data-theme="light"] .mobile-nav a { color: #111; }
-    [data-theme="light"] .mobile-nav a:hover { color: var(--red); }
-    [data-theme="light"] .mobile-nav-close svg { stroke: #111; }
-    [data-theme="light"] .hamburger svg { stroke: #111; }
-    [data-theme="light"] .logo-text { color: #111; }
-
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font);
-      background: var(--black);
-      color: var(--white);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ===== BUTTONS ===== */
-    .btn-clip {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 28px; font-family: var(--font); font-weight: 700; font-size: 14px;
-      letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
-      border: none; cursor: pointer;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-clip:hover { transform: translateY(-1px); }
-    .btn-clip:active { transform: translateY(0); }
-    .btn-red { background: var(--red); color: var(--white); }
-    .btn-red:hover { background: var(--red-hover); }
-    .btn-outline {
-      background: transparent; color: var(--white);
-      border: 1.5px solid var(--btn-outline-border);
-      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-    }
-    .btn-outline:hover { border-color: var(--btn-outline-hover); }
-
-    /* ===== HEADER ===== */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 48px; height: 72px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--header-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--header-border);
-    }
-    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .logo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--white); text-transform: uppercase; }
-    .logo-text .accent { color: var(--red); }
-
-    nav { display: flex; align-items: center; gap: 32px; }
-    nav a { color: var(--gray-400); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; padding: 12px 8px; transition: color 0.2s; }
-    nav a:hover { color: var(--white); }
-    nav a.active { color: var(--white); }
-
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .lang-toggle {
-      font-size: 13px; color: var(--gray-500); cursor: pointer; padding: 4px 10px;
-      border: 1px solid var(--toggle-border); border-radius: 4px;
-      background: transparent; font-family: var(--font); transition: border-color 0.2s, color 0.2s;
-    }
-    .lang-toggle:hover { border-color: var(--toggle-hover); color: var(--white); }
-    .theme-toggle {
-      font-size: 16px; cursor: pointer; padding: 4px 8px;
-      border: 1px solid var(--toggle-border); border-radius: 4px;
-      background: transparent; transition: border-color 0.2s;
-      line-height: 1; display: flex; align-items: center;
-    }
-    .theme-toggle:hover { border-color: var(--toggle-hover); }
-    .theme-toggle svg { width: 16px; height: 16px; stroke: var(--gray-500); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.2s; }
-    .theme-toggle:hover svg { stroke: var(--white); }
-
-    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-    .hamburger svg { width: 24px; height: 24px; stroke: var(--white); stroke-width: 2; fill: none; }
-
-    .mobile-nav {
-      display: none; position: fixed; inset: 0; z-index: 200;
-      background: var(--overlay-bg); backdrop-filter: blur(20px);
-      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a { color: var(--white); text-decoration: none; font-size: 24px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; transition: color 0.2s; }
-    .mobile-nav a:hover { color: var(--red); }
-    .mobile-nav-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; }
-    .mobile-nav-close svg { width: 28px; height: 28px; stroke: var(--white); stroke-width: 2; fill: none; }
-
-    /* ===== FOOTER ===== */
-    footer {
-      padding: 32px 64px; border-top: 1px solid var(--header-border);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    footer p { font-size: 13px; color: var(--gray-500); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { color: var(--gray-500); font-size: 13px; text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--white); }
-
     /* ===== SCREEN CONTAINERS ===== */
     .screen { display: none; }
     .screen.active { display: block; }
@@ -414,12 +276,6 @@
 
     /* ===== MOBILE ===== */
     @media (max-width: 768px) {
-      header { padding: 0 24px; height: 60px; }
-      nav { display: none; }
-      .nav-right .btn-clip { display: none; }
-      .hamburger { display: block; }
-      .logo { gap: 8px; }
-      .logo-text { font-size: 18px; }
       .landing-title { font-size: 36px; }
       .landing-sub { font-size: 14px; }
       .quiz-container { padding: 80px 16px 40px; }
@@ -428,8 +284,6 @@
       .result-card { padding: 24px 16px; }
       .result-nickname { font-size: 32px; }
       .sw-grid { grid-template-columns: 1fr; gap: 16px; }
-      footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
-      .footer-links { flex-wrap: wrap; justify-content: center; }
       .types-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
@@ -537,32 +391,8 @@
   </footer>
 
   <!-- ===== SCRIPTS ===== -->
+  <script src="assert/js/shared.js"></script>
   <script>
-    // Theme toggle
-    (function() {
-      const MOON = '<path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>';
-      const SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-      const saved = localStorage.getItem('keygene_theme');
-      const theme = saved || 'dark';
-      applyTheme(theme);
-      function applyTheme(t) {
-        if (t === 'light') {
-          document.documentElement.setAttribute('data-theme', 'light');
-          document.documentElement.style.colorScheme = 'light';
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          document.documentElement.style.colorScheme = 'dark';
-        }
-        const icon = document.getElementById('themeIcon');
-        if (icon) icon.innerHTML = t === 'light' ? SUN : MOON;
-      }
-      document.getElementById('themeToggle').addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-        const next = current === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('keygene_theme', next);
-        applyTheme(next);
-      });
-    })();
 
     // ===== QUIZ DATA =====
     const GROUP_COLORS = {
@@ -820,10 +650,8 @@
     // ===== STATE =====
     let currentQuestion = 0;
     let answers = new Array(16).fill(null); // stores selected option index
-    let currentLang = 'en';
-
     // ===== i18n =====
-    const texts = {
+    var texts = {
       en: {
         navHome:'Home', navAbout:'About', navRoster:'Roster', navStats:'Stats', navMaps:'Maps', navQuiz:'Quiz', navJoin:'Join Us',
         quizTag:'PUBG Personality Test',
@@ -858,18 +686,10 @@
       }
     };
 
-    function setLanguageText(lang) {
-      currentLang = lang;
-      const data = texts[lang];
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (!data[key]) return;
-        if (data[key].includes('<') && (data[key].includes('<br') || data[key].includes('<span') || data[key].includes('<strong'))) {
-          el.innerHTML = data[key];
-        } else {
-          el.textContent = data[key];
-        }
-      });
+    // ===== NAVIGATION =====
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    bindLangToggle(texts, function(lang) {
       // Re-render current view if quiz is active
       if (document.getElementById('quizScreen').classList.contains('active')) {
         renderQuestion(currentQuestion);
@@ -877,28 +697,6 @@
       if (document.getElementById('resultScreen').classList.contains('active') && lastResult) {
         renderResult(lastResult.code, lastResult.scores);
       }
-    }
-
-    // ===== NAVIGATION =====
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    function closeMobileNav() {
-      document.getElementById('mobileNav').classList.remove('open');
-    }
-    document.getElementById('hamburgerBtn').addEventListener('click', () => {
-      document.getElementById('mobileNav').classList.add('open');
-    });
-    document.getElementById('mobileNavClose').addEventListener('click', closeMobileNav);
-
-    // Lang toggle
-    const langBtn = document.getElementById('langToggle');
-    const savedLang = localStorage.getItem('keygene_lang');
-    if (savedLang) { currentLang = savedLang; }
-    setLanguageText(currentLang);
-    langBtn.addEventListener('click', () => {
-      currentLang = currentLang === 'en' ? 'zh' : 'en';
-      localStorage.setItem('keygene_lang', currentLang);
-      setLanguageText(currentLang);
     });
 
     // ===== SCREEN MANAGEMENT =====

@@ -40,116 +40,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="preconnect" href="https://r2.pubgmaptile.top" crossorigin />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <style>@font-face{font-family:'Rubik';font-display:swap;}</style>
+  <link rel="stylesheet" href="assert/css/shared.css" />
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    *:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-    }
-    :root {
-      --black: #000000;
-      --red: #EE3F2C;
-      --red-hover: #ff5240;
-      --white: #ffffff;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --gray-800: #1f1f1f;
-      --card-bg: rgba(255,255,255,0.06);
-      --card-border: rgba(255,255,255,0.12);
-      --font: 'Rubik', sans-serif;
-      --header-bg: rgba(0,0,0,0.6);
-      --header-border: rgba(255,255,255,0.06);
-      --overlay-bg: rgba(0,0,0,0.95);
-      --toggle-border: rgba(255,255,255,0.15);
-      --toggle-hover: rgba(255,255,255,0.4);
-      --sidebar-bg: rgba(0,0,0,0.8);
-    }
-    [data-theme="light"] {
-      --black: #ffffff;
-      --white: #111111;
-      --gray-400: #6b7280;
-      --gray-500: #9ca3af;
-      --gray-800: #f0f0f0;
-      --card-bg: rgba(0,0,0,0.03);
-      --card-border: rgba(0,0,0,0.08);
-      --header-bg: rgba(255,255,255,0.85);
-      --header-border: rgba(0,0,0,0.08);
-      --overlay-bg: rgba(255,255,255,0.97);
-      --toggle-border: rgba(0,0,0,0.15);
-      --toggle-hover: rgba(0,0,0,0.3);
-      --sidebar-bg: rgba(245,245,245,0.95);
-    }
-    [data-theme="light"] .mobile-nav a { color: #111; }
-    [data-theme="light"] .mobile-nav a:hover { color: var(--red); }
-    [data-theme="light"] .mobile-nav-close svg { stroke: #111; }
-    [data-theme="light"] .hamburger svg { stroke: #111; }
-    [data-theme="light"] .logo-text { color: #111; }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font); background: var(--black); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-
-    /* ===== HEADER ===== */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 48px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--header-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--header-border);
-    }
-    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .logo-text { font-size: 18px; font-weight: 800; color: var(--white); text-transform: uppercase; }
-    .logo-text .accent { color: var(--red); }
-    nav { display: flex; align-items: center; gap: 32px; }
-    nav a {
-      color: var(--gray-400); text-decoration: none; font-size: 14px; font-weight: 500;
-      letter-spacing: 0.02em; padding: 12px 8px; transition: color 0.2s;
-    }
-    nav a:hover { color: var(--white); }
-    nav a.active { color: var(--white); }
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .lang-toggle {
-      font-size: 13px; color: var(--gray-500); font-family: var(--font); background: none;
-      border: 1px solid var(--toggle-border); border-radius: 4px; padding: 4px 10px; cursor: pointer; transition: color 0.2s;
-    }
-    .lang-toggle:hover { color: var(--white); border-color: var(--toggle-hover); }
-    .theme-toggle {
-      font-size: 16px; cursor: pointer; padding: 4px 8px;
-      border: 1px solid var(--toggle-border); border-radius: 4px;
-      background: transparent; transition: border-color 0.2s;
-      line-height: 1; display: flex; align-items: center;
-    }
-    .theme-toggle:hover { border-color: var(--toggle-hover); }
-    .theme-toggle svg { width: 16px; height: 16px; stroke: var(--gray-500); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.2s; }
-    .theme-toggle:hover svg { stroke: var(--white); }
-    .btn-clip {
-      display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px;
-      font-family: var(--font); font-weight: 700; font-size: 14px; letter-spacing: 0.04em;
-      text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-clip:hover { transform: translateY(-1px); }
-    .btn-red { background: var(--red); color: var(--white); }
-    .btn-red:hover { background: var(--red-hover); }
-
-    /* ===== HAMBURGER ===== */
-    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-    .hamburger svg { width: 24px; height: 24px; stroke: var(--white); stroke-width: 2; fill: none; }
-
-    /* Mobile overlay nav */
-    .mobile-nav {
-      display: none; position: fixed; inset: 0; z-index: 200;
-      background: var(--overlay-bg); backdrop-filter: blur(20px);
-      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a {
-      color: var(--white); text-decoration: none; font-size: 24px; font-weight: 700;
-      letter-spacing: 0.02em; text-transform: uppercase; transition: color 0.2s;
-    }
-    .mobile-nav a:hover { color: var(--red); }
-    .mobile-nav-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; }
-    .mobile-nav-close svg { width: 28px; height: 28px; stroke: var(--white); stroke-width: 2; fill: none; }
+    /* Page-specific overrides */
+    :root { --header-bg: rgba(0,0,0,0.6); --sidebar-bg: rgba(0,0,0,0.8); }
+    [data-theme="light"] { --sidebar-bg: rgba(245,245,245,0.95); }
 
     /* ===== MAP VIEWER LAYOUT ===== */
     .map-viewer-wrapper {
@@ -440,25 +335,8 @@
       .coord-display { bottom: 4px; left: 8px; font-size: 10px; }
     }
 
-    /* ===== FOOTER ===== */
-    footer {
-      padding: 32px 64px; border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    footer p { font-size: 13px; color: var(--gray-500); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { color: var(--gray-500); font-size: 13px; text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--white); }
-
     /* ===== MOBILE ===== */
     @media (max-width: 768px) {
-      header { padding: 0 24px; height: 60px; }
-      nav { display: none; }
-      .nav-right .btn-clip { display: none; }
-      .hamburger { display: block; }
-      .logo { gap: 8px; }
-      .logo-text { font-size: 18px; }
-
       .map-viewer-wrapper {
         flex-direction: column;
         margin-top: 60px;
@@ -507,7 +385,6 @@
       .map-info-desc { font-size: 11px; margin-bottom: 6px; }
       .map-info-badges .badge { font-size: 10px; padding: 2px 8px; }
 
-      footer { flex-direction: column; gap: 12px; padding: 24px 32px; }
     }
   </style>
 </head>
@@ -597,6 +474,7 @@
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="assert/js/shared.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -922,87 +800,31 @@
     });
     document.getElementById('btnMeasure').addEventListener('click', toggleMeasure);
 
-    // Theme toggle
-    (function() {
-      const MOON = '<path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>';
-      const SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-      const saved = localStorage.getItem('keygene_theme');
-      const theme = saved || 'dark';
-      applyTheme(theme);
-      function applyTheme(t) {
-        if (t === 'light') {
-          document.documentElement.setAttribute('data-theme', 'light');
-          document.documentElement.style.colorScheme = 'light';
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          document.documentElement.style.colorScheme = 'dark';
-        }
-        const icon = document.getElementById('themeIcon');
-        if (icon) icon.innerHTML = t === 'light' ? SUN : MOON;
-      }
-      document.getElementById('themeToggle').addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-        const next = current === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('keygene_theme', next);
-        applyTheme(next);
-      });
-    })();
-
     // ===== i18n =====
     const texts = {
       en: {
-        navHome: "Home", navAbout: "About", navRoster: "Roster", navStats: "Stats",
-        navMaps: "Maps", navLeaderboard: "Competitive", navQuiz: "Quiz", navJoin: "Join Us",
+        navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", navJoin: "Join Us",
         footAbout: "About", footStats: "Stats", footMaps: "Maps", footContact: "Contact",
         toolGrid: "Grid", toolMeasure: "Measure",
         markerTitle: "Markers", markerNoData: "No marker data"
       },
       zh: {
-        navHome: "\u9996\u9875", navAbout: "\u5173\u4e8e", navRoster: "\u9635\u5bb9", navStats: "\u6218\u7ee9",
-        navMaps: "\u5730\u56fe", navLeaderboard: "\u7ade\u6280\u699c", navQuiz: "\u4eba\u683c", navJoin: "\u52a0\u5165",
+        navStats: "\u6218\u7ee9", navMaps: "\u5730\u56fe", navQuiz: "\u4eba\u683c", navJoin: "\u52a0\u5165",
         footAbout: "\u5173\u4e8e", footStats: "\u6218\u7ee9", footMaps: "\u5730\u56fe", footContact: "\u8054\u7cfb",
         toolGrid: "\u7f51\u683c", toolMeasure: "\u6d4b\u8ddd",
         markerTitle: "\u6807\u8bb0\u70b9", markerNoData: "\u6682\u65e0\u6807\u8bb0\u6570\u636e"
       }
     };
 
-    function setLanguageText(lang) {
-      currentLang = lang;
-      localStorage.setItem('keygene_lang', lang);
-      const data = texts[lang];
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (!data[key]) return;
-        el.textContent = data[key];
-      });
+    bindLangToggle(texts, function(lang) {
       buildSidebar();
       updateInfo();
       if (allMarkerData) showMarkersForCurrentMap();
-    }
+    });
 
-    // Load saved language or auto-detect
     document.addEventListener('DOMContentLoaded', () => {
-      const saved = localStorage.getItem('keygene_lang');
-      const lang = saved || ((navigator.languages?.[0] || navigator.language || 'en').toLowerCase().startsWith('zh') ? 'zh' : 'en');
-      currentLang = lang;
-      buildSidebar();
       initLeaflet();
-      updateInfo();
-      setLanguageText(lang);
     });
-
-    // Manual toggle
-    document.getElementById('langToggle').addEventListener('click', () => {
-      const next = currentLang === 'en' ? 'zh' : 'en';
-      setLanguageText(next);
-    });
-
-    // Mobile nav
-    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
-    document.getElementById('hamburgerBtn').addEventListener('click', () => {
-      document.getElementById('mobileNav').classList.add('open');
-    });
-    document.getElementById('mobileNavClose').addEventListener('click', closeMobileNav);
   </script>
 </body>
 </html>
