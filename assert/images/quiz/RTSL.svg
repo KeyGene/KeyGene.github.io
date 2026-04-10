@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- 舔包保姆 - Fair skin, brown ponytail, light blue apron-vest, holding helmet, warm smile, hearts -->
+  <!-- Floating hearts -->
+  <text x="45" y="25" font-size="16" fill="#E74C3C">&#x2665;</text>
+  <text x="148" y="20" font-size="12" fill="#E74C3C">&#x2665;</text>
+  <text x="155" y="42" font-size="14" fill="#E74C3C">&#x2665;</text>
+  <!-- Head -->
+  <circle cx="100" cy="58" r="36" fill="#FAE5D3" stroke="#2471A3" stroke-width="2.5"/>
+  <!-- Brown ponytail -->
+  <path d="M65,48 Q65,22 100,18 Q135,22 135,48" fill="#8B5E3C" stroke="#2471A3" stroke-width="2"/>
+  <!-- Ponytail going right -->
+  <path d="M130,42 Q145,38 148,52 Q150,65 142,78 Q138,72 140,58 Q138,45 130,42" fill="#8B5E3C" stroke="#2471A3" stroke-width="2"/>
+  <!-- Hair tie -->
+  <circle cx="138" cy="48" r="4" fill="#3498DB" stroke="#2471A3" stroke-width="1.5"/>
+  <!-- Eyes - warm -->
+  <circle cx="87" cy="56" r="5" fill="white"/><circle cx="113" cy="56" r="5" fill="white"/>
+  <circle cx="89" cy="57" r="3" fill="#5B3A1A"/><circle cx="115" cy="57" r="3" fill="#5B3A1A"/>
+  <!-- Warm smile -->
+  <path d="M88,70 Q100,82 112,70" fill="none" stroke="#C0392B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Blush -->
+  <ellipse cx="78" cy="68" rx="6" ry="3" fill="#F5B7B1" opacity="0.6"/>
+  <ellipse cx="122" cy="68" rx="6" ry="3" fill="#F5B7B1" opacity="0.6"/>
+  <!-- Body - light blue apron-vest -->
+  <rect x="78" y="94" width="44" height="48" rx="10" fill="#3498DB" stroke="#2471A3" stroke-width="2.5"/>
+  <!-- Apron -->
+  <rect x="84" y="100" width="32" height="38" rx="5" fill="#AED6F1" stroke="#2471A3" stroke-width="1.5"/>
+  <!-- Left arm holding helmet out -->
+  <rect x="50" y="98" width="30" height="12" rx="6" fill="#FAE5D3" stroke="#2471A3" stroke-width="2"/>
+  <!-- Helmet being offered -->
+  <path d="M28,88 Q28,78 45,78 Q62,78 62,88" fill="#556B2F" stroke="#2471A3" stroke-width="2"/>
+  <rect x="28" y="88" width="34" height="8" rx="3" fill="#556B2F" stroke="#2471A3" stroke-width="2"/>
+  <!-- Right arm -->
+  <rect x="122" y="100" width="14" height="32" rx="6" fill="#FAE5D3" stroke="#2471A3" stroke-width="2"/>
+  <!-- Legs -->
+  <rect x="82" y="140" width="14" height="28" rx="6" fill="#5D6D7E" stroke="#2471A3" stroke-width="2"/>
+  <rect x="104" y="140" width="14" height="28" rx="6" fill="#5D6D7E" stroke="#2471A3" stroke-width="2"/>
+  <!-- Feet -->
+  <rect x="79" y="164" width="19" height="10" rx="5" fill="#3498DB" stroke="#2471A3" stroke-width="2"/>
+  <rect x="102" y="164" width="19" height="10" rx="5" fill="#3498DB" stroke="#2471A3" stroke-width="2"/>
+</svg>

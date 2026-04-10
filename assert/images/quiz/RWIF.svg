@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- 1V4莽夫 - Dark skin, red spiky flame hair, orange tank, dual pistols, crazy grin -->
+  <!-- Head -->
+  <circle cx="100" cy="62" r="38" fill="#8B6914" stroke="#C87A10" stroke-width="2.5"/>
+  <!-- Spiky flame hair -->
+  <polygon points="70,40 65,10 80,30 78,5 92,25 95,0 105,25 112,2 118,25 125,8 130,30 138,12 135,42" fill="#E74C3C" stroke="#C87A10" stroke-width="2"/>
+  <!-- Crazy eyes -->
+  <circle cx="85" cy="58" r="7" fill="white"/><circle cx="115" cy="58" r="7" fill="white"/>
+  <circle cx="87" cy="57" r="4" fill="#111"/><circle cx="117" cy="57" r="4" fill="#111"/>
+  <!-- Highlight -->
+  <circle cx="84" cy="55" r="2" fill="white"/><circle cx="114" cy="55" r="2" fill="white"/>
+  <!-- Crazy grin -->
+  <path d="M82,76 Q100,92 118,76" fill="white" stroke="#111" stroke-width="2"/>
+  <line x1="90" y1="80" x2="90" y2="76" stroke="#111" stroke-width="1"/>
+  <line x1="100" y1="82" x2="100" y2="76" stroke="#111" stroke-width="1"/>
+  <line x1="110" y1="80" x2="110" y2="76" stroke="#111" stroke-width="1"/>
+  <!-- Body - orange tank top -->
+  <rect x="80" y="100" width="40" height="42" rx="8" fill="#F39C12" stroke="#C87A10" stroke-width="2.5"/>
+  <!-- Arms holding pistols outward -->
+  <rect x="42" y="100" width="38" height="12" rx="6" fill="#8B6914" stroke="#C87A10" stroke-width="2"/>
+  <rect x="120" y="100" width="38" height="12" rx="6" fill="#8B6914" stroke="#C87A10" stroke-width="2"/>
+  <!-- Pistols -->
+  <rect x="22" y="98" width="22" height="8" rx="2" fill="#444" stroke="#222" stroke-width="2"/>
+  <rect x="28" y="106" width="6" height="10" rx="2" fill="#444" stroke="#222" stroke-width="1.5"/>
+  <rect x="156" y="98" width="22" height="8" rx="2" fill="#444" stroke="#222" stroke-width="2"/>
+  <rect x="166" y="106" width="6" height="10" rx="2" fill="#444" stroke="#222" stroke-width="1.5"/>
+  <!-- Legs -->
+  <rect x="84" y="140" width="13" height="30" rx="6" fill="#555" stroke="#C87A10" stroke-width="2"/>
+  <rect x="103" y="140" width="13" height="30" rx="6" fill="#555" stroke="#C87A10" stroke-width="2"/>
+  <!-- Feet -->
+  <rect x="80" y="165" width="19" height="10" rx="5" fill="#333" stroke="#C87A10" stroke-width="2"/>
+  <rect x="101" y="165" width="19" height="10" rx="5" fill="#333" stroke="#C87A10" stroke-width="2"/>
+</svg>

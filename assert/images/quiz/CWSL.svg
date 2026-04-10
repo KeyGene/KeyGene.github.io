@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- 跑毒专业户 - Tan skin, brown ponytail green headband, green sportswear, running, looking at watch, sweat -->
+  <!-- Head -->
+  <circle cx="105" cy="52" r="34" fill="#D4A574" stroke="#1E8C4A" stroke-width="2.5"/>
+  <!-- Brown ponytail -->
+  <path d="M71,44 Q73,22 105,16 Q137,22 139,44" fill="#7B4B2A" stroke="#1E8C4A" stroke-width="2"/>
+  <!-- Ponytail flowing back (running) -->
+  <path d="M72,38 Q50,32 42,48 Q38,58 45,65 Q50,55 55,48 Q58,40 72,38" fill="#7B4B2A" stroke="#1E8C4A" stroke-width="2"/>
+  <!-- Green headband -->
+  <rect x="68" y="36" width="74" height="8" rx="3" fill="#2ECC71" stroke="#1E8C4A" stroke-width="1.5"/>
+  <!-- Headband tails -->
+  <path d="M68,40 Q58,38 52,42" fill="none" stroke="#2ECC71" stroke-width="4" stroke-linecap="round"/>
+  <!-- Eyes - urgent look -->
+  <circle cx="93" cy="50" r="5" fill="white"/><circle cx="117" cy="50" r="5" fill="white"/>
+  <circle cx="95" cy="51" r="3" fill="#111"/><circle cx="119" cy="51" r="3" fill="#111"/>
+  <!-- Worried mouth -->
+  <path d="M96,66 Q105,62 114,66" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+  <!-- Sweat drops -->
+  <path d="M142,42 Q145,50 142,56 Q139,50 142,42" fill="#85C1E9"/>
+  <path d="M150,52 Q152,57 150,62 Q148,57 150,52" fill="#85C1E9"/>
+  <!-- Body - green sportswear -->
+  <rect x="85" y="86" width="40" height="40" rx="10" fill="#2ECC71" stroke="#1E8C4A" stroke-width="2.5"/>
+  <!-- Number on shirt -->
+  <text x="105" y="112" text-anchor="middle" font-size="18" font-family="Arial" font-weight="bold" fill="white">1</text>
+  <!-- Left arm raised looking at watch -->
+  <rect x="60" y="78" width="28" height="12" rx="6" fill="#D4A574" stroke="#1E8C4A" stroke-width="2" transform="rotate(-30,74,84)"/>
+  <!-- Watch on wrist -->
+  <rect x="55" y="72" width="12" height="10" rx="3" fill="#333" stroke="#1E8C4A" stroke-width="1.5"/>
+  <rect x="58" y="74" width="6" height="6" rx="1" fill="#5DADE2"/>
+  <!-- Right arm swinging back -->
+  <rect x="125" y="92" width="12" height="30" rx="6" fill="#2ECC71" stroke="#1E8C4A" stroke-width="2" transform="rotate(20,131,107)"/>
+  <!-- Legs - running pose -->
+  <rect x="88" y="124" width="13" height="32" rx="5" fill="#1A5276" stroke="#1E8C4A" stroke-width="2" transform="rotate(-20,94,140)"/>
+  <rect x="106" y="124" width="13" height="32" rx="5" fill="#1A5276" stroke="#1E8C4A" stroke-width="2" transform="rotate(20,112,140)"/>
+  <!-- Sneakers -->
+  <rect x="72" y="155" width="20" height="10" rx="5" fill="#2ECC71" stroke="#1E8C4A" stroke-width="2"/>
+  <rect x="118" y="158" width="20" height="10" rx="5" fill="#2ECC71" stroke="#1E8C4A" stroke-width="2"/>
+  <!-- Speed lines -->
+  <line x1="30" y1="100" x2="15" y2="100" stroke="#2ECC71" stroke-width="2" opacity="0.5"/>
+  <line x1="35" y1="115" x2="18" y2="115" stroke="#2ECC71" stroke-width="2" opacity="0.5"/>
+  <line x1="32" y1="130" x2="20" y2="130" stroke="#2ECC71" stroke-width="2" opacity="0.5"/>
+</svg>

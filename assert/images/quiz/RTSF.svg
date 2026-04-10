@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- 意识钢枪 - Tan skin, neat black hair, dark red jacket, headset, pointing forward -->
+  <!-- Head -->
+  <circle cx="100" cy="58" r="38" fill="#D4A574" stroke="#8B2015" stroke-width="2.5"/>
+  <!-- Neat black hair -->
+  <path d="M62,50 Q63,22 100,18 Q137,22 138,50 L132,48 Q130,28 100,25 Q70,28 68,48 Z" fill="#1A1A1A" stroke="#8B2015" stroke-width="2"/>
+  <!-- Headset -->
+  <path d="M60,50 Q58,35 65,30" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+  <path d="M140,50 Q142,35 135,30" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+  <rect x="56" y="46" width="10" height="14" rx="3" fill="#444" stroke="#222" stroke-width="1.5"/>
+  <rect x="134" y="46" width="10" height="14" rx="3" fill="#444" stroke="#222" stroke-width="1.5"/>
+  <!-- Mic -->
+  <path d="M56,56 L48,68" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="46" cy="70" r="3" fill="#444"/>
+  <!-- Eyes - focused -->
+  <rect x="82" y="54" width="10" height="6" rx="3" fill="white"/><rect x="108" y="54" width="10" height="6" rx="3" fill="white"/>
+  <circle cx="89" cy="57" r="3" fill="#111"/><circle cx="115" cy="57" r="3" fill="#111"/>
+  <!-- Mouth -->
+  <line x1="92" y1="72" x2="108" y2="72" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+  <!-- Body - dark red jacket -->
+  <rect x="78" y="96" width="44" height="48" rx="10" fill="#C0392B" stroke="#8B2015" stroke-width="2.5"/>
+  <!-- Jacket collar -->
+  <path d="M85,96 L100,108 L115,96" fill="none" stroke="#8B2015" stroke-width="2"/>
+  <!-- Left arm down -->
+  <rect x="62" y="98" width="16" height="38" rx="7" fill="#C0392B" stroke="#8B2015" stroke-width="2"/>
+  <!-- Right arm pointing forward -->
+  <rect x="122" y="98" width="16" height="14" rx="7" fill="#C0392B" stroke="#8B2015" stroke-width="2"/>
+  <rect x="132" y="96" width="35" height="12" rx="6" fill="#D4A574" stroke="#8B2015" stroke-width="2"/>
+  <!-- Pointing finger -->
+  <rect x="165" y="98" width="12" height="6" rx="3" fill="#D4A574" stroke="#8B2015" stroke-width="2"/>
+  <!-- Legs -->
+  <rect x="82" y="142" width="14" height="28" rx="6" fill="#2C2C2C" stroke="#8B2015" stroke-width="2"/>
+  <rect x="104" y="142" width="14" height="28" rx="6" fill="#2C2C2C" stroke="#8B2015" stroke-width="2"/>
+  <!-- Feet -->
+  <rect x="79" y="166" width="19" height="10" rx="5" fill="#1A1A1A" stroke="#8B2015" stroke-width="2"/>
+  <rect x="102" y="166" width="19" height="10" rx="5" fill="#1A1A1A" stroke="#8B2015" stroke-width="2"/>
+</svg>

@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="color-scheme: dark;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG人格测试 - KEY GENE | 你是哪种吃鸡玩家？</title>
+  <meta name="description" content="16题测出你的PUBG人格！类似MBTI的吃鸡人格测试，4大维度16种人格，找到你的PUBG玩家类型。Find your PUBG personality type with 16 questions." />
+  <meta name="keywords" content="PUBG人格测试,PUBG personality,吃鸡人格,PUBG MBTI,PUBG玩家类型,绝地求生人格测试,KEYGENE,PUBG quiz" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://keygene.top/quiz.html" />
+  <meta property="og:title" content="PUBG人格测试 - KEY GENE" />
+  <meta property="og:description" content="16题测出你的PUBG人格！找到你的吃鸡玩家类型。" />
+  <meta property="og:url" content="https://keygene.top/quiz.html" />
+  <meta property="og:image" content="https://keygene.top/assert/images/hero-bg.jpg" />
+  <link rel="alternate" hreflang="zh" href="https://keygene.top/quiz.html" />
+  <link rel="alternate" hreflang="en" href="https://keygene.top/quiz.html" />
+  <link rel="alternate" hreflang="x-default" href="https://keygene.top/quiz.html" />
+
+  <link rel="icon" href="assert/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>@font-face{font-family:'Rubik';font-display:swap;}</style>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+
+    :root {
+      --black: #000000;
+      --red: #EE3F2C;
+      --red-hover: #ff5240;
+      --white: #ffffff;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-800: #1f1f1f;
+      --card-bg: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --font: 'Rubik', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-clip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; font-family: var(--font); font-weight: 700; font-size: 14px;
+      letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+      border: none; cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-clip:hover { transform: translateY(-1px); }
+    .btn-clip:active { transform: translateY(0); }
+    .btn-red { background: var(--red); color: var(--white); }
+    .btn-red:hover { background: var(--red-hover); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 48px; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--white); text-transform: uppercase; }
+    .logo-text .accent { color: var(--red); }
+
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a { color: var(--gray-400); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; padding: 12px 8px; transition: color 0.2s; }
+    nav a:hover { color: var(--white); }
+    nav a.active { color: var(--white); }
+
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .lang-toggle {
+      font-size: 13px; color: var(--gray-500); cursor: pointer; padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;
+      background: transparent; font-family: var(--font); transition: border-color 0.2s, color 0.2s;
+    }
+    .lang-toggle:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger svg { width: 24px; height: 24px; stroke: var(--white); stroke-width: 2; fill: none; }
+
+    .mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { color: var(--white); text-decoration: none; font-size: 24px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; transition: color 0.2s; }
+    .mobile-nav a:hover { color: var(--red); }
+    .mobile-nav-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; }
+    .mobile-nav-close svg { width: 28px; height: 28px; stroke: var(--white); stroke-width: 2; fill: none; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 32px 64px; border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer p { font-size: 13px; color: var(--gray-500); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--gray-500); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ===== SCREEN CONTAINERS ===== */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ===== LANDING SCREEN ===== */
+    .landing {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 72px 24px 60px;
+    }
+    .landing-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 20px;
+    }
+    .landing-tag::before { content: ''; width: 24px; height: 2px; background: var(--red); }
+    .landing-title {
+      font-size: 52px; font-weight: 800; letter-spacing: -0.04em;
+      text-transform: uppercase; line-height: 1.1; margin-bottom: 16px;
+    }
+    .landing-title .accent { color: var(--red); }
+    .landing-sub {
+      font-size: 16px; color: var(--gray-400); line-height: 1.6;
+      max-width: 480px; margin-bottom: 40px;
+    }
+    .landing-counter {
+      margin-top: 24px; font-size: 13px; color: var(--gray-500);
+    }
+    .landing-last-result {
+      margin-top: 16px; font-size: 14px;
+    }
+    .landing-last-result a {
+      color: var(--red); text-decoration: underline; cursor: pointer;
+    }
+
+    /* ===== QUIZ SCREEN ===== */
+    .quiz-container {
+      max-width: 640px; margin: 0 auto;
+      padding: 100px 24px 60px;
+      min-height: 100vh;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      display: flex; gap: 4px; margin-bottom: 32px;
+    }
+    .progress-segment {
+      flex: 1; height: 4px; border-radius: 2px;
+      background: rgba(255,255,255,0.1); cursor: pointer;
+      transition: background 0.2s;
+    }
+    .progress-segment.done { background: var(--red); }
+    .progress-segment.current { background: rgba(238,63,44,0.5); }
+    .progress-counter {
+      text-align: center; font-size: 13px; color: var(--gray-500);
+      margin-bottom: 8px; letter-spacing: 0.06em;
+    }
+
+    /* Question */
+    .question-text {
+      font-size: 22px; font-weight: 700; line-height: 1.4;
+      margin-bottom: 28px; text-align: center;
+    }
+
+    /* Options */
+    .options-list { display: flex; flex-direction: column; gap: 12px; }
+    .option-card {
+      padding: 16px 20px; background: var(--card-bg);
+      border: 1.5px solid var(--card-border); border-radius: 12px;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      font-size: 15px; line-height: 1.5; color: var(--gray-400);
+      min-height: 48px; display: flex; align-items: center;
+    }
+    .option-card:hover { border-color: rgba(238,63,44,0.4); color: var(--white); }
+    .option-card.selected {
+      border-color: var(--red); background: rgba(238,63,44,0.08); color: var(--white);
+    }
+
+    /* Navigation buttons */
+    .quiz-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 32px; gap: 12px;
+    }
+    .quiz-nav-btn {
+      padding: 12px 24px; font-family: var(--font); font-weight: 600;
+      font-size: 14px; border: none; cursor: pointer; border-radius: 8px;
+      transition: background 0.2s, opacity 0.2s;
+    }
+    .quiz-nav-btn.prev {
+      background: transparent; color: var(--gray-400); border: 1px solid rgba(255,255,255,0.15);
+    }
+    .quiz-nav-btn.prev:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+    .quiz-nav-btn.next {
+      background: var(--red); color: var(--white); margin-left: auto;
+    }
+    .quiz-nav-btn.next:hover { background: var(--red-hover); }
+    .quiz-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* ===== RESULT SCREEN ===== */
+    .result-container {
+      max-width: 640px; margin: 0 auto;
+      padding: 100px 16px 60px;
+    }
+    .result-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 16px; padding: 32px 24px; margin-bottom: 12px;
+    }
+
+    /* Card 1: Hero */
+    .result-hero { text-align: center; position: relative; overflow: hidden; }
+    .result-hero-accent {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .result-label { font-size: 13px; color: var(--gray-500); margin-bottom: 8px; letter-spacing: 0.06em; }
+    .result-nickname {
+      font-size: 42px; font-weight: 900; line-height: 1.1;
+      margin-bottom: 8px; letter-spacing: -0.02em;
+    }
+    .result-code {
+      font-size: 20px; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 20px;
+    }
+    .result-avatar {
+      width: 200px; height: 200px; margin: 0 auto 16px;
+      border-radius: 16px; overflow: hidden; background: rgba(255,255,255,0.03);
+    }
+    .result-avatar img { width: 100%; height: 100%; object-fit: contain; }
+    .result-tagline { font-size: 14px; color: var(--gray-400); line-height: 1.5; }
+
+    /* Card 2: Summary */
+    .result-summary-title {
+      font-size: 22px; font-weight: 800; margin-bottom: 12px;
+    }
+    .result-group-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 20px; font-size: 12px;
+      font-weight: 600; margin-bottom: 16px;
+    }
+    .result-group-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .result-description { font-size: 15px; color: var(--gray-400); line-height: 1.7; }
+
+    /* Card 3: Dimensions */
+    .dimension-item { margin-bottom: 16px; }
+    .dimension-item:last-child { margin-bottom: 0; }
+    .dimension-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px; font-size: 12px; color: var(--gray-500);
+    }
+    .dimension-label { font-weight: 600; color: var(--gray-400); }
+    .dimension-track {
+      height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08);
+      position: relative; overflow: hidden;
+    }
+    .dimension-fill {
+      position: absolute; top: 0; left: 0; height: 100%; border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+    .dimension-poles {
+      display: flex; justify-content: space-between;
+      margin-top: 4px; font-size: 11px; color: var(--gray-500);
+    }
+
+    /* Card 4: Strengths & Weaknesses */
+    .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .sw-section h4 {
+      font-size: 13px; font-weight: 600; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .sw-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sw-tag {
+      padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    }
+    .sw-tag.strength { background: rgba(238,63,44,0.15); color: #ff6b5a; }
+    .sw-tag.weakness { background: rgba(255,255,255,0.08); color: var(--gray-400); }
+
+    /* Card 5: Relationships */
+    .rel-section { margin-bottom: 16px; }
+    .rel-section:last-child { margin-bottom: 0; }
+    .rel-section h4 {
+      font-size: 13px; font-weight: 600; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500);
+    }
+    .rel-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; background: rgba(255,255,255,0.04);
+      border-radius: 10px; margin-bottom: 8px;
+    }
+    .rel-avatar { width: 40px; height: 40px; border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.06); }
+    .rel-avatar img { width: 100%; height: 100%; object-fit: contain; }
+    .rel-info { flex: 1; }
+    .rel-code { font-size: 14px; font-weight: 700; }
+    .rel-name { font-size: 12px; color: var(--gray-500); }
+
+    /* Card 6: Actions */
+    .actions-card { text-align: center; }
+    .actions-card .btn-clip { margin: 6px; }
+    .actions-link {
+      display: block; margin-top: 16px; font-size: 13px;
+      color: var(--gray-500); text-decoration: underline; cursor: pointer;
+    }
+    .actions-link:hover { color: var(--white); }
+
+    /* ===== SHARE OVERLAY ===== */
+    .share-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .share-overlay.open { display: flex; }
+    .share-overlay canvas {
+      max-width: 100%; max-height: 70vh; border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .share-actions { margin-top: 20px; display: flex; gap: 12px; }
+    .share-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none; cursor: pointer;
+      color: var(--white); font-size: 28px;
+    }
+
+    /* ===== ALL TYPES MODAL ===== */
+    .types-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.95); overflow-y: auto;
+      padding: 80px 24px 40px;
+    }
+    .types-overlay.open { display: block; }
+    .types-grid {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .type-mini-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 16px; text-align: center;
+      cursor: pointer; transition: border-color 0.2s, transform 0.2s;
+    }
+    .type-mini-card:hover { border-color: rgba(238,63,44,0.4); transform: translateY(-2px); }
+    .type-mini-avatar { width: 64px; height: 64px; margin: 0 auto 8px; }
+    .type-mini-avatar img { width: 100%; height: 100%; object-fit: contain; }
+    .type-mini-code { font-size: 14px; font-weight: 700; letter-spacing: 0.06em; }
+    .type-mini-name { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+    .types-close {
+      position: fixed; top: 20px; right: 24px; z-index: 310;
+      background: none; border: none; cursor: pointer;
+      color: var(--white); font-size: 28px;
+    }
+    .types-title {
+      text-align: center; font-size: 28px; font-weight: 800;
+      margin-bottom: 32px; letter-spacing: -0.02em;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      header { padding: 0 24px; height: 60px; }
+      nav { display: none; }
+      .nav-right .btn-clip { display: none; }
+      .hamburger { display: block; }
+      .logo { gap: 8px; }
+      .logo-text { font-size: 18px; }
+      .landing-title { font-size: 36px; }
+      .landing-sub { font-size: 14px; }
+      .quiz-container { padding: 80px 16px 40px; }
+      .question-text { font-size: 18px; }
+      .result-container { padding: 80px 12px 40px; }
+      .result-card { padding: 24px 16px; }
+      .result-nickname { font-size: 32px; }
+      .sw-grid { grid-template-columns: 1fr; gap: 16px; }
+      footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+      .types-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="assert/images/helmet-red.png" alt="KEY GENE" style="width:40px;height:40px;object-fit:contain;" />
+      <span class="logo-text">Key<span class="accent">Gene</span></span>
+    </a>
+
+    <nav>
+      <a href="index.html" data-key="navHome">Home</a>
+      <a href="index.html#about" data-key="navAbout">About</a>
+      <a href="index.html#roster" data-key="navRoster">Roster</a>
+      <a href="stats.html" data-key="navStats">Stats</a>
+      <a href="maps.html" data-key="navMaps">Maps</a>
+      <a href="quiz.html" class="active" data-key="navQuiz">Quiz</a>
+    </nav>
+
+    <div class="nav-right">
+      <button class="lang-toggle" id="langToggle">EN / ZH</button>
+      <a href="index.html#join" class="btn-clip btn-red" style="padding:8px 20px; font-size:12px;" data-key="navJoin">Join Us</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="index.html" data-key="navHome" onclick="closeMobileNav()">Home</a>
+    <a href="index.html#about" data-key="navAbout" onclick="closeMobileNav()">About</a>
+    <a href="index.html#roster" data-key="navRoster" onclick="closeMobileNav()">Roster</a>
+    <a href="stats.html" data-key="navStats" onclick="closeMobileNav()">Stats</a>
+    <a href="maps.html" data-key="navMaps" onclick="closeMobileNav()">Maps</a>
+    <a href="quiz.html" data-key="navQuiz" onclick="closeMobileNav()">Quiz</a>
+    <a href="index.html#join" data-key="navJoin" onclick="closeMobileNav()">Join Us</a>
+  </div>
+
+  <!-- ===== LANDING SCREEN ===== -->
+  <div id="landingScreen" class="screen active">
+    <div class="landing">
+      <div class="landing-tag" data-key="quizTag">PUBG Personality Test</div>
+      <h1 class="landing-title">
+        <span data-key="quizTitle1">你是哪种</span><br/>
+        <span class="accent" data-key="quizTitle2">吃鸡玩家？</span>
+      </h1>
+      <p class="landing-sub" data-key="quizSub">16题测出你的PUBG人格，4大维度16种类型，找到属于你的吃鸡人格</p>
+      <button class="btn-clip btn-red" id="startBtn" data-key="quizStart" style="font-size:16px; padding:16px 40px;">开始测试</button>
+      <div class="landing-counter"><span id="counterNum">0</span> <span data-key="quizCounterText">人已完成测试</span></div>
+      <div class="landing-last-result" id="lastResultLink" style="display:none;">
+        <a onclick="showLastResult()" data-key="quizLastResult">查看上次结果 →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div id="quizScreen" class="screen">
+    <div class="quiz-container">
+      <div class="progress-counter" id="progressCounter">1 / 16</div>
+      <div class="progress-bar" id="progressBar"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options-list" id="optionsList"></div>
+      <div class="quiz-nav">
+        <button class="quiz-nav-btn prev" id="prevBtn" data-key="quizPrev" style="display:none;">上一题</button>
+        <button class="quiz-nav-btn next" id="nextBtn" data-key="quizNext" disabled>下一题</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <div id="resultScreen" class="screen">
+    <div class="result-container" id="resultContainer"></div>
+  </div>
+
+  <!-- ===== SHARE OVERLAY ===== -->
+  <div class="share-overlay" id="shareOverlay">
+    <button class="share-close" onclick="closeShare()">&times;</button>
+    <canvas id="shareCanvas" width="750" height="1334"></canvas>
+    <div class="share-actions">
+      <button class="btn-clip btn-red" onclick="downloadShare()" data-key="shareSave">保存图片</button>
+      <button class="btn-clip btn-outline" onclick="closeShare()" data-key="shareClose">关闭</button>
+    </div>
+  </div>
+
+  <!-- ===== ALL TYPES OVERLAY ===== -->
+  <div class="types-overlay" id="typesOverlay">
+    <button class="types-close" onclick="closeTypes()">&times;</button>
+    <div class="types-title" data-key="allTypesTitle">全部吃鸡人格</div>
+    <div class="types-grid" id="typesGrid"></div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>&copy; <span id="year"></span> KEY GENE. All Rights Reserved.</p>
+    <div class="footer-links">
+      <a href="index.html#about" data-key="footAbout">About</a>
+      <a href="stats.html" data-key="footStats">Stats</a>
+      <a href="maps.html" data-key="footMaps">Maps</a>
+      <a href="mailto:keygene@hotmail.com" data-key="footContact">Contact</a>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // ===== QUIZ DATA =====
+    const GROUP_COLORS = {
+      rush: '#EE3F2C', brain: '#7B5EA7', shadow: '#2D7D46', leader: '#D4A017'
+    };
+
+    const QUESTIONS = [
+      // Dimension 1: RC (Combat Style) — positive = R (Rush), negative = C (Cautious)
+      { id:1, dim:'RC', text:{ zh:'刚落地捡到一把枪，隔壁楼有脚步声，你会：', en:'You just landed and found a gun. There are footsteps in the next building. You:' },
+        options:[
+          { text:{ zh:'直接冲过去刚，落地不钢不是人', en:'Rush over immediately, no guts no glory' }, value:2 },
+          { text:{ zh:'先把这栋楼搜完再说，装备压制', en:'Loot this building first, gear advantage' }, value:-1 },
+          { text:{ zh:'脚步声近就干，远就先搜', en:'Fight if close, loot if far' }, value:1 },
+          { text:{ zh:'赶紧换栋楼，惹不起躲得起', en:'Switch buildings, avoid trouble' }, value:-2 }
+        ]},
+      { id:2, dim:'RC', text:{ zh:'决赛圈还剩4队，你的位置不错，你会：', en:'Final circle, 4 teams left, you have good position. You:' },
+        options:[
+          { text:{ zh:'主动找人打，不打等着被包夹？', en:'Push fights, waiting gets you sandwiched' }, value:2 },
+          { text:{ zh:'架好枪等有人先动手，谁露头打谁', en:'Hold angles, shoot whoever peeks first' }, value:-1 },
+          { text:{ zh:'听到交火就插一脚，收人头', en:'Third-party any fight you hear' }, value:1 },
+          { text:{ zh:'趴着不动，等他们互打剩最后一队我再收', en:'Stay prone, let them fight it out' }, value:-2 }
+        ]},
+      { id:3, dim:'RC', text:{ zh:'空投落在200米外的空地上，你会：', en:'An airdrop lands 200m away in the open. You:' },
+        options:[
+          { text:{ zh:'直接冲，空投就是给猛男准备的', en:'Rush it, airdrops are for the brave' }, value:2 },
+          { text:{ zh:'开车过去抢完就跑', en:'Drive there, grab and go' }, value:1 },
+          { text:{ zh:'先观察有没有人盯着，安全了再去', en:'Watch first, go when safe' }, value:-1 },
+          { text:{ zh:'不去，空投就是陷阱', en:'Skip it, airdrops are traps' }, value:-2 }
+        ]},
+      { id:4, dim:'RC', text:{ zh:'你有一把满配M4和三级甲，这时候你想：', en:'You have a fully kitted M4 and level 3 vest. You think:' },
+        options:[
+          { text:{ zh:'装备到位了该出去杀人了', en:'Geared up, time to hunt' }, value:2 },
+          { text:{ zh:'找个好位置架起来守点', en:'Find a good spot and hold angles' }, value:-1 },
+          { text:{ zh:'去人多的地方找刺激', en:'Head to hot areas for action' }, value:1 },
+          { text:{ zh:'接着搜，看能不能搜到8倍镜', en:'Keep looting for an 8x scope' }, value:-2 }
+        ]},
+      // Dimension 2: WT (Social) — positive = W (Wolf/Solo), negative = T (Team)
+      { id:5, dim:'WT', text:{ zh:'你最喜欢的游戏模式是：', en:'Your favorite game mode is:' },
+        options:[
+          { text:{ zh:'单排，生死靠自己', en:'Solo, life and death on my own' }, value:2 },
+          { text:{ zh:'双排，一个靠谱队友就够', en:'Duo, one reliable teammate is enough' }, value:1 },
+          { text:{ zh:'四排开黑，兄弟们一起上', en:'Squad with the boys' }, value:-2 },
+          { text:{ zh:'四排但不想语音，默契配合就行', en:'Squad but no voice chat, just vibes' }, value:-1 }
+        ]},
+      { id:6, dim:'WT', text:{ zh:'队友倒在对面枪口下，你会：', en:'Your teammate gets knocked in enemy fire. You:' },
+        options:[
+          { text:{ zh:'他自己倒的自己爬，我先打赢再说', en:'His fault, I focus on winning the fight first' }, value:2 },
+          { text:{ zh:'看情况，能扶就扶，不能扶就算了', en:'Depends on the situation' }, value:1 },
+          { text:{ zh:'拉烟冲过去扶，兄弟不能丢', en:'Pop smoke and rush to revive, no man left behind' }, value:-2 },
+          { text:{ zh:'先把对面打掉再去扶，这是正确打法', en:'Kill the enemy first, then revive — correct play' }, value:-1 }
+        ]},
+      { id:7, dim:'WT', text:{ zh:'搜到一个三级头，你已经有了，队友还是二级，你会：', en:'Found a level 3 helmet, you already have one, teammate has level 2. You:' },
+        options:[
+          { text:{ zh:'留着呗，万一我这个被打烂了换', en:'Keep it as backup' }, value:2 },
+          { text:{ zh:'看队友要不要，不主动给', en:'See if they ask, won\'t offer' }, value:1 },
+          { text:{ zh:'直接丢给队友，团队装备最大化', en:'Drop it for teammate, maximize team gear' }, value:-2 },
+          { text:{ zh:'给队里枪法最好的那个人', en:'Give it to the best shooter on the team' }, value:-1 }
+        ]},
+      { id:8, dim:'WT', text:{ zh:'排队等匹配的时候你在：', en:'While waiting in queue you\'re:' },
+        options:[
+          { text:{ zh:'一个人练枪', en:'Practicing aim in training mode' }, value:2 },
+          { text:{ zh:'刷手机等着', en:'Scrolling phone' }, value:1 },
+          { text:{ zh:'跟队友语音吹牛聊天', en:'Chatting and joking with teammates on voice' }, value:-2 },
+          { text:{ zh:'在群里约人凑队', en:'Looking for more players in group chat' }, value:-1 }
+        ]},
+      // Dimension 3: SI (Decision) — positive = S (Strategic), negative = I (Instinct)
+      { id:9, dim:'SI', text:{ zh:'第一个圈刷出来了，你的第一反应是：', en:'First circle appears. Your first reaction:' },
+        options:[
+          { text:{ zh:'马上看圈心位置，规划转移路线', en:'Check circle center, plan rotation route' }, value:2 },
+          { text:{ zh:'先搜完这片再走，到时候再说', en:'Finish looting here first, deal with it later' }, value:-1 },
+          { text:{ zh:'找车提前去圈心占位', en:'Find a vehicle, get to center early' }, value:1 },
+          { text:{ zh:'圈不急，毒来了再跑', en:'No rush, run when the zone comes' }, value:-2 }
+        ]},
+      { id:10, dim:'SI', text:{ zh:'你开车路上看到右边房区有人，你会：', en:'Driving and you spot players in buildings to the right. You:' },
+        options:[
+          { text:{ zh:'记住位置，标记一下，后面绕过来打', en:'Mark position, flank them later' }, value:2 },
+          { text:{ zh:'直接开车撞过去', en:'Drive straight into them' }, value:-2 },
+          { text:{ zh:'先跑，等下找个好位置回来阴他', en:'Drive past, find a good angle to ambush later' }, value:1 },
+          { text:{ zh:'看心情，有时候冲有时候跑', en:'Depends on mood' }, value:-1 }
+        ]},
+      { id:11, dim:'SI', text:{ zh:'你进了一个大城区，你的搜楼顺序是：', en:'You enter a big city. Your looting order is:' },
+        options:[
+          { text:{ zh:'从边缘搜到中心，有计划有路线', en:'Edge to center, planned route' }, value:2 },
+          { text:{ zh:'哪栋楼顺眼搜哪栋', en:'Whichever building looks good' }, value:-2 },
+          { text:{ zh:'先占高楼架枪观察，确认安全再搜', en:'Take high ground first, scout then loot' }, value:1 },
+          { text:{ zh:'跟着脚步声走，有人就打没人就搜', en:'Follow footsteps — fight if found, loot if not' }, value:-1 }
+        ]},
+      { id:12, dim:'SI', text:{ zh:'决赛圈即将刷新，你会：', en:'Final circle is about to shift. You:' },
+        options:[
+          { text:{ zh:'提前预判下个圈在哪，抢占有利地形', en:'Predict next circle, grab advantageous terrain' }, value:2 },
+          { text:{ zh:'等圈刷了再动，随机应变', en:'Wait for it to appear, then adapt' }, value:-1 },
+          { text:{ zh:'看地形找最近的硬掩体', en:'Find the nearest hard cover' }, value:1 },
+          { text:{ zh:'管他刷哪，兵来将挡水来土掩', en:'Whatever happens, I\'ll deal with it' }, value:-2 }
+        ]},
+      // Dimension 4: FL (Resource) — positive = F (Fight), negative = L (Loot)
+      { id:13, dim:'FL', text:{ zh:'跳伞你喜欢跳哪里：', en:'Where do you like to drop:' },
+        options:[
+          { text:{ zh:'军事基地、P城，人多肥的地方', en:'Military base, Pochinki — hot and rich' }, value:2 },
+          { text:{ zh:'航线正下方的中型城区', en:'Medium towns right under the flight path' }, value:1 },
+          { text:{ zh:'离航线远的小城镇', en:'Small towns far from flight path' }, value:-1 },
+          { text:{ zh:'最远的野区房子，越没人越好', en:'The furthest houses, the fewer people the better' }, value:-2 }
+        ]},
+      { id:14, dim:'FL', text:{ zh:'你搜完一片区域，接下来你想：', en:'You finished looting an area. Next you want to:' },
+        options:[
+          { text:{ zh:'去找人打，装备够用就行', en:'Go find fights, good enough gear' }, value:2 },
+          { text:{ zh:'听哪边有枪声往哪边走', en:'Head toward gunshots' }, value:1 },
+          { text:{ zh:'去下一片没人搜过的地方继续搜', en:'Move to the next unlooted area' }, value:-1 },
+          { text:{ zh:'找个安全地方蹲着等圈', en:'Find a safe spot and wait for zone' }, value:-2 }
+        ]},
+      { id:15, dim:'FL', text:{ zh:'你理想中的一局吃鸡是：', en:'Your ideal chicken dinner game:' },
+        options:[
+          { text:{ zh:'15杀吃鸡，全程高能', en:'15 kills win, non-stop action' }, value:2 },
+          { text:{ zh:'七八杀，关键时刻打赢了就行', en:'7-8 kills, clutch when it matters' }, value:1 },
+          { text:{ zh:'三四杀，决赛圈赢了就够', en:'3-4 kills, win the final fight' }, value:-1 },
+          { text:{ zh:'0杀也行，只要赢了', en:'0 kills is fine, as long as I win' }, value:-2 }
+        ]},
+      { id:16, dim:'FL', text:{ zh:'你更在意哪个数据：', en:'Which stat do you care about most:' },
+        options:[
+          { text:{ zh:'K/D，杀人才是核心', en:'K/D — kills are everything' }, value:2 },
+          { text:{ zh:'场均伤害', en:'Average damage per game' }, value:1 },
+          { text:{ zh:'胜率，赢才是目的', en:'Win rate — winning is the goal' }, value:-1 },
+          { text:{ zh:'前十率，活下来才是王道', en:'Top 10 rate — survival is king' }, value:-2 }
+        ]}
+    ];
+
+    const PERSONALITY_TYPES = {
+      RWSF: { code:'RWSF', group:'rush',
+        nickname:{ zh:'单排战神', en:'Solo War God' },
+        description:{ zh:'圈算得比数学家准，枪刚得比职业哥猛，单排天花板，排行榜钉子户', en:'Calculates circles better than a mathematician, aims harder than pros. The ceiling of solo queue, permanently on the leaderboard.' },
+        strengths:{ zh:['枪法在线','意识顶级','单排能力'], en:['Deadly aim','Top game sense','Solo carry'] },
+        weaknesses:{ zh:['容易上头','团队配合差'], en:['Hot-headed','Poor teamwork'] },
+        partner:['RTSL'], nemesis:'CWSF',
+        image:'assert/images/quiz/RWSF.svg' },
+      RWSL: { code:'RWSL', group:'brain',
+        nickname:{ zh:'独狼', en:'Lone Wolf' },
+        description:{ zh:'全程阴在没人知道的角落，决赛圈突然冒出来收人头，击杀回放对面直接懵逼', en:'Lurking in unknown corners the whole game, suddenly appears in final circle to clean up. Kill cam leaves enemies confused.' },
+        strengths:{ zh:['生存能力强','收割意识','隐蔽性强'], en:['Great survival','Cleanup instinct','Master of stealth'] },
+        weaknesses:{ zh:['团战拉胯','前期存在感低'], en:['Weak in team fights','Low early presence'] },
+        partner:['RTSF'], nemesis:'CWIF',
+        image:'assert/images/quiz/RWSL.svg' },
+      RWIF: { code:'RWIF', group:'rush',
+        nickname:{ zh:'1V4莽夫', en:'1V4 Berserker' },
+        description:{ zh:'听到枪响血直接上头，管他几个人莽就完了，赢了我是神输了就是伞兵', en:'Hears gunshots and blood starts pumping. Doesn\'t matter how many, just rush. Win = god, lose = bot.' },
+        strengths:{ zh:['近战无敌','反应快','压迫力强'], en:['CQB god','Fast reflexes','Overwhelming pressure'] },
+        weaknesses:{ zh:['容易送快递','没有大局观'], en:['Often becomes a loot box','No macro awareness'] },
+        partner:['CTSL'], nemesis:'CTSF',
+        image:'assert/images/quiz/RWIF.svg' },
+      RWIL: { code:'RWIL', group:'brain',
+        nickname:{ zh:'野区仓鼠', en:'Loot Hamster' },
+        description:{ zh:'专跳没人的野区疯狂舔包，三级头三级甲八倍镜全齐了还在搜，背包比枪法值钱', en:'Drops in empty fields to loot endlessly. Full level 3 gear with 8x scope and still searching. Backpack worth more than aim.' },
+        strengths:{ zh:['资源管理强','生存率高','装备豪华'], en:['Resource management','High survival rate','Best gear'] },
+        weaknesses:{ zh:['实战经验少','关键时刻手抖'], en:['Low combat experience','Chokes in clutch'] },
+        partner:['RWIF'], nemesis:'RTSF',
+        image:'assert/images/quiz/RWIL.svg' },
+      RTSF: { code:'RTSF', group:'rush',
+        nickname:{ zh:'意识钢枪', en:'Tactical Fragger' },
+        description:{ zh:'"左边232一个！烟雾弹拉了冲！" 报点像开了雷达，带队钢枪从没怂过', en:'"One at 232 left! Smoke\'s popped, push!" Callouts like a radar, leads pushes and never backs down.' },
+        strengths:{ zh:['报点精准','指挥能力','攻防意识'], en:['Precise callouts','Leadership','Attack-defense awareness'] },
+        weaknesses:{ zh:['太强势','队友跟不上节奏'], en:['Too aggressive','Teammates can\'t keep up'] },
+        partner:['RTSL'], nemesis:'CTSL',
+        image:'assert/images/quiz/RTSF.svg' },
+      RTSL: { code:'RTSL', group:'brain',
+        nickname:{ zh:'舔包保姆', en:'Loot Nanny' },
+        description:{ zh:'航线研究得比飞行员还细，搜完把三级甲和高倍镜全丢给队友，自己穿二级甲舔剩的', en:'Studies flight paths more carefully than pilots. Gives all level 3 gear and scopes to teammates, wears level 2 leftovers.' },
+        strengths:{ zh:['团队意识强','资源分配好','航线规划'], en:['Great team player','Resource distribution','Flight path planning'] },
+        weaknesses:{ zh:['个人战力低','太无私'], en:['Low solo combat power','Too selfless'] },
+        partner:['RWSF','RTSF'], nemesis:'RWIF',
+        image:'assert/images/quiz/RTSL.svg' },
+      RTIF: { code:'RTIF', group:'rush',
+        nickname:{ zh:'伞兵', en:'Paratrooper' },
+        description:{ zh:'落地就冲，倒地就喊"拉我拉我"，扶起来继续莽，队友天天给他收尸', en:'Rushes on landing, goes down screaming "pick me up!", gets revived and rushes again. Teammates collect his crate daily.' },
+        strengths:{ zh:['永不服输','勇气可嘉','吸引火力'], en:['Never gives up','Admirable courage','Great distraction'] },
+        weaknesses:{ zh:['疯狂送快递','拖累队友'], en:['Constant loot deliveries','Drags team down'] },
+        partner:['CTIF'], nemesis:'CWSF',
+        image:'assert/images/quiz/RTIF.svg' },
+      RTIL: { code:'RTIL', group:'brain',
+        nickname:{ zh:'顺丰快递', en:'Express Delivery' },
+        description:{ zh:'搜了一背包空投物资信心满满出门刚枪，两秒倒地，对面开开心心舔包签收', en:'Fills backpack with airdrop loot, confidently pushes, gets knocked in 2 seconds. Enemy happily signs for the delivery.' },
+        strengths:{ zh:['搜刮效率高','乐观心态','永远有信心'], en:['Efficient looting','Optimistic','Always confident'] },
+        weaknesses:{ zh:['装备白搜','实战不行'], en:['Loots for nothing','Can\'t win fights'] },
+        partner:['CTSF'], nemesis:'CWIF',
+        image:'assert/images/quiz/RTIL.svg' },
+      CWSF: { code:'CWSF', group:'shadow',
+        nickname:{ zh:'伏地魔', en:'Prone Sniper' },
+        description:{ zh:'麦田里趴得跟地形贴图似的，架着8倍镜等你路过，800米爆头你连人都找不到', en:'Lies in wheat fields like a terrain texture. Waits with 8x scope, headshots you from 800m and you can\'t even find them.' },
+        strengths:{ zh:['狙击精准','耐心极强','隐蔽能力'], en:['Sniper accuracy','Extreme patience','Perfect concealment'] },
+        weaknesses:{ zh:['近战拉胯','跑毒容易死'], en:['Weak in CQB','Dies to zone'] },
+        partner:['CTSL'], nemesis:'RWIF',
+        image:'assert/images/quiz/CWSF.svg' },
+      CWSL: { code:'CWSL', group:'shadow',
+        nickname:{ zh:'跑毒专业户', en:'Zone Runner' },
+        description:{ zh:'毒圈路线算得比GPS还准，永远贴边跑毒苟命，决赛圈才冒出来阴人', en:'Calculates zone routes better than GPS. Always edge-running the zone to survive, only appears in final circle to ambush.' },
+        strengths:{ zh:['跑毒意识','生存能力','决赛圈强'], en:['Zone awareness','Survival skills','Strong in final circles'] },
+        weaknesses:{ zh:['前期划水','击杀少'], en:['Passive early game','Low kills'] },
+        partner:['CWSF'], nemesis:'RTSF',
+        image:'assert/images/quiz/CWSL.svg' },
+      CWIF: { code:'CWIF', group:'shadow',
+        nickname:{ zh:'厕所老六', en:'Bathroom Camper' },
+        description:{ zh:'门后蹲、马桶旁、楼梯拐角全是他的工位，你推门那一刻他已经架好枪等你了', en:'Behind doors, beside toilets, stairwell corners — all his workstations. The moment you push the door, he\'s already aimed at you.' },
+        strengths:{ zh:['阴人一绝','反应速度','位置选择'], en:['Ambush master','Fast reactions','Position selection'] },
+        weaknesses:{ zh:['被骂老六','主动进攻弱'], en:['Gets called a rat','Weak on offense'] },
+        partner:['CWSL'], nemesis:'RTSF',
+        image:'assert/images/quiz/CWIF.svg' },
+      CWIL: { code:'CWIL', group:'shadow',
+        nickname:{ zh:'0杀吃鸡王', en:'Zero Kill Winner' },
+        description:{ zh:'全程跑毒躲人一枪没开，决赛圈对面在毒里被毒死，大吉大利0杀吃鸡', en:'Runs from zone, avoids everyone, never fires a shot. Last enemy dies to zone. Winner winner chicken dinner, 0 kills.' },
+        strengths:{ zh:['生存大师','跑毒路线','佛系心态'], en:['Survival master','Zone routing','Zen mindset'] },
+        weaknesses:{ zh:['没有战斗力','刺激感为零'], en:['Zero combat power','Zero excitement'] },
+        partner:['RTSF'], nemesis:'RWSF',
+        image:'assert/images/quiz/CWIL.svg' },
+      CTSF: { code:'CTSF', group:'leader',
+        nickname:{ zh:'占楼钉子户', en:'Building Squatter' },
+        description:{ zh:'"卡窗架枪谁都别动！" 占了楼就当自己家，交叉火力摆满，攻楼的全成快递员', en:'"Hold windows, nobody move!" Takes a building and calls it home. Crossfire everywhere, attackers become loot deliveries.' },
+        strengths:{ zh:['防守大师','交叉火力','团队协调'], en:['Defense master','Crossfire setup','Team coordination'] },
+        weaknesses:{ zh:['机动性差','被绕容易崩'], en:['Low mobility','Collapses when flanked'] },
+        partner:['CTIF'], nemesis:'RWIF',
+        image:'assert/images/quiz/CTSF.svg' },
+      CTSL: { code:'CTSL', group:'leader',
+        nickname:{ zh:'苟王', en:'Stealth King' },
+        description:{ zh:'带队跑毒避战发育一条龙，全程不开一枪，决赛圈三队互打的时候出来收割吃鸡', en:'Leads team through zone-running, avoidance, and farming. Zero shots fired until final circle when 3 teams fight and they clean up.' },
+        strengths:{ zh:['大局观强','指挥能力','收割时机'], en:['Great macro sense','Command ability','Perfect cleanup timing'] },
+        weaknesses:{ zh:['太保守','队友嫌无聊'], en:['Too passive','Teammates find it boring'] },
+        partner:['CWSF'], nemesis:'RTSF',
+        image:'assert/images/quiz/CTSL.svg' },
+      CTIF: { code:'CTIF', group:'leader',
+        nickname:{ zh:'描边急救包', en:'Walking Medkit' },
+        description:{ zh:'子弹完美描边就是打不中人，但拉烟扶队友比120还快，队伍编外急救箱', en:'Bullets trace perfect outlines but never hit. Smoke + revive faster than an ambulance. The team\'s unofficial first aid kit.' },
+        strengths:{ zh:['拉烟扶人快','团队精神','永不放弃'], en:['Fast smoke revives','Team spirit','Never gives up'] },
+        weaknesses:{ zh:['枪法描边','输出基本为零'], en:['Can\'t aim','Near-zero damage output'] },
+        partner:['RTSF'], nemesis:'RWSF',
+        image:'assert/images/quiz/CTIF.svg' },
+      CTIL: { code:'CTIL', group:'leader',
+        nickname:{ zh:'快乐组排', en:'Happy Squad' },
+        description:{ zh:'跑毒路上唱歌讲段子，队友倒了先笑再扶，吃不吃鸡不重要开黑就是快乐', en:'Sings and tells jokes while running from zone. Teammate goes down — laughs first, revives second. Winning doesn\'t matter, playing together is the fun.' },
+        strengths:{ zh:['团队氛围','心态超好','快乐源泉'], en:['Great vibes','Best attitude','Source of joy'] },
+        weaknesses:{ zh:['不认真打','经常坑队友'], en:['Doesn\'t take it seriously','Often trolls teammates'] },
+        partner:['CTIF'], nemesis:'RWSF',
+        image:'assert/images/quiz/CTIL.svg' }
+    };
+
+    const GROUP_INFO = {
+      rush: { zh:'猛攻组 Rush', en:'Rush Group' },
+      brain: { zh:'谋略组 Brain', en:'Brain Group' },
+      shadow: { zh:'潜伏组 Shadow', en:'Shadow Group' },
+      leader: { zh:'指挥组 Leader', en:'Leader Group' }
+    };
+
+    const DIMENSION_LABELS = {
+      RC: { left:{ zh:'钢枪 Rush', en:'Rush' }, right:{ zh:'苟活 Cautious', en:'Cautious' }, name:{ zh:'战斗风格', en:'Combat Style' } },
+      WT: { left:{ zh:'独狼 Solo', en:'Solo' }, right:{ zh:'开黑 Team', en:'Team' }, name:{ zh:'社交倾向', en:'Social Style' } },
+      SI: { left:{ zh:'算圈 Strategic', en:'Strategic' }, right:{ zh:'莽夫 Instinct', en:'Instinct' }, name:{ zh:'决策方式', en:'Decision Making' } },
+      FL: { left:{ zh:'刚枪 Fight', en:'Fight' }, right:{ zh:'打野 Loot', en:'Loot' }, name:{ zh:'资源取向', en:'Resource Style' } }
+    };
+
+    // ===== STATE =====
+    let currentQuestion = 0;
+    let answers = new Array(16).fill(null); // stores selected option index
+    let currentLang = 'en';
+
+    // ===== i18n =====
+    const texts = {
+      en: {
+        navHome:'Home', navAbout:'About', navRoster:'Roster', navStats:'Stats', navMaps:'Maps', navQuiz:'Quiz', navJoin:'Join Us',
+        quizTag:'PUBG Personality Test',
+        quizTitle1:'What kind of', quizTitle2:'PUBG player are you?',
+        quizSub:'16 questions to discover your PUBG personality. 4 dimensions, 16 types. Find your player identity.',
+        quizStart:'Start Test', quizCounterText:'players have completed the test',
+        quizLastResult:'View last result →',
+        quizPrev:'Previous', quizNext:'Next', quizViewResult:'View Result',
+        resultLabel:'Your PUBG personality is:', resultGroupLabel:'Group',
+        resultStrengths:'Strengths', resultWeaknesses:'Weaknesses',
+        resultPartner:'Best Partner', resultNemesis:'Nemesis',
+        resultShare:'Generate Share Card', resultRetry:'Retry', resultViewAll:'View all personalities',
+        allTypesTitle:'All PUBG Personalities',
+        shareSave:'Save Image', shareClose:'Close',
+        footAbout:'About', footStats:'Stats', footMaps:'Maps', footContact:'Contact'
+      },
+      zh: {
+        navHome:'首页', navAbout:'关于', navRoster:'阵容', navStats:'战绩', navMaps:'地图', navQuiz:'人格', navJoin:'加入',
+        quizTag:'PUBG 人格测试',
+        quizTitle1:'你是哪种', quizTitle2:'吃鸡玩家？',
+        quizSub:'16题测出你的PUBG人格，4大维度16种类型，找到属于你的吃鸡人格',
+        quizStart:'开始测试', quizCounterText:'人已完成测试',
+        quizLastResult:'查看上次结果 →',
+        quizPrev:'上一题', quizNext:'下一题', quizViewResult:'查看结果',
+        resultLabel:'你的吃鸡人格是：', resultGroupLabel:'分组',
+        resultStrengths:'优势', resultWeaknesses:'弱点',
+        resultPartner:'最佳搭档', resultNemesis:'天敌',
+        resultShare:'生成分享图', resultRetry:'再测一次', resultViewAll:'查看全部人格',
+        allTypesTitle:'全部吃鸡人格',
+        shareSave:'保存图片', shareClose:'关闭',
+        footAbout:'关于', footStats:'战绩', footMaps:'地图', footContact:'联系'
+      }
+    };
+
+    function setLanguageText(lang) {
+      currentLang = lang;
+      const data = texts[lang];
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (!data[key]) return;
+        if (data[key].includes('<') && (data[key].includes('<br') || data[key].includes('<span') || data[key].includes('<strong'))) {
+          el.innerHTML = data[key];
+        } else {
+          el.textContent = data[key];
+        }
+      });
+      // Re-render current view if quiz is active
+      if (document.getElementById('quizScreen').classList.contains('active')) {
+        renderQuestion(currentQuestion);
+      }
+      if (document.getElementById('resultScreen').classList.contains('active') && lastResult) {
+        renderResult(lastResult.code, lastResult.scores);
+      }
+    }
+
+    // ===== NAVIGATION =====
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('open');
+    }
+    document.getElementById('hamburgerBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.add('open');
+    });
+    document.getElementById('mobileNavClose').addEventListener('click', closeMobileNav);
+
+    // Lang toggle
+    const langBtn = document.getElementById('langToggle');
+    const savedLang = localStorage.getItem('keygene_lang');
+    if (savedLang) { currentLang = savedLang; }
+    setLanguageText(currentLang);
+    langBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'en' ? 'zh' : 'en';
+      localStorage.setItem('keygene_lang', currentLang);
+      setLanguageText(currentLang);
+    });
+
+    // ===== SCREEN MANAGEMENT =====
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ===== LANDING =====
+    const completions = parseInt(localStorage.getItem('quizCompletions') || '0');
+    document.getElementById('counterNum').textContent = completions + Math.floor(Math.random() * 50) + 128;
+
+    // Check for last result
+    let lastResult = null;
+    const savedResult = localStorage.getItem('quizLastResult');
+    if (savedResult) {
+      try {
+        lastResult = JSON.parse(savedResult);
+        document.getElementById('lastResultLink').style.display = 'block';
+      } catch(e) {}
+    }
+
+    function showLastResult() {
+      if (lastResult) {
+        renderResult(lastResult.code, lastResult.scores);
+        showScreen('resultScreen');
+      }
+    }
+
+    document.getElementById('startBtn').addEventListener('click', () => {
+      currentQuestion = 0;
+      answers = new Array(16).fill(null);
+      showScreen('quizScreen');
+      renderQuestion(0);
+    });
+
+    // ===== QUIZ FLOW =====
+    function renderQuestion(index) {
+      const q = QUESTIONS[index];
+      const lang = currentLang;
+
+      // Progress counter
+      document.getElementById('progressCounter').textContent = (index + 1) + ' / 16';
+
+      // Progress bar
+      const bar = document.getElementById('progressBar');
+      bar.innerHTML = '';
+      for (let i = 0; i < 16; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'progress-segment';
+        if (answers[i] !== null) seg.classList.add('done');
+        if (i === index) seg.classList.add('current');
+        if (i < index || answers[i] !== null) {
+          seg.addEventListener('click', () => {
+            currentQuestion = i;
+            renderQuestion(i);
+          });
+        }
+        bar.appendChild(seg);
+      }
+
+      // Question text
+      document.getElementById('questionText').textContent = q.text[lang];
+
+      // Options
+      const list = document.getElementById('optionsList');
+      list.innerHTML = '';
+      q.options.forEach((opt, oi) => {
+        const card = document.createElement('div');
+        card.className = 'option-card';
+        if (answers[index] === oi) card.classList.add('selected');
+        card.textContent = opt.text[lang];
+        card.addEventListener('click', () => {
+          answers[index] = oi;
+          document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          document.getElementById('nextBtn').disabled = false;
+          // Update progress bar to show this as done
+          const segs = bar.querySelectorAll('.progress-segment');
+          if (segs[index]) segs[index].classList.add('done');
+        });
+        list.appendChild(card);
+      });
+
+      // Nav buttons
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      prevBtn.style.display = index === 0 ? 'none' : 'block';
+      nextBtn.disabled = answers[index] === null;
+      nextBtn.textContent = index === 15 ? texts[lang].quizViewResult : texts[lang].quizNext;
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion(currentQuestion);
+      }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (answers[currentQuestion] === null) return;
+      if (currentQuestion < 15) {
+        currentQuestion++;
+        renderQuestion(currentQuestion);
+      } else {
+        // Calculate result
+        const scores = { RC:0, WT:0, SI:0, FL:0 };
+        QUESTIONS.forEach((q, i) => {
+          if (answers[i] !== null) {
+            scores[q.dim] += q.options[answers[i]].value;
+          }
+        });
+        const code = (scores.RC >= 0 ? 'R' : 'C') +
+                     (scores.WT >= 0 ? 'W' : 'T') +
+                     (scores.SI >= 0 ? 'S' : 'I') +
+                     (scores.FL >= 0 ? 'F' : 'L');
+
+        lastResult = { code, scores };
+        localStorage.setItem('quizLastResult', JSON.stringify(lastResult));
+        const count = parseInt(localStorage.getItem('quizCompletions') || '0');
+        localStorage.setItem('quizCompletions', count + 1);
+
+        renderResult(code, scores);
+        showScreen('resultScreen');
+      }
+    });
+
+    // ===== RESULT RENDERING =====
+    function renderResult(code, scores) {
+      const type = PERSONALITY_TYPES[code];
+      if (!type) return;
+      const lang = currentLang;
+      const groupColor = GROUP_COLORS[type.group];
+      const container = document.getElementById('resultContainer');
+
+      container.innerHTML = `
+        <!-- Card 1: Hero -->
+        <div class="result-card result-hero">
+          <div class="result-hero-accent" style="background:${groupColor};"></div>
+          <div class="result-label" data-key="resultLabel">${texts[lang].resultLabel}</div>
+          <div class="result-nickname" style="color:${groupColor};">${type.nickname[lang]}</div>
+          <div class="result-code" style="color:${groupColor};">${code}</div>
+          <div class="result-avatar"><img src="${type.image}" alt="${type.nickname[lang]}" /></div>
+          <div class="result-tagline">${type.description[lang]}</div>
+        </div>
+
+        <!-- Card 2: Summary -->
+        <div class="result-card">
+          <div class="result-summary-title">${code}（${type.nickname[lang]}）</div>
+          <div class="result-group-badge" style="background:${groupColor}22; color:${groupColor};">
+            <span class="result-group-dot" style="background:${groupColor};"></span>
+            ${GROUP_INFO[type.group][lang]}
+          </div>
+          <div class="result-description">${type.description[lang]}</div>
+        </div>
+
+        <!-- Card 3: Dimensions -->
+        <div class="result-card">
+          ${renderDimensions(scores, groupColor)}
+        </div>
+
+        <!-- Card 4: Strengths & Weaknesses -->
+        <div class="result-card">
+          <div class="sw-grid">
+            <div class="sw-section">
+              <h4 style="color:${groupColor};">${texts[lang].resultStrengths}</h4>
+              <div class="sw-tags">
+                ${type.strengths[lang].map(s => `<span class="sw-tag strength">${s}</span>`).join('')}
+              </div>
+            </div>
+            <div class="sw-section">
+              <h4>${texts[lang].resultWeaknesses}</h4>
+              <div class="sw-tags">
+                ${type.weaknesses[lang].map(w => `<span class="sw-tag weakness">${w}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Relationships -->
+        <div class="result-card">
+          <div class="rel-section">
+            <h4 style="color:${groupColor};">${texts[lang].resultPartner}</h4>
+            ${type.partner.map(p => {
+              const pt = PERSONALITY_TYPES[p];
+              return `<div class="rel-item">
+                <div class="rel-avatar"><img src="${pt.image}" alt="${pt.nickname[lang]}" /></div>
+                <div class="rel-info">
+                  <div class="rel-code">${p}</div>
+                  <div class="rel-name">${pt.nickname[lang]}</div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+          <div class="rel-section">
+            <h4>${texts[lang].resultNemesis}</h4>
+            ${(() => {
+              const nt = PERSONALITY_TYPES[type.nemesis];
+              return `<div class="rel-item">
+                <div class="rel-avatar"><img src="${nt.image}" alt="${nt.nickname[lang]}" /></div>
+                <div class="rel-info">
+                  <div class="rel-code">${type.nemesis}</div>
+                  <div class="rel-name">${nt.nickname[lang]}</div>
+                </div>
+              </div>`;
+            })()}
+          </div>
+        </div>
+
+        <!-- Card 6: Actions -->
+        <div class="result-card actions-card">
+          <button class="btn-clip btn-red" onclick="generateShareCard()" data-key="resultShare">${texts[lang].resultShare}</button>
+          <button class="btn-clip btn-outline" onclick="retryQuiz()" data-key="resultRetry">${texts[lang].resultRetry}</button>
+          <a class="actions-link" onclick="showAllTypes()" data-key="resultViewAll">${texts[lang].resultViewAll}</a>
+        </div>
+      `;
+    }
+
+    function renderDimensions(scores, color) {
+      const lang = currentLang;
+      const dims = ['RC','WT','SI','FL'];
+      return dims.map(dim => {
+        const score = scores[dim];
+        const pct = Math.round(((score + 8) / 16) * 100);
+        const info = DIMENSION_LABELS[dim];
+        return `<div class="dimension-item">
+          <div class="dimension-header">
+            <span class="dimension-label">${info.name[lang]}</span>
+            <span>${pct}%</span>
+          </div>
+          <div class="dimension-track">
+            <div class="dimension-fill" style="width:${pct}%; background:${color};"></div>
+          </div>
+          <div class="dimension-poles">
+            <span>${info.left[lang]}</span>
+            <span>${info.right[lang]}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ===== ACTIONS =====
+    function retryQuiz() {
+      currentQuestion = 0;
+      answers = new Array(16).fill(null);
+      showScreen('quizScreen');
+      renderQuestion(0);
+    }
+
+    // ===== ALL TYPES =====
+    function showAllTypes() {
+      const lang = currentLang;
+      const grid = document.getElementById('typesGrid');
+      grid.innerHTML = '';
+      Object.values(PERSONALITY_TYPES).forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'type-mini-card';
+        card.style.borderTopColor = GROUP_COLORS[t.group];
+        card.innerHTML = `
+          <div class="type-mini-avatar"><img src="${t.image}" alt="${t.nickname[lang]}" /></div>
+          <div class="type-mini-code" style="color:${GROUP_COLORS[t.group]};">${t.code}</div>
+          <div class="type-mini-name">${t.nickname[lang]}</div>
+        `;
+        card.addEventListener('click', () => {
+          // Show this type's result
+          const fakeScores = { RC:0, WT:0, SI:0, FL:0 };
+          // Derive rough scores from code
+          fakeScores.RC = t.code[0] === 'R' ? 4 : -4;
+          fakeScores.WT = t.code[1] === 'W' ? 4 : -4;
+          fakeScores.SI = t.code[2] === 'S' ? 4 : -4;
+          fakeScores.FL = t.code[3] === 'F' ? 4 : -4;
+          lastResult = { code: t.code, scores: fakeScores };
+          closeTypes();
+          renderResult(t.code, fakeScores);
+          showScreen('resultScreen');
+        });
+        grid.appendChild(card);
+      });
+      document.getElementById('typesOverlay').classList.add('open');
+    }
+
+    function closeTypes() {
+      document.getElementById('typesOverlay').classList.remove('open');
+    }
+
+    // ===== SHARE CARD =====
+    function generateShareCard() {
+      if (!lastResult) return;
+      const type = PERSONALITY_TYPES[lastResult.code];
+      const lang = currentLang;
+      const groupColor = GROUP_COLORS[type.group];
+      const canvas = document.getElementById('shareCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = 750, H = 1334;
+
+      // Clear
+      ctx.fillStyle = '#111';
+      ctx.fillRect(0, 0, W, H);
+
+      // Border
+      ctx.strokeStyle = groupColor;
+      ctx.lineWidth = 4;
+      ctx.strokeRect(2, 2, W - 4, H - 4);
+
+      // Load images then draw
+      const logoImg = new Image();
+      const avatarImg = new Image();
+      let loaded = 0;
+
+      function onLoad() {
+        loaded++;
+        if (loaded < 2) return;
+        drawShareContent(ctx, W, H, type, lastResult.scores, groupColor, lang, logoImg, avatarImg);
+        document.getElementById('shareOverlay').classList.add('open');
+      }
+
+      logoImg.crossOrigin = 'anonymous';
+      avatarImg.crossOrigin = 'anonymous';
+      logoImg.onload = onLoad;
+      avatarImg.onload = onLoad;
+      logoImg.onerror = onLoad;
+      avatarImg.onerror = onLoad;
+      logoImg.src = 'assert/images/helmet-red.png';
+      avatarImg.src = type.image;
+    }
+
+    function drawShareContent(ctx, W, H, type, scores, color, lang, logoImg, avatarImg) {
+      // Logo
+      try { ctx.drawImage(logoImg, 30, 30, 48, 48); } catch(e) {}
+      ctx.fillStyle = '#fff';
+      ctx.font = '700 24px Rubik, sans-serif';
+      ctx.fillText('KEY GENE', 88, 62);
+
+      // Label
+      ctx.fillStyle = '#888';
+      ctx.font = '400 22px Rubik, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(texts[lang].resultLabel, W/2, 140);
+
+      // Avatar
+      try { ctx.drawImage(avatarImg, W/2 - 120, 180, 240, 240); } catch(e) {}
+
+      // Nickname
+      ctx.fillStyle = color;
+      ctx.font = '900 56px Rubik, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(type.nickname[lang], W/2, 490);
+
+      // Code
+      ctx.fillStyle = color;
+      ctx.font = '700 32px Rubik, sans-serif';
+      ctx.fillText(type.code, W/2, 540);
+
+      // Group badge
+      ctx.fillStyle = '#888';
+      ctx.font = '500 20px Rubik, sans-serif';
+      ctx.fillText(GROUP_INFO[type.group][lang], W/2, 580);
+
+      // Description
+      ctx.fillStyle = '#aaa';
+      ctx.font = '400 20px Rubik, sans-serif';
+      const desc = type.description[lang];
+      wrapText(ctx, desc, W/2, 640, W - 100, 28);
+
+      // Dimension bars
+      const dims = ['RC','WT','SI','FL'];
+      let barY = 800;
+      dims.forEach(dim => {
+        const info = DIMENSION_LABELS[dim];
+        const pct = Math.round(((scores[dim] + 8) / 16) * 100);
+
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#888';
+        ctx.font = '500 16px Rubik, sans-serif';
+        ctx.fillText(info.name[lang], 60, barY);
+
+        ctx.textAlign = 'right';
+        ctx.fillText(pct + '%', W - 60, barY);
+
+        // Track
+        const trackX = 60, trackW = W - 120, trackH = 10;
+        barY += 12;
+        ctx.fillStyle = 'rgba(255,255,255,0.1)';
+        roundRect(ctx, trackX, barY, trackW, trackH, 5);
+        ctx.fill();
+
+        // Fill
+        ctx.fillStyle = color;
+        roundRect(ctx, trackX, barY, trackW * pct / 100, trackH, 5);
+        ctx.fill();
+
+        // Pole labels
+        barY += 24;
+        ctx.fillStyle = '#666';
+        ctx.font = '400 14px Rubik, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(info.left[lang], 60, barY);
+        ctx.textAlign = 'right';
+        ctx.fillText(info.right[lang], W - 60, barY);
+
+        barY += 40;
+      });
+
+      // Strengths
+      barY += 10;
+      ctx.textAlign = 'center';
+      ctx.fillStyle = color;
+      ctx.font = '600 18px Rubik, sans-serif';
+      ctx.fillText(type.strengths[lang].join('  ·  '), W/2, barY);
+
+      // URL
+      ctx.fillStyle = '#555';
+      ctx.font = '500 20px Rubik, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('keygene.top', W/2, H - 40);
+    }
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const chars = text.split('');
+      let line = '';
+      let ly = y;
+      for (let i = 0; i < chars.length; i++) {
+        const test = line + chars[i];
+        if (ctx.measureText(test).width > maxWidth && line.length > 0) {
+          ctx.fillText(line, x, ly);
+          line = chars[i];
+          ly += lineHeight;
+        } else {
+          line = test;
+        }
+      }
+      ctx.fillText(line, x, ly);
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      if (w < 0) w = 0;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function downloadShare() {
+      const canvas = document.getElementById('shareCanvas');
+      const link = document.createElement('a');
+      link.download = 'pubg-personality-' + (lastResult ? lastResult.code : 'result') + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function closeShare() {
+      document.getElementById('shareOverlay').classList.remove('open');
+    }
+  </script>
+</body>
+</html>
