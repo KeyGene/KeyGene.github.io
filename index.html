@@ -1097,7 +1097,7 @@
     const PUBG_PROXY = '/api';  // Cloudflare Worker proxy — API key stays server-side
     const SHARD = 'steam';
 
-    document.getElementById('playerForm').addEventListener('submit', (e) => {
+    document.getElementById('playerForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('playerName').value.trim();
       if (name) {
