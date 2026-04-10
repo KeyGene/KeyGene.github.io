@@ -76,6 +76,11 @@
       --toggle-hover: rgba(0,0,0,0.3);
     }
     [data-theme="light"] .logo-text { color: #111; }
+    [data-theme="light"] .player-banner { background: linear-gradient(135deg, #f8f0ee, #f0f0f0); }
+    [data-theme="light"] .rank-badge { background: #f0f0f0; border-color: #ddd; }
+    [data-theme="light"] .record-card { background: #f0f0f0; }
+    [data-theme="light"] .match-map { background: linear-gradient(135deg, #e8e8f0, #f0f0f0); border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .player-avatar { color: #fff; }
     html { scroll-behavior: smooth; }
     body { font-family: var(--font); background: var(--black); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
@@ -91,9 +96,26 @@
     .logo-icon { width: 32px; height: 32px; object-fit: contain; }
     .logo-text { font-size: 18px; font-weight: 800; color: var(--white); text-transform: uppercase; }
     .logo-text .accent { color: var(--red); }
-    .header-right { display: flex; align-items: center; gap: 16px; }
-    .header-right a, .header-right button { color: var(--gray-500); font-size: 13px; text-decoration: none; font-family: var(--font); background: none; border: none; cursor: pointer; padding: 12px 8px; transition: color 0.2s; }
-    .header-right a:hover, .header-right button:hover { color: var(--white); }
+    nav { display: flex; gap: 8px; }
+    nav a { color: var(--gray-500); font-size: 13px; text-decoration: none; font-weight: 600; padding: 8px 14px; border-radius: 6px; transition: color 0.2s, background 0.2s; }
+    nav a:hover { color: var(--white); }
+    nav a.active { color: var(--white); background: rgba(255,255,255,0.08); }
+    [data-theme="light"] nav a.active { background: rgba(0,0,0,0.06); color: #111; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-right a, .nav-right button { color: var(--gray-500); font-size: 13px; text-decoration: none; font-family: var(--font); background: none; border: none; cursor: pointer; transition: color 0.2s; }
+    .nav-right a:hover, .nav-right button:hover { color: var(--white); }
+    .hamburger { display: none; padding: 8px; }
+    .hamburger svg { width: 24px; height: 24px; stroke: var(--white); fill: none; stroke-width: 2; }
+    .mobile-nav { display: none; position: fixed; inset: 0; z-index: 200; background: var(--black); flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { color: var(--white); text-decoration: none; font-size: 18px; font-weight: 700; }
+    .mobile-nav-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; }
+    .mobile-nav-close svg { width: 28px; height: 28px; stroke: var(--white); fill: none; stroke-width: 2; }
+    @media (max-width: 768px) {
+      header { padding: 0 16px; }
+      nav { display: none; }
+      .hamburger { display: block; }
+    }
     .lang-toggle { padding: 4px 10px; border: 1px solid var(--toggle-border) !important; border-radius: 4px; }
     .theme-toggle {
       font-size: 16px; cursor: pointer; padding: 4px 8px;
@@ -372,18 +394,37 @@
   <!-- HEADER -->
   <header>
     <a href="index.html" class="logo">
-      <img src="assert/images/helmet-red.png" alt="KEY GENE" class="logo-icon" />
-      <span class="logo-text">Key<span class="accent">Gene</span> <span style="font-weight:500;font-size:13px;color:var(--gray-500);margin-left:4px;">STATS</span></span>
+      <img src="assert/images/helmet-red.png" alt="KEY GENE" style="width:40px;height:40px;object-fit:contain;" />
+      <span class="logo-text">Key<span class="accent">Gene</span></span>
     </a>
-    <div class="header-right">
-      <a href="index.html" data-key="backHome">&larr; Back</a>
+
+    <nav>
+      <a href="stats.html" class="active" data-key="navStats">Stats</a>
+      <a href="maps.html" data-key="navMaps">Maps</a>
       <a href="quiz.html" data-key="navQuiz">Quiz</a>
+    </nav>
+
+    <div class="nav-right">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
       </button>
       <button class="lang-toggle" id="langToggle">EN / ZH</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" onclick="document.getElementById('mobileNav').classList.remove('open')">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="index.html" onclick="document.getElementById('mobileNav').classList.remove('open')">Home</a>
+    <a href="stats.html" onclick="document.getElementById('mobileNav').classList.remove('open')" data-key="navStats">Stats</a>
+    <a href="maps.html" onclick="document.getElementById('mobileNav').classList.remove('open')" data-key="navMaps">Maps</a>
+    <a href="quiz.html" onclick="document.getElementById('mobileNav').classList.remove('open')" data-key="navQuiz">Quiz</a>
+  </div>
 
   <!-- SEARCH -->
   <div class="search-area">
@@ -505,7 +546,7 @@
     // ===== i18n =====
     const texts = {
       en: {
-        backHome: "\u2190 Back", navQuiz: "Quiz", searchBtn: "Search",
+        navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", searchBtn: "Search",
         tabOverview: "Overview", tabMatches: "Recent Matches", tabWeapons: "Weapons",
         tabMaps: "Map Stats", tabCompare: "Compare", tabHeatmap: "Heatmap",
         searchPrompt: "Search a player to view stats",
@@ -544,7 +585,7 @@
         banChecking: "Checking...",
       },
       zh: {
-        backHome: "\u2190 \u8fd4\u56de", navQuiz: "\u4eba\u683c", searchBtn: "\u641c\u7d22",
+        navStats: "\u6218\u7ee9", navMaps: "\u5730\u56fe", navQuiz: "\u4eba\u683c", searchBtn: "\u641c\u7d22",
         tabOverview: "\u6982\u89c8", tabMatches: "\u6700\u8fd1\u6bd4\u8d5b", tabWeapons: "\u6b66\u5668\u5206\u6790",
         tabMaps: "\u5730\u56fe\u80dc\u7387", tabCompare: "\u5bf9\u6bd4", tabHeatmap: "\u70ed\u529b\u56fe",
         searchPrompt: "\u641c\u7d22\u73a9\u5bb6\u67e5\u770b\u6218\u7ee9",
@@ -1316,9 +1357,12 @@
       btn.addEventListener('click', doBanCheck);
       input.addEventListener('keydown', e => { if (e.key === 'Enter') doBanCheck(); });
 
-      // Pre-fill from main search if available
+      // Pre-fill from main search and auto-run if available
       document.querySelector('.tab-btn[data-tab="bancheck"]').addEventListener('click', () => {
-        if (!input.value && currentPlayer) input.value = currentPlayer.name;
+        if (currentPlayer) {
+          input.value = currentPlayer.name;
+          doBanCheck();
+        }
         renderHistory();
       });
       renderHistory();
@@ -1339,6 +1383,9 @@
     });
     document.getElementById('langToggle').addEventListener('click', () => {
       setLanguage(currentLang === 'en' ? 'zh' : 'en');
+    });
+    document.getElementById('hamburgerBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.add('open');
     });
   </script>
 </body>
