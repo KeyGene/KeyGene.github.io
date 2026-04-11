@@ -421,9 +421,9 @@
     <button class="mobile-nav-close" id="mobileNavClose">
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
+    <a href="index.html" onclick="closeMobileNav()" data-key="navHome">Home</a>
     <a href="stats.html" data-key="navStats" onclick="closeMobileNav()">Stats</a>
     <a href="maps.html" data-key="navMaps" onclick="closeMobileNav()">Maps</a>
-    <!-- <a href="leaderboard.html" data-key="navLeaderboard" onclick="closeMobileNav()">Leaderboard</a> -->
     <a href="quiz.html" data-key="navQuiz" onclick="closeMobileNav()">Quiz</a>
     <a href="index.html#join" data-key="navJoin" onclick="closeMobileNav()">Join Us</a>
   </div>
@@ -803,13 +803,13 @@
     // ===== i18n =====
     const texts = {
       en: {
-        navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", navJoin: "Join Us",
+        navHome: "Home", navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", navJoin: "Join Us",
         footAbout: "About", footStats: "Stats", footMaps: "Maps", footContact: "Contact",
         toolGrid: "Grid", toolMeasure: "Measure",
         markerTitle: "Markers", markerNoData: "No marker data"
       },
       zh: {
-        navStats: "\u6218\u7ee9", navMaps: "\u5730\u56fe", navQuiz: "\u4eba\u683c", navJoin: "\u52a0\u5165",
+        navHome: "首页", navStats: "战绩", navMaps: "地图", navQuiz: "人格", navJoin: "加入",
         footAbout: "\u5173\u4e8e", footStats: "\u6218\u7ee9", footMaps: "\u5730\u56fe", footContact: "\u8054\u7cfb",
         toolGrid: "\u7f51\u683c", toolMeasure: "\u6d4b\u8ddd",
         markerTitle: "\u6807\u8bb0\u70b9", markerNoData: "\u6682\u65e0\u6807\u8bb0\u6570\u636e"
