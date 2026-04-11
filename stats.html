@@ -289,6 +289,14 @@
 
     /* ===== LOADING & EMPTY ===== */
     .loading-msg, .empty-msg { text-align: center; padding: 60px 20px; color: var(--gray-500); font-size: 14px; }
+    .empty-msg::before {
+      content: '';
+      display: block;
+      width: 48px; height: 48px;
+      margin: 0 auto 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat center;
+      opacity: 0.5;
+    }
     .loading-msg::before { content: ''; display: block; width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--red); border-radius: 50%; margin: 0 auto 16px; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
