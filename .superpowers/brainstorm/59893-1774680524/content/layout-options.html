@@ -1,0 +1,137 @@
+<h2>功能页面布局方向</h2>
+<p class="subtitle">选择整体布局结构，决定 Tab 和内容区的排列方式</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:24px;background:#111">
+      <!-- Layout A: Top tabs -->
+      <div style="background:#000;border-radius:12px;overflow:hidden;border:1px solid #333;">
+        <!-- Header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #222;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:28px;height:28px;background:#EE3F2C;border-radius:4px;"></div>
+            <span style="color:#fff;font-weight:700;font-size:14px;">KEY GENE STATS</span>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <span style="color:#666;font-size:11px;">← 返回主站</span>
+            <span style="color:#666;font-size:11px;">EN/ZH</span>
+          </div>
+        </div>
+        <!-- Player search bar -->
+        <div style="padding:16px 20px;background:#0a0a0a;">
+          <div style="display:flex;gap:8px;">
+            <div style="flex:1;height:36px;background:#1a1a1a;border-radius:6px;border:1px solid #333;display:flex;align-items:center;padding:0 12px;">
+              <span style="color:#666;font-size:11px;">输入玩家名...</span>
+            </div>
+            <div style="height:36px;padding:0 16px;background:#EE3F2C;border-radius:6px;display:flex;align-items:center;">
+              <span style="color:#fff;font-size:11px;font-weight:600;">搜索</span>
+            </div>
+          </div>
+        </div>
+        <!-- Tabs -->
+        <div style="display:flex;gap:0;border-bottom:1px solid #222;padding:0 20px;">
+          <div style="padding:10px 14px;font-size:10px;color:#fff;border-bottom:2px solid #EE3F2C;">概览</div>
+          <div style="padding:10px 14px;font-size:10px;color:#666;">最近比赛</div>
+          <div style="padding:10px 14px;font-size:10px;color:#666;">武器</div>
+          <div style="padding:10px 14px;font-size:10px;color:#666;">地图</div>
+          <div style="padding:10px 14px;font-size:10px;color:#666;">对比</div>
+          <div style="padding:10px 14px;font-size:10px;color:#666;">热力图</div>
+        </div>
+        <!-- Content area -->
+        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+          <div style="background:#1a1a1a;border-radius:8px;padding:14px;text-align:center;">
+            <div style="color:#EE3F2C;font-size:20px;font-weight:800;">5.33</div>
+            <div style="color:#666;font-size:9px;margin-top:4px;">K/D</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:8px;padding:14px;text-align:center;">
+            <div style="color:#10B981;font-size:20px;font-weight:800;">22.1%</div>
+            <div style="color:#666;font-size:9px;margin-top:4px;">胜率</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:8px;padding:14px;text-align:center;">
+            <div style="color:#fff;font-size:20px;font-weight:800;">1761</div>
+            <div style="color:#666;font-size:9px;margin-top:4px;">场次</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:8px;padding:14px;text-align:center;">
+            <div style="color:#fff;font-size:20px;font-weight:800;">Lv.6</div>
+            <div style="color:#666;font-size:9px;margin-top:4px;">段位</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:8px;padding:14px;text-align:center;">
+            <div style="color:#fff;font-size:20px;font-weight:800;">7899</div>
+            <div style="color:#666;font-size:9px;margin-top:4px;">总击杀</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:8px;padding:14px;text-align:center;">
+            <div style="color:#EE3F2C;font-size:20px;font-weight:800;">389</div>
+            <div style="color:#666;font-size:9px;margin-top:4px;">吃鸡</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A) 顶部横向 Tab</h3>
+      <p>经典布局。搜索栏固定顶部，Tab 横排切换功能区。内容区最大化，适合数据密集展示。类似 op.gg / tracker.gg 风格。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:24px;background:#111">
+      <!-- Layout B: Left sidebar -->
+      <div style="background:#000;border-radius:12px;overflow:hidden;border:1px solid #333;display:flex;min-height:320px;">
+        <!-- Sidebar -->
+        <div style="width:160px;border-right:1px solid #222;padding:16px 0;flex-shrink:0;">
+          <div style="display:flex;align-items:center;gap:6px;padding:0 14px 14px;border-bottom:1px solid #222;">
+            <div style="width:24px;height:24px;background:#EE3F2C;border-radius:4px;"></div>
+            <span style="color:#fff;font-weight:700;font-size:12px;">STATS</span>
+          </div>
+          <!-- Search in sidebar -->
+          <div style="padding:12px 10px;border-bottom:1px solid #222;">
+            <div style="height:30px;background:#1a1a1a;border-radius:4px;border:1px solid #333;display:flex;align-items:center;padding:0 8px;">
+              <span style="color:#666;font-size:9px;">搜索玩家...</span>
+            </div>
+          </div>
+          <!-- Nav items -->
+          <div style="padding:8px 0;">
+            <div style="padding:8px 14px;font-size:10px;color:#fff;background:#EE3F2C22;border-left:2px solid #EE3F2C;">📊 概览</div>
+            <div style="padding:8px 14px;font-size:10px;color:#666;">🎮 最近比赛</div>
+            <div style="padding:8px 14px;font-size:10px;color:#666;">🔫 武器分析</div>
+            <div style="padding:8px 14px;font-size:10px;color:#666;">🗺️ 地图胜率</div>
+            <div style="padding:8px 14px;font-size:10px;color:#666;">⚔️ 玩家对比</div>
+            <div style="padding:8px 14px;font-size:10px;color:#666;">📅 热力图</div>
+            <div style="padding:8px 14px;font-size:10px;color:#666;">📸 生成图片</div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div style="flex:1;padding:20px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#EE3F2C,#ff5a4a);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;">S</div>
+            <div>
+              <div style="color:#fff;font-weight:700;font-size:14px;">SymarsYoung</div>
+              <div style="color:#666;font-size:10px;">Steam · Squad · Lifetime</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:#1a1a1a;border-radius:8px;padding:12px;text-align:center;">
+              <div style="color:#EE3F2C;font-size:18px;font-weight:800;">5.33</div>
+              <div style="color:#666;font-size:9px;">K/D</div>
+            </div>
+            <div style="background:#1a1a1a;border-radius:8px;padding:12px;text-align:center;">
+              <div style="color:#10B981;font-size:18px;font-weight:800;">22.1%</div>
+              <div style="color:#666;font-size:9px;">胜率</div>
+            </div>
+            <div style="background:#1a1a1a;border-radius:8px;padding:12px;text-align:center;">
+              <div style="color:#fff;font-size:18px;font-weight:800;">1761</div>
+              <div style="color:#666;font-size:9px;">场次</div>
+            </div>
+            <div style="background:#1a1a1a;border-radius:8px;padding:12px;text-align:center;">
+              <div style="color:#fff;font-size:18px;font-weight:800;">7899</div>
+              <div style="color:#666;font-size:9px;">击杀</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B) 左侧边栏导航</h3>
+      <p>功能多时更清晰。侧边栏常驻，切换不丢失上下文。功能可分组，扩展性强。类似 Dashboard / 后台管理风格。移动端侧边栏收起为抽屉。</p>
+    </div>
+  </div>
+</div>

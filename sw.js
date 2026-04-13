@@ -1,4 +1,4 @@
-const CACHE_NAME = 'keygene-v2';
+const CACHE_NAME = 'keygene-v3';
 const PRECACHE = [
   '/',
   '/index.html',
@@ -37,8 +37,9 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
   var url = new URL(e.request.url);
 
-  // Skip non-GET and API requests
+  // Skip non-GET, non-http(s), and API requests
   if (e.request.method !== 'GET') return;
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
   if (url.pathname.startsWith('/api')) return;
 
   // Static assets (images, css, js, fonts): cache-first
