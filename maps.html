@@ -838,14 +838,23 @@
     };
 
     bindLangToggle(texts, function(lang) {
+      currentLang = lang;
       buildSidebar();
       updateInfo();
       if (allMarkerData) showMarkersForCurrentMap();
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
+    // Initialize synchronously — script is at end of body so DOM is ready.
+    // Set initial language from storage so buildSidebar/updateInfo have correct text,
+    // then build sidebar, init leaflet. bindLangToggle's DOMContentLoaded will
+    // re-run buildSidebar/updateInfo after applying [data-key] translations.
+    (function initMapsPage() {
+      var saved = localStorage.getItem('keygene_lang');
+      currentLang = saved || ((navigator.language || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+      buildSidebar();
       initLeaflet();
-    });
+      updateInfo();
+    })();
   </script>
 </body>
 </html>
