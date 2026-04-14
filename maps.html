@@ -699,7 +699,14 @@
       measureMarkers = [];
     }
     function onMapClick(e) {
-      if (!measureMode) return;
+      if (!measureMode) {
+        // Show coordinate popup for position reference
+        L.popup({ closeButton: true, className: 'dark-popup' })
+          .setLatLng(e.latlng)
+          .setContent('<span style="font-family:monospace;font-size:12px">lat: ' + e.latlng.lat.toFixed(4) + '<br>lng: ' + e.latlng.lng.toFixed(4) + '</span>')
+          .openOn(leafletMap);
+        return;
+      }
       measurePoints.push(e.latlng);
       const dot = L.circleMarker(e.latlng, {radius:4, color:'#EE3F2C', fillColor:'#EE3F2C', fillOpacity:1, weight:2});
       dot.addTo(leafletMap);
@@ -785,7 +792,12 @@
           });
           const marker = L.marker([item.lat, item.lng], { icon });
           const label = isZh ? type : mt.en;
-          const popupContent = item.title ? '<b>' + label + '</b><br>' + item.title : '<b>' + label + '</b>';
+          const idx = markers.indexOf(item);
+          const coordInfo = '<span style="font-size:10px;color:#999;font-family:monospace">'
+            + '#' + idx + ' | lat: ' + item.lat.toFixed(4) + ', lng: ' + item.lng.toFixed(4) + '</span>';
+          const popupContent = '<b>' + label + '</b>'
+            + (item.title ? '<br>' + item.title : '')
+            + '<br>' + coordInfo;
           marker.bindPopup(popupContent, {
             className: 'dark-popup',
             closeButton: false,
