@@ -470,15 +470,15 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22L22 2"/><path d="M6 18l2-2M10 14l2-2M14 10l2-2M18 6l2-2"/></svg>
         </button>
         <button class="map-tool-btn" id="btnEdit" title="Edit Markers">
-          <span class="tooltip">Edit</span>
+          <span class="tooltip" data-key="toolEdit">Edit</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </button>
       </div>
       <!-- Edit mode banner -->
-      <div id="editBanner" style="display:none; position:absolute; top:8px; left:50%; transform:translateX(-50%); z-index:50; background:rgba(238,63,44,0.95); color:#fff; padding:8px 20px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap;">
-        ✏️ 编辑模式 — 拖拽标记点调整位置
-        <button id="btnExport" style="margin-left:12px; padding:4px 12px; background:#fff; color:#333; border:none; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer;">导出修改</button>
-        <button id="btnResetEdits" style="margin-left:6px; padding:4px 12px; background:rgba(255,255,255,0.2); color:#fff; border:none; border-radius:4px; font-size:12px; cursor:pointer;">重置</button>
+      <div id="editBanner" style="display:none; position:absolute; top:8px; left:50%; transform:translateX(-50%); z-index:1000; background:rgba(238,63,44,0.95); color:#fff; padding:8px 20px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap; box-shadow:0 2px 12px rgba(0,0,0,0.3);">
+        <span data-key="editBanner">✏️ 编辑模式 — 拖拽标记点调整位置</span>
+        <button id="btnExport" style="margin-left:12px; padding:4px 12px; background:#fff; color:#333; border:none; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer;" data-key="editExport">导出修改</button>
+        <button id="btnResetEdits" style="margin-left:6px; padding:4px 12px; background:rgba(255,255,255,0.2); color:#fff; border:none; border-radius:4px; font-size:12px; cursor:pointer;" data-key="editReset">重置</button>
         <span id="editCount" style="margin-left:10px; font-size:11px; opacity:0.8;">0 处修改</span>
       </div>
       <!-- Coordinate display -->
@@ -863,7 +863,7 @@
     function updateEditCount() {
       let total = 0;
       for (const mid in editChanges) total += Object.keys(editChanges[mid]).length;
-      document.getElementById('editCount').textContent = total + ' 处修改';
+      document.getElementById('editCount').textContent = total + (currentLang === 'zh' ? ' 处修改' : ' changes');
     }
     document.getElementById('btnEdit').addEventListener('click', function() {
       editMode = !editMode;
@@ -891,7 +891,7 @@
       URL.revokeObjectURL(a.href);
     });
     document.getElementById('btnResetEdits').addEventListener('click', function() {
-      if (!confirm('重置所有修改？')) return;
+      if (!confirm(currentLang === 'zh' ? '重置所有修改？' : 'Reset all changes?')) return;
       editChanges = {};
       updateEditCount();
       // Reload original data
@@ -904,14 +904,18 @@
       en: {
         navHome: "Home", navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", navJoin: "Join Us",
         footAbout: "About", footStats: "Stats", footMaps: "Maps", footContact: "Contact",
-        toolGrid: "Grid", toolMeasure: "Measure",
-        markerTitle: "Markers", markerNoData: "No marker data"
+        toolGrid: "Grid", toolMeasure: "Measure", toolEdit: "Edit",
+        markerTitle: "Markers", markerNoData: "No marker data",
+        editBanner: "✏️ Edit Mode — Drag markers to adjust positions",
+        editExport: "Export", editReset: "Reset"
       },
       zh: {
         navHome: "首页", navStats: "战绩", navMaps: "地图", navQuiz: "人格", navJoin: "加入",
-        footAbout: "\u5173\u4e8e", footStats: "\u6218\u7ee9", footMaps: "\u5730\u56fe", footContact: "\u8054\u7cfb",
-        toolGrid: "\u7f51\u683c", toolMeasure: "\u6d4b\u8ddd",
-        markerTitle: "\u6807\u8bb0\u70b9", markerNoData: "\u6682\u65e0\u6807\u8bb0\u6570\u636e"
+        footAbout: "关于", footStats: "战绩", footMaps: "地图", footContact: "联系",
+        toolGrid: "网格", toolMeasure: "测距", toolEdit: "编辑",
+        markerTitle: "标记点", markerNoData: "暂无标记数据",
+        editBanner: "✏️ 编辑模式 — 拖拽标记点调整位置",
+        editExport: "导出修改", editReset: "重置"
       }
     };
 
