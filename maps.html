@@ -469,6 +469,17 @@
           <span class="tooltip" data-key="toolMeasure">Measure</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22L22 2"/><path d="M6 18l2-2M10 14l2-2M14 10l2-2M18 6l2-2"/></svg>
         </button>
+        <button class="map-tool-btn" id="btnEdit" title="Edit Markers">
+          <span class="tooltip">Edit</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+      </div>
+      <!-- Edit mode banner -->
+      <div id="editBanner" style="display:none; position:absolute; top:8px; left:50%; transform:translateX(-50%); z-index:50; background:rgba(238,63,44,0.95); color:#fff; padding:8px 20px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap;">
+        ✏️ 编辑模式 — 拖拽标记点调整位置
+        <button id="btnExport" style="margin-left:12px; padding:4px 12px; background:#fff; color:#333; border:none; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer;">导出修改</button>
+        <button id="btnResetEdits" style="margin-left:6px; padding:4px 12px; background:rgba(255,255,255,0.2); color:#fff; border:none; border-radius:4px; font-size:12px; cursor:pointer;">重置</button>
+        <span id="editCount" style="margin-left:10px; font-size:11px; opacity:0.8;">0 处修改</span>
       </div>
       <!-- Coordinate display -->
       <div class="coord-display" id="coordDisplay">--</div>
@@ -742,6 +753,8 @@
     let allMarkerData = null;
     let markerLayers = {}; // type -> L.layerGroup
     let markerHidden = {}; // type -> bool
+    let editMode = false;
+    let editChanges = {}; // { "Erangel": { 3: {lat, lng}, 7: {lat, lng} }, ... }
 
 
     async function loadMarkers() {
@@ -790,17 +803,30 @@
             iconAnchor: [12, 12],
             popupAnchor: [0, -14],
           });
-          const marker = L.marker([item.lat, item.lng], { icon });
-          const label = isZh ? type : mt.en;
           const idx = markers.indexOf(item);
-          const coordInfo = '<span style="font-size:10px;color:#999;font-family:monospace">'
-            + '#' + idx + ' | lat: ' + item.lat.toFixed(4) + ', lng: ' + item.lng.toFixed(4) + '</span>';
-          const popupContent = '<b>' + label + '</b>'
-            + (item.title ? '<br>' + item.title : '')
-            + '<br>' + coordInfo;
-          marker.bindPopup(popupContent, {
+          const marker = L.marker([item.lat, item.lng], { icon, draggable: editMode });
+          const label = isZh ? type : mt.en;
+          function buildPopup(lat, lng) {
+            const coordInfo = '<span style="font-size:10px;color:#999;font-family:monospace">'
+              + '#' + idx + ' | lat: ' + lat.toFixed(4) + ', lng: ' + lng.toFixed(4) + '</span>';
+            return '<b>' + label + '</b>'
+              + (item.title ? '<br>' + item.title : '')
+              + '<br>' + coordInfo;
+          }
+          marker.bindPopup(buildPopup(item.lat, item.lng), {
             className: 'dark-popup',
             closeButton: false,
+          });
+          marker.on('dragend', function() {
+            const pos = marker.getLatLng();
+            const mid = MAPS[currentMapIndex].id;
+            if (!editChanges[mid]) editChanges[mid] = {};
+            editChanges[mid][idx] = { lat: pos.lat, lng: pos.lng };
+            // Update source data too so re-renders keep the new position
+            item.lat = pos.lat;
+            item.lng = pos.lng;
+            marker.setPopupContent(buildPopup(pos.lat, pos.lng));
+            updateEditCount();
           });
           marker.addTo(lg);
         });
@@ -832,6 +858,46 @@
       else if (gridLayer) leafletMap.removeLayer(gridLayer);
     });
     document.getElementById('btnMeasure').addEventListener('click', toggleMeasure);
+
+    // ===== EDIT MODE =====
+    function updateEditCount() {
+      let total = 0;
+      for (const mid in editChanges) total += Object.keys(editChanges[mid]).length;
+      document.getElementById('editCount').textContent = total + ' 处修改';
+    }
+    document.getElementById('btnEdit').addEventListener('click', function() {
+      editMode = !editMode;
+      this.classList.toggle('active', editMode);
+      document.getElementById('editBanner').style.display = editMode ? 'block' : 'none';
+      // Re-render markers with new draggable state
+      if (allMarkerData) showMarkersForCurrentMap();
+    });
+    document.getElementById('btnExport').addEventListener('click', function() {
+      // Build full updated JSON
+      const output = JSON.parse(JSON.stringify(allMarkerData));
+      for (const mid in editChanges) {
+        for (const idx in editChanges[mid]) {
+          const c = editChanges[mid][idx];
+          output[mid][parseInt(idx)].lat = parseFloat(c.lat.toFixed(6));
+          output[mid][parseInt(idx)].lng = parseFloat(c.lng.toFixed(6));
+        }
+      }
+      const json = JSON.stringify(output, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'markers.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    document.getElementById('btnResetEdits').addEventListener('click', function() {
+      if (!confirm('重置所有修改？')) return;
+      editChanges = {};
+      updateEditCount();
+      // Reload original data
+      allMarkerData = null;
+      loadMarkers();
+    });
 
     // ===== i18n =====
     const texts = {
