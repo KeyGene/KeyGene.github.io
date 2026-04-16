@@ -1,4 +1,4 @@
-const CACHE_NAME = 'keygene-v3';
+const CACHE_NAME = 'keygene-v4';
 const PRECACHE = [
   '/',
   '/index.html',

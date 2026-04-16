@@ -10,6 +10,7 @@
   <link rel="canonical" href="https://keygene.top/leaderboard.html" />
   <link rel="alternate" hreflang="zh" href="https://keygene.top/leaderboard.html" />
   <link rel="alternate" hreflang="en" href="https://keygene.top/leaderboard.html" />
+  <link rel="alternate" hreflang="ko" href="https://keygene.top/leaderboard.html" />
   <link rel="alternate" hreflang="x-default" href="https://keygene.top/leaderboard.html" />
 
   <meta property="og:title" content="PUBG竞技榜 - KEY GENE" />
@@ -243,7 +244,7 @@
     </nav>
 
     <div class="nav-right">
-      <button class="lang-toggle" id="langToggle">EN / ZH</button>
+      <button class="lang-toggle" id="langToggle">EN</button>
       <a href="index.html#join" class="btn-clip btn-red" style="padding:8px 20px; font-size:12px;" data-key="navJoin">Join Us</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
         <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -349,8 +350,9 @@
         lbTitle: "Competitive Board", lbRank: "#", lbPlayer: "Player", lbGames: "Games",
         lbWinRate: "Win %", lbKills: "Kills", lbKDA: "K/D/A", lbAvgDmg: "Avg Dmg",
         lbLoading: "Loading data...", lbError: "Failed to load data.",
+        lbNoData: "No leaderboard data available for this server/season. Try switching server or season.",
         filterServer: "Server", filterSeason: "Season", filterMode: "Mode",
-        optLoading: "Loading...",
+        optLoading: "Loading...", seasonCurrent: " (Current)",
         footAbout: "About", footStats: "Stats", footMaps: "Maps", footLeaderboard: "Leaderboard", footContact: "Contact"
       },
       zh: {
@@ -359,9 +361,21 @@
         lbTitle: "排行榜", lbRank: "#", lbPlayer: "玩家", lbGames: "场次",
         lbWinRate: "胜率", lbKills: "击杀", lbKDA: "K/D/A", lbAvgDmg: "场均伤害",
         lbLoading: "加载数据中...", lbError: "排行榜数据加载失败。",
+        lbNoData: "该服务器/赛季暂无排行榜数据。请尝试切换服务器或赛季。",
         filterServer: "服务器", filterSeason: "赛季", filterMode: "模式",
-        optLoading: "加载中...",
+        optLoading: "加载中...", seasonCurrent: " (当前)",
         footAbout: "关于", footStats: "战绩", footMaps: "地图", footLeaderboard: "排行榜", footContact: "联系"
+      },
+      ko: {
+        navHome: "홈", navAbout: "소개", navRoster: "로스터", navStats: "전적",
+        navMaps: "맵", navLeaderboard: "랭킹", navJoin: "가입",
+        lbTitle: "랭킹 보드", lbRank: "#", lbPlayer: "플레이어", lbGames: "경기수",
+        lbWinRate: "승률", lbKills: "킬수", lbKDA: "K/D/A", lbAvgDmg: "평균 딜량",
+        lbLoading: "데이터 로딩 중...", lbError: "랭킹 데이터를 불러오지 못했습니다.",
+        lbNoData: "해당 서버/시즌의 랭킹 데이터가 없습니다. 서버 또는 시즌을 변경해 보세요.",
+        filterServer: "서버", filterSeason: "시즌", filterMode: "모드",
+        optLoading: "로딩 중...", seasonCurrent: " (현재)",
+        footAbout: "소개", footStats: "전적", footMaps: "맵", footLeaderboard: "랭킹", footContact: "문의"
       }
     };
 
@@ -379,15 +393,34 @@
       });
     }
 
+    const LANGS = ['en', 'zh', 'ko'];
+    const LANG_LABELS = { en: 'EN', zh: '中文', ko: '한국어' };
+
+    function updateLangButton() {
+      document.getElementById('langToggle').textContent = LANG_LABELS[currentLang] || 'EN';
+    }
+
+    function detectLang() {
+      const stored = localStorage.getItem('keygene_lang');
+      if (stored && LANGS.includes(stored)) return stored;
+      const nav = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
+      if (nav.startsWith('zh')) return 'zh';
+      if (nav.startsWith('ko')) return 'ko';
+      return 'en';
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      const userLang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase();
-      const lang = userLang.startsWith('zh') ? 'zh' : 'en';
+      const lang = detectLang();
       setLanguageText(lang);
+      updateLangButton();
     });
 
     document.getElementById('langToggle').addEventListener('click', () => {
-      const next = currentLang === 'en' ? 'zh' : 'en';
+      const idx = LANGS.indexOf(currentLang);
+      const next = LANGS[(idx + 1) % LANGS.length];
       setLanguageText(next);
+      updateLangButton();
+      localStorage.setItem('keygene_lang', next);
     });
 
     // ===== Mobile nav =====
@@ -450,7 +483,7 @@
           const opt = document.createElement('option');
           opt.value = s.id;
           const label = s.id.replace('division.bro.official.pc-', 'S').replace('division.bro.official.', 'S');
-          opt.textContent = label + (s.attributes.isCurrentSeason ? (currentLang === 'zh' ? ' (当前)' : ' (Current)') : '');
+          opt.textContent = label + (s.attributes.isCurrentSeason ? (texts[currentLang]?.seasonCurrent || ' (Current)') : '');
           seasonSelect.appendChild(opt);
         });
         loadLeaderboard();
@@ -467,12 +500,9 @@
         let detail = '';
         try { const j = await res.json(); detail = j.errors?.[0]?.detail || ''; } catch(e) {}
         if (res.status === 400 && detail.includes('missing data')) {
-          const noDataMsg = currentLang === 'zh'
-            ? '该服务器/赛季暂无排行榜数据。请尝试切换服务器或赛季。'
-            : 'No leaderboard data available for this server/season. Try switching server or season.';
-          throw new Error(noDataMsg);
+          throw new Error(texts[currentLang]?.lbNoData || texts.en.lbNoData);
         }
-        throw new Error('Failed to fetch leaderboard');
+        throw new Error(texts[currentLang]?.lbError || texts.en.lbError);
       }
       return res.json();
     }

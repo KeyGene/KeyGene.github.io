@@ -512,16 +512,16 @@
 
     // ===== MAP DATA =====
     const MAPS = [
-      { id: 'Erangel', size: '8\u00d78 km', players: 100, en: 'Erangel', zh: '\u827e\u4f26\u683c', descEn: 'Classic island map', descZh: '\u7ecf\u5178\u6d77\u5c9b\u5730\u56fe' },
-      { id: 'Miramar', size: '8\u00d78 km', players: 100, en: 'Miramar', zh: '\u7c73\u62c9\u739b', descEn: 'Desert terrain', descZh: '\u6c99\u6f20\u5730\u5f62' },
-      { id: 'Sanhok', size: '4\u00d74 km', players: 100, en: 'Sanhok', zh: '\u8428\u8bfa', descEn: 'Tropical jungle', descZh: '\u70ed\u5e26\u4e1b\u6797' },
-      { id: 'Vikendi', size: '6\u00d76 km', players: 100, en: 'Vikendi', zh: '\u7ef4\u5bd2\u8fea', descEn: 'Snow map', descZh: '\u96ea\u5730\u5730\u56fe' },
-      { id: 'Taego', size: '8\u00d78 km', players: 100, en: 'Taego', zh: '\u6cf0\u6208', descEn: 'Korean countryside', descZh: '\u97e9\u56fd\u4e61\u6751' },
-      { id: 'Deston', size: '8\u00d78 km', players: 100, en: 'Deston', zh: '\u5e1d\u65af\u987f', descEn: 'Urban metropolis', descZh: '\u90fd\u5e02\u5927\u90fd\u4f1a' },
-      { id: 'Karakin', size: '2\u00d72 km', players: 64, en: 'Karakin', zh: '\u5361\u62c9\u91d1', descEn: 'Small arid map', descZh: '\u5c0f\u578b\u5e72\u65f1\u5730\u56fe' },
-      { id: 'Haven', size: '1\u00d71 km', players: 32, en: 'Haven', zh: '\u6d77\u6587', descEn: 'Urban CQB', descZh: '\u57ce\u5e02\u8fd1\u6218' },
-      { id: 'Paramo', size: '3\u00d73 km', players: 64, en: 'Paramo', zh: '\u5e15\u62c9\u83ab', descEn: 'Volcanic terrain', descZh: '\u706b\u5c71\u5730\u5f62' },
-      { id: 'Rondo', size: '8\u00d78 km', players: 100, en: 'Rondo', zh: '\u8363\u90fd', descEn: 'Neon city', descZh: '\u9713\u8679\u90fd\u5e02' },
+      { id: 'Erangel', size: '8\u00d78 km', players: 100, en: 'Erangel', zh: '艾伦格', ko: '에란겔', descEn: 'Classic island map', descZh: '经典海岛地图', descKo: '클래식 섬 맵' },
+      { id: 'Miramar', size: '8\u00d78 km', players: 100, en: 'Miramar', zh: '米拉玛', ko: '미라마', descEn: 'Desert terrain', descZh: '沙漠地形', descKo: '사막 지형' },
+      { id: 'Sanhok', size: '4\u00d74 km', players: 100, en: 'Sanhok', zh: '萨诺', ko: '사녹', descEn: 'Tropical jungle', descZh: '热带丛林', descKo: '열대 정글' },
+      { id: 'Vikendi', size: '6\u00d76 km', players: 100, en: 'Vikendi', zh: '维寒迪', ko: '비켄디', descEn: 'Snow map', descZh: '雪地地图', descKo: '설원 맵' },
+      { id: 'Taego', size: '8\u00d78 km', players: 100, en: 'Taego', zh: '泰戈', ko: '태이고', descEn: 'Korean countryside', descZh: '韩国乡村', descKo: '한국 시골' },
+      { id: 'Deston', size: '8\u00d78 km', players: 100, en: 'Deston', zh: '帝斯顿', ko: '데스턴', descEn: 'Urban metropolis', descZh: '都市大都会', descKo: '도시 대도시' },
+      { id: 'Karakin', size: '2\u00d72 km', players: 64, en: 'Karakin', zh: '卡拉金', ko: '카라킨', descEn: 'Small arid map', descZh: '小型干旱地图', descKo: '소규모 건조 맵' },
+      { id: 'Haven', size: '1\u00d71 km', players: 32, en: 'Haven', zh: '海文', ko: '헤이븐', descEn: 'Urban CQB', descZh: '城市近战', descKo: '시가전 맵' },
+      { id: 'Paramo', size: '3\u00d73 km', players: 64, en: 'Paramo', zh: '帕拉莫', ko: '파라모', descEn: 'Volcanic terrain', descZh: '火山地形', descKo: '화산 지형' },
+      { id: 'Rondo', size: '8\u00d78 km', players: 100, en: 'Rondo', zh: '荣都', ko: '론도', descEn: 'Neon city', descZh: '霓虹都市', descKo: '네온 시티' },
     ];
 
     // Tile server base URL
@@ -557,7 +557,7 @@
     function buildSidebar() {
       const sidebar = document.getElementById('mapSidebar');
       sidebar.innerHTML = MAPS.map((m, i) => {
-        const name = currentLang === 'zh' ? m.zh : m.en;
+        const name = mapName(m);
         return `<div class="map-sidebar-item${i === currentMapIndex ? ' active' : ''}" data-index="${i}">
           <img class="thumb" src="assert/maps/${m.id}_thumb.webp" alt="${m.en}" loading="lazy" />
           <div class="name">${name}</div>
@@ -630,7 +630,7 @@
       document.querySelectorAll('.map-sidebar-item').forEach((item, i) => {
         item.classList.toggle('active', i === index);
         const m = MAPS[i];
-        item.querySelector('.name').textContent = currentLang === 'zh' ? m.zh : m.en;
+        item.querySelector('.name').textContent = mapName(m);
       });
       // Scroll active item into view on mobile
       const activeItem = document.querySelector('.map-sidebar-item.active');
@@ -638,13 +638,17 @@
     }
 
     // ===== UPDATE INFO OVERLAY =====
+    function mapName(m) { return m[currentLang] || m.en; }
+    function mapDesc(m) {
+      var key = 'desc' + currentLang.charAt(0).toUpperCase() + currentLang.slice(1);
+      return m[key] || m.descEn;
+    }
     function updateInfo() {
       const m = MAPS[currentMapIndex];
-      const isZh = currentLang === 'zh';
-      document.getElementById('infoName').textContent = isZh ? m.zh : m.en;
-      document.getElementById('infoDesc').textContent = isZh ? m.descZh : m.descEn;
+      document.getElementById('infoName').textContent = mapName(m);
+      document.getElementById('infoDesc').textContent = mapDesc(m);
       document.getElementById('infoSize').textContent = m.size;
-      document.getElementById('infoPlayers').textContent = m.players + (isZh ? ' \u4eba' : ' Players');
+      document.getElementById('infoPlayers').textContent = m.players + t('players', texts);
     }
 
     // ===== GRID OVERLAY =====
@@ -741,14 +745,14 @@
 
     // ===== MARKERS =====
     const MARKER_TYPES = {
-      '密室':     { en:'Secret Room',       icon:'assert/maps/icons/secret-room.svg' },
-      '载具':     { en:'Vehicle',            icon:'assert/maps/icons/vehicle.svg' },
-      '滑翔机':   { en:'Glider',             icon:'assert/maps/icons/glider.svg' },
-      '金条':     { en:'Gold Bar',           icon:'assert/maps/icons/gold.svg' },
-      '撬棍房':   { en:'Crowbar Room',       icon:'assert/maps/icons/crowbar.svg' },
-      '实验营地': { en:'Experimental Camp',  icon:'assert/maps/icons/camp.svg' },
-      '安全门':   { en:'Safe Door',          icon:'assert/maps/icons/safe-door.svg' },
-      '熊洞':     { en:'Bear Cave',          icon:'assert/maps/icons/bear-cave.svg' },
+      '密室':     { en:'Secret Room',       ko:'비밀의 방',     icon:'assert/maps/icons/secret-room.svg' },
+      '载具':     { en:'Vehicle',            ko:'차량',          icon:'assert/maps/icons/vehicle.svg' },
+      '滑翔机':   { en:'Glider',             ko:'글라이더',      icon:'assert/maps/icons/glider.svg' },
+      '金条':     { en:'Gold Bar',           ko:'금괴',          icon:'assert/maps/icons/gold.svg' },
+      '撬棍房':   { en:'Crowbar Room',       ko:'빠루 방',       icon:'assert/maps/icons/crowbar.svg' },
+      '实验营地': { en:'Experimental Camp',  ko:'실험 캠프',     icon:'assert/maps/icons/camp.svg' },
+      '安全门':   { en:'Safe Door',          ko:'안전문',        icon:'assert/maps/icons/safe-door.svg' },
+      '熊洞':     { en:'Bear Cave',          ko:'곰 동굴',       icon:'assert/maps/icons/bear-cave.svg' },
     };
     let allMarkerData = null;
     let markerLayers = {}; // type -> L.layerGroup
@@ -778,7 +782,7 @@
 
       if (markers.length === 0) {
         filtersEl.innerHTML = '<div class="marker-no-data" data-key="markerNoData">' +
-          (currentLang === 'zh' ? '暂无标记数据' : 'No marker data') + '</div>';
+          t('markerNoData', texts) + '</div>';
         return;
       }
 
@@ -791,7 +795,6 @@
 
       // Build filter UI and layers
       filtersEl.innerHTML = '';
-      const isZh = currentLang === 'zh';
       for (const [type, items] of Object.entries(grouped)) {
         const mt = MARKER_TYPES[type] || { en: type, icon: '' };
         const lg = L.layerGroup();
@@ -805,7 +808,7 @@
           });
           const idx = markers.indexOf(item);
           const marker = L.marker([item.lat, item.lng], { icon, draggable: editMode });
-          const label = isZh ? type : mt.en;
+          const label = currentLang === 'zh' ? type : (mt[currentLang] || mt.en);
           function buildPopup(lat, lng) {
             const coordInfo = '<span style="font-size:10px;color:#999;font-family:monospace">'
               + '#' + idx + ' | lat: ' + lat.toFixed(4) + ', lng: ' + lng.toFixed(4) + '</span>';
@@ -838,7 +841,7 @@
         const row = document.createElement('div');
         row.className = 'marker-filter' + (markerHidden[type] ? ' hidden' : '');
         row.innerHTML = (mt.icon ? '<img src="' + mt.icon + '" alt="">' : '') +
-          '<span class="mf-name">' + (isZh ? type : mt.en) + '</span>' +
+          '<span class="mf-name">' + (currentLang === 'zh' ? type : (mt[currentLang] || mt.en)) + '</span>' +
           '<span class="mf-count">' + items.length + '</span>';
         row.addEventListener('click', () => {
           markerHidden[type] = !markerHidden[type];
@@ -863,7 +866,7 @@
     function updateEditCount() {
       let total = 0;
       for (const mid in editChanges) total += Object.keys(editChanges[mid]).length;
-      document.getElementById('editCount').textContent = total + (currentLang === 'zh' ? ' 处修改' : ' changes');
+      document.getElementById('editCount').textContent = total + t('editChanges', texts);
     }
     document.getElementById('btnEdit').addEventListener('click', function() {
       editMode = !editMode;
@@ -891,7 +894,7 @@
       URL.revokeObjectURL(a.href);
     });
     document.getElementById('btnResetEdits').addEventListener('click', function() {
-      if (!confirm(currentLang === 'zh' ? '重置所有修改？' : 'Reset all changes?')) return;
+      if (!confirm(t('editConfirmReset', texts))) return;
       editChanges = {};
       updateEditCount();
       // Reload original data
@@ -907,7 +910,9 @@
         toolGrid: "Grid", toolMeasure: "Measure", toolEdit: "Edit",
         markerTitle: "Markers", markerNoData: "No marker data",
         editBanner: "✏️ Edit Mode — Drag markers to adjust positions",
-        editExport: "Export", editReset: "Reset"
+        editExport: "Export", editReset: "Reset",
+        editChanges: " changes", editConfirmReset: "Reset all changes?",
+        players: " Players"
       },
       zh: {
         navHome: "首页", navStats: "战绩", navMaps: "地图", navQuiz: "人格", navJoin: "加入",
@@ -915,7 +920,19 @@
         toolGrid: "网格", toolMeasure: "测距", toolEdit: "编辑",
         markerTitle: "标记点", markerNoData: "暂无标记数据",
         editBanner: "✏️ 编辑模式 — 拖拽标记点调整位置",
-        editExport: "导出修改", editReset: "重置"
+        editExport: "导出修改", editReset: "重置",
+        editChanges: "处修改", editConfirmReset: "重置所有修改？",
+        players: "人"
+      },
+      ko: {
+        navHome: "홈", navStats: "전적", navMaps: "지도", navQuiz: "성향", navJoin: "가입",
+        footAbout: "소개", footStats: "전적", footMaps: "지도", footContact: "문의",
+        toolGrid: "그리드", toolMeasure: "거리측정", toolEdit: "편집",
+        markerTitle: "마커", markerNoData: "마커 데이터 없음",
+        editBanner: "✏️ 편집 모드 — 마커를 드래그하여 위치를 조정하세요",
+        editExport: "내보내기", editReset: "초기화",
+        editChanges: "개 수정", editConfirmReset: "모든 수정을 초기화하시겠습니까?",
+        players: "명"
       }
     };
 

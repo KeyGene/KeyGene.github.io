@@ -855,7 +855,8 @@
         footAbout: "About", footStats: "Stats", footMaps: "Maps", footLeaderboard: "Competitive", footContact: "Contact",
         playerLabel: "Player", matchesPlayed: "Matches", kills: "Kills", deaths: "Deaths",
         winRate: "Win Rate", kdRatio: "K/D", longestKill: "Longest Kill",
-        loading: "Searching...", playerNotFound: "Player not found. Check the name and try again."
+        loading: "Searching...", playerNotFound: "Player not found. Check the name and try again.",
+        copied: "✓ Copied"
       },
       zh: {
         navHome: "首页", navAbout: "关于", navRoster: "阵容", navStats: "战绩", navMaps: "地图", navLeaderboard: "竞技榜", navQuiz: "人格", navJoin: "加入", heroQuizBtn: "测测你的吃鸡人格",
@@ -884,7 +885,38 @@
         footAbout: "关于", footStats: "战绩", footMaps: "地图", footLeaderboard: "竞技榜", footContact: "联系",
         playerLabel: "玩家", matchesPlayed: "场次", kills: "击杀", deaths: "死亡",
         winRate: "胜率", kdRatio: "K/D", longestKill: "最远击杀",
-        loading: "搜索中...", playerNotFound: "未找到该玩家，请检查名称后重试。"
+        loading: "搜索中...", playerNotFound: "未找到该玩家，请检查名称后重试。",
+        copied: "✓ 已复制"
+      },
+      ko: {
+        navHome: "홈", navAbout: "소개", navRoster: "로스터", navStats: "전적", navMaps: "맵", navLeaderboard: "경쟁전", navQuiz: "퀴즈", navJoin: "가입", heroQuizBtn: "나의 배그 성향 테스트",
+        heroTag: "PUBG e스포츠 스쿼드",
+        heroLine1: "우리는 단순히", heroLine2: "자기장 안에서", heroLine3: "살아남는 게 아니라", heroLine4: "지배한다.",
+        heroSub: "우정과 열정으로 만들어진 PUBG 경쟁 스쿼드. 방과 후 게임부터 결승전까지.",
+        heroBtn1: "전적 검색", heroBtn2: "스쿼드 합류",
+        cardTag: "모집 중", cardTitle: "팀원을 찾고 있나요?",
+        cardDesc: "KEY GENE에 합류하여 함께 싸우세요. PUBG에서 \"KEYGENE\"을 검색하거나 직접 연락해 주세요.",
+        cardBtn: "문의하기",
+        statMatches: "총 경기 수", statTop10: "Top 10 비율", statKD: "평균 K/D",
+        aboutTag: "소개",
+        aboutTitle2: "우정 위에 세워진,<br/><span style=\"color:var(--red)\">열정</span>으로<br/>불태우는 팀.",
+        aboutP1: "<strong>KEY GENE</strong>은 방과 후에도 게임을 멈출 수 없었던 친구들로 시작되었습니다. 수년이 지난 지금도 여전히 자기장을 쫓고 킬을 쌓고 있습니다.",
+        aboutP2: "Steam에서 PUBG를 플레이하며 스쿼드 전술에 집중합니다. 랭크든 커스텀이든, 매 라운드 전력을 다합니다.",
+        rosterTag: "스쿼드", rosterTitle: "우리 팀을 소개합니다.",
+        clanNameLabel: "클랜명", clanTagLabel: "클랜 태그", clanLevelLabel: "클랜 레벨", clanMembersLabel: "멤버 수",
+        rosterLoading: "멤버 로딩 중...", rosterError: "클랜 데이터를 불러오지 못했습니다.",
+        statsTag: "전적 검색", statsTitle: "전적을 확인하세요.",
+        searchBtn: "검색", copyBtn: "전적 복사",
+        joinTag: "모집 중", joinTitle2: "드롭할<br/>준비 됐나<span style=\"color:var(--red)\">요?</span>",
+        joinDesc: "소통하고, 헌신하고, 클러치할 수 있는 경쟁적인 플레이어를 찾고 있습니다. 티어 제한 없음 — 열정만 가져오세요.",
+        joinBtn1: "문의하기", joinBtn2: "검색하기", joinOr: "또는 이메일",
+        serverLabel: "PUBG 서버", serverChecking: "확인 중...", serverOnline: "정상", serverOffline: "오프라인",
+        serverPing: "핑", serverPlatform: "플랫폼", serverUpdated: "업데이트", serverAutoRefresh: "60초 자동 새로고침",
+        footAbout: "소개", footStats: "전적", footMaps: "맵", footLeaderboard: "경쟁전", footContact: "문의",
+        playerLabel: "플레이어", matchesPlayed: "경기 수", kills: "킬", deaths: "데스",
+        winRate: "승률", kdRatio: "K/D", longestKill: "최장 킬 거리",
+        loading: "검색 중...", playerNotFound: "플레이어를 찾을 수 없습니다. 이름을 확인하고 다시 시도해 주세요.",
+        copied: "✓ 복사 완료"
       }
     };
 
@@ -948,7 +980,7 @@
         document.getElementById('copyBtn').onclick = () => {
           navigator.clipboard.writeText(raw).then(() => {
             const btn = document.getElementById('copyBtn');
-            btn.textContent = '✓ Copied';
+            btn.textContent = t.copied;
             setTimeout(() => btn.textContent = t.copyBtn, 2000);
           });
         };

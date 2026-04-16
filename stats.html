@@ -361,7 +361,7 @@
   <!-- SEARCH -->
   <div class="search-area">
     <div class="search-inner">
-      <input type="text" id="searchInput" class="search-input" placeholder="Enter PUBG player name..." data-placeholder-en="Enter PUBG player name..." data-placeholder-zh="输入 PUBG 玩家名..." />
+      <input type="text" id="searchInput" class="search-input" placeholder="Enter PUBG player name..." data-placeholder-key="searchPlaceholder" />
       <button class="search-btn" id="searchBtn" data-key="searchBtn">Search</button>
     </div>
   </div>
@@ -425,7 +425,7 @@
   <div class="tab-content" id="tab-bancheck">
     <div class="ban-check-wrap">
       <div class="ban-search-box">
-        <input type="text" id="banInput" placeholder="Enter player name..." data-placeholder-en="Enter player name..." data-placeholder-zh="输入玩家名..." />
+        <input type="text" id="banInput" placeholder="Enter player name..." data-placeholder-key="banPlaceholder" />
         <button class="ban-check-btn" id="banCheckBtn" data-key="banCheckBtn">Check</button>
       </div>
       <div id="banResult"></div>
@@ -487,7 +487,8 @@
         banUncertain: "Uncertain", banPlayerNotFound: "Player not found",
         banLevel: "Level", banTotalMatches: "Total Matches", banRecent2w: "Last 2 Weeks",
         banChecking: "Checking...",
-        footAbout: "About", footStats: "Stats", footMaps: "Maps", footContact: "Contact"
+        footAbout: "About", footStats: "Stats", footMaps: "Maps", footContact: "Contact",
+        searchPlaceholder: "Enter PUBG player name...", banPlaceholder: "Enter player name..."
       },
       zh: {
         navHome: "首页", navStats: "战绩", navMaps: "地图", navQuiz: "人格", navJoin: "加入", searchBtn: "搜索",
@@ -521,7 +522,43 @@
         banUncertain: "\u65e0\u6cd5\u786e\u5b9a", banPlayerNotFound: "\u672a\u627e\u5230\u8be5\u73a9\u5bb6",
         banLevel: "\u7b49\u7ea7", banTotalMatches: "\u603b\u573a\u6b21", banRecent2w: "2\u5468\u5185",
         banChecking: "查询中...",
-        footAbout: "关于", footStats: "战绩", footMaps: "地图", footContact: "联系"
+        footAbout: "关于", footStats: "战绩", footMaps: "地图", footContact: "联系",
+        searchPlaceholder: "输入 PUBG 玩家名...", banPlaceholder: "输入玩家名..."
+      },
+      ko: {
+        navHome: "홈", navStats: "전적", navMaps: "맵", navQuiz: "퀴즈", navJoin: "가입", searchBtn: "검색",
+        tabOverview: "개요", tabMatches: "최근 매치", tabWeapons: "무기 분석",
+        tabMaps: "맵 승률", tabCompare: "비교", tabHeatmap: "히트맵",
+        searchPrompt: "플레이어를 검색하여 전적을 확인하세요",
+        loading: "로딩 중...", playerNotFound: "플레이어를 찾을 수 없습니다. 이름을 확인 후 다시 시도하세요.",
+        rateLimited: "요청이 너무 많습니다. 잠시 후 다시 시도하세요...",
+        platform: "Steam · 스쿼드 · 통산", rank: "랭크",
+        kd: "K/D", winRate: "승률", matches: "매치", kills: "킬",
+        top10Rate: "탑10 비율", wins: "치킨디너", deaths: "데스",
+        longestKill: "최장거리 킬", mostKills: "단판 최다 킬", mostDamage: "단판 최고 데미지",
+        bestRecords: "최고 기록", exportImage: "전적 이미지 생성",
+        exportDone: "이미지 저장 완료!",
+        assists: "어시스트", survived: "생존",
+        time: "시간", map: "맵", mode: "모드", rankCol: "등수", damage: "데미지",
+        loadingMatches: "매치 데이터 로딩 중...", noMatches: "매치 데이터가 없습니다.",
+        ago_m: "분 전", ago_h: "시간 전", ago_d: "일 전",
+        weaponKills: "무기별 킬 수", weaponDamage: "무기별 데미지",
+        weapon: "무기", headshots: "헤드샷", loadingWeapons: "무기 데이터 분석 중...",
+        noWeapons: "무기 데이터를 사용할 수 없습니다 (텔레메트리 14일 후 만료).",
+        mapWinRate: "맵 승률", games: "판", loadingMaps: "맵 데이터 로딩 중...",
+        enterPlayer2: "두 번째 플레이어 이름 입력...", compareBtn: "비교",
+        vs: "VS", stat: "항목",
+        heatmapTitle: "활동 히트맵",
+        heatmapDesc: "최근 매치 시간 기준 (현지 시간대)",
+        matchCount: "매치",
+        mon: "월", tue: "화", wed: "수", thu: "목", fri: "금", sat: "토", sun: "일",
+        tabBanCheck: "밴 조회", banCheckBtn: "조회", banHistory: "검색 기록",
+        banNotBanned: "밴 없음", banLikelyBanned: "밴 가능성 높음",
+        banUncertain: "확인 불가", banPlayerNotFound: "플레이어를 찾을 수 없음",
+        banLevel: "레벨", banTotalMatches: "총 매치", banRecent2w: "최근 2주",
+        banChecking: "조회 중...",
+        footAbout: "소개", footStats: "전적", footMaps: "맵", footContact: "문의",
+        searchPlaceholder: "PUBG 플레이어 이름 입력...", banPlaceholder: "플레이어 이름 입력..."
       }
     };
 

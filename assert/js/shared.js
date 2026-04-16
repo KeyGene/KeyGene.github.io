@@ -39,10 +39,25 @@
 
 // ===== LANGUAGE =====
 var currentLang = 'en';
+var LANGS = ['en', 'zh', 'ko'];
+var LANG_LABELS = { en: 'EN', zh: '中文', ko: '한국어' };
 
 function initLanguage() {
   var saved = localStorage.getItem('keygene_lang');
-  return saved || ((navigator.languages && navigator.languages[0] || navigator.language || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+  if (saved && LANGS.indexOf(saved) !== -1) return saved;
+  var nav = (navigator.languages && navigator.languages[0] || navigator.language || 'en').toLowerCase();
+  if (nav.indexOf('zh') === 0) return 'zh';
+  if (nav.indexOf('ko') === 0) return 'ko';
+  return 'en';
+}
+
+// Helper: get translated string from page texts object
+// Usage: t('key') or t('key', texts) — falls back to en, then returns key
+function t(key, textsObj) {
+  var src = textsObj || (typeof texts !== 'undefined' ? texts : null);
+  if (!src) return key;
+  var data = src[currentLang] || src['en'];
+  return (data && data[key]) || (src['en'] && src['en'][key]) || key;
 }
 
 // Generic function to apply language to data-key elements
@@ -50,21 +65,27 @@ function initLanguage() {
 function applyLanguageToDOM(lang, texts) {
   currentLang = lang;
   localStorage.setItem('keygene_lang', lang);
-  var data = texts[lang];
+  var data = texts[lang] || texts['en'];
   if (!data) return;
   document.querySelectorAll('[data-key]').forEach(function(el) {
     var key = el.getAttribute('data-key');
-    if (!data[key]) return;
-    if (data[key].indexOf('<') !== -1 && (data[key].indexOf('<br') !== -1 || data[key].indexOf('<span') !== -1 || data[key].indexOf('<strong') !== -1)) {
-      el.innerHTML = data[key];
+    // Try current lang, fall back to en
+    var val = data[key] || (texts['en'] && texts['en'][key]);
+    if (!val) return;
+    if (val.indexOf('<') !== -1 && (val.indexOf('<br') !== -1 || val.indexOf('<span') !== -1 || val.indexOf('<strong') !== -1)) {
+      el.innerHTML = val;
     } else {
-      el.textContent = data[key];
+      el.textContent = val;
     }
   });
-  // Update placeholders
-  document.querySelectorAll('[data-placeholder-zh]').forEach(function(el) {
-    el.placeholder = lang === 'zh' ? el.dataset.placeholderZh : el.dataset.placeholderEn;
+  // Update placeholders — use data-placeholder-{lang}, fall back to en
+  document.querySelectorAll('[data-placeholder-en]').forEach(function(el) {
+    var ph = el.getAttribute('data-placeholder-' + lang);
+    el.placeholder = ph || el.dataset.placeholderEn || '';
   });
+  // Update lang toggle button text
+  var btn = document.getElementById('langToggle');
+  if (btn) btn.textContent = LANG_LABELS[lang] || lang;
 }
 
 function bindLangToggle(texts, afterSwitch) {
@@ -76,7 +97,8 @@ function bindLangToggle(texts, afterSwitch) {
     var btn = document.getElementById('langToggle');
     if (btn) {
       btn.addEventListener('click', function() {
-        var next = currentLang === 'en' ? 'zh' : 'en';
+        var idx = LANGS.indexOf(currentLang);
+        var next = LANGS[(idx + 1) % LANGS.length];
         applyLanguageToDOM(next, texts);
         if (afterSwitch) afterSwitch(next);
       });
