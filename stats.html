@@ -424,7 +424,10 @@
   <!-- BAN CHECK -->
   <div class="tab-content" id="tab-bancheck">
     <div class="ban-check-wrap">
-      <div class="ban-search-box">
+      <div class="ban-no-player" id="banNoPlayer" style="display:none;">
+        <div class="empty-msg" data-key="banSearchFirst">Search a player first to check ban status</div>
+      </div>
+      <div class="ban-search-box" id="banSearchBox">
         <input type="text" id="banInput" placeholder="Enter player name..." data-placeholder-key="banPlaceholder" />
         <button class="ban-check-btn" id="banCheckBtn" data-key="banCheckBtn">Check</button>
       </div>
@@ -482,7 +485,7 @@
         matchCount: "matches",
         mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun",
         // ban check
-        tabBanCheck: "Ban Check", banCheckBtn: "Check", banHistory: "Search History",
+        tabBanCheck: "Ban Check", banCheckBtn: "Check", banHistory: "Search History", banSearchFirst: "Search a player first to check ban status",
         banNotBanned: "Not Banned", banLikelyBanned: "Likely Banned",
         banUncertain: "Uncertain", banPlayerNotFound: "Player not found",
         banLevel: "Level", banTotalMatches: "Total Matches", banRecent2w: "Last 2 Weeks",
@@ -517,7 +520,7 @@
         heatmapDesc: "\u57fa\u4e8e\u6700\u8fd1\u6bd4\u8d5b\u65f6\u95f4\uff08\u672c\u5730\u65f6\u533a\uff09",
         matchCount: "\u573a",
         mon: "\u5468\u4e00", tue: "\u5468\u4e8c", wed: "\u5468\u4e09", thu: "\u5468\u56db", fri: "\u5468\u4e94", sat: "\u5468\u516d", sun: "\u5468\u65e5",
-        tabBanCheck: "\u5c01\u7981\u67e5\u8be2", banCheckBtn: "\u67e5\u8be2", banHistory: "\u641c\u7d22\u5386\u53f2",
+        tabBanCheck: "封禁查询", banCheckBtn: "查询", banHistory: "搜索历史", banSearchFirst: "请先搜索玩家以查询封禁状态",
         banNotBanned: "\u672a\u5c01\u7981", banLikelyBanned: "\u53ef\u80fd\u5df2\u5c01\u7981",
         banUncertain: "\u65e0\u6cd5\u786e\u5b9a", banPlayerNotFound: "\u672a\u627e\u5230\u8be5\u73a9\u5bb6",
         banLevel: "\u7b49\u7ea7", banTotalMatches: "\u603b\u573a\u6b21", banRecent2w: "2\u5468\u5185",
@@ -552,7 +555,7 @@
         heatmapDesc: "최근 매치 시간 기준 (현지 시간대)",
         matchCount: "매치",
         mon: "월", tue: "화", wed: "수", thu: "목", fri: "금", sat: "토", sun: "일",
-        tabBanCheck: "밴 조회", banCheckBtn: "조회", banHistory: "검색 기록",
+        tabBanCheck: "밴 조회", banCheckBtn: "조회", banHistory: "검색 기록", banSearchFirst: "밴 상태를 확인하려면 먼저 플레이어를 검색하세요",
         banNotBanned: "밴 없음", banLikelyBanned: "밴 가능성 높음",
         banUncertain: "확인 불가", banPlayerNotFound: "플레이어를 찾을 수 없음",
         banLevel: "레벨", banTotalMatches: "총 매치", banRecent2w: "최근 2주",
@@ -717,10 +720,14 @@
 
         currentPlayer = { id: pid, name: player.attributes.name, stats, matchIds, rankedTier };
 
-        // Load overview immediately
-        loadTab('overview');
-        // Switch to overview tab
-        document.querySelector('.tab-btn[data-tab="overview"]').click();
+        // Load current active tab (stay where user is), default to overview
+        const activeBtn = document.querySelector('.tab-btn.active');
+        const activeTab = activeBtn ? activeBtn.dataset.tab : 'overview';
+        loadTab(activeTab);
+        // Only switch to overview if no tab is active
+        if (!activeBtn) {
+          document.querySelector('.tab-btn[data-tab="overview"]').click();
+        }
       } catch (e) {
         showAllTabs(`<div class="empty-msg">${t('playerNotFound')}</div>`);
       }
@@ -743,6 +750,13 @@
         case 'maps': renderMaps(); break;
         case 'compare': renderCompare(); break;
         case 'heatmap': renderHeatmap(); break;
+        case 'bancheck':
+          // Auto-fill and trigger via button click (doBanCheck is in IIFE scope)
+          document.getElementById('banSearchBox').style.display = 'none';
+          document.getElementById('banNoPlayer').style.display = 'none';
+          document.getElementById('banInput').value = currentPlayer.name;
+          document.getElementById('banCheckBtn').click();
+          break;
       }
     }
 
@@ -1291,11 +1305,18 @@
       btn.addEventListener('click', doBanCheck);
       input.addEventListener('keydown', e => { if (e.key === 'Enter') doBanCheck(); });
 
-      // Pre-fill from main search and auto-run if available
+      // When switching to bancheck tab: auto-query current player, hide standalone input
       document.querySelector('.tab-btn[data-tab="bancheck"]').addEventListener('click', () => {
+        const searchBox = document.getElementById('banSearchBox');
+        const noPlayer = document.getElementById('banNoPlayer');
         if (currentPlayer) {
+          searchBox.style.display = 'none';
+          noPlayer.style.display = 'none';
           input.value = currentPlayer.name;
           doBanCheck();
+        } else {
+          searchBox.style.display = 'none';
+          noPlayer.style.display = 'block';
         }
         renderHistory();
       });
