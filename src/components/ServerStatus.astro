@@ -1,0 +1,170 @@
+---
+import { t } from '../i18n/utils';
+const lang = Astro.currentLocale ?? 'zh';
+---
+
+<div class="server-status-float" id="serverStatusFloat">
+  <div class="ss-header">
+    <span class="ss-dot" id="ssDot"></span>
+    <span class="ss-title">{t('serverLabel', lang)}</span>
+    <span class="ss-status-text" id="ssStatusText">{t('serverChecking', lang)}</span>
+  </div>
+  <div class="ss-details">
+    <div class="ss-row">
+      <span class="ss-row-label">{t('serverPing', lang)}</span>
+      <span class="ss-row-value" id="ssPing">--</span>
+    </div>
+    <div class="ss-row">
+      <span class="ss-row-label">{t('serverPlatform', lang)}</span>
+      <span class="ss-row-value" id="ssPlatform">Steam</span>
+    </div>
+    <div class="ss-row">
+      <span class="ss-row-label">{t('serverUpdated', lang)}</span>
+      <span class="ss-row-value" id="ssUpdated">--</span>
+    </div>
+  </div>
+  <div class="ss-refresh">
+    <span class="ss-refresh-dot"></span>
+    <span>{t('serverAutoRefresh', lang)}</span>
+  </div>
+</div>
+
+<script is:inline>
+(function serverStatusPoller() {
+  const PUBG_PROXY = '/api';
+  const floatEl = document.getElementById('serverStatusFloat');
+  const dot = document.getElementById('ssDot');
+  const statusText = document.getElementById('ssStatusText');
+  const pingEl = document.getElementById('ssPing');
+  const updatedEl = document.getElementById('ssUpdated');
+
+  function timeStr() {
+    const now = new Date();
+    return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+  }
+  function pingClass(ms) {
+    if (ms < 200) return 'good';
+    if (ms < 500) return 'warn';
+    return 'bad';
+  }
+  function setOnline(pingMs) {
+    floatEl.className = 'server-status-float online';
+    dot.className = 'ss-dot online';
+    statusText.className = 'ss-status-text online';
+    pingEl.textContent = pingMs + 'ms';
+    pingEl.className = 'ss-row-value ' + pingClass(pingMs);
+    updatedEl.textContent = timeStr();
+  }
+  function setOffline() {
+    floatEl.className = 'server-status-float offline';
+    dot.className = 'ss-dot offline';
+    statusText.className = 'ss-status-text offline';
+    pingEl.textContent = '--';
+    pingEl.className = 'ss-row-value bad';
+    updatedEl.textContent = timeStr();
+  }
+  async function check() {
+    try {
+      const start = performance.now();
+      const res = await fetch(PUBG_PROXY + '/status', { headers: { Accept: 'application/vnd.api+json' } });
+      const pingMs = Math.round(performance.now() - start);
+      if (res.ok) setOnline(pingMs); else setOffline();
+    } catch { setOffline(); }
+  }
+  check();
+  setInterval(check, 60000);
+})();
+</script>
+
+<style>
+  .server-status-float {
+    position: fixed;
+    top: 82px; right: 48px;
+    z-index: 90;
+    display: flex; flex-direction: column; gap: 0;
+    min-width: 180px;
+    background: var(--color-card-bg);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-card-border);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: default;
+    opacity: 0; animation: statusFadeIn 0.6s 0.8s forwards;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    transition: border-color 0.4s;
+  }
+  @keyframes statusFadeIn { to { opacity: 1; } }
+  .server-status-float.online { border-color: rgba(16,185,129,0.2); }
+  .server-status-float.offline { border-color: rgba(238,63,44,0.2); }
+
+  .ss-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .ss-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--color-text-muted);
+    flex-shrink: 0;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .ss-dot.online {
+    background: var(--color-success);
+    box-shadow: 0 0 8px rgba(16,185,129,0.6);
+    animation: ssPulse 2s infinite;
+  }
+  .ss-dot.offline {
+    background: var(--color-red);
+    box-shadow: 0 0 8px rgba(238,63,44,0.6);
+  }
+  @keyframes ssPulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+  .ss-title {
+    font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--color-text-muted);
+  }
+  .ss-status-text {
+    margin-left: auto;
+    font-size: 12px; font-weight: 700;
+    color: var(--color-text-muted);
+    transition: color 0.3s;
+  }
+  .ss-status-text.online { color: var(--color-success); }
+  .ss-status-text.offline { color: var(--color-red); }
+
+  .ss-details {
+    display: flex; flex-direction: column; gap: 0;
+    padding: 6px 14px 10px;
+  }
+  .ss-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 4px 0;
+  }
+  .ss-row-label { font-size: var(--text-xs); color: var(--color-text-muted); font-weight: 500; }
+  .ss-row-value { font-size: var(--text-xs); color: var(--color-text); font-weight: 600; }
+  .ss-row-value.good { color: var(--color-success); }
+  .ss-row-value.warn { color: var(--color-warning); }
+  .ss-row-value.bad { color: var(--color-red); }
+
+  .ss-refresh {
+    display: flex; align-items: center; gap: 4px;
+    padding: 6px 14px;
+    border-top: 1px solid var(--color-border);
+    font-size: 10px; color: var(--color-text-muted);
+  }
+  .ss-refresh-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--color-text-muted);
+    animation: ssRefreshBlink 3s infinite;
+  }
+  @keyframes ssRefreshBlink { 0%,90%,100% { opacity:0.3; } 95% { opacity:1; } }
+
+  @media (max-width: 768px) {
+    .server-status-float {
+      top: auto; bottom: 24px; right: 16px; left: 16px;
+      min-width: auto; border-radius: var(--radius-lg);
+    }
+    .ss-header { padding: 8px 12px; }
+    .ss-details { padding: 4px 12px 8px; }
+    .ss-refresh { padding: 5px 12px; }
+  }
+</style>

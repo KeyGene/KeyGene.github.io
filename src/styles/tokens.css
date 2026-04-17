@@ -43,6 +43,9 @@
   --header-height-mobile: 60px;
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
+
+  --btn-outline-border: rgba(255,255,255,0.3);
+  --btn-outline-hover: rgba(255,255,255,0.6);
 }
 
 [data-theme="light"] {
@@ -55,6 +58,8 @@
   --color-card-bg: rgba(255, 255, 255, 0.9);
   --color-card-border: rgba(0, 0, 0, 0.08);
   --color-backdrop: rgba(248, 249, 250, 0.5);
+  --btn-outline-border: rgba(0,0,0,0.2);
+  --btn-outline-hover: rgba(0,0,0,0.4);
 }
 
 *,
@@ -87,6 +92,37 @@ a {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ===== CLIP PATH BUTTONS ===== */
+.btn-clip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-clip:hover { transform: translateY(-1px); }
+.btn-clip:active { transform: translateY(0); }
+.btn-red { background: var(--color-red); color: #fff; }
+.btn-red:hover { background: var(--color-red-hover); }
+.btn-white { background: #fff; color: #000; }
+.btn-white:hover { background: #f0f0f0; }
+.btn-outline {
+  background: transparent;
+  color: var(--color-text);
+  border: 1.5px solid var(--btn-outline-border);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.btn-outline:hover { border-color: var(--btn-outline-hover); }
 
 .skeleton {
   background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-surface-hover) 50%, var(--color-surface) 75%);

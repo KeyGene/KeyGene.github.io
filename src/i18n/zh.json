@@ -61,6 +61,48 @@
   "leaderboardTitle": "排行榜",
   "quizTitle": "吃鸡人格测试",
 
+  "cardTag": "招募中",
+  "cardTitle": "在找队友？",
+  "cardDesc": "加入 KEY GENE，与我们并肩作战。在 PUBG 中搜索「KEYGENE」或直接联系我们。",
+  "cardBtn": "联系我们",
+
+  "statMatches": "总场次",
+  "statTop10": "前十率",
+  "statKD": "平均 K/D",
+
+  "aboutTag": "关于我们",
+  "aboutTitle2": "因友谊而生，<br/>以<span class=\"accent\">热血</span><br/>为战。",
+  "aboutP1": "<strong>KEY GENE</strong> 始于一群放学后打不够的朋友。多年后，我们仍在追圈、刷人头。",
+  "aboutP2": "我们在 Steam 上打 PUBG，专注组排战术。无论排位还是自定义，每一局都全力以赴。",
+
+  "rosterTag": "战队",
+  "rosterTitle": "了解我们的战队。",
+  "clanNameLabel": "工会名称",
+  "clanTagLabel": "工会标签",
+  "clanLevelLabel": "工会等级",
+  "clanMembersLabel": "成员数",
+  "rosterLoading": "加载成员中...",
+  "rosterError": "工会数据加载失败。",
+
+  "statsTag": "战绩查询",
+  "statsQueryTitle": "查看你的数据。",
+  "copyBtn": "复制战绩",
+
+  "joinTag": "正在招募",
+  "joinTitle2": "准备好<br/>跳伞了<span class=\"accent\">吗？</span>",
+  "joinDesc": "我们在寻找善于沟通、敢于拼搏的竞技玩家。不限段位，只要你有那股劲。",
+  "joinBtn1": "联系我们",
+  "joinBtn2": "查看我们",
+  "joinOr": "或发邮件至",
+
+  "playerLabel": "玩家",
+  "matchesPlayed": "场次",
+  "kills": "击杀",
+  "deaths": "死亡",
+  "winRate": "胜率",
+  "kdRatio": "K/D",
+  "longestKill": "最远击杀",
+
   "loading": "加载中...",
   "playerNotFound": "未找到该玩家，请检查名称后重试。",
   "copied": "✓ 已复制"

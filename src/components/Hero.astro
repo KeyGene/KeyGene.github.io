@@ -1,0 +1,287 @@
+---
+import { t } from '../i18n/utils';
+const lang = Astro.currentLocale ?? 'zh';
+---
+
+<section class="hero" transition:name="hero">
+  <picture>
+    <source media="(max-width: 768px)" srcset="/assert/images/hero-bg-mobile.webp" type="image/webp" />
+    <source media="(max-width: 768px)" srcset="/assert/images/hero-bg-mobile.jpg" type="image/jpeg" />
+    <source srcset="/assert/images/hero-bg.webp" type="image/webp" />
+    <img class="hero-bg" src="/assert/images/hero-bg.jpg" alt="KEY GENE PUBG" loading="eager" />
+  </picture>
+
+  <div class="hero-content">
+    <div class="hero-tag" transition:name="hero-tag">{t('heroTag', lang)}</div>
+    <h1 transition:name="hero-title">
+      <span>{t('heroLine1', lang)}</span><br/>
+      <span>{t('heroLine2', lang)}</span> <span class="line-accent">{t('heroLine3', lang)}</span><br/>
+      <span>{t('heroLine4', lang)}</span>
+    </h1>
+    <p class="hero-sub">{t('heroSub', lang)}</p>
+    <div class="hero-actions">
+      <a href="/stats/" class="btn-clip btn-red">{t('heroBtn1', lang)}</a>
+      <a href="#join" class="btn-clip btn-outline">{t('heroBtn2', lang)}</a>
+      <a href="/quiz/" class="btn-clip btn-outline">{t('heroQuizBtn', lang)}</a>
+    </div>
+  </div>
+
+  <!-- Glass Card -->
+  <div class="glass-card">
+    <div class="glass-card-tag">{t('cardTag', lang)}</div>
+    <h3>{t('cardTitle', lang)}</h3>
+    <p>{t('cardDesc', lang)}</p>
+    <a href="mailto:keygene@hotmail.com" class="btn-clip btn-white">
+      <svg class="icon-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      <span>{t('cardBtn', lang)}</span>
+    </a>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-value" id="heroMatches">--</div>
+      <div class="stat-label">{t('statMatches', lang)}</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="heroTop10">--</div>
+      <div class="stat-label">{t('statTop10', lang)}</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="heroKD">--</div>
+      <div class="stat-label">{t('statKD', lang)}</div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(async function loadHeroStats() {
+  const PUBG_PROXY = '/api';
+  const SHARD = 'steam';
+  const HERO_PLAYER = 'SymarsYoung';
+  try {
+    const r1 = await fetch(PUBG_PROXY + '/shards/' + SHARD + '/players?filter[playerNames]=' + HERO_PLAYER, {
+      headers: { Accept: 'application/vnd.api+json' }
+    });
+    if (!r1.ok) return;
+    const pid = (await r1.json()).data[0].id;
+    const r2 = await fetch(PUBG_PROXY + '/shards/' + SHARD + '/players/' + pid + '/seasons/lifetime', {
+      headers: { Accept: 'application/vnd.api+json' }
+    });
+    const s = (await r2.json()).data.attributes.gameModeStats.squad;
+    const matches = s.roundsPlayed;
+    const top10 = (s.top10s / matches * 100).toFixed(1);
+    const kd = (s.kills / s.losses).toFixed(2);
+    const mStr = matches >= 1000 ? (matches / 1000).toFixed(1) + 'K' : String(matches);
+
+    function countUp(el, target, suffix, accent) {
+      var duration = 1200, start = performance.now(), end = parseFloat(target);
+      function tick(now) {
+        var t = Math.min((now - start) / duration, 1);
+        var ease = 1 - Math.pow(1 - t, 3);
+        var val = (end * ease).toFixed(target.indexOf('.') >= 0 ? target.split('.')[1].length : 0);
+        el.innerHTML = val + (accent ? '<span class="accent">' + suffix + '</span>' : suffix);
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    var elM = document.getElementById('heroMatches');
+    var elT = document.getElementById('heroTop10');
+    var elK = document.getElementById('heroKD');
+    var bar = document.querySelector('.stats-bar');
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        countUp(elM, mStr.replace('K',''), 'K+', true);
+        countUp(elT, top10, '%', true);
+        countUp(elK, kd, '', false);
+        obs.disconnect();
+      }
+    }, { threshold: 0.5 });
+    obs.observe(bar);
+  } catch(e) { /* keep "--" fallback */ }
+})();
+</script>
+
+<style>
+  :root { --hero-gradient: rgba(0,0,0,0.7); }
+  [data-theme="light"] { --hero-gradient: rgba(0,0,0,0.5); }
+
+  /* Light mode overrides for hero area */
+  [data-theme="light"] .hero-content,
+  [data-theme="light"] .hero-tag,
+  [data-theme="light"] .hero h1,
+  [data-theme="light"] .hero-sub,
+  [data-theme="light"] .glass-card,
+  [data-theme="light"] .glass-card h3,
+  [data-theme="light"] .stats-bar .stat-value,
+  [data-theme="light"] .stats-bar .stat-label { color: #fff; }
+  [data-theme="light"] .hero-sub,
+  [data-theme="light"] .glass-card p,
+  [data-theme="light"] .stats-bar .stat-label { color: rgba(255,255,255,0.7); }
+  [data-theme="light"] .hero-tag { color: var(--color-red); }
+  [data-theme="light"] .hero h1 .line-accent { color: var(--color-red); }
+  [data-theme="light"] .hero .btn-outline { color: #fff; border-color: rgba(255,255,255,0.4); }
+  [data-theme="light"] .hero .btn-outline:hover { border-color: rgba(255,255,255,0.7); }
+  [data-theme="light"] .glass-card { background: rgba(0,0,0,0.6); border-color: rgba(255,255,255,0.15); }
+  [data-theme="light"] .glass-card h3 { color: #fff; }
+  [data-theme="light"] .glass-card p { color: rgba(255,255,255,0.7); }
+  [data-theme="light"] .glass-card .btn-clip { color: #000; }
+  [data-theme="light"] .glass-card-tag { color: var(--color-red); }
+
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, var(--hero-gradient), transparent);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 64px;
+    padding-top: calc(var(--header-height) + 12vh);
+    max-width: 800px;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-red);
+    margin-bottom: 20px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 24px;
+    height: 2px;
+    background: var(--color-red);
+  }
+  .hero h1 {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 .line-accent { color: var(--color-red); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    max-width: 480px;
+    margin-bottom: var(--space-xl);
+  }
+  .hero-actions { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+
+  /* Glass Card */
+  .glass-card {
+    position: absolute;
+    bottom: 48px;
+    right: 64px;
+    z-index: 10;
+    width: 380px;
+    padding: 28px;
+    background: var(--color-card-bg);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid var(--color-card-border);
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 var(--color-card-border), 0 8px 32px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-card-border) 0%, transparent 50%);
+    pointer-events: none;
+    border-radius: 16px;
+  }
+  .glass-card-tag {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-red);
+    margin-bottom: 10px;
+  }
+  .glass-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .glass-card p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .glass-card .btn-clip { padding: 10px 22px; font-size: var(--text-sm); }
+  .icon-phone {
+    width: 16px; height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    position: absolute;
+    bottom: 48px;
+    left: 64px;
+    z-index: 10;
+    display: flex;
+    gap: 40px;
+  }
+  .stat-item { text-align: left; }
+  .stat-value {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .stat-value .accent { color: var(--color-red); }
+  .stat-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: var(--space-xs);
+  }
+
+  @media (max-width: 768px) {
+    .hero-content { padding: 0 24px; padding-top: calc(var(--header-height-mobile) + 8vh); }
+    .hero h1 { font-size: 38px; }
+    .hero-sub { font-size: 14px; }
+    .glass-card { left: 24px; right: 24px; bottom: 24px; width: auto; }
+    .stats-bar { display: none; }
+  }
+</style>

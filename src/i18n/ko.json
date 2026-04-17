@@ -61,6 +61,48 @@
   "leaderboardTitle": "리더보드",
   "quizTitle": "배그 성향 테스트",
 
+  "cardTag": "모집 중",
+  "cardTitle": "팀원을 찾고 있나요?",
+  "cardDesc": "KEY GENE에 합류하여 함께 싸우세요. PUBG에서 \"KEYGENE\"을 검색하거나 직접 연락해 주세요.",
+  "cardBtn": "문의하기",
+
+  "statMatches": "총 경기 수",
+  "statTop10": "Top 10 비율",
+  "statKD": "평균 K/D",
+
+  "aboutTag": "소개",
+  "aboutTitle2": "우정 위에 세워진,<br/><span class=\"accent\">열정</span>으로<br/>불태우는 팀.",
+  "aboutP1": "<strong>KEY GENE</strong>은 방과 후에도 게임을 멈출 수 없었던 친구들로 시작되었습니다. 수년이 지난 지금도 여전히 자기장을 쫓고 킬을 쌓고 있습니다.",
+  "aboutP2": "Steam에서 PUBG를 플레이하며 스쿼드 전술에 집중합니다. 랭크든 커스텀이든, 매 라운드 전력을 다합니다.",
+
+  "rosterTag": "스쿼드",
+  "rosterTitle": "우리 팀을 소개합니다.",
+  "clanNameLabel": "클랜명",
+  "clanTagLabel": "클랜 태그",
+  "clanLevelLabel": "클랜 레벨",
+  "clanMembersLabel": "멤버 수",
+  "rosterLoading": "멤버 로딩 중...",
+  "rosterError": "클랜 데이터를 불러오지 못했습니다.",
+
+  "statsTag": "전적 검색",
+  "statsQueryTitle": "전적을 확인하세요.",
+  "copyBtn": "전적 복사",
+
+  "joinTag": "모집 중",
+  "joinTitle2": "드롭할<br/>준비 됐나<span class=\"accent\">요?</span>",
+  "joinDesc": "소통하고, 헌신하고, 클러치할 수 있는 경쟁적인 플레이어를 찾고 있습니다. 티어 제한 없음 — 열정만 가져오세요.",
+  "joinBtn1": "문의하기",
+  "joinBtn2": "검색하기",
+  "joinOr": "또는 이메일",
+
+  "playerLabel": "플레이어",
+  "matchesPlayed": "경기 수",
+  "kills": "킬",
+  "deaths": "데스",
+  "winRate": "승률",
+  "kdRatio": "K/D",
+  "longestKill": "최장 킬 거리",
+
   "loading": "로딩 중...",
   "playerNotFound": "플레이어를 찾을 수 없습니다. 이름을 확인하고 다시 시도해 주세요.",
   "copied": "✓ 복사 완료"

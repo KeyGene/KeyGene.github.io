@@ -61,6 +61,48 @@
   "leaderboardTitle": "Leaderboard",
   "quizTitle": "PUBG Personality Quiz",
 
+  "cardTag": "Recruiting",
+  "cardTitle": "Looking for Teammates?",
+  "cardDesc": "Join KEY GENE and fight alongside us. Search \"KEYGENE\" in PUBG or reach out directly.",
+  "cardBtn": "Contact Us",
+
+  "statMatches": "Matches Played",
+  "statTop10": "Top 10 Rate",
+  "statKD": "Avg K/D",
+
+  "aboutTag": "About Us",
+  "aboutTitle2": "Built on<br/>friendship<br/>and <span class=\"accent\">fire.</span>",
+  "aboutP1": "<strong>KEY GENE</strong> started as a group of friends who wouldn't stop playing after school. Years later, we're still chasing circles and stacking kills.",
+  "aboutP2": "We play PUBG on Steam with a focus on squad tactics. Whether it's ranked or customs, we bring the heat every round.",
+
+  "rosterTag": "The Squad",
+  "rosterTitle": "Learn about our team.",
+  "clanNameLabel": "Clan Name",
+  "clanTagLabel": "Clan Tag",
+  "clanLevelLabel": "Clan Level",
+  "clanMembersLabel": "Members",
+  "rosterLoading": "Loading members...",
+  "rosterError": "Failed to load clan data.",
+
+  "statsTag": "Player Lookup",
+  "statsQueryTitle": "Check your stats.",
+  "copyBtn": "Copy Stats",
+
+  "joinTag": "Recruitment Open",
+  "joinTitle2": "Ready to<br/>drop in<span class=\"accent\">?</span>",
+  "joinDesc": "We're looking for competitive players who communicate, commit, and clutch. No rank requirement — just bring the fire.",
+  "joinBtn1": "Get in Touch",
+  "joinBtn2": "Look Us Up",
+  "joinOr": "or email us at",
+
+  "playerLabel": "Player",
+  "matchesPlayed": "Matches",
+  "kills": "Kills",
+  "deaths": "Deaths",
+  "winRate": "Win Rate",
+  "kdRatio": "K/D",
+  "longestKill": "Longest Kill",
+
   "loading": "Loading...",
   "playerNotFound": "Player not found. Check the name and try again.",
   "copied": "✓ Copied"
