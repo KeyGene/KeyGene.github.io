@@ -1,0 +1,50 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage } = Astro.props;
+const lang = Astro.currentLocale ?? 'zh';
+const desc = description ?? '';
+const og = ogImage ?? 'https://keygene.top/assert/images/hero-bg.jpg';
+---
+
+<!DOCTYPE html>
+<html lang={lang === 'zh' ? 'zh-CN' : lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  {desc && <meta name="description" content={desc} />}
+  <meta property="og:title" content={title} />
+  {desc && <meta property="og:description" content={desc} />}
+  <meta property="og:image" content={og} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/assert/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <ViewTransitions />
+  <script is:inline>
+    (function() {
+      var t = localStorage.getItem('keygene_theme');
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+</head>
+<body>
+  <Nav />
+  <main transition:animate="fade" style={`min-height: calc(100vh - 160px); padding-top: var(--header-height);`}>
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>
