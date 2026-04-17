@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG灵敏度计算器 - KEY GENE | 鼠标灵敏度换算 DPI计算</title>
+  <meta name="description" content="PUBG灵敏度计算器：DPI换算、cm/360计算、倍镜灵敏度、职业选手配置。免费在线工具。PUBG Sensitivity Calculator with pro player settings." />
+  <meta name="keywords" content="PUBG灵敏度,PUBG sensitivity,DPI计算,cm/360,PUBG鼠标设置,PUBG pro settings,灵敏度换算,PUBG DPI,绝地求生灵敏度,KEYGENE" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://keygene.top/sensitivity.html" />
+  <meta property="og:title" content="PUBG灵敏度计算器 - KEY GENE" />
+  <meta property="og:description" content="PUBG灵敏度计算器：DPI换算、倍镜灵敏度、职业选手配置对比。" />
+  <meta property="og:url" content="https://keygene.top/sensitivity.html" />
+  <meta property="og:image" content="https://keygene.top/assert/images/hero-bg.jpg" />
+  <link rel="alternate" hreflang="zh" href="https://keygene.top/sensitivity.html" />
+  <link rel="alternate" hreflang="en" href="https://keygene.top/sensitivity.html" />
+  <link rel="alternate" hreflang="ko" href="https://keygene.top/sensitivity.html" />
+  <link rel="alternate" hreflang="x-default" href="https://keygene.top/sensitivity.html" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PUBG灵敏度计算器 - KEY GENE",
+    "alternateName": "PUBG Sensitivity Calculator",
+    "description": "PUBG灵敏度计算器，支持DPI换算、cm/360计算、倍镜灵敏度设置、职业选手配置对比。",
+    "url": "https://keygene.top/sensitivity.html",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "author": { "@type": "Organization", "name": "KEY GENE", "url": "https://keygene.top" }
+  }
+  </script>
+
+  <link rel="icon" href="assert/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assert/css/shared.css" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <style>
+    :root { --header-bg: rgba(0,0,0,0.6); }
+
+    /* ===== HERO ===== */
+    .sens-hero {
+      padding: 120px 24px 40px;
+      text-align: center;
+    }
+    .sens-hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+    }
+    .sens-hero-tag::before { content: ''; width: 24px; height: 2px; background: var(--red); }
+    .sens-hero-title {
+      font-size: 42px; font-weight: 800; letter-spacing: -0.04em;
+      text-transform: uppercase; line-height: 1.1; margin-bottom: 10px;
+    }
+    .sens-hero-title .accent { color: var(--red); }
+    .sens-hero-sub { font-size: 15px; color: var(--gray-400); }
+
+    /* ===== LAYOUT ===== */
+    .sens-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 24px; max-width: 1100px; margin: 0 auto;
+      padding: 0 48px 60px;
+    }
+
+    /* ===== CALC PANEL ===== */
+    .calc-panel {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 28px;
+    }
+    .panel-title {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 20px;
+    }
+    .panel-title::before { content: ''; width: 20px; height: 2px; background: var(--red); }
+
+    /* Input rows */
+    .calc-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .calc-label {
+      width: 80px; font-size: 12px; font-weight: 600;
+      color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+    .calc-input {
+      width: 100px; padding: 10px 14px; background: var(--subtle-bg);
+      border: 1px solid var(--subtle-border); border-radius: 6px;
+      color: var(--white); font-family: var(--font); font-size: 14px;
+      outline: none; transition: border-color 0.2s; text-align: center;
+    }
+    .calc-input:focus { border-color: var(--red); }
+
+    /* Sliders */
+    .calc-slider {
+      -webkit-appearance: none; flex: 1; height: 4px;
+      border-radius: 2px; background: var(--subtle-border); outline: none;
+    }
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 16px; height: 16px;
+      border-radius: 50%; background: var(--red); cursor: pointer;
+    }
+    .calc-slider::-moz-range-thumb {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--red); border: none; cursor: pointer;
+    }
+    .calc-value {
+      width: 50px; text-align: right; font-size: 14px;
+      font-weight: 700; color: var(--white); font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    /* Scope rows */
+    .scope-section { margin-top: 20px; }
+    .scope-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid var(--subtle-border);
+    }
+    .scope-name {
+      width: 36px; font-size: 13px; font-weight: 700; color: var(--white); flex-shrink: 0;
+    }
+    .scope-cm {
+      width: 80px; text-align: right; font-size: 13px;
+      color: var(--gray-400); font-variant-numeric: tabular-nums; flex-shrink: 0;
+    }
+
+    /* Results */
+    .calc-results {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-top: 24px;
+    }
+    .result-card {
+      background: linear-gradient(135deg, #1a0a08, #0a0a0a);
+      border: 1px solid var(--card-border); border-radius: 10px;
+      padding: 16px; text-align: center;
+    }
+    [data-theme="light"] .result-card { background: linear-gradient(135deg, #f8f0ee, #f0f0f0); }
+    .result-value {
+      font-size: 28px; font-weight: 800; color: var(--white);
+      font-variant-numeric: tabular-nums;
+    }
+    .result-label {
+      font-size: 10px; color: var(--gray-500); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-top: 4px;
+    }
+
+    /* DPI converter */
+    .dpi-convert { margin-top: 20px; }
+    .convert-result {
+      margin-top: 8px; font-size: 14px; color: var(--gray-400);
+    }
+    .convert-result span { color: var(--white); font-weight: 700; font-size: 18px; }
+
+    /* Actions */
+    .calc-actions {
+      display: flex; gap: 10px; margin-top: 20px;
+    }
+    .action-btn {
+      flex: 1; padding: 12px 16px; border: none; border-radius: 8px;
+      font-family: var(--font); font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s; text-align: center;
+    }
+    .action-btn-red { background: var(--red); color: #fff; }
+    .action-btn-red:hover { background: var(--red-hover); }
+    .action-btn-outline {
+      background: transparent; color: var(--white);
+      border: 1px solid var(--btn-outline-border);
+    }
+    .action-btn-outline:hover { border-color: var(--btn-outline-hover); }
+
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      padding: 12px 24px; background: #222; color: #fff; border-radius: 8px;
+      font-size: 13px; font-weight: 600; z-index: 1000;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+
+    /* ===== PRO PANEL ===== */
+    .pro-panel {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 28px;
+      max-height: calc(100vh - 200px); overflow-y: auto;
+    }
+    .pro-filters {
+      display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .pro-filter-btn {
+      padding: 6px 14px; font-size: 12px; font-weight: 600;
+      background: var(--subtle-bg); border: 1px solid var(--subtle-border);
+      border-radius: 6px; color: var(--gray-400); cursor: pointer;
+      font-family: var(--font); transition: all 0.2s;
+    }
+    .pro-filter-btn.active,
+    .pro-filter-btn:hover {
+      color: var(--white); border-color: var(--red); background: rgba(238,63,44,0.1);
+    }
+    .pro-list { display: flex; flex-direction: column; gap: 8px; }
+    .pro-card {
+      display: flex; align-items: center; gap: 14px; padding: 14px;
+      background: var(--subtle-bg); border: 1px solid var(--subtle-border);
+      border-radius: 10px; transition: border-color 0.2s; cursor: pointer;
+    }
+    .pro-card:hover { border-color: var(--red); }
+    .pro-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), #ff5a4a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .pro-info { flex: 1; min-width: 0; }
+    .pro-name { font-size: 14px; font-weight: 700; }
+    .pro-team { font-size: 11px; color: var(--gray-500); }
+    .pro-stats {
+      display: flex; gap: 12px; font-size: 11px; color: var(--gray-400); margin-top: 4px;
+    }
+    .pro-stats span { color: var(--white); font-weight: 700; }
+    .pro-apply {
+      padding: 6px 14px; font-size: 11px; font-weight: 700;
+      background: var(--red); color: #fff; border: none; border-radius: 6px;
+      cursor: pointer; flex-shrink: 0; transition: background 0.2s;
+      font-family: var(--font);
+    }
+    .pro-apply:hover { background: var(--red-hover); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .sens-layout { grid-template-columns: 1fr; padding: 0 24px 40px; }
+      .sens-hero { padding: 100px 24px 32px; }
+      .sens-hero-title { font-size: 28px; }
+      .pro-panel { max-height: none; }
+    }
+    @media (max-width: 480px) {
+      .calc-row { flex-wrap: wrap; gap: 8px; }
+      .calc-label { width: 100%; }
+      .calc-results { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="assert/images/helmet-red.png" alt="KEY GENE" style="width:40px;height:40px;object-fit:contain;" />
+      <span class="logo-text">Key<span class="accent">Gene</span></span>
+    </a>
+
+    <nav>
+      <div class="nav-dropdown">
+        <a href="stats.html" class="nav-link" data-key="navStats">Stats</a>
+        <div class="dropdown-menu">
+          <a href="stats.html" data-key="navStatsLookup">Stats Lookup</a>
+          <a href="leaderboard.html" data-key="navLeaderboard">Leaderboard</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="maps.html" class="nav-link" data-key="navMaps">Maps</a>
+        <div class="dropdown-menu">
+          <a href="maps.html" data-key="navMapsInteractive">Interactive Map</a>
+          <a href="flight.html" data-key="navFlight">Flight Sim</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <span class="nav-link active" data-key="navTools">Tools</span>
+        <div class="dropdown-menu">
+          <a href="sensitivity.html" class="active" data-key="navSensitivity">Sensitivity</a>
+          <a href="weapons.html" data-key="navWeapons">Weapons</a>
+        </div>
+      </div>
+      <a href="quiz.html" data-key="navQuiz">Quiz</a>
+    </nav>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+      </button>
+      <button class="lang-toggle" id="langToggle">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Stats</span>
+      <div class="mobile-sub">
+        <a href="stats.html" onclick="closeMobileNav()">Stats Lookup</a>
+        <a href="leaderboard.html" onclick="closeMobileNav()">Leaderboard</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Maps</span>
+      <div class="mobile-sub">
+        <a href="maps.html" onclick="closeMobileNav()">Interactive Map</a>
+        <a href="flight.html" onclick="closeMobileNav()">Flight Sim</a>
+      </div>
+    </div>
+    <div class="mobile-group open">
+      <span class="mobile-group-label">Tools</span>
+      <div class="mobile-sub">
+        <a href="sensitivity.html" onclick="closeMobileNav()">Sensitivity</a>
+        <a href="weapons.html" onclick="closeMobileNav()">Weapons</a>
+      </div>
+    </div>
+    <a href="quiz.html" onclick="closeMobileNav()">Quiz</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div class="sens-hero">
+    <div class="sens-hero-tag" data-key="heroTag">Sensitivity Calculator</div>
+    <h1 class="sens-hero-title" data-key="heroTitle">SENSITIVITY <span class="accent">CALCULATOR</span></h1>
+    <p class="sens-hero-sub" data-key="heroSub">Find your perfect PUBG sensitivity. Compare with pro players.</p>
+  </div>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="sens-layout">
+
+    <!-- Calculator Panel -->
+    <div class="calc-panel" id="calcPanel">
+      <div class="panel-title" data-key="calcTitle">Calculator</div>
+
+      <!-- DPI -->
+      <div class="calc-row">
+        <label class="calc-label">DPI</label>
+        <input type="number" class="calc-input" id="dpiInput" value="800" min="100" max="16000" step="50" />
+      </div>
+
+      <!-- General Sensitivity -->
+      <div class="calc-row">
+        <label class="calc-label" data-key="sens">Sens</label>
+        <input type="range" class="calc-slider" id="sensSlider" min="1" max="100" value="50" />
+        <span class="calc-value" id="sensValue">50</span>
+      </div>
+
+      <!-- Vertical Sensitivity Ratio -->
+      <div class="calc-row">
+        <label class="calc-label" data-key="vRatio">V-Ratio</label>
+        <input type="range" class="calc-slider" id="vRatioSlider" min="50" max="150" value="100" />
+        <span class="calc-value" id="vRatioValue">100</span>
+      </div>
+
+      <!-- Scope Sensitivity -->
+      <div class="scope-section">
+        <div class="panel-title" data-key="scopeSens">Scope Sensitivity</div>
+        <div id="scopeRows"></div>
+      </div>
+
+      <!-- Results -->
+      <div class="calc-results">
+        <div class="result-card">
+          <div class="result-value" id="edpiDisplay">40,000</div>
+          <div class="result-label">eDPI</div>
+        </div>
+        <div class="result-card">
+          <div class="result-value" id="cm360Display">27.5 cm</div>
+          <div class="result-label" data-key="cm360">CM / 360°</div>
+        </div>
+      </div>
+
+      <!-- DPI Converter -->
+      <div class="dpi-convert">
+        <div class="panel-title" data-key="dpiConvert">DPI Converter</div>
+        <div class="calc-row">
+          <label class="calc-label" data-key="newDpi">New DPI</label>
+          <input type="number" class="calc-input" id="newDpiInput" value="" placeholder="e.g. 1600" min="100" max="16000" step="50" />
+        </div>
+        <div class="convert-result" id="convertResult"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="calc-actions">
+        <button class="action-btn action-btn-red" id="shareCardBtn" data-key="shareCard">Share Card</button>
+        <button class="action-btn action-btn-outline" id="copyLinkBtn" data-key="copyLink">Copy Link</button>
+      </div>
+    </div>
+
+    <!-- Pro Settings Panel -->
+    <div class="pro-panel">
+      <div class="panel-title" data-key="proSettings">Pro Settings</div>
+
+      <div class="pro-filters">
+        <button class="pro-filter-btn active" data-filter="all" data-key="filterAll">All</button>
+        <button class="pro-filter-btn" data-filter="low" data-key="filterLow">Low Sens</button>
+        <button class="pro-filter-btn" data-filter="high" data-key="filterHigh">High Sens</button>
+      </div>
+
+      <div class="pro-list" id="proList"></div>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <footer>
+    <p>&copy; <span id="year"></span> KEY GENE. All Rights Reserved.</p>
+    <div class="footer-links">
+      <a href="index.html" data-key="footHome">Home</a>
+      <a href="stats.html" data-key="footStats">Stats</a>
+      <a href="maps.html" data-key="footMaps">Maps</a>
+      <a href="mailto:keygene@hotmail.com" data-key="footContact">Contact</a>
+    </div>
+  </footer>
+
+  <script src="assert/js/shared.js"></script>
+  <script src="assert/js/share-utils.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== SCOPES =====
+    var SCOPES = [
+      { id: '1x', label: '1x', mult: 1.0 },
+      { id: '2x', label: '2x', mult: 1.2 },
+      { id: '3x', label: '3x', mult: 1.35 },
+      { id: '4x', label: '4x', mult: 1.45 },
+      { id: '6x', label: '6x', mult: 1.55 },
+      { id: '8x', label: '8x', mult: 1.65 },
+      { id: '15x', label: '15x', mult: 1.8 }
+    ];
+
+    // ===== PRO SETTINGS DATA =====
+    var PRO_SETTINGS = [
+      { name:'Pio', team:'Gen.G', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Inonix', team:'Gen.G', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Esther', team:'Gen.G', dpi:800, sens:45, vRatio:100, scopes:{}, style:'low' },
+      { name:'Loki', team:'Twisted Minds', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'NiceWigg', team:'Streamer', dpi:400, sens:55, vRatio:100, scopes:{}, style:'low' },
+      { name:'TGLTN', team:'Soniqs', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Shrimzy', team:'Soniqs', dpi:400, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Purddy', team:'FaZe', dpi:1600, sens:50, vRatio:100, scopes:{}, style:'high' },
+      { name:'Ubah', team:'FaZe', dpi:800, sens:52, vRatio:100, scopes:{}, style:'low' },
+      { name:'Hikari', team:'NH', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Oath', team:'Danawa', dpi:1200, sens:50, vRatio:100, scopes:{}, style:'high' },
+      { name:'Seoul', team:'Danawa', dpi:800, sens:55, vRatio:100, scopes:{}, style:'low' },
+      { name:'SalvaN', team:'ENCE', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Adder', team:'17 Gaming', dpi:800, sens:44, vRatio:100, scopes:{}, style:'low' },
+      { name:'MMing', team:'17 Gaming', dpi:1600, sens:40, vRatio:100, scopes:{}, style:'high' },
+      { name:'Aixleft', team:'NH', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Stk', team:'17 Gaming', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'KaymindN', team:'Retired', dpi:400, sens:60, vRatio:100, scopes:{}, style:'low' },
+      { name:'ibiza', team:'T1', dpi:800, sens:50, vRatio:100, scopes:{}, style:'low' },
+      { name:'Akad', team:'T1', dpi:800, sens:48, vRatio:100, scopes:{}, style:'low' }
+    ];
+    // Fill default scope sens
+    PRO_SETTINGS.forEach(function(p) {
+      SCOPES.forEach(function(s) { if (!p.scopes[s.id]) p.scopes[s.id] = 50; });
+    });
+
+    // ===== DOM REFS =====
+    var dpiInput = document.getElementById('dpiInput');
+    var sensSlider = document.getElementById('sensSlider');
+    var sensValue = document.getElementById('sensValue');
+    var vRatioSlider = document.getElementById('vRatioSlider');
+    var vRatioValue = document.getElementById('vRatioValue');
+    var edpiDisplay = document.getElementById('edpiDisplay');
+    var cm360Display = document.getElementById('cm360Display');
+    var newDpiInput = document.getElementById('newDpiInput');
+    var convertResult = document.getElementById('convertResult');
+    var scopeRowsEl = document.getElementById('scopeRows');
+    var proListEl = document.getElementById('proList');
+
+    var scopeSliders = {};
+    var scopeValues = {};
+    var scopeCmDisplays = {};
+
+    // ===== BUILD SCOPE ROWS =====
+    SCOPES.forEach(function(s) {
+      var row = document.createElement('div');
+      row.className = 'scope-row';
+      row.innerHTML =
+        '<span class="scope-name">' + s.label + '</span>' +
+        '<input type="range" class="calc-slider" id="scope_' + s.id + '" min="1" max="100" value="50" />' +
+        '<span class="calc-value" id="scopeVal_' + s.id + '">50</span>' +
+        '<span class="scope-cm" id="scopeCm_' + s.id + '">--</span>';
+      scopeRowsEl.appendChild(row);
+
+      var slider = document.getElementById('scope_' + s.id);
+      var valEl = document.getElementById('scopeVal_' + s.id);
+      var cmEl = document.getElementById('scopeCm_' + s.id);
+      scopeSliders[s.id] = slider;
+      scopeValues[s.id] = valEl;
+      scopeCmDisplays[s.id] = cmEl;
+
+      slider.addEventListener('input', function() {
+        valEl.textContent = slider.value;
+        updateCalc();
+      });
+    });
+
+    // ===== CALC =====
+    function calcCm360(dpi, sens, scopeMultiplier) {
+      if (!dpi || !sens) return Infinity;
+      return (2.54 * 360) / (dpi * (sens / 50) * (scopeMultiplier || 1));
+    }
+
+    function updateCalc() {
+      var dpi = parseInt(dpiInput.value) || 800;
+      var sens = parseInt(sensSlider.value) || 50;
+      sensValue.textContent = sensSlider.value;
+      vRatioValue.textContent = vRatioSlider.value;
+
+      var edpi = dpi * sens;
+      edpiDisplay.textContent = edpi.toLocaleString();
+
+      var baseCm = calcCm360(dpi, sens, 1);
+      cm360Display.textContent = baseCm < 1000 ? baseCm.toFixed(1) + ' cm' : '∞';
+
+      SCOPES.forEach(function(s) {
+        var scopeSens = parseInt(scopeSliders[s.id].value) || 50;
+        scopeValues[s.id].textContent = scopeSens;
+        var cm = calcCm360(dpi, sens * (scopeSens / 50), s.mult);
+        scopeCmDisplays[s.id].textContent = cm < 1000 ? cm.toFixed(1) + ' cm' : '∞';
+      });
+
+      updateConvert();
+    }
+
+    function updateConvert() {
+      var newDpi = parseInt(newDpiInput.value);
+      if (!newDpi || newDpi < 100) {
+        convertResult.innerHTML = '';
+        return;
+      }
+      var oldDpi = parseInt(dpiInput.value) || 800;
+      var oldSens = parseInt(sensSlider.value) || 50;
+      var equiv = (oldDpi * oldSens) / newDpi;
+      var t = texts[currentLang] || texts['en'];
+      convertResult.innerHTML = t.equivSens + ': <span>' + equiv.toFixed(1) + '</span>';
+    }
+
+    // Bind inputs
+    dpiInput.addEventListener('input', updateCalc);
+    sensSlider.addEventListener('input', updateCalc);
+    vRatioSlider.addEventListener('input', updateCalc);
+    newDpiInput.addEventListener('input', updateConvert);
+
+    // ===== PRO LIST =====
+    var currentFilter = 'all';
+
+    function renderProList() {
+      var filtered = PRO_SETTINGS.filter(function(p) {
+        if (currentFilter === 'all') return true;
+        return p.style === currentFilter;
+      });
+      var t = texts[currentLang] || texts['en'];
+      proListEl.innerHTML = filtered.map(function(p) {
+        return '<div class="pro-card" data-name="' + p.name + '">' +
+          '<div class="pro-avatar">' + p.name.charAt(0) + '</div>' +
+          '<div class="pro-info">' +
+            '<div class="pro-name">' + p.name + '</div>' +
+            '<div class="pro-team">' + p.team + '</div>' +
+            '<div class="pro-stats">' +
+              'DPI <span>' + p.dpi + '</span> ' +
+              t.sens + ' <span>' + p.sens + '</span> ' +
+              'eDPI <span>' + (p.dpi * p.sens).toLocaleString() + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<button class="pro-apply">' + t.apply + '</button>' +
+        '</div>';
+      }).join('');
+
+      // Bind apply buttons
+      proListEl.querySelectorAll('.pro-card').forEach(function(card) {
+        var name = card.getAttribute('data-name');
+        card.querySelector('.pro-apply').addEventListener('click', function(e) {
+          e.stopPropagation();
+          applyPro(name);
+        });
+        card.addEventListener('click', function() { applyPro(name); });
+      });
+    }
+
+    function applyPro(name) {
+      var p = PRO_SETTINGS.find(function(x) { return x.name === name; });
+      if (!p) return;
+      dpiInput.value = p.dpi;
+      sensSlider.value = p.sens;
+      vRatioSlider.value = p.vRatio;
+      SCOPES.forEach(function(s) {
+        scopeSliders[s.id].value = p.scopes[s.id] || 50;
+      });
+      updateCalc();
+      document.getElementById('calcPanel').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Filter buttons
+    document.querySelectorAll('.pro-filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.pro-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        renderProList();
+      });
+    });
+
+    // ===== URL PARAMS =====
+    function encodeConfig() {
+      var params = new URLSearchParams();
+      params.set('d', dpiInput.value);
+      params.set('s', sensSlider.value);
+      params.set('v', vRatioSlider.value);
+      SCOPES.forEach(function(s) {
+        params.set(s.id, scopeSliders[s.id].value);
+      });
+      return location.origin + location.pathname + '?' + params.toString();
+    }
+
+    function decodeConfig() {
+      var params = new URLSearchParams(location.search);
+      if (!params.has('d')) return;
+      dpiInput.value = params.get('d');
+      sensSlider.value = params.get('s') || 50;
+      vRatioSlider.value = params.get('v') || 100;
+      SCOPES.forEach(function(s) {
+        if (params.has(s.id)) scopeSliders[s.id].value = params.get(s.id);
+      });
+      updateCalc();
+    }
+
+    // ===== SHARE =====
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    }
+
+    document.getElementById('copyLinkBtn').addEventListener('click', function() {
+      var url = encodeConfig();
+      copyToClipboard(url).then(function() {
+        var t = texts[currentLang] || texts['en'];
+        showToast(t.copied || 'Copied!');
+      });
+    });
+
+    document.getElementById('shareCardBtn').addEventListener('click', function() {
+      generateShareCard(document.getElementById('calcPanel'), 'keygene-sensitivity.png');
+    });
+
+    // ===== I18N =====
+    var texts = {
+      en: {
+        heroTag: 'Sensitivity Calculator',
+        heroTitle: 'SENSITIVITY <span class="accent">CALCULATOR</span>',
+        heroSub: 'Find your perfect PUBG sensitivity. Compare with pro players.',
+        calcTitle: 'Calculator', sens: 'Sens', vRatio: 'V-Ratio',
+        scopeSens: 'Scope Sensitivity', cm360: 'CM / 360°',
+        proSettings: 'Pro Settings', filterAll: 'All', filterLow: 'Low Sens', filterHigh: 'High Sens',
+        apply: 'Apply', copyLink: 'Copy Link', shareCard: 'Share Card',
+        dpiConvert: 'DPI Converter', newDpi: 'New DPI', equivSens: 'Equivalent Sens',
+        copied: 'Link copied!',
+        navStats: 'Stats', navMaps: 'Maps', navTools: 'Tools', navQuiz: 'Quiz',
+        navStatsLookup: 'Stats Lookup', navLeaderboard: 'Leaderboard',
+        navMapsInteractive: 'Interactive Map', navFlight: 'Flight Sim',
+        navSensitivity: 'Sensitivity', navWeapons: 'Weapons',
+        footHome: 'Home', footStats: 'Stats', footMaps: 'Maps', footContact: 'Contact'
+      },
+      zh: {
+        heroTag: '灵敏度计算器',
+        heroTitle: '灵敏度<span class="accent">计算器</span>',
+        heroSub: '找到你的最佳 PUBG 灵敏度，对比职业选手配置',
+        calcTitle: '计算器', sens: '灵敏度', vRatio: '垂直倍率',
+        scopeSens: '倍镜灵敏度', cm360: 'CM / 360°',
+        proSettings: '职业选手配置', filterAll: '全部', filterLow: '低灵敏', filterHigh: '高灵敏',
+        apply: '应用', copyLink: '复制链接', shareCard: '生成分享卡',
+        dpiConvert: 'DPI 换算', newDpi: '新 DPI', equivSens: '等效灵敏度',
+        copied: '链接已复制！',
+        navStats: '战绩', navMaps: '地图', navTools: '工具', navQuiz: '测试',
+        navStatsLookup: '战绩查询', navLeaderboard: '排行榜',
+        navMapsInteractive: '互动地图', navFlight: '航线模拟',
+        navSensitivity: '灵敏度配置', navWeapons: '武器数据库',
+        footHome: '首页', footStats: '战绩', footMaps: '地图', footContact: '联系我们'
+      },
+      ko: {
+        heroTag: '감도 계산기',
+        heroTitle: '감도 <span class="accent">계산기</span>',
+        heroSub: '최적의 PUBG 감도를 찾고 프로 선수와 비교하세요',
+        calcTitle: '계산기', sens: '감도', vRatio: '수직 배율',
+        scopeSens: '배율 감도', cm360: 'CM / 360°',
+        proSettings: '프로 설정', filterAll: '전체', filterLow: '저감도', filterHigh: '고감도',
+        apply: '적용', copyLink: '링크 복사', shareCard: '공유 카드',
+        dpiConvert: 'DPI 변환', newDpi: '새 DPI', equivSens: '동일 감도',
+        copied: '링크가 복사되었습니다!',
+        navStats: '전적', navMaps: '맵', navTools: '도구', navQuiz: '퀴즈',
+        navStatsLookup: '전적 검색', navLeaderboard: '리더보드',
+        navMapsInteractive: '인터랙티브 맵', navFlight: '비행 시뮬레이터',
+        navSensitivity: '감도 설정', navWeapons: '무기 데이터베이스',
+        footHome: '홈', footStats: '전적', footMaps: '맵', footContact: '문의'
+      }
+    };
+
+    // Init
+    decodeConfig();
+    updateCalc();
+    bindLangToggle(texts, function(lang) {
+      renderProList();
+    });
+    renderProList();
+  </script>
+</body>
+</html>

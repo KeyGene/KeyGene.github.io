@@ -585,9 +585,28 @@
     </a>
 
     <nav>
-      <a href="stats.html" data-key="navStats">Stats</a>
-      <a href="maps.html" data-key="navMaps">Maps</a>
-      <!-- <a href="leaderboard.html" data-key="navLeaderboard">Leaderboard</a> -->
+      <div class="nav-dropdown">
+        <a href="stats.html" class="nav-link" data-key="navStats">Stats</a>
+        <div class="dropdown-menu">
+          <a href="stats.html" data-key="navStatsLookup">Stats Lookup</a>
+          <a href="leaderboard.html" data-key="navLeaderboard">Leaderboard</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="maps.html" class="nav-link" data-key="navMaps">Maps</a>
+        <div class="dropdown-menu">
+          <a href="maps.html" data-key="navMapsInteractive">Interactive Map</a>
+          <a href="flight.html" data-key="navFlight">Flight Sim</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="sensitivity.html" class="nav-link" data-key="navTools">Tools</a>
+        <div class="dropdown-menu">
+          <a href="sensitivity.html" data-key="navSensitivity">Sensitivity</a>
+          <a href="weapons.html" data-key="navWeapons">Weapons</a>
+          <a href="team.html" data-key="navTeam">Team Analyzer</a>
+        </div>
+      </div>
       <a href="quiz.html" data-key="navQuiz">Quiz</a>
     </nav>
 
@@ -635,10 +654,29 @@
     <button class="mobile-nav-close" id="mobileNavClose">
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <a href="stats.html" data-key="navStats" onclick="closeMobileNav()">Stats</a>
-    <a href="maps.html" data-key="navMaps" onclick="closeMobileNav()">Maps</a>
-    <!-- <a href="leaderboard.html" data-key="navLeaderboard" onclick="closeMobileNav()">Leaderboard</a> -->
-    <a href="quiz.html" data-key="navQuiz" onclick="closeMobileNav()">Quiz</a>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Stats</span>
+      <div class="mobile-sub">
+        <a href="stats.html" onclick="closeMobileNav()">Stats Lookup</a>
+        <a href="leaderboard.html" onclick="closeMobileNav()">Leaderboard</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Maps</span>
+      <div class="mobile-sub">
+        <a href="maps.html" onclick="closeMobileNav()">Interactive Map</a>
+        <a href="flight.html" onclick="closeMobileNav()">Flight Sim</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Tools</span>
+      <div class="mobile-sub">
+        <a href="sensitivity.html" onclick="closeMobileNav()">Sensitivity</a>
+        <a href="weapons.html" onclick="closeMobileNav()">Weapons</a>
+        <a href="team.html" onclick="closeMobileNav()">Team Analyzer</a>
+      </div>
+    </div>
+    <a href="quiz.html" onclick="closeMobileNav()">Quiz</a>
     <a href="#join" data-key="navJoin" onclick="closeMobileNav()">Join Us</a>
   </div>
 
@@ -771,6 +809,7 @@
             placeholder="Enter PUBG player name..."
             data-placeholder-en="Enter PUBG player name..."
             data-placeholder-zh="输入 PUBG 玩家名..."
+            data-placeholder-ko="PUBG 플레이어 이름 입력..."
             required
           />
           <button type="submit" class="btn-clip btn-red" data-key="searchBtn">Search</button>
@@ -829,7 +868,9 @@
 
     const texts = {
       en: {
-        navHome: "Home", navAbout: "About", navRoster: "Roster", navStats: "Stats", navMaps: "Maps", navLeaderboard: "Competitive", navQuiz: "Quiz", navJoin: "Join Us", heroQuizBtn: "Find Your PUBG Personality",
+        navHome: "Home", navAbout: "About", navRoster: "Roster", navStats: "Stats", navMaps: "Maps", navLeaderboard: "Competitive", navQuiz: "Quiz", navJoin: "Join Us",
+        navStatsLookup: "Stats Lookup", navMapsInteractive: "Interactive Map", navFlight: "Flight Sim", navTools: "Tools", navSensitivity: "Sensitivity", navWeapons: "Weapons", navTeam: "Team Analyzer",
+        heroQuizBtn: "Find Your PUBG Personality",
         heroTag: "PUBG Esports Squad",
         heroLine1: "We don't just", heroLine2: "survive the", heroLine3: "circle.", heroLine4: "We own it.",
         heroSub: "A competitive PUBG squad built on friendship and fire. From schoolyard teammates to the final circle.",
@@ -859,7 +900,9 @@
         copied: "✓ Copied"
       },
       zh: {
-        navHome: "首页", navAbout: "关于", navRoster: "阵容", navStats: "战绩", navMaps: "地图", navLeaderboard: "竞技榜", navQuiz: "人格", navJoin: "加入", heroQuizBtn: "测测你的吃鸡人格",
+        navHome: "首页", navAbout: "关于", navRoster: "阵容", navStats: "战绩", navMaps: "地图", navLeaderboard: "竞技榜", navQuiz: "人格", navJoin: "加入",
+        navStatsLookup: "战绩查询", navMapsInteractive: "互动地图", navFlight: "航线模拟", navTools: "工具", navSensitivity: "灵敏度", navWeapons: "武器库", navTeam: "团队分析",
+        heroQuizBtn: "测测你的吃鸡人格",
         heroTag: "PUBG 电竞战队",
         heroLine1: "我们不只是", heroLine2: "在缩圈中", heroLine3: "生存。", heroLine4: "我们主宰它。",
         heroSub: "一支因友谊与热血而生的 PUBG 竞技战队，从课后对决到决赛圈。",
@@ -889,7 +932,9 @@
         copied: "✓ 已复制"
       },
       ko: {
-        navHome: "홈", navAbout: "소개", navRoster: "로스터", navStats: "전적", navMaps: "맵", navLeaderboard: "경쟁전", navQuiz: "퀴즈", navJoin: "가입", heroQuizBtn: "나의 배그 성향 테스트",
+        navHome: "홈", navAbout: "소개", navRoster: "로스터", navStats: "전적", navMaps: "맵", navLeaderboard: "경쟁전", navQuiz: "퀴즈", navJoin: "가입",
+        navStatsLookup: "전적 조회", navMapsInteractive: "인터랙티브 맵", navFlight: "비행 시뮬", navTools: "도구", navSensitivity: "감도", navWeapons: "무기", navTeam: "팀 분석",
+        heroQuizBtn: "나의 배그 성향 테스트",
         heroTag: "PUBG e스포츠 스쿼드",
         heroLine1: "우리는 단순히", heroLine2: "자기장 안에서", heroLine3: "살아남는 게 아니라", heroLine4: "지배한다.",
         heroSub: "우정과 열정으로 만들어진 PUBG 경쟁 스쿼드. 방과 후 게임부터 결승전까지.",

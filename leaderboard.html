@@ -235,15 +235,35 @@
     </a>
 
     <nav>
-      <a href="index.html" data-key="navHome">Home</a>
-      <a href="index.html#about" data-key="navAbout">About</a>
-      <a href="index.html#roster" data-key="navRoster">Roster</a>
-      <a href="stats.html" data-key="navStats">Stats</a>
-      <a href="maps.html" data-key="navMaps">Maps</a>
-      <a href="leaderboard.html" class="active" data-key="navLeaderboard">Leaderboard</a>
+      <div class="nav-dropdown">
+        <a href="stats.html" class="nav-link active" data-key="navStats">Stats</a>
+        <div class="dropdown-menu">
+          <a href="stats.html" data-key="navStatsLookup">Stats Lookup</a>
+          <a href="leaderboard.html" class="active" data-key="navLeaderboard">Leaderboard</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="maps.html" class="nav-link" data-key="navMaps">Maps</a>
+        <div class="dropdown-menu">
+          <a href="maps.html" data-key="navMapsInteractive">Interactive Map</a>
+          <a href="flight.html" data-key="navFlight">Flight Sim</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="sensitivity.html" class="nav-link" data-key="navTools">Tools</a>
+        <div class="dropdown-menu">
+          <a href="sensitivity.html" data-key="navSensitivity">Sensitivity</a>
+          <a href="weapons.html" data-key="navWeapons">Weapons</a>
+          <a href="team.html" data-key="navTeam">Team Analyzer</a>
+        </div>
+      </div>
+      <a href="quiz.html" data-key="navQuiz">Quiz</a>
     </nav>
 
     <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+      </button>
       <button class="lang-toggle" id="langToggle">EN</button>
       <a href="index.html#join" class="btn-clip btn-red" style="padding:8px 20px; font-size:12px;" data-key="navJoin">Join Us</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
@@ -257,13 +277,29 @@
     <button class="mobile-nav-close" id="mobileNavClose">
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <a href="index.html" data-key="navHome" onclick="closeMobileNav()">Home</a>
-    <a href="index.html#about" data-key="navAbout" onclick="closeMobileNav()">About</a>
-    <a href="index.html#roster" data-key="navRoster" onclick="closeMobileNav()">Roster</a>
-    <a href="stats.html" data-key="navStats" onclick="closeMobileNav()">Stats</a>
-    <a href="maps.html" data-key="navMaps" onclick="closeMobileNav()">Maps</a>
-    <a href="leaderboard.html" data-key="navLeaderboard" onclick="closeMobileNav()">Leaderboard</a>
-    <a href="index.html#join" data-key="navJoin" onclick="closeMobileNav()">Join Us</a>
+    <div class="mobile-group open">
+      <span class="mobile-group-label">Stats</span>
+      <div class="mobile-sub">
+        <a href="stats.html" onclick="closeMobileNav()">Stats Lookup</a>
+        <a href="leaderboard.html" onclick="closeMobileNav()">Leaderboard</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Maps</span>
+      <div class="mobile-sub">
+        <a href="maps.html" onclick="closeMobileNav()">Interactive Map</a>
+        <a href="flight.html" onclick="closeMobileNav()">Flight Sim</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Tools</span>
+      <div class="mobile-sub">
+        <a href="sensitivity.html" onclick="closeMobileNav()">Sensitivity</a>
+        <a href="weapons.html" onclick="closeMobileNav()">Weapons</a>
+        <a href="team.html" onclick="closeMobileNav()">Team Analyzer</a>
+      </div>
+    </div>
+    <a href="quiz.html" onclick="closeMobileNav()">Quiz</a>
   </div>
 
   <!-- ===== PAGE CONTENT ===== -->
@@ -346,7 +382,8 @@
     const texts = {
       en: {
         navHome: "Home", navAbout: "About", navRoster: "Roster", navStats: "Stats",
-        navMaps: "Maps", navLeaderboard: "Competitive", navJoin: "Join Us",
+        navMaps: "Maps", navLeaderboard: "Competitive", navQuiz: "Quiz", navJoin: "Join Us",
+        navStatsLookup: "Stats Lookup", navMapsInteractive: "Interactive Map", navFlight: "Flight Sim", navTools: "Tools", navSensitivity: "Sensitivity", navWeapons: "Weapons", navTeam: "Team Analyzer",
         lbTitle: "Competitive Board", lbRank: "#", lbPlayer: "Player", lbGames: "Games",
         lbWinRate: "Win %", lbKills: "Kills", lbKDA: "K/D/A", lbAvgDmg: "Avg Dmg",
         lbLoading: "Loading data...", lbError: "Failed to load data.",
@@ -357,7 +394,8 @@
       },
       zh: {
         navHome: "首页", navAbout: "关于", navRoster: "阵容", navStats: "战绩",
-        navMaps: "地图", navLeaderboard: "竞技榜", navJoin: "加入",
+        navMaps: "地图", navLeaderboard: "竞技榜", navQuiz: "人格", navJoin: "加入",
+        navStatsLookup: "战绩查询", navMapsInteractive: "互动地图", navFlight: "航线模拟", navTools: "工具", navSensitivity: "灵敏度", navWeapons: "武器库", navTeam: "团队分析",
         lbTitle: "排行榜", lbRank: "#", lbPlayer: "玩家", lbGames: "场次",
         lbWinRate: "胜率", lbKills: "击杀", lbKDA: "K/D/A", lbAvgDmg: "场均伤害",
         lbLoading: "加载数据中...", lbError: "排行榜数据加载失败。",
@@ -368,7 +406,8 @@
       },
       ko: {
         navHome: "홈", navAbout: "소개", navRoster: "로스터", navStats: "전적",
-        navMaps: "맵", navLeaderboard: "랭킹", navJoin: "가입",
+        navMaps: "맵", navLeaderboard: "랭킹", navQuiz: "퀴즈", navJoin: "가입",
+        navStatsLookup: "전적 조회", navMapsInteractive: "인터랙티브 맵", navFlight: "비행 시뮬", navTools: "도구", navSensitivity: "감도", navWeapons: "무기", navTeam: "팀 분석",
         lbTitle: "랭킹 보드", lbRank: "#", lbPlayer: "플레이어", lbGames: "경기수",
         lbWinRate: "승률", lbKills: "킬수", lbKDA: "K/D/A", lbAvgDmg: "평균 딜량",
         lbLoading: "데이터 로딩 중...", lbError: "랭킹 데이터를 불러오지 못했습니다.",
@@ -542,7 +581,7 @@
       tableEl.style.display = '';
     }
 
-    async function loadLeaderboard() {
+    async function loadLeaderboard(retried) {
       const shard = serverSelect.value;
       const seasonId = seasonSelect.value;
       const gameMode = modeSelect.value;
@@ -552,6 +591,14 @@
         const data = await fetchLeaderboard(shard, seasonId, gameMode);
         renderTable(data);
       } catch (err) {
+        // Auto-fallback: if current season fails, try previous season once
+        if (!retried && allSeasons && allSeasons.length > 1) {
+          var currentIdx = allSeasons.findIndex(function(s) { return s.id === seasonId; });
+          if (currentIdx >= 0 && currentIdx < allSeasons.length - 1) {
+            seasonSelect.value = allSeasons[currentIdx + 1].id;
+            return loadLeaderboard(true);
+          }
+        }
         console.error('Leaderboard error:', err);
         showError(err.message !== 'Failed to fetch leaderboard' ? err.message : null);
       }

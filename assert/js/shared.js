@@ -128,11 +128,17 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileNav.classList.remove('open');
     });
   }
-  // Close on link click
+  // Close on link click (only direct links, not group labels)
   if (mobileNav) {
     mobileNav.querySelectorAll('a').forEach(function(a) {
       a.addEventListener('click', function() {
         mobileNav.classList.remove('open');
+      });
+    });
+    // Mobile group toggle (tap to expand sub-nav)
+    mobileNav.querySelectorAll('.mobile-group-label').forEach(function(label) {
+      label.addEventListener('click', function() {
+        this.parentElement.classList.toggle('open');
       });
     });
   }

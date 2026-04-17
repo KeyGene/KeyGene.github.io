@@ -1,13 +1,21 @@
-const CACHE_NAME = 'keygene-v4';
+const CACHE_NAME = 'keygene-v5';
 const PRECACHE = [
   '/',
   '/index.html',
   '/stats.html',
   '/maps.html',
   '/quiz.html',
+  '/leaderboard.html',
+  '/sensitivity.html',
+  '/weapons.html',
+  '/team.html',
+  '/flight.html',
   '/assert/css/shared.css',
   '/assert/js/shared.js',
+  '/assert/js/share-utils.js',
   '/assert/images/helmet-red.png',
+  '/assert/data/weapons.json',
+  '/assert/data/dropspots.json',
 ];
 
 // Install: precache core assets
@@ -43,7 +51,7 @@ self.addEventListener('fetch', function(e) {
   if (url.pathname.startsWith('/api')) return;
 
   // Static assets (images, css, js, fonts): cache-first
-  if (url.pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|woff2?|ttf|ico)$/)) {
+  if (url.pathname.match(/\.(css|js|json|png|jpg|jpeg|gif|svg|webp|woff2?|ttf|ico)$/)) {
     e.respondWith(
       caches.match(e.request).then(function(cached) {
         if (cached) return cached;

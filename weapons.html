@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG武器数据库 - KEY GENE | 绝地求生武器伤害 TTK 数据</title>
+  <meta name="description" content="PUBG武器数据库：所有武器伤害、射速、TTK、后坐力、配件数据。武器对比工具。PUBG Weapon Database with damage, TTK, recoil patterns." />
+  <meta name="keywords" content="PUBG武器,PUBG weapon,PUBG伤害,PUBG TTK,PUBG数据库,PUBG damage,武器对比,PUBG gun stats,绝地求生武器,KEYGENE" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://keygene.top/weapons.html" />
+  <meta property="og:title" content="PUBG武器数据库 - KEY GENE" />
+  <meta property="og:description" content="PUBG武器数据库：伤害、射速、TTK、后坐力、配件。" />
+  <meta property="og:url" content="https://keygene.top/weapons.html" />
+  <link rel="alternate" hreflang="zh" href="https://keygene.top/weapons.html" />
+  <link rel="alternate" hreflang="en" href="https://keygene.top/weapons.html" />
+  <link rel="alternate" hreflang="ko" href="https://keygene.top/weapons.html" />
+  <link rel="alternate" hreflang="x-default" href="https://keygene.top/weapons.html" />
+
+  <link rel="icon" href="assert/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assert/css/shared.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root { --header-bg: rgba(0,0,0,0.6); }
+
+    .weapons-hero { padding: 120px 24px 32px; text-align: center; }
+    .weapons-hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+    }
+    .weapons-hero-tag::before { content: ''; width: 24px; height: 2px; background: var(--red); }
+    .weapons-hero-title {
+      font-size: 42px; font-weight: 800; letter-spacing: -0.04em;
+      text-transform: uppercase; line-height: 1.1; margin-bottom: 10px;
+    }
+    .weapons-hero-title .accent { color: var(--red); }
+    .weapons-hero-sub { font-size: 15px; color: var(--gray-400); }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+      max-width: 1100px; margin: 0 auto 24px; padding: 0 48px;
+    }
+    .filter-search {
+      flex: 1; min-width: 180px; padding: 10px 16px;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 8px; color: var(--white); font-family: var(--font);
+      font-size: 14px; outline: none;
+    }
+    .filter-search:focus { border-color: var(--red); }
+    .filter-search::placeholder { color: var(--gray-500); }
+    .cat-btn {
+      padding: 8px 16px; font-size: 12px; font-weight: 600;
+      background: var(--subtle-bg); border: 1px solid var(--subtle-border);
+      border-radius: 6px; color: var(--gray-400); cursor: pointer;
+      font-family: var(--font); transition: all 0.2s;
+    }
+    .cat-btn.active, .cat-btn:hover {
+      color: var(--white); border-color: var(--red); background: rgba(238,63,44,0.1);
+    }
+
+    /* Weapon grid */
+    .weapons-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px; max-width: 1100px; margin: 0 auto; padding: 0 48px;
+    }
+    .weapon-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 20px; text-align: center;
+      cursor: pointer; transition: border-color 0.2s, transform 0.2s;
+    }
+    .weapon-card:hover { border-color: rgba(238,63,44,0.3); transform: translateY(-2px); }
+    .weapon-card.selected { border-color: var(--red); background: rgba(238,63,44,0.05); }
+    .weapon-card-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .weapon-card-type { font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; }
+    .weapon-card-stats {
+      display: flex; justify-content: center; gap: 16px;
+      margin-top: 10px; font-size: 12px; color: var(--gray-400);
+    }
+    .weapon-card-stats span { color: var(--white); font-weight: 700; }
+    .weapon-patch {
+      display: inline-block; margin-top: 8px; padding: 2px 8px;
+      font-size: 10px; font-weight: 600; border-radius: 4px;
+    }
+    .weapon-patch.buff { background: rgba(16,185,129,0.15); color: #10B981; }
+    .weapon-patch.nerf { background: rgba(238,63,44,0.15); color: var(--red); }
+
+    /* Detail section */
+    .weapon-detail {
+      max-width: 1100px; margin: 32px auto; padding: 0 48px;
+      display: none;
+    }
+    .weapon-detail.show { display: block; }
+    .weapon-detail-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 16px; padding: 32px;
+    }
+    .detail-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+    }
+    .detail-name { font-size: 28px; font-weight: 800; }
+    .detail-meta { font-size: 13px; color: var(--gray-500); }
+    .detail-close {
+      padding: 8px 16px; background: var(--subtle-bg);
+      border: 1px solid var(--subtle-border); border-radius: 6px;
+      color: var(--gray-400); cursor: pointer; font-family: var(--font);
+      font-size: 12px; font-weight: 600;
+    }
+    .detail-close:hover { color: var(--white); border-color: var(--red); }
+    .detail-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .detail-stat-row {
+      display: flex; justify-content: space-between;
+      padding: 8px 0; border-bottom: 1px solid var(--subtle-border); font-size: 13px;
+    }
+    .detail-stat-row .label { color: var(--gray-400); }
+    .detail-stat-row .value { font-weight: 700; }
+    .recoil-canvas-wrap {
+      background: var(--subtle-bg); border-radius: 10px; padding: 20px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .attachment-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .attachment-tag {
+      padding: 4px 12px; font-size: 11px; font-weight: 600;
+      background: rgba(238,63,44,0.08); border: 1px solid rgba(238,63,44,0.15);
+      border-radius: 16px; color: var(--red);
+    }
+
+    /* Compare section */
+    .weapon-compare {
+      max-width: 1100px; margin: 32px auto; padding: 0 48px;
+      display: none;
+    }
+    .weapon-compare.show { display: block; }
+    .compare-header {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .compare-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; background: rgba(238,63,44,0.1);
+      border: 1px solid rgba(238,63,44,0.2); border-radius: 20px;
+      font-size: 13px; font-weight: 600; color: var(--white);
+    }
+    .compare-chip .remove { cursor: pointer; color: var(--gray-500); margin-left: 4px; }
+    .compare-chip .remove:hover { color: var(--red); }
+    .compare-chart-wrap {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 24px;
+    }
+    .compare-chart-wrap canvas { max-height: 350px; }
+
+    @media (max-width: 768px) {
+      .filter-bar { padding: 0 24px; }
+      .weapons-grid { padding: 0 24px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .weapon-detail, .weapon-compare { padding: 0 24px; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .weapons-hero { padding: 100px 24px 24px; }
+      .weapons-hero-title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="assert/images/helmet-red.png" alt="KEY GENE" style="width:40px;height:40px;object-fit:contain;" />
+      <span class="logo-text">Key<span class="accent">Gene</span></span>
+    </a>
+    <nav>
+      <div class="nav-dropdown">
+        <a href="stats.html" class="nav-link" data-key="navStats">Stats</a>
+        <div class="dropdown-menu">
+          <a href="stats.html" data-key="navStatsLookup">Stats Lookup</a>
+          <a href="leaderboard.html" data-key="navLeaderboard">Leaderboard</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="maps.html" class="nav-link" data-key="navMaps">Maps</a>
+        <div class="dropdown-menu">
+          <a href="maps.html" data-key="navMapsInteractive">Interactive Map</a>
+          <a href="flight.html" data-key="navFlight">Flight Sim</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <span class="nav-link active" data-key="navTools">Tools</span>
+        <div class="dropdown-menu">
+          <a href="sensitivity.html" data-key="navSensitivity">Sensitivity</a>
+          <a href="weapons.html" class="active" data-key="navWeapons">Weapons</a>
+        </div>
+      </div>
+      <a href="quiz.html" data-key="navQuiz">Quiz</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+      </button>
+      <button class="lang-toggle" id="langToggle">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Stats</span>
+      <div class="mobile-sub">
+        <a href="stats.html" onclick="closeMobileNav()">Stats Lookup</a>
+        <a href="leaderboard.html" onclick="closeMobileNav()">Leaderboard</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Maps</span>
+      <div class="mobile-sub">
+        <a href="maps.html" onclick="closeMobileNav()">Interactive Map</a>
+        <a href="flight.html" onclick="closeMobileNav()">Flight Sim</a>
+      </div>
+    </div>
+    <div class="mobile-group open">
+      <span class="mobile-group-label">Tools</span>
+      <div class="mobile-sub">
+        <a href="sensitivity.html" onclick="closeMobileNav()">Sensitivity</a>
+        <a href="weapons.html" onclick="closeMobileNav()">Weapons</a>
+      </div>
+    </div>
+    <a href="quiz.html" onclick="closeMobileNav()">Quiz</a>
+  </div>
+
+  <!-- Hero -->
+  <div class="weapons-hero">
+    <div class="weapons-hero-tag" data-key="heroTag">Weapon Database</div>
+    <h1 class="weapons-hero-title" data-key="heroTitle">WEAPON <span class="accent">DATABASE</span></h1>
+    <p class="weapons-hero-sub" data-key="heroSub">Browse all PUBG weapons. Compare damage, TTK, and recoil patterns.</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <input type="text" class="filter-search" id="weaponSearch" placeholder="Search weapons..." data-placeholder-en="Search weapons..." data-placeholder-zh="搜索武器..." data-placeholder-ko="무기 검색..." />
+    <button class="cat-btn active" data-cat="all" data-key="filterAll">All</button>
+    <div id="catButtons"></div>
+  </div>
+
+  <!-- Weapon Grid -->
+  <div class="weapons-grid" id="weaponGrid"></div>
+
+  <!-- Detail -->
+  <div class="weapon-detail" id="weaponDetail"></div>
+
+  <!-- Compare -->
+  <div class="weapon-compare" id="weaponCompare">
+    <div class="compare-header" id="compareChips"></div>
+    <div class="compare-chart-wrap">
+      <canvas id="compareChart"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; <span id="year"></span> KEY GENE. All Rights Reserved.</p>
+    <div class="footer-links">
+      <a href="index.html" data-key="footHome">Home</a>
+      <a href="stats.html" data-key="footStats">Stats</a>
+      <a href="maps.html" data-key="footMaps">Maps</a>
+      <a href="mailto:keygene@hotmail.com" data-key="footContact">Contact</a>
+    </div>
+  </footer>
+
+  <script src="assert/js/shared.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    var weaponsData = null;
+    var selectedWeapon = null;
+    var compareList = [];
+    var currentCat = 'all';
+    var compareChart = null;
+
+    // Load data
+    fetch('assert/data/weapons.json').then(function(r) { return r.json(); }).then(function(data) {
+      weaponsData = data;
+      buildCategoryButtons();
+      renderGrid();
+    });
+
+    function catName(cat) {
+      if (!weaponsData) return cat;
+      var c = weaponsData.categories[cat];
+      return c ? (c[currentLang] || c.en) : cat;
+    }
+
+    function buildCategoryButtons() {
+      var el = document.getElementById('catButtons');
+      var cats = Object.keys(weaponsData.categories);
+      el.innerHTML = cats.map(function(c) {
+        return '<button class="cat-btn" data-cat="' + c + '">' + catName(c) + '</button>';
+      }).join('');
+      // Bind all cat buttons including the "All" button
+      document.querySelectorAll('.cat-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.cat-btn').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          currentCat = btn.dataset.cat;
+          renderGrid();
+        });
+      });
+    }
+
+    function renderGrid() {
+      if (!weaponsData) return;
+      var search = document.getElementById('weaponSearch').value.toLowerCase();
+      var grid = document.getElementById('weaponGrid');
+      var filtered = weaponsData.weapons.filter(function(w) {
+        if (currentCat !== 'all' && w.type !== currentCat) return false;
+        if (search && w.name.toLowerCase().indexOf(search) === -1) return false;
+        return true;
+      });
+
+      grid.innerHTML = filtered.map(function(w) {
+        var isSelected = compareList.indexOf(w.id) !== -1;
+        var patchHtml = '';
+        if (w.patch) {
+          patchHtml = '<div class="weapon-patch ' + w.patch.type + '">' + w.patch.version + ': ' + w.patch.change + '</div>';
+        }
+        return '<div class="weapon-card' + (isSelected ? ' selected' : '') + '" data-id="' + w.id + '">' +
+          '<div style="font-size:32px;margin-bottom:8px;">🔫</div>' +
+          '<div class="weapon-card-name">' + w.name + '</div>' +
+          '<div class="weapon-card-type">' + catName(w.type) + ' · ' + w.ammo + '</div>' +
+          '<div class="weapon-card-stats">' +
+            'DMG <span>' + w.damage + '</span> ' +
+            'RPM <span>' + w.rpm + '</span>' +
+          '</div>' +
+          patchHtml +
+        '</div>';
+      }).join('');
+
+      grid.querySelectorAll('.weapon-card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+          var id = card.dataset.id;
+          if (e.shiftKey || e.ctrlKey || e.metaKey) {
+            toggleCompare(id);
+          } else {
+            showDetail(id);
+          }
+        });
+      });
+    }
+
+    function showDetail(id) {
+      var w = weaponsData.weapons.find(function(x) { return x.id === id; });
+      if (!w) return;
+      selectedWeapon = w;
+      var el = document.getElementById('weaponDetail');
+      var t = texts[currentLang] || texts.en;
+
+      var statsHtml = [
+        [t.damage, w.damage],
+        [t.rpm, w.rpm],
+        [t.velocity, w.velocity + ' m/s'],
+        [t.reload, w.reloadTime + 's'],
+        [t.mag, w.magSize[0] + ' / ' + w.magSize[1]]
+      ].map(function(r) {
+        return '<div class="detail-stat-row"><span class="label">' + r[0] + '</span><span class="value">' + r[1] + '</span></div>';
+      }).join('');
+
+      var attachHtml = w.attachments.map(function(a) {
+        return '<span class="attachment-tag">' + a + '</span>';
+      }).join('');
+
+      var patchHtml = w.patch ? '<div style="margin-top:16px;font-size:13px;color:var(--gray-400);">Patch ' + w.patch.version + ': <span style="color:' + (w.patch.type === 'buff' ? '#10B981' : 'var(--red)') + ';font-weight:700;">' + w.patch.change + '</span></div>' : '';
+
+      el.innerHTML = '<div class="weapon-detail-card">' +
+        '<div class="detail-header">' +
+          '<div><div class="detail-name">' + w.name + '</div>' +
+          '<div class="detail-meta">' + catName(w.type) + ' · ' + w.ammo + '</div></div>' +
+          '<button class="detail-close" onclick="closeDetail()">' + t.close + '</button>' +
+        '</div>' +
+        '<div class="detail-grid">' +
+          '<div>' +
+            '<div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">' + t.baseStats + '</div>' +
+            statsHtml +
+            '<div style="margin-top:16px;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">' + t.attachments + '</div>' +
+            '<div class="attachment-list">' + attachHtml + '</div>' +
+            patchHtml +
+          '</div>' +
+          '<div>' +
+            '<div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">' + t.recoilPattern + '</div>' +
+            '<div class="recoil-canvas-wrap"><canvas id="recoilCanvas" width="200" height="300"></canvas></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+      el.classList.add('show');
+      drawRecoil(w.recoil);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeDetail() {
+      document.getElementById('weaponDetail').classList.remove('show');
+      selectedWeapon = null;
+    }
+
+    function drawRecoil(pattern) {
+      var canvas = document.getElementById('recoilCanvas');
+      if (!canvas || !pattern || pattern.length < 2) return;
+      var ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, 200, 300);
+
+      // Draw crosshair
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.beginPath();
+      ctx.moveTo(100, 0); ctx.lineTo(100, 300);
+      ctx.moveTo(0, 280); ctx.lineTo(200, 280);
+      ctx.stroke();
+
+      // Draw recoil dots
+      var maxX = Math.max.apply(null, pattern.map(function(p) { return Math.abs(p[0]); })) || 1;
+      var maxY = Math.max.apply(null, pattern.map(function(p) { return p[1]; })) || 1;
+
+      pattern.forEach(function(p, i) {
+        var x = 100 + (p[0] / maxX) * 80;
+        var y = 280 - (p[1] / maxY) * 250;
+        var alpha = 0.4 + (i / pattern.length) * 0.6;
+
+        ctx.fillStyle = 'rgba(238,63,44,' + alpha + ')';
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (i > 0) {
+          var px = 100 + (pattern[i-1][0] / maxX) * 80;
+          var py = 280 - (pattern[i-1][1] / maxY) * 250;
+          ctx.strokeStyle = 'rgba(238,63,44,0.3)';
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+      });
+    }
+
+    // Compare
+    function toggleCompare(id) {
+      var idx = compareList.indexOf(id);
+      if (idx !== -1) {
+        compareList.splice(idx, 1);
+      } else if (compareList.length < 3) {
+        compareList.push(id);
+      }
+      renderGrid();
+      renderCompare();
+    }
+
+    function renderCompare() {
+      var el = document.getElementById('weaponCompare');
+      var chips = document.getElementById('compareChips');
+      var t = texts[currentLang] || texts.en;
+
+      if (compareList.length < 2) {
+        el.classList.remove('show');
+        return;
+      }
+      el.classList.add('show');
+
+      chips.innerHTML = compareList.map(function(id) {
+        var w = weaponsData.weapons.find(function(x) { return x.id === id; });
+        return '<span class="compare-chip">' + w.name + '<span class="remove" onclick="toggleCompare(\'' + id + '\')">&times;</span></span>';
+      }).join('') + '<div style="font-size:12px;color:var(--gray-500);margin-left:8px;">' + t.compareHint + '</div>';
+
+      // Radar chart
+      var colors = ['#EE3F2C', '#3b82f6', '#10B981'];
+      var labels = [t.damage, t.rpm, t.velocity, t.mag, t.reload];
+      var datasets = compareList.map(function(id, i) {
+        var w = weaponsData.weapons.find(function(x) { return x.id === id; });
+        return {
+          label: w.name,
+          data: [
+            w.damage / 120 * 100,
+            w.rpm / 1100 * 100,
+            w.velocity / 1000 * 100,
+            w.magSize[1] / 150 * 100,
+            (1 - w.reloadTime / 7) * 100
+          ],
+          borderColor: colors[i],
+          backgroundColor: colors[i].replace(')', ',0.1)').replace('rgb', 'rgba'),
+          borderWidth: 2,
+          pointBackgroundColor: colors[i]
+        };
+      });
+
+      if (compareChart) compareChart.destroy();
+      compareChart = new Chart(document.getElementById('compareChart'), {
+        type: 'radar',
+        data: { labels: labels, datasets: datasets },
+        options: {
+          responsive: true,
+          scales: { r: { grid: { color: 'rgba(255,255,255,0.08)' }, angleLines: { color: 'rgba(255,255,255,0.08)' }, ticks: { display: false }, pointLabels: { color: '#9ca3af', font: { size: 11 } }, suggestedMin: 0, suggestedMax: 100 } },
+          plugins: { legend: { labels: { color: '#9ca3af' } } }
+        }
+      });
+
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById('weaponSearch').addEventListener('input', renderGrid);
+
+    // i18n
+    var texts = {
+      en: {
+        heroTag: 'Weapon Database', heroTitle: 'WEAPON <span class="accent">DATABASE</span>',
+        heroSub: 'Browse all PUBG weapons. Compare damage, TTK, and recoil patterns.',
+        filterAll: 'All', damage: 'Damage', rpm: 'Fire Rate (RPM)', velocity: 'Bullet Speed',
+        reload: 'Reload Time', mag: 'Magazine', baseStats: 'Base Stats',
+        attachments: 'Attachments', recoilPattern: 'Recoil Pattern', close: 'Close',
+        compareHint: 'Shift+click cards to compare',
+        navStats: 'Stats', navMaps: 'Maps', navTools: 'Tools', navQuiz: 'Quiz',
+        navStatsLookup: 'Stats Lookup', navLeaderboard: 'Leaderboard',
+        navMapsInteractive: 'Interactive Map', navFlight: 'Flight Sim',
+        navSensitivity: 'Sensitivity', navWeapons: 'Weapons',
+        footHome: 'Home', footStats: 'Stats', footMaps: 'Maps', footContact: 'Contact'
+      },
+      zh: {
+        heroTag: '武器数据库', heroTitle: '武器<span class="accent">数据库</span>',
+        heroSub: '浏览所有 PUBG 武器，对比伤害、TTK 和后坐力。',
+        filterAll: '全部', damage: '伤害', rpm: '射速 (RPM)', velocity: '弹速',
+        reload: '装弹时间', mag: '弹夹', baseStats: '基础数据',
+        attachments: '配件', recoilPattern: '后坐力', close: '关闭',
+        compareHint: 'Shift+点击卡片进行对比',
+        navStats: '战绩', navMaps: '地图', navTools: '工具', navQuiz: '测试',
+        navStatsLookup: '战绩查询', navLeaderboard: '排行榜',
+        navMapsInteractive: '互动地图', navFlight: '航线模拟',
+        navSensitivity: '灵敏度配置', navWeapons: '武器数据库',
+        footHome: '首页', footStats: '战绩', footMaps: '地图', footContact: '联系我们'
+      },
+      ko: {
+        heroTag: '무기 데이터베이스', heroTitle: '무기 <span class="accent">데이터베이스</span>',
+        heroSub: '모든 PUBG 무기를 검색하고 데미지, TTK, 반동 패턴을 비교하세요.',
+        filterAll: '전체', damage: '데미지', rpm: '연사속도 (RPM)', velocity: '탄속',
+        reload: '재장전 시간', mag: '탄창', baseStats: '기본 스탯',
+        attachments: '부착물', recoilPattern: '반동 패턴', close: '닫기',
+        compareHint: 'Shift+클릭으로 비교',
+        navStats: '전적', navMaps: '맵', navTools: '도구', navQuiz: '퀴즈',
+        navStatsLookup: '전적 검색', navLeaderboard: '리더보드',
+        navMapsInteractive: '인터랙티브 맵', navFlight: '비행 시뮬레이터',
+        navSensitivity: '감도 설정', navWeapons: '무기 데이터베이스',
+        footHome: '홈', footStats: '전적', footMaps: '맵', footContact: '문의'
+      }
+    };
+
+    bindLangToggle(texts, function() {
+      if (weaponsData) {
+        buildCategoryButtons();
+        renderGrid();
+        if (selectedWeapon) showDetail(selectedWeapon.id);
+        if (compareList.length >= 2) renderCompare();
+      }
+    });
+  </script>
+</body>
+</html>

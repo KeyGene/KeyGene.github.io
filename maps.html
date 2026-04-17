@@ -353,8 +353,62 @@
         overflow-y: auto;
       }
       .map-tools { top: 8px; right: 8px; }
+      .throw-panel { right: 48px; top: 8px; }
       .coord-display { bottom: 4px; left: 8px; font-size: 10px; }
     }
+
+    /* ===== THROWABLE TOOL ===== */
+    .throw-panel {
+      position: absolute;
+      top: 12px;
+      right: 56px;
+      z-index: 500;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px;
+      display: none;
+    }
+    .throw-panel.show { display: flex; gap: 4px; }
+    .throw-type-btn {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .throw-type-btn:hover { background: rgba(255,255,255,0.1); }
+    .throw-type-btn.active { border-color: var(--red); background: rgba(238,63,44,0.15); }
+    .throw-type-btn .tt-label {
+      display: none;
+      position: absolute;
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: var(--gray-400);
+      white-space: nowrap;
+      background: rgba(0,0,0,0.9);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .throw-type-btn:hover .tt-label { display: block; }
+    .throw-range-circle { opacity: 0.25; }
+    .throw-info-popup .leaflet-popup-content-wrapper {
+      background: rgba(0,0,0,0.85);
+      color: var(--white);
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .throw-info-popup .leaflet-popup-tip { background: rgba(0,0,0,0.85); }
+    [data-theme="light"] .throw-panel { background: rgba(255,255,255,0.9); border-color: #ddd; }
+    [data-theme="light"] .throw-type-btn { background: rgba(0,0,0,0.04); }
+    [data-theme="light"] .throw-type-btn.active { background: rgba(238,63,44,0.1); }
 
     /* ===== MOBILE ===== */
     @media (max-width: 768px) {
@@ -419,9 +473,28 @@
     </a>
 
     <nav>
-      <a href="stats.html" data-key="navStats">Stats</a>
-      <a href="maps.html" class="active" data-key="navMaps">Maps</a>
-      <!-- <a href="leaderboard.html" data-key="navLeaderboard">Leaderboard</a> -->
+      <div class="nav-dropdown">
+        <a href="stats.html" class="nav-link" data-key="navStats">Stats</a>
+        <div class="dropdown-menu">
+          <a href="stats.html" data-key="navStatsLookup">Stats Lookup</a>
+          <a href="leaderboard.html" data-key="navLeaderboard">Leaderboard</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="maps.html" class="nav-link active" data-key="navMaps">Maps</a>
+        <div class="dropdown-menu">
+          <a href="maps.html" class="active" data-key="navMapsInteractive">Interactive Map</a>
+          <a href="flight.html" data-key="navFlight">Flight Sim</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="sensitivity.html" class="nav-link" data-key="navTools">Tools</a>
+        <div class="dropdown-menu">
+          <a href="sensitivity.html" data-key="navSensitivity">Sensitivity</a>
+          <a href="weapons.html" data-key="navWeapons">Weapons</a>
+          <a href="team.html" data-key="navTeam">Team Analyzer</a>
+        </div>
+      </div>
       <a href="quiz.html" data-key="navQuiz">Quiz</a>
     </nav>
 
@@ -442,11 +515,29 @@
     <button class="mobile-nav-close" id="mobileNavClose">
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <a href="index.html" onclick="closeMobileNav()" data-key="navHome">Home</a>
-    <a href="stats.html" data-key="navStats" onclick="closeMobileNav()">Stats</a>
-    <a href="maps.html" data-key="navMaps" onclick="closeMobileNav()">Maps</a>
-    <a href="quiz.html" data-key="navQuiz" onclick="closeMobileNav()">Quiz</a>
-    <a href="index.html#join" data-key="navJoin" onclick="closeMobileNav()">Join Us</a>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Stats</span>
+      <div class="mobile-sub">
+        <a href="stats.html" onclick="closeMobileNav()">Stats Lookup</a>
+        <a href="leaderboard.html" onclick="closeMobileNav()">Leaderboard</a>
+      </div>
+    </div>
+    <div class="mobile-group open">
+      <span class="mobile-group-label">Maps</span>
+      <div class="mobile-sub">
+        <a href="maps.html" onclick="closeMobileNav()">Interactive Map</a>
+        <a href="flight.html" onclick="closeMobileNav()">Flight Sim</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Tools</span>
+      <div class="mobile-sub">
+        <a href="sensitivity.html" onclick="closeMobileNav()">Sensitivity</a>
+        <a href="weapons.html" onclick="closeMobileNav()">Weapons</a>
+        <a href="team.html" onclick="closeMobileNav()">Team Analyzer</a>
+      </div>
+    </div>
+    <a href="quiz.html" onclick="closeMobileNav()">Quiz</a>
   </div>
 
   <!-- ===== MAP VIEWER ===== -->
@@ -469,10 +560,21 @@
           <span class="tooltip" data-key="toolMeasure">Measure</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22L22 2"/><path d="M6 18l2-2M10 14l2-2M14 10l2-2M18 6l2-2"/></svg>
         </button>
+        <button class="map-tool-btn" id="btnThrow" title="Throwables">
+          <span class="tooltip" data-key="toolThrow">Throwables</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a4 4 0 014 4"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
         <button class="map-tool-btn" id="btnEdit" title="Edit Markers">
           <span class="tooltip" data-key="toolEdit">Edit</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </button>
+      </div>
+      <!-- Throwable type selector -->
+      <div class="throw-panel" id="throwPanel">
+        <button class="throw-type-btn active" data-throw="frag">💣<span class="tt-label" data-key="throwFrag">Frag</span></button>
+        <button class="throw-type-btn" data-throw="smoke">💨<span class="tt-label" data-key="throwSmoke">Smoke</span></button>
+        <button class="throw-type-btn" data-throw="flash">⚡<span class="tt-label" data-key="throwFlash">Flash</span></button>
+        <button class="throw-type-btn" data-throw="molotov">🔥<span class="tt-label" data-key="throwMolotov">Molotov</span></button>
       </div>
       <!-- Edit mode banner -->
       <div id="editBanner" style="display:none; position:absolute; top:8px; left:50%; transform:translateX(-50%); z-index:1000; background:rgba(238,63,44,0.95); color:#fff; padding:8px 20px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap; box-shadow:0 2px 12px rgba(0,0,0,0.3);">
@@ -624,6 +726,7 @@
       currentMapIndex = index;
       loadMapTiles(index);
       clearMeasure();
+      clearThrow();
       showMarkersForCurrentMap();
       updateInfo();
       // Update sidebar active state
@@ -902,12 +1005,160 @@
       loadMarkers();
     });
 
+    // ===== THROWABLE TOOL =====
+    const THROWABLES = {
+      frag:   { range: 55, radius: 15, color: '#EE3F2C', emoji: '💣' },
+      smoke:  { range: 55, radius: 10, color: '#94A3B8',  emoji: '💨' },
+      flash:  { range: 50, radius: 10, color: '#FBBF24',  emoji: '⚡' },
+      molotov:{ range: 35, radius: 4,  color: '#F97316',  emoji: '🔥' },
+    };
+    let throwMode = false;
+    let throwType = 'frag';
+    let throwOrigin = null;
+    let throwLayers = []; // all throwable visuals on map
+
+    function metersToLng(m) {
+      var kmSize = MAP_KM[MAPS[currentMapIndex].id] || 8;
+      return m / (kmSize * 1000) * 360;
+    }
+    function metersToLat(m) {
+      var kmSize = MAP_KM[MAPS[currentMapIndex].id] || 8;
+      return m / (kmSize * 1000) * 180;
+    }
+    function distMeters(p1, p2) {
+      var kmSize = MAP_KM[MAPS[currentMapIndex].id] || 8;
+      var dx = (p2.lng - p1.lng) / 360 * kmSize * 1000;
+      var dy = (p2.lat - p1.lat) / 180 * kmSize * 1000;
+      return Math.sqrt(dx*dx + dy*dy);
+    }
+
+    function toggleThrow() {
+      throwMode = !throwMode;
+      document.getElementById('btnThrow').classList.toggle('active', throwMode);
+      document.getElementById('throwPanel').classList.toggle('show', throwMode);
+      document.getElementById('leafletMap').style.cursor = throwMode ? 'crosshair' : '';
+      if (!throwMode) clearThrow();
+      // Turn off measure if active
+      if (throwMode && measureMode) toggleMeasure();
+    }
+    function clearThrow() {
+      throwOrigin = null;
+      throwLayers.forEach(function(l) { leafletMap.removeLayer(l); });
+      throwLayers = [];
+    }
+
+    document.getElementById('btnThrow').addEventListener('click', toggleThrow);
+    document.getElementById('throwPanel').querySelectorAll('.throw-type-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.getElementById('throwPanel').querySelectorAll('.throw-type-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        throwType = btn.dataset.throw;
+        clearThrow();
+      });
+    });
+
+    // Patch onMapClick to handle throw mode (applied after initLeaflet)
+    var _origOnMapClick = onMapClick;
+    onMapClick = function(e) {
+      if (throwMode) { onThrowClick(e); return; }
+      _origOnMapClick(e);
+    };
+
+    function onThrowClick(e) {
+      var th = THROWABLES[throwType];
+      if (!throwOrigin) {
+        // First click: set origin, show range circle
+        throwOrigin = e.latlng;
+        var rangeLng = metersToLng(th.range);
+        var rangeLat = metersToLat(th.range);
+        // Use an ellipse approximation with a circle (good enough for square maps)
+        var rangeCircle = L.circle(throwOrigin, {
+          radius: 0, // we use manual polygon
+          color: th.color, fillColor: th.color, fillOpacity: 0.08,
+          weight: 1, dashArray: '6,4', interactive: false
+        });
+        // Since CRS is not metric, draw ellipse as polygon
+        var pts = [];
+        for (var i = 0; i < 64; i++) {
+          var a = (i / 64) * Math.PI * 2;
+          pts.push(L.latLng(
+            throwOrigin.lat + Math.sin(a) * rangeLat,
+            throwOrigin.lng + Math.cos(a) * rangeLng
+          ));
+        }
+        var rangeShape = L.polygon(pts, {
+          color: th.color, fillColor: th.color, fillOpacity: 0.08,
+          weight: 1.5, dashArray: '6,4', interactive: false
+        });
+        rangeShape.addTo(leafletMap);
+        throwLayers.push(rangeShape);
+
+        var originDot = L.circleMarker(throwOrigin, {
+          radius: 5, color: th.color, fillColor: th.color, fillOpacity: 1, weight: 2
+        }).addTo(leafletMap);
+        throwLayers.push(originDot);
+      } else {
+        // Second click: set target
+        var target = e.latlng;
+        var dist = distMeters(throwOrigin, target);
+        var inRange = dist <= th.range;
+
+        // Draw line from origin to target
+        var line = L.polyline([throwOrigin, target], {
+          color: inRange ? '#10B981' : '#EF4444', weight: 2, dashArray: '4,4'
+        }).addTo(leafletMap);
+        throwLayers.push(line);
+
+        var targetDot = L.circleMarker(target, {
+          radius: 4, color: inRange ? '#10B981' : '#EF4444',
+          fillColor: inRange ? '#10B981' : '#EF4444', fillOpacity: 1, weight: 2
+        }).addTo(leafletMap);
+        throwLayers.push(targetDot);
+
+        // Show effect radius at target if in range
+        if (inRange) {
+          var radLng = metersToLng(th.radius);
+          var radLat = metersToLat(th.radius);
+          var radPts = [];
+          for (var j = 0; j < 48; j++) {
+            var b = (j / 48) * Math.PI * 2;
+            radPts.push(L.latLng(
+              target.lat + Math.sin(b) * radLat,
+              target.lng + Math.cos(b) * radLng
+            ));
+          }
+          var radShape = L.polygon(radPts, {
+            color: th.color, fillColor: th.color, fillOpacity: 0.2,
+            weight: 1.5, interactive: false
+          }).addTo(leafletMap);
+          throwLayers.push(radShape);
+        }
+
+        // Info popup
+        var mid = L.latLng((throwOrigin.lat + target.lat) / 2, (throwOrigin.lng + target.lng) / 2);
+        var status = inRange ? ('✅ ' + t('throwInRange', texts)) : ('❌ ' + t('throwOutRange', texts));
+        var popup = L.popup({ className: 'throw-info-popup', closeButton: true })
+          .setLatLng(mid)
+          .setContent('<b>' + th.emoji + ' ' + t('throw' + throwType.charAt(0).toUpperCase() + throwType.slice(1), texts) + '</b><br>'
+            + dist.toFixed(1) + 'm / ' + th.range + 'm max<br>'
+            + status)
+          .openOn(leafletMap);
+        throwLayers.push(popup);
+
+        // Reset for next throw
+        throwOrigin = null;
+      }
+    }
+
     // ===== i18n =====
     const texts = {
       en: {
         navHome: "Home", navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", navJoin: "Join Us",
         footAbout: "About", footStats: "Stats", footMaps: "Maps", footContact: "Contact",
-        toolGrid: "Grid", toolMeasure: "Measure", toolEdit: "Edit",
+        navStatsLookup: "Stats Lookup", navLeaderboard: "Leaderboard", navMapsInteractive: "Interactive Map", navFlight: "Flight Sim", navTools: "Tools", navSensitivity: "Sensitivity", navWeapons: "Weapons", navTeam: "Team Analyzer",
+        toolGrid: "Grid", toolMeasure: "Measure", toolThrow: "Throwables", toolEdit: "Edit",
+        throwFrag: "Frag", throwSmoke: "Smoke", throwFlash: "Flash", throwMolotov: "Molotov",
+        throwInRange: "In range", throwOutRange: "Out of range",
         markerTitle: "Markers", markerNoData: "No marker data",
         editBanner: "✏️ Edit Mode — Drag markers to adjust positions",
         editExport: "Export", editReset: "Reset",
@@ -917,7 +1168,10 @@
       zh: {
         navHome: "首页", navStats: "战绩", navMaps: "地图", navQuiz: "人格", navJoin: "加入",
         footAbout: "关于", footStats: "战绩", footMaps: "地图", footContact: "联系",
-        toolGrid: "网格", toolMeasure: "测距", toolEdit: "编辑",
+        navStatsLookup: "战绩查询", navLeaderboard: "排行榜", navMapsInteractive: "互动地图", navFlight: "航线模拟", navTools: "工具", navSensitivity: "灵敏度", navWeapons: "武器库", navTeam: "团队分析",
+        toolGrid: "网格", toolMeasure: "测距", toolThrow: "投掷物", toolEdit: "编辑",
+        throwFrag: "手雷", throwSmoke: "烟雾弹", throwFlash: "闪光弹", throwMolotov: "燃烧瓶",
+        throwInRange: "可投掷", throwOutRange: "超出范围",
         markerTitle: "标记点", markerNoData: "暂无标记数据",
         editBanner: "✏️ 编辑模式 — 拖拽标记点调整位置",
         editExport: "导出修改", editReset: "重置",
@@ -927,7 +1181,10 @@
       ko: {
         navHome: "홈", navStats: "전적", navMaps: "지도", navQuiz: "성향", navJoin: "가입",
         footAbout: "소개", footStats: "전적", footMaps: "지도", footContact: "문의",
-        toolGrid: "그리드", toolMeasure: "거리측정", toolEdit: "편집",
+        navStatsLookup: "전적 조회", navLeaderboard: "리더보드", navMapsInteractive: "인터랙티브 맵", navFlight: "비행 시뮬", navTools: "도구", navSensitivity: "감도", navWeapons: "무기", navTeam: "팀 분석",
+        toolGrid: "그리드", toolMeasure: "거리측정", toolThrow: "투척물", toolEdit: "편집",
+        throwFrag: "수류탄", throwSmoke: "연막탄", throwFlash: "섬광탄", throwMolotov: "화염병",
+        throwInRange: "투척 가능", throwOutRange: "범위 초과",
         markerTitle: "마커", markerNoData: "마커 데이터 없음",
         editBanner: "✏️ 편집 모드 — 마커를 드래그하여 위치를 조정하세요",
         editExport: "내보내기", editReset: "초기화",

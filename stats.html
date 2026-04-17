@@ -206,6 +206,14 @@
     .compare-table td { padding: 12px 14px; font-size: 14px; text-align: center; border-bottom: 1px solid var(--header-border); }
     .compare-winner { color: var(--red); font-weight: 800; }
     .compare-loser { color: var(--gray-500); }
+    .compare-poster-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin: 24px auto 0; padding: 12px 28px;
+      background: var(--red); color: #fff; border: none; border-radius: 8px;
+      font-family: var(--font); font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .compare-poster-btn:hover { background: var(--red-hover); }
 
     /* ===== HEATMAP TAB ===== */
     .heatmap-grid { display: grid; grid-template-columns: 50px repeat(24, 1fr); gap: 3px; }
@@ -220,6 +228,56 @@
       content: attr(title); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%);
       background: #222; color: #fff; font-size: 10px; padding: 4px 8px; border-radius: 4px; white-space: nowrap; z-index: 10;
     }
+
+    /* ===== WRAPPED TAB ===== */
+    .wrapped-container { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .wrapped-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 16px; padding: 32px; text-align: center; overflow: hidden;
+    }
+    .wrapped-card.hero-card {
+      background: linear-gradient(135deg, #1a0a08, #0a0a0a);
+      border-color: rgba(238,63,44,0.2);
+    }
+    [data-theme="light"] .wrapped-card.hero-card { background: linear-gradient(135deg, #f8f0ee, #f0f0f0); }
+    .wrapped-season { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+    .wrapped-player { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; }
+    .wrapped-rank { margin-top: 12px; }
+    .wrapped-rank-icon { font-size: 28px; }
+    .wrapped-rank-name { font-size: 16px; font-weight: 800; color: #FFD700; margin-top: 4px; }
+    .wrapped-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .wrapped-big-stat { font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .wrapped-stat-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; }
+    .wrapped-percentile {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; background: rgba(238,63,44,0.1);
+      border: 1px solid rgba(238,63,44,0.2); border-radius: 20px;
+      font-size: 13px; font-weight: 600; color: var(--red);
+    }
+    .wrapped-weapon-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--subtle-border);
+    }
+    .wrapped-weapon-rank { font-size: 18px; width: 32px; }
+    .wrapped-weapon-name { flex: 1; text-align: left; font-size: 15px; font-weight: 700; }
+    .wrapped-weapon-pct { font-size: 15px; font-weight: 700; color: var(--red); }
+    .wrapped-weapon-bar {
+      flex: 1; height: 6px; background: var(--subtle-border); border-radius: 3px; overflow: hidden;
+    }
+    .wrapped-weapon-bar-fill { height: 100%; background: var(--red); border-radius: 3px; }
+    .wrapped-tag {
+      display: inline-block; padding: 8px 16px; margin: 4px;
+      background: rgba(238,63,44,0.08); border: 1px solid rgba(238,63,44,0.15);
+      border-radius: 20px; font-size: 14px; font-weight: 600; color: var(--red);
+    }
+    .wrapped-poster-btn {
+      margin-top: 20px; padding: 14px 32px;
+      background: var(--red); color: #fff; border: none; border-radius: 8px;
+      font-family: var(--font); font-size: 14px; font-weight: 700; cursor: pointer;
+    }
+    .wrapped-poster-btn:hover { background: var(--red-hover); }
+    .wrapped-logo { margin-top: 16px; font-size: 18px; font-weight: 800; color: var(--gray-500); }
+    .wrapped-logo .accent { color: var(--red); }
 
     /* ===== BAN CHECK TAB ===== */
     .ban-check-wrap {
@@ -329,8 +387,28 @@
     </a>
 
     <nav>
-      <a href="stats.html" class="active" data-key="navStats">Stats</a>
-      <a href="maps.html" data-key="navMaps">Maps</a>
+      <div class="nav-dropdown">
+        <a href="stats.html" class="nav-link active" data-key="navStats">Stats</a>
+        <div class="dropdown-menu">
+          <a href="stats.html" class="active" data-key="navStatsLookup">Stats Lookup</a>
+          <a href="leaderboard.html" data-key="navLeaderboard">Leaderboard</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="maps.html" class="nav-link" data-key="navMaps">Maps</a>
+        <div class="dropdown-menu">
+          <a href="maps.html" data-key="navMapsInteractive">Interactive Map</a>
+          <a href="flight.html" data-key="navFlight">Flight Sim</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="sensitivity.html" class="nav-link" data-key="navTools">Tools</a>
+        <div class="dropdown-menu">
+          <a href="sensitivity.html" data-key="navSensitivity">Sensitivity</a>
+          <a href="weapons.html" data-key="navWeapons">Weapons</a>
+          <a href="team.html" data-key="navTeam">Team Analyzer</a>
+        </div>
+      </div>
       <a href="quiz.html" data-key="navQuiz">Quiz</a>
     </nav>
 
@@ -351,11 +429,29 @@
     <button class="mobile-nav-close" onclick="document.getElementById('mobileNav').classList.remove('open')">
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <a href="index.html" onclick="closeMobileNav()">Home</a>
-    <a href="stats.html" onclick="closeMobileNav()" data-key="navStats">Stats</a>
-    <a href="maps.html" onclick="closeMobileNav()" data-key="navMaps">Maps</a>
-    <a href="quiz.html" onclick="closeMobileNav()" data-key="navQuiz">Quiz</a>
-    <a href="index.html#join" onclick="closeMobileNav()" data-key="navJoin">Join Us</a>
+    <div class="mobile-group open">
+      <span class="mobile-group-label">Stats</span>
+      <div class="mobile-sub">
+        <a href="stats.html" onclick="closeMobileNav()">Stats Lookup</a>
+        <a href="leaderboard.html" onclick="closeMobileNav()">Leaderboard</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Maps</span>
+      <div class="mobile-sub">
+        <a href="maps.html" onclick="closeMobileNav()">Interactive Map</a>
+        <a href="flight.html" onclick="closeMobileNav()">Flight Sim</a>
+      </div>
+    </div>
+    <div class="mobile-group">
+      <span class="mobile-group-label">Tools</span>
+      <div class="mobile-sub">
+        <a href="sensitivity.html" onclick="closeMobileNav()">Sensitivity</a>
+        <a href="weapons.html" onclick="closeMobileNav()">Weapons</a>
+        <a href="team.html" onclick="closeMobileNav()">Team Analyzer</a>
+      </div>
+    </div>
+    <a href="quiz.html" onclick="closeMobileNav()">Quiz</a>
   </div>
 
   <!-- SEARCH -->
@@ -374,6 +470,7 @@
     <button class="tab-btn" data-tab="maps" data-key="tabMaps">Map Stats</button>
     <button class="tab-btn" data-tab="compare" data-key="tabCompare">Compare</button>
     <button class="tab-btn" data-tab="heatmap" data-key="tabHeatmap">Heatmap</button>
+    <button class="tab-btn" data-tab="wrapped" data-key="tabWrapped">Wrapped</button>
     <button class="tab-btn" data-tab="bancheck" data-key="tabBanCheck">Ban Check</button>
   </div>
 
@@ -421,6 +518,13 @@
     </div>
   </div>
 
+  <!-- WRAPPED -->
+  <div class="tab-content" id="tab-wrapped">
+    <div id="wrappedContent">
+      <div class="empty-msg" data-key="searchPrompt">Search a player to view stats</div>
+    </div>
+  </div>
+
   <!-- BAN CHECK -->
   <div class="tab-content" id="tab-bancheck">
     <div class="ban-check-wrap">
@@ -440,6 +544,7 @@
   </div>
 
   <script src="assert/js/shared.js"></script>
+  <script src="assert/js/share-utils.js"></script>
   <script>
     // ===== CONFIG =====
     const PUBG_PROXY = '/api';
@@ -448,12 +553,14 @@
     let currentPlayer = null; // { id, name, stats, matchIds }
     let matchCache = {};      // matchId → match data
     let telemetryCache = {};  // matchId → telemetry data
-    let tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false, bancheck: false };
+    let tabLoaded = { overview: false, matches: false, weapons: false, maps: false, compare: false, heatmap: false, wrapped: false, bancheck: false };
 
     // ===== i18n =====
     const texts = {
       en: {
-        navHome: "Home", navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", navJoin: "Join Us", searchBtn: "Search",
+        navHome: "Home", navStats: "Stats", navMaps: "Maps", navQuiz: "Quiz", navJoin: "Join Us",
+        navStatsLookup: "Stats Lookup", navLeaderboard: "Leaderboard", navMapsInteractive: "Interactive Map", navFlight: "Flight Sim", navTools: "Tools", navSensitivity: "Sensitivity", navWeapons: "Weapons", navTeam: "Team Analyzer",
+        searchBtn: "Search",
         tabOverview: "Overview", tabMatches: "Recent Matches", tabWeapons: "Weapons",
         tabMaps: "Map Stats", tabCompare: "Compare", tabHeatmap: "Heatmap",
         searchPrompt: "Search a player to view stats",
@@ -478,12 +585,20 @@
         mapWinRate: "Map Win Rates", games: "Games", loadingMaps: "Loading map data...",
         // compare
         enterPlayer2: "Enter second player name...", compareBtn: "Compare",
-        vs: "VS", stat: "Stat",
+        vs: "VS", stat: "Stat", vsPoster: "Generate VS Poster",
         // heatmap
         heatmapTitle: "Activity Heatmap",
         heatmapDesc: "Based on recent match times (local timezone)",
         matchCount: "matches",
         mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun",
+        // wrapped
+        tabWrapped: "Wrapped",
+        wrappedSeason: "SEASON REVIEW", wrappedBeats: "Better than {pct}% of players",
+        wrappedWeapons: "FAVORITE WEAPONS", wrappedRecords: "MAP & RECORDS",
+        wrappedTags: "YOUR TAGS", wrappedPoster: "Generate Poster",
+        wrappedAvgDmg: "Avg Damage", wrappedFarthest: "Farthest Kill",
+        tagFragKing: "Frag King", tagSurvivor: "Survivor", tagSniperGod: "Sniper God",
+        tagHeadshotMachine: "Headshot Machine", tagGrinder: "Grinder", tagCamper: "Camper",
         // ban check
         tabBanCheck: "Ban Check", banCheckBtn: "Check", banHistory: "Search History", banSearchFirst: "Search a player first to check ban status",
         banNotBanned: "Not Banned", banLikelyBanned: "Likely Banned",
@@ -494,7 +609,9 @@
         searchPlaceholder: "Enter PUBG player name...", banPlaceholder: "Enter player name..."
       },
       zh: {
-        navHome: "首页", navStats: "战绩", navMaps: "地图", navQuiz: "人格", navJoin: "加入", searchBtn: "搜索",
+        navHome: "首页", navStats: "战绩", navMaps: "地图", navQuiz: "人格", navJoin: "加入",
+        navStatsLookup: "战绩查询", navLeaderboard: "排行榜", navMapsInteractive: "互动地图", navFlight: "航线模拟", navTools: "工具", navSensitivity: "灵敏度", navWeapons: "武器库", navTeam: "团队分析",
+        searchBtn: "搜索",
         tabOverview: "\u6982\u89c8", tabMatches: "\u6700\u8fd1\u6bd4\u8d5b", tabWeapons: "\u6b66\u5668\u5206\u6790",
         tabMaps: "\u5730\u56fe\u80dc\u7387", tabCompare: "\u5bf9\u6bd4", tabHeatmap: "\u70ed\u529b\u56fe",
         searchPrompt: "\u641c\u7d22\u73a9\u5bb6\u67e5\u770b\u6218\u7ee9",
@@ -515,11 +632,18 @@
         noWeapons: "\u6b66\u5668\u6570\u636e\u4e0d\u53ef\u7528\uff08\u9065\u6d4b\u6570\u636e14\u5929\u540e\u8fc7\u671f\uff09\u3002",
         mapWinRate: "\u5730\u56fe\u80dc\u7387", games: "\u573a", loadingMaps: "\u52a0\u8f7d\u5730\u56fe\u6570\u636e...",
         enterPlayer2: "\u8f93\u5165\u7b2c\u4e8c\u4e2a\u73a9\u5bb6\u540d...", compareBtn: "\u5bf9\u6bd4",
-        vs: "VS", stat: "\u6570\u636e",
+        vs: "VS", stat: "\u6570\u636e", vsPoster: "\u751f\u6210 VS \u6d77\u62a5",
         heatmapTitle: "\u6d3b\u8dc3\u70ed\u529b\u56fe",
         heatmapDesc: "\u57fa\u4e8e\u6700\u8fd1\u6bd4\u8d5b\u65f6\u95f4\uff08\u672c\u5730\u65f6\u533a\uff09",
         matchCount: "\u573a",
         mon: "\u5468\u4e00", tue: "\u5468\u4e8c", wed: "\u5468\u4e09", thu: "\u5468\u56db", fri: "\u5468\u4e94", sat: "\u5468\u516d", sun: "\u5468\u65e5",
+        tabWrapped: "\u8d5b\u5b63\u603b\u7ed3",
+        wrappedSeason: "\u8d5b\u5b63\u56de\u987e", wrappedBeats: "\u8d85\u8fc7\u4e86 {pct}% \u7684\u73a9\u5bb6",
+        wrappedWeapons: "\u6700\u7231\u6b66\u5668", wrappedRecords: "\u5730\u56fe\u4e0e\u8bb0\u5f55",
+        wrappedTags: "\u4f60\u7684\u6807\u7b7e", wrappedPoster: "\u751f\u6210\u6d77\u62a5",
+        wrappedAvgDmg: "\u573a\u5747\u4f24\u5bb3", wrappedFarthest: "\u6700\u8fdc\u51fb\u6740",
+        tagFragKing: "\u94a2\u67aa\u738b", tagSurvivor: "\u82df\u738b", tagSniperGod: "\u72d9\u51fb\u4e4b\u795e",
+        tagHeadshotMachine: "\u7206\u5934\u673a\u5668", tagGrinder: "\u809d\u5e1d", tagCamper: "\u6d3b\u5230\u6700\u540e\u7684\u4eba",
         tabBanCheck: "封禁查询", banCheckBtn: "查询", banHistory: "搜索历史", banSearchFirst: "请先搜索玩家以查询封禁状态",
         banNotBanned: "\u672a\u5c01\u7981", banLikelyBanned: "\u53ef\u80fd\u5df2\u5c01\u7981",
         banUncertain: "\u65e0\u6cd5\u786e\u5b9a", banPlayerNotFound: "\u672a\u627e\u5230\u8be5\u73a9\u5bb6",
@@ -529,7 +653,9 @@
         searchPlaceholder: "输入 PUBG 玩家名...", banPlaceholder: "输入玩家名..."
       },
       ko: {
-        navHome: "홈", navStats: "전적", navMaps: "맵", navQuiz: "퀴즈", navJoin: "가입", searchBtn: "검색",
+        navHome: "홈", navStats: "전적", navMaps: "맵", navQuiz: "퀴즈", navJoin: "가입",
+        navStatsLookup: "전적 조회", navLeaderboard: "리더보드", navMapsInteractive: "인터랙티브 맵", navFlight: "비행 시뮬", navTools: "도구", navSensitivity: "감도", navWeapons: "무기", navTeam: "팀 분석",
+        searchBtn: "검색",
         tabOverview: "개요", tabMatches: "최근 매치", tabWeapons: "무기 분석",
         tabMaps: "맵 승률", tabCompare: "비교", tabHeatmap: "히트맵",
         searchPrompt: "플레이어를 검색하여 전적을 확인하세요",
@@ -550,11 +676,18 @@
         noWeapons: "무기 데이터를 사용할 수 없습니다 (텔레메트리 14일 후 만료).",
         mapWinRate: "맵 승률", games: "판", loadingMaps: "맵 데이터 로딩 중...",
         enterPlayer2: "두 번째 플레이어 이름 입력...", compareBtn: "비교",
-        vs: "VS", stat: "항목",
+        vs: "VS", stat: "항목", vsPoster: "VS 포스터 생성",
         heatmapTitle: "활동 히트맵",
         heatmapDesc: "최근 매치 시간 기준 (현지 시간대)",
         matchCount: "매치",
         mon: "월", tue: "화", wed: "수", thu: "목", fri: "금", sat: "토", sun: "일",
+        tabWrapped: "시즌 요약",
+        wrappedSeason: "시즌 리뷰", wrappedBeats: "상위 {pct}% 플레이어",
+        wrappedWeapons: "선호 무기", wrappedRecords: "맵 & 기록",
+        wrappedTags: "태그", wrappedPoster: "포스터 생성",
+        wrappedAvgDmg: "평균 데미지", wrappedFarthest: "최장 거리 킬",
+        tagFragKing: "킬 머신", tagSurvivor: "생존왕", tagSniperGod: "저격의 신",
+        tagHeadshotMachine: "헤드샷 머신", tagGrinder: "노력파", tagCamper: "치킨 매니아",
         tabBanCheck: "밴 조회", banCheckBtn: "조회", banHistory: "검색 기록", banSearchFirst: "밴 상태를 확인하려면 먼저 플레이어를 검색하세요",
         banNotBanned: "밴 없음", banLikelyBanned: "밴 가능성 높음",
         banUncertain: "확인 불가", banPlayerNotFound: "플레이어를 찾을 수 없음",
@@ -734,7 +867,7 @@
     }
 
     function showAllTabs(html) {
-      ['overview','matches','weapons','maps','compare','heatmap'].forEach(id => { // bancheck excluded - independent
+      ['overview','matches','weapons','maps','compare','heatmap','wrapped'].forEach(id => { // bancheck excluded - independent
         document.getElementById(id + 'Content').innerHTML = html;
       });
     }
@@ -750,6 +883,7 @@
         case 'maps': renderMaps(); break;
         case 'compare': renderCompare(); break;
         case 'heatmap': renderHeatmap(); break;
+        case 'wrapped': renderWrapped(); break;
         case 'bancheck':
           // Auto-fill and trigger via button click (doBanCheck is in IIFE scope)
           document.getElementById('banSearchBox').style.display = 'none';
@@ -1083,15 +1217,19 @@
         ];
 
         result.innerHTML = `
-          <div class="chart-container" style="max-width:500px;margin:0 auto 24px;"><canvas id="radarChart"></canvas></div>
-          <table class="compare-table">
-            <thead><tr><th>${p1}</th><th>${t('stat')}</th><th>${p2}</th></tr></thead>
-            <tbody>${metrics.map(m => {
-              const w1 = m.v1 >= m.v2 ? 'compare-winner' : 'compare-loser';
-              const w2 = m.v2 >= m.v1 ? 'compare-winner' : 'compare-loser';
-              return `<tr><td class="${w1}">${m.fmt(m.v1)}</td><td style="color:var(--gray-500)">${m.label}</td><td class="${w2}">${m.fmt(m.v2)}</td></tr>`;
-            }).join('')}</tbody>
-          </table>
+          <div id="compareCapture">
+            <div class="chart-container" style="max-width:500px;margin:0 auto 24px;"><canvas id="radarChart"></canvas></div>
+            <table class="compare-table">
+              <thead><tr><th>${p1}</th><th>${t('stat')}</th><th>${p2}</th></tr></thead>
+              <tbody>${metrics.map(m => {
+                const w1 = m.v1 >= m.v2 ? 'compare-winner' : 'compare-loser';
+                const w2 = m.v2 >= m.v1 ? 'compare-winner' : 'compare-loser';
+                return `<tr><td class="${w1}">${m.fmt(m.v1)}</td><td style="color:var(--gray-500)">${m.label}</td><td class="${w2}">${m.fmt(m.v2)}</td></tr>`;
+              }).join('')}</tbody>
+            </table>
+            <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--gray-500);">keygene.top</div>
+          </div>
+          <button class="compare-poster-btn" onclick="generateVSPoster('${p1.replace(/'/g,"\\'")}','${p2.replace(/'/g,"\\'")}')">📸 ${t('vsPoster')}</button>
         `;
 
         if (radarChart) radarChart.destroy();
@@ -1113,6 +1251,191 @@
       } catch(e) {
         result.innerHTML = `<div class="empty-msg">${t('playerNotFound')}</div>`;
       }
+    }
+
+    function generateVSPoster(p1, p2) {
+      const el = document.getElementById('compareCapture');
+      if (!el) return;
+      generateShareCard(el, 'keygene-vs-' + p1 + '-' + p2 + '.png');
+    }
+
+    // ===== WRAPPED =====
+    function getPercentile(kd) {
+      if (kd >= 5) return 95;
+      if (kd >= 3) return 85;
+      if (kd >= 2) return 70;
+      if (kd >= 1.5) return 50;
+      if (kd >= 1) return 30;
+      return 15;
+    }
+
+    function assignTags(s) {
+      const tags = [];
+      const kd = s.losses > 0 ? s.kills / s.losses : 0;
+      const wr = s.roundsPlayed > 0 ? s.wins / s.roundsPlayed * 100 : 0;
+      const hsPct = s.kills > 0 ? (s.headshotKills || 0) / s.kills * 100 : 0;
+      if (kd >= 3) tags.push('tagFragKing');
+      if (wr >= 15) tags.push('tagCamper');
+      if ((s.longestKill || 0) >= 400) tags.push('tagSniperGod');
+      if (hsPct >= 25) tags.push('tagHeadshotMachine');
+      if (s.roundsPlayed >= 500) tags.push('tagGrinder');
+      const t10 = s.roundsPlayed > 0 ? s.top10s / s.roundsPlayed * 100 : 0;
+      if (t10 >= 50) tags.push('tagSurvivor');
+      return tags.slice(0, 3);
+    }
+
+    function animateNum(el, target, duration) {
+      let start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        const pct = Math.min((ts - start) / duration, 1);
+        el.textContent = Math.floor(pct * target).toLocaleString();
+        if (pct < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    async function renderWrapped() {
+      const el = document.getElementById('wrappedContent');
+      const s = currentPlayer.stats;
+      if (!s) { el.innerHTML = `<div class="empty-msg">${t('searchPrompt')}</div>`; return; }
+
+      const kd = s.losses > 0 ? (s.kills / s.losses).toFixed(2) : '0.00';
+      const wr = s.roundsPlayed > 0 ? (s.wins / s.roundsPlayed * 100).toFixed(1) : '0.0';
+      const pct = getPercentile(parseFloat(kd));
+      const avgDmg = s.roundsPlayed > 0 ? Math.round(s.damageDealt / s.roundsPlayed) : 0;
+      const tags = assignTags(s);
+
+      // Try to get weapon data from recent matches
+      let weaponData = [];
+      try {
+        const ids = currentPlayer.matchIds.slice(0, 10);
+        const weaponKills = {};
+        for (const mid of ids) {
+          if (!matchCache[mid]) {
+            const r = await queueFetch(`${PUBG_PROXY}/shards/${SHARD}/matches/${mid}`);
+            if (r.ok) matchCache[mid] = await r.json();
+            else continue;
+          }
+          const match = matchCache[mid];
+          if (!match.included) continue;
+          const me = match.included.find(i => i.type === 'participant' && i.attributes.stats.playerId === currentPlayer.id);
+          if (me) {
+            // Get telemetry for weapon data
+            const telAsset = match.included.find(i => i.type === 'asset');
+            if (telAsset && !telemetryCache[mid]) {
+              try {
+                const tr = await queueFetch(telAsset.attributes.URL);
+                if (tr.ok) telemetryCache[mid] = await tr.json();
+              } catch(e) {}
+            }
+            if (telemetryCache[mid]) {
+              const kills = telemetryCache[mid].filter(e => e._T === 'LogPlayerKillV2' && e.killer && e.killer.accountId === currentPlayer.id);
+              kills.forEach(k => {
+                const w = k.killerDamageInfo && k.killerDamageInfo.damageCauserName || 'Unknown';
+                weaponKills[w] = (weaponKills[w] || 0) + 1;
+              });
+            }
+          }
+        }
+        weaponData = Object.entries(weaponKills).sort((a,b) => b[1] - a[1]).slice(0, 3);
+      } catch(e) {}
+
+      const totalWeaponKills = weaponData.reduce((sum, w) => sum + w[1], 0) || 1;
+      const medals = ['🥇', '🥈', '🥉'];
+
+      el.innerHTML = `
+        <div class="wrapped-container" id="wrappedCapture">
+          <!-- Card 1: Season header -->
+          <div class="wrapped-card hero-card">
+            <div class="wrapped-season">${t('wrappedSeason')}</div>
+            <div class="wrapped-player">${currentPlayer.name}</div>
+            <div class="wrapped-rank">
+              <div class="wrapped-rank-icon">🏅</div>
+              <div style="font-size:13px;color:var(--gray-400);margin-top:4px;">Steam · Squad · Lifetime</div>
+            </div>
+          </div>
+
+          <!-- Card 2: Core stats -->
+          <div class="wrapped-card">
+            <div class="wrapped-stats-grid">
+              <div>
+                <div class="wrapped-big-stat" data-animate="${s.kills}">${s.kills.toLocaleString()}</div>
+                <div class="wrapped-stat-label">${t('kills')}</div>
+              </div>
+              <div>
+                <div class="wrapped-big-stat" data-animate="${s.roundsPlayed}">${s.roundsPlayed.toLocaleString()}</div>
+                <div class="wrapped-stat-label">${t('matches')}</div>
+              </div>
+              <div>
+                <div class="wrapped-big-stat">${kd}</div>
+                <div class="wrapped-stat-label">K/D</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+              <div class="wrapped-percentile">🔥 ${t('wrappedBeats').replace('{pct}', pct)}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+              <div><span style="font-size:20px;font-weight:800;">${wr}%</span><br><span class="wrapped-stat-label">${t('winRate')}</span></div>
+              <div><span style="font-size:20px;font-weight:800;">${avgDmg}</span><br><span class="wrapped-stat-label">${t('wrappedAvgDmg')}</span></div>
+            </div>
+          </div>
+
+          <!-- Card 3: Weapons -->
+          <div class="wrapped-card">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:16px;">${t('wrappedWeapons')}</div>
+            ${weaponData.length > 0 ? weaponData.map((w, i) => {
+              const pct = Math.round(w[1] / totalWeaponKills * 100);
+              const name = w[0].replace(/^WeapHK416_C$/, 'M416').replace(/^WeapBerylM762_C$/, 'Beryl M762').replace(/^WeapK98_C$/, 'Kar98k').replace(/^WeapAKM_C$/, 'AKM').replace(/^WeapMini14_C$/, 'Mini 14').replace(/^WeapSKS_C$/, 'SKS').replace(/^WeapDP28_C$/, 'DP-28').replace(/^WeapSCAR-L_C$/, 'SCAR-L').replace(/^WeapM16A4_C$/, 'M16A4').replace(/^WeapUMP_C$/, 'UMP45').replace(/^Weap/, '').replace(/_C$/, '');
+              return `<div class="wrapped-weapon-row">
+                <span class="wrapped-weapon-rank">${medals[i] || ''}</span>
+                <span class="wrapped-weapon-name">${name}</span>
+                <div class="wrapped-weapon-bar"><div class="wrapped-weapon-bar-fill" style="width:${pct}%"></div></div>
+                <span class="wrapped-weapon-pct">${pct}%</span>
+              </div>`;
+            }).join('') : `<div style="color:var(--gray-500);font-size:13px;">No weapon data available</div>`}
+          </div>
+
+          <!-- Card 4: Records -->
+          <div class="wrapped-card">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:16px;">${t('wrappedRecords')}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div>
+                <span style="font-size:24px;font-weight:800;">${Math.round(s.longestKill || 0)}m</span>
+                <div class="wrapped-stat-label">🎯 ${t('wrappedFarthest')}</div>
+              </div>
+              <div>
+                <span style="font-size:24px;font-weight:800;">${s.roundMostKills || 0}</span>
+                <div class="wrapped-stat-label">💀 ${t('mostKills')}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Tags -->
+          <div class="wrapped-card">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:16px;">${t('wrappedTags')}</div>
+            <div>
+              ${tags.length > 0 ? tags.map(tag => `<span class="wrapped-tag">#${t(tag)}</span>`).join('') : '<span class="wrapped-tag">#PUBG Player</span>'}
+            </div>
+            <div class="wrapped-logo">KEY<span class="accent">GENE</span></div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:24px;">
+          <button class="wrapped-poster-btn" onclick="generateWrappedPoster()">📸 ${t('wrappedPoster')}</button>
+        </div>
+      `;
+
+      // Animate numbers
+      el.querySelectorAll('[data-animate]').forEach(el => {
+        const target = parseInt(el.dataset.animate);
+        if (target > 0) animateNum(el, target, 1200);
+      });
+    }
+
+    function generateWrappedPoster() {
+      const el = document.getElementById('wrappedCapture');
+      if (!el) return;
+      generateShareCard(el, 'keygene-wrapped-' + currentPlayer.name + '.png');
     }
 
     // ===== HEATMAP =====
