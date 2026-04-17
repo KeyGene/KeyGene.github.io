@@ -291,5 +291,25 @@
   "lbSeason": "赛季",
   "lbMode": "模式",
   "lbSeasonLoading": "加载中...",
-  "lbSeasonCurrent": "(当前)"
+  "lbSeasonCurrent": "(当前)",
+
+  "quizTag": "人格测试",
+  "quizTitle1": "你的吃鸡",
+  "quizTitle2": "人格是？",
+  "quizSub": "16道题，4个维度，测出你的 PUBG 灵魂。",
+  "quizStart": "开始测试",
+  "quizCounterText": "人已完成测试",
+  "quizLastResult": "查看上次结果 →",
+  "quizPrev": "上一题",
+  "quizNext": "下一题",
+  "quizViewResult": "查看结果",
+  "resultLabel": "你的吃鸡人格",
+  "resultGroupLabel": "所属分组",
+  "resultStrengths": "优势",
+  "resultWeaknesses": "劣势",
+  "resultPartner": "最佳搭档",
+  "resultNemesis": "天敌",
+  "resultRetry": "重新测试",
+  "resultViewAll": "查看全部人格 →",
+  "allTypesTitle": "全部 16 种人格"
 }

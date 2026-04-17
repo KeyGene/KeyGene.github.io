@@ -291,5 +291,25 @@
   "lbSeason": "시즌",
   "lbMode": "모드",
   "lbSeasonLoading": "로딩 중...",
-  "lbSeasonCurrent": "(현재)"
+  "lbSeasonCurrent": "(현재)",
+
+  "quizTag": "성격 테스트",
+  "quizTitle1": "너의 치킨디너",
+  "quizTitle2": "성격은?",
+  "quizSub": "16문항, 4개 차원 — 당신의 PUBG 영혼을 찾아보세요.",
+  "quizStart": "테스트 시작",
+  "quizCounterText": "명이 테스트를 완료했습니다",
+  "quizLastResult": "지난 결과 보기 →",
+  "quizPrev": "이전",
+  "quizNext": "다음",
+  "quizViewResult": "결과 보기",
+  "resultLabel": "당신의 PUBG 성격",
+  "resultGroupLabel": "소속 그룹",
+  "resultStrengths": "강점",
+  "resultWeaknesses": "약점",
+  "resultPartner": "최고의 파트너",
+  "resultNemesis": "천적",
+  "resultRetry": "다시 테스트",
+  "resultViewAll": "모든 성격 보기 →",
+  "allTypesTitle": "전체 16가지 성격"
 }
