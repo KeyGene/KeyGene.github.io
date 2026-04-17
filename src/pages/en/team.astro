@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import TeamBuilder from '../../islands/TeamBuilder.tsx';
+import { t } from '../../i18n/utils';
+const lang = Astro.currentLocale ?? 'zh';
+
+const labels = {
+  player1: t('teamPlayer1', lang),
+  player2: t('teamPlayer2', lang),
+  player3: t('teamPlayer3', lang),
+  player4: t('teamPlayer4', lang),
+  analyze: t('teamAnalyze', lang),
+  loading: t('teamLoading', lang),
+  teamRadar: t('teamRadar', lang),
+  roleAssignment: t('teamRoleAssignment', lang),
+  teamPoster: t('teamPoster', lang),
+  copyLink: t('teamCopyLink', lang),
+  copied: t('teamCopied', lang),
+  kd: t('kdRatio', lang),
+  winRate: t('winRate', lang),
+  kills: t('kills', lang),
+  damage: t('teamDamage', lang),
+  assists: t('teamAssists', lang),
+  top10: t('teamTop10', lang),
+  matches: t('matchesPlayed', lang),
+  roleFragger: t('teamRoleFragger', lang),
+  roleSniper: t('teamRoleSniper', lang),
+  roleIgl: t('teamRoleIgl', lang),
+  roleSupport: t('teamRoleSupport', lang),
+  roleDescFragger: t('teamRoleDescFragger', lang),
+  roleDescSniper: t('teamRoleDescSniper', lang),
+  roleDescIgl: t('teamRoleDescIgl', lang),
+  roleDescSupport: t('teamRoleDescSupport', lang),
+};
+---
+
+<Base title={t('teamTitle', lang)}>
+  <div style="max-width:1000px;margin:0 auto">
+    <TeamBuilder client:visible labels={labels} />
+  </div>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</Base>

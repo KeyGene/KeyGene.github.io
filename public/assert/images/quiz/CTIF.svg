@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 描边急救包 Walking Medkit - medic outfit, carrying huge first aid kit -->
+  <!-- Giant first aid kit (behind character) -->
+  <polygon points="105,30 185,30 188,180 102,180" fill="white"/>
+  <polygon points="185,30 188,180 178,178 175,32" fill="#E8E8E8"/>
+  <!-- Red cross on kit -->
+  <polygon points="138,60 155,60 155,150 138,150" fill="#E74C3C"/>
+  <polygon points="120,90 172,90 172,115 120,115" fill="#E74C3C"/>
+  <!-- Kit handle -->
+  <polygon points="132,25 162,25 160,32 134,32" fill="#C0C0C0"/>
+  <!-- Head -->
+  <polygon points="40,22 96,22 100,48 98,78 38,78 36,48" fill="#F2D0A4"/>
+  <polygon points="96,22 100,48 98,78 92,76 95,48 92,24" fill="#E8BE8C"/>
+  <!-- Hair -->
+  <polygon points="38,22 98,22 96,34 40,34" fill="#4A3728"/>
+  <polygon points="36,18 40,22 98,22 100,18 92,15 46,15" fill="#4A3728"/>
+  <!-- Medic headband -->
+  <polygon points="36,32 100,32 101,38 35,38" fill="white"/>
+  <polygon points="60,32 76,32 76,38 60,38" fill="#E74C3C"/>
+  <!-- Eyes - worried but kind -->
+  <polygon points="48,46 60,46 59,55 49,55" fill="white"/>
+  <polygon points="72,46 84,46 83,55 73,55" fill="white"/>
+  <polygon points="52,48 58,48 57,54 53,54" fill="#4A2800"/>
+  <polygon points="76,48 82,48 81,54 77,54" fill="#4A2800"/>
+  <!-- Worried brows -->
+  <polygon points="47,42 62,40 61,44 48,45" fill="#4A3728"/>
+  <polygon points="70,40 85,42 84,45 71,44" fill="#4A3728"/>
+  <!-- Nervous smile -->
+  <path d="M55,64 Q68,72 82,64" fill="none" stroke="#C4846C" stroke-width="2"/>
+  <!-- Neck -->
+  <polygon points="58,78 80,78 82,88 56,88" fill="#E8BE8C"/>
+  <!-- Body - white medic uniform -->
+  <polygon points="22,88 100,88 104,172 18,172" fill="white"/>
+  <polygon points="100,88 104,172 96,170 93,90" fill="#E8E8E8"/>
+  <!-- Red cross on uniform -->
+  <polygon points="55,100 67,100 67,130 55,130" fill="#E74C3C"/>
+  <polygon points="48,108 74,108 74,120 48,120" fill="#E74C3C"/>
+  <!-- Left arm reaching for kit -->
+  <polygon points="22,88 8,100 5,85 15,75 20,82" fill="white"/>
+  <!-- Right arm holding kit strap -->
+  <polygon points="95,88 108,95 110,130 98,128 97,98" fill="#E8E8E8"/>
+  <!-- Hand on strap -->
+  <polygon points="106,95 115,92 116,108 108,110" fill="#F2D0A4"/>
+  <!-- Pants -->
+  <polygon points="25,172 62,172 58,212 22,212" fill="#556B2F"/>
+  <polygon points="68,172 100,172 104,212 65,212" fill="#4A5F25"/>
+  <!-- Feet -->
+  <polygon points="18,210 62,210 64,220 14,220" fill="#333"/>
+  <polygon points="62,210 108,210 110,220 58,220" fill="#2A2A2A"/>
+</svg>

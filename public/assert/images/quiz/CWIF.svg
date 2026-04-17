@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="200" height="220">
+  <!-- 厕所老六 Bathroom Camper - hiding behind door, peeking, shotgun -->
+  <!-- Door frame -->
+  <polygon points="110,0 145,0 145,220 110,220" fill="#8B6914"/>
+  <polygon points="110,0 118,0 118,220 110,220" fill="#7A5C10"/>
+  <!-- Door -->
+  <polygon points="118,0 200,0 200,220 118,220" fill="#A87830"/>
+  <polygon points="118,0 200,0 195,5 122,5" fill="#B89040"/>
+  <!-- Door handle -->
+  <polygon points="128,105 136,105 137,118 129,118" fill="#C0C0C0"/>
+  <!-- Character peeking from behind door -->
+  <!-- Head - half visible -->
+  <polygon points="60,35 110,35 112,60 110,88 58,88 56,60" fill="#F2D0A4"/>
+  <polygon points="110,35 112,60 110,88 105,86 108,60 106,37" fill="#E8BE8C"/>
+  <!-- Hair -->
+  <polygon points="58,35 112,35 110,45 60,45" fill="#2C2C2C"/>
+  <polygon points="56,30 60,35 112,35 115,30 108,28 80,26 58,28" fill="#2C2C2C"/>
+  <!-- One eye visible (peeking) -->
+  <polygon points="68,55 82,55 81,64 69,64" fill="white"/>
+  <polygon points="72,57 80,57 79,63 73,63" fill="#222"/>
+  <!-- Other eye -->
+  <polygon points="88,55 102,55 101,64 89,64" fill="white"/>
+  <polygon points="92,57 100,57 99,63 93,63" fill="#222"/>
+  <!-- Shifty eyebrows -->
+  <polygon points="66,50 84,48 83,53 67,54" fill="#2C2C2C"/>
+  <polygon points="86,49 104,51 103,54 87,53" fill="#2C2C2C"/>
+  <!-- Nervous smile -->
+  <polygon points="78,72 98,74 96,78 80,77" fill="#C4846C"/>
+  <!-- Neck -->
+  <polygon points="78,88 98,88 100,96 76,96" fill="#E8BE8C"/>
+  <!-- Body - crouching -->
+  <polygon points="42,96 110,96 112,175 40,175" fill="#556B2F"/>
+  <polygon points="110,96 112,175 106,173 104,98" fill="#4A5F25"/>
+  <!-- Shotgun held up -->
+  <polygon points="28,60 38,55 42,96 32,98" fill="#4A4A4A"/>
+  <polygon points="28,60 38,55 36,50 26,54" fill="#555"/>
+  <polygon points="30,48 38,44 36,50 28,52" fill="#4A4A4A"/>
+  <!-- Arm holding shotgun -->
+  <polygon points="42,96 28,85 26,65 38,60 42,82" fill="#556B2F"/>
+  <!-- Right arm on door -->
+  <polygon points="100,96 110,100 112,125 102,122" fill="#4A5F25"/>
+  <!-- Hand on door edge -->
+  <polygon points="108,100 115,98 116,115 110,115" fill="#F2D0A4"/>
+  <!-- Legs crouching -->
+  <polygon points="48,175 85,175 82,210 45,210" fill="#2C3E50"/>
+  <polygon points="90,175 110,175 112,210 88,210" fill="#1A2533"/>
+  <!-- Feet -->
+  <polygon points="42,208 85,208 87,220 38,220" fill="#333"/>
+  <polygon points="85,208 115,208 118,220 82,220" fill="#2A2A2A"/>
+</svg>

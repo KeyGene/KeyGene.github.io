@@ -1,0 +1,241 @@
+---
+import Base from '../../layouts/Base.astro';
+import LeafletMap from '../../islands/LeafletMap.tsx';
+import { t } from '../../i18n/utils';
+const lang = Astro.currentLocale ?? 'zh';
+
+const labels = {
+  toolGrid: t('mapToolGrid', lang),
+  toolMeasure: t('mapToolMeasure', lang),
+  toolThrow: t('mapToolThrow', lang),
+  toolEdit: t('mapToolEdit', lang),
+  throwFrag: t('mapThrowFrag', lang),
+  throwSmoke: t('mapThrowSmoke', lang),
+  throwFlash: t('mapThrowFlash', lang),
+  throwMolotov: t('mapThrowMolotov', lang),
+  throwInRange: t('mapThrowInRange', lang),
+  throwOutRange: t('mapThrowOutRange', lang),
+  markerTitle: t('mapMarkerTitle', lang),
+  markerNoData: t('mapMarkerNoData', lang),
+  editBanner: t('mapEditBanner', lang),
+  editExport: t('mapEditExport', lang),
+  editReset: t('mapEditReset', lang),
+  editChanges: t('mapEditChanges', lang),
+  editConfirmReset: t('mapEditConfirmReset', lang),
+  players: t('mapPlayers', lang),
+  lang,
+};
+---
+
+<Base title={t('mapTitle', lang)} description={t('mapDesc', lang)}>
+  <link rel="preconnect" href="https://r2.pubgmaptile.top" crossorigin slot="head" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" slot="head" />
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" slot="head"></script>
+  <style slot="head">
+    /* Override main padding for full-width map */
+    main { padding-top: 0 !important; min-height: auto !important; }
+
+    :root { --header-bg: rgba(0,0,0,0.6); --sidebar-bg: rgba(0,0,0,0.8); }
+    [data-theme="light"] { --sidebar-bg: rgba(245,245,245,0.95); }
+    [data-theme="light"] #leafletMap,
+    [data-theme="light"] .leaflet-container { background: #e8e8e8; }
+    [data-theme="light"] .leaflet-control-zoom a {
+      background: rgba(255,255,255,0.9) !important; color: #333 !important; border-bottom-color: #ccc !important;
+    }
+    [data-theme="light"] .leaflet-control-zoom a:hover { background: rgba(240,240,240,0.95) !important; }
+    [data-theme="light"] .leaflet-control-zoom { border-color: #ccc !important; }
+    [data-theme="light"] .leaflet-control-attribution { background: rgba(255,255,255,0.7) !important; color: #666 !important; }
+    [data-theme="light"] .leaflet-control-attribution a { color: #444 !important; }
+    [data-theme="light"] .map-info-overlay { background: rgba(255,255,255,0.85); border-color: #ddd; }
+    [data-theme="light"] .map-info-name { color: #111; }
+    [data-theme="light"] .map-info-desc { color: #666; }
+    [data-theme="light"] .map-sidebar-item:hover { background: rgba(0,0,0,0.04); }
+    [data-theme="light"] .map-sidebar-item .name { color: #666; }
+    [data-theme="light"] .map-sidebar-item.active .name { color: #111; }
+    [data-theme="light"] .marker-panel { background: rgba(255,255,255,0.9); border-color: #ddd; }
+    [data-theme="light"] .map-tool-btn { background: rgba(255,255,255,0.9); color: #333; border-color: #ccc; }
+    [data-theme="light"] .map-tool-btn.active { background: var(--color-red); color: #fff; }
+    [data-theme="light"] .coord-display { background: rgba(255,255,255,0.8); color: #333; }
+    [data-theme="light"] .throw-panel { background: rgba(255,255,255,0.9); border-color: #ddd; }
+    [data-theme="light"] .throw-type-btn { background: rgba(0,0,0,0.04); }
+    [data-theme="light"] .throw-type-btn.active { background: rgba(238,63,44,0.1); }
+
+    .map-viewer-wrapper { margin-top: 0; }
+
+    .map-sidebar {
+      width: 120px; min-width: 120px;
+      background: var(--sidebar-bg, rgba(0,0,0,0.8));
+      border-right: 1px solid var(--color-border, rgba(255,255,255,0.08));
+      overflow-y: auto; overflow-x: hidden;
+      scrollbar-width: thin; scrollbar-color: var(--color-gray-800, #333) transparent;
+    }
+    .map-sidebar::-webkit-scrollbar { width: 4px; }
+    .map-sidebar::-webkit-scrollbar-track { background: transparent; }
+    .map-sidebar::-webkit-scrollbar-thumb { background: var(--color-gray-800, #333); border-radius: 2px; }
+
+    .map-sidebar-item {
+      padding: 10px 8px; cursor: pointer; text-align: center;
+      border-left: 3px solid transparent; transition: background 0.2s, border-color 0.2s;
+    }
+    .map-sidebar-item:hover { background: rgba(255,255,255,0.04); }
+    .map-sidebar-item.active { background: rgba(238,63,44,0.1); border-left-color: var(--color-red); }
+    .map-sidebar-item .thumb {
+      width: 60px; height: 60px; border-radius: 6px; object-fit: cover;
+      border: 2px solid transparent; transition: border-color 0.2s; display: block; margin: 0 auto;
+    }
+    .map-sidebar-item.active .thumb { border-color: var(--color-red); }
+    .map-sidebar-item .name {
+      font-size: 11px; font-weight: 600; margin-top: 6px;
+      color: var(--color-text-muted, #999); transition: color 0.2s; line-height: 1.2;
+    }
+    .map-sidebar-item.active .name { color: var(--color-text, #fff); }
+
+    .leaflet-container { background: #0a0a0a; }
+    .leaflet-control-zoom { border: 1px solid var(--color-border, rgba(255,255,255,0.08)) !important; }
+    .leaflet-control-zoom a {
+      background: rgba(0,0,0,0.8) !important; color: #fff !important;
+      border-bottom-color: var(--color-border, rgba(255,255,255,0.08)) !important;
+      width: 36px !important; height: 36px !important; line-height: 36px !important; font-size: 18px !important;
+    }
+    .leaflet-control-zoom a:hover { background: rgba(30,30,30,0.9) !important; }
+    .leaflet-control-attribution {
+      background: rgba(0,0,0,0.5) !important; color: #666 !important; font-size: 10px !important;
+    }
+    .leaflet-control-attribution a { color: #888 !important; }
+
+    .map-info-overlay {
+      position: absolute; bottom: 24px; right: 24px; z-index: 90;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border, rgba(255,255,255,0.08)); border-radius: 10px;
+      padding: 16px 20px; min-width: 180px; pointer-events: none;
+    }
+    .map-info-name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .map-info-desc { font-size: 12px; color: var(--color-text-muted, #999); margin-bottom: 10px; }
+    .map-info-badges { display: flex; gap: 8px; }
+    .map-info-badges .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 4px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .badge-size { background: rgba(238,63,44,0.15); color: var(--color-red); }
+    .badge-players { background: rgba(255,255,255,0.08); color: var(--color-text-muted, #999); }
+
+    .map-tools {
+      position: absolute; top: 12px; right: 12px; z-index: 500;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .map-tool-btn {
+      width: 36px; height: 36px; background: rgba(0,0,0,0.8);
+      border: 1px solid var(--color-border, rgba(255,255,255,0.08)); border-radius: 6px;
+      color: var(--color-text-muted, #999); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+      transition: background 0.2s, color 0.2s; position: relative;
+    }
+    .map-tool-btn:hover { background: rgba(30,30,30,0.9); color: #fff; }
+    .map-tool-btn.active { background: rgba(238,63,44,0.2); color: var(--color-red); border-color: var(--color-red); }
+    .map-tool-btn .tooltip {
+      display: none; position: absolute; right: 44px; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.9); color: #fff; font-size: 12px; padding: 4px 10px;
+      border-radius: 4px; white-space: nowrap; pointer-events: none;
+    }
+    .map-tool-btn:hover .tooltip { display: block; }
+
+    .coord-display {
+      position: absolute; bottom: 6px; left: 12px; z-index: 500;
+      background: rgba(0,0,0,0.75); border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+      border-radius: 6px; padding: 4px 10px; font-size: 12px; font-family: monospace;
+      color: var(--color-text-muted, #999); pointer-events: none;
+    }
+
+    .grid-label {
+      font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.45);
+      text-shadow: 0 0 4px rgba(0,0,0,0.8);
+    }
+
+    .measure-tooltip {
+      background: rgba(238,63,44,0.9); border: none; border-radius: 4px;
+      color: #fff; font-size: 12px; font-weight: 600; padding: 3px 8px; white-space: nowrap;
+    }
+    .measure-tooltip::before { display: none; }
+    .leaflet-interactive.measure-line { stroke: var(--color-red); stroke-dasharray: 6, 4; }
+
+    .marker-panel {
+      position: absolute; top: 12px; left: 12px; z-index: 500;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border, rgba(255,255,255,0.08)); border-radius: 8px;
+      padding: 10px; min-width: 150px;
+    }
+    .marker-panel-title {
+      font-size: 11px; font-weight: 700; color: var(--color-text-muted, #999);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;
+    }
+    .marker-filter {
+      display: flex; align-items: center; gap: 8px; padding: 4px 0;
+      cursor: pointer; user-select: none; transition: opacity 0.2s;
+    }
+    .marker-filter.hidden { opacity: 0.35; }
+    .marker-filter .mf-name { font-size: 12px; color: #fff; flex: 1; }
+    .marker-filter .mf-count { font-size: 11px; color: #666; }
+    .marker-no-data { font-size: 11px; color: #666; padding: 4px 0; }
+
+    .dark-popup .leaflet-popup-content-wrapper {
+      background: rgba(0,0,0,0.85); color: #fff; border-radius: 6px; font-size: 12px;
+    }
+    .dark-popup .leaflet-popup-tip { background: rgba(0,0,0,0.85); }
+
+    .throw-panel {
+      position: absolute; top: 12px; right: 56px; z-index: 500;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border, rgba(255,255,255,0.08)); border-radius: 8px;
+      padding: 8px; display: none;
+    }
+    .throw-panel.show { display: flex; gap: 4px; }
+    .throw-type-btn {
+      width: 32px; height: 32px; background: rgba(255,255,255,0.06);
+      border: 1px solid transparent; border-radius: 6px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      transition: background 0.2s, border-color 0.2s; position: relative;
+    }
+    .throw-type-btn:hover { background: rgba(255,255,255,0.1); }
+    .throw-type-btn.active { border-color: var(--color-red); background: rgba(238,63,44,0.15); }
+    .throw-type-btn .tt-label {
+      display: none; position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%);
+      font-size: 10px; color: #999; white-space: nowrap;
+      background: rgba(0,0,0,0.9); padding: 2px 6px; border-radius: 3px;
+    }
+    .throw-type-btn:hover .tt-label { display: block; }
+
+    .throw-info-popup .leaflet-popup-content-wrapper {
+      background: rgba(0,0,0,0.85); color: #fff; border-radius: 6px; font-size: 12px;
+    }
+    .throw-info-popup .leaflet-popup-tip { background: rgba(0,0,0,0.85); }
+
+    .throw-range-circle { opacity: 0.25; }
+
+    @media (max-width: 768px) {
+      .map-viewer-wrapper { flex-direction: column; height: calc(100vh - 60px); }
+      .map-sidebar {
+        width: 100%; min-width: unset; height: 90px; min-height: 90px;
+        display: flex; flex-direction: row; overflow-x: auto; overflow-y: hidden;
+        border-right: none; border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.08));
+        scrollbar-width: none;
+      }
+      .map-sidebar::-webkit-scrollbar { display: none; }
+      .map-sidebar-item {
+        flex: 0 0 auto; padding: 8px 10px; border-left: none; border-bottom: 3px solid transparent;
+      }
+      .map-sidebar-item.active { border-left-color: transparent; border-bottom-color: var(--color-red); }
+      .map-sidebar-item .thumb { width: 48px; height: 48px; }
+      .map-sidebar-item .name { font-size: 10px; margin-top: 4px; }
+      .map-info-overlay { bottom: 12px; right: 12px; padding: 10px 14px; min-width: 140px; }
+      .map-info-name { font-size: 14px; }
+      .map-info-desc { font-size: 11px; margin-bottom: 6px; }
+      .map-info-badges .badge { font-size: 10px; padding: 2px 8px; }
+      .marker-panel { top: 8px; left: 8px; padding: 8px; min-width: 120px; max-height: calc(100% - 80px); overflow-y: auto; }
+      .map-tools { top: 8px; right: 8px; }
+      .throw-panel { right: 48px; top: 8px; }
+      .coord-display { bottom: 4px; left: 8px; font-size: 10px; }
+    }
+  </style>
+
+  <LeafletMap client:load labels={labels} />
+</Base>

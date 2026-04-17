@@ -4,6 +4,11 @@ import ThemeToggle from '../islands/ThemeToggle.tsx';
 
 const lang = Astro.currentLocale ?? 'zh';
 const localePath = (path: string) => lang === 'zh' ? path : `/${lang}${path}`;
+
+// Get current page path without locale prefix for language switcher
+const rawPath = Astro.url.pathname;
+const pagePath = rawPath.replace(/^\/(en|ko)/, '') || '/';
+const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${pagePath}`;
 ---
 
 <header transition:persist>
@@ -41,9 +46,9 @@ const localePath = (path: string) => lang === 'zh' ? path : `/${lang}${path}`;
   <div class="nav-right">
     <ThemeToggle client:load />
     <div class="lang-switcher">
-      <a href="/" class:list={[{ active: lang === 'zh' }]}>中</a>
-      <a href="/en/" class:list={[{ active: lang === 'en' }]}>EN</a>
-      <a href="/ko/" class:list={[{ active: lang === 'ko' }]}>한</a>
+      <a href={langPath('zh')} class:list={[{ active: lang === 'zh' }]}>中</a>
+      <a href={langPath('en')} class:list={[{ active: lang === 'en' }]}>EN</a>
+      <a href={langPath('ko')} class:list={[{ active: lang === 'ko' }]}>한</a>
     </div>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
