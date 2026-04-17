@@ -105,5 +105,16 @@
 
   "loading": "加载中...",
   "playerNotFound": "未找到该玩家，请检查名称后重试。",
-  "copied": "✓ 已复制"
+  "copied": "✓ 已复制",
+
+  "weaponsTitle": "武器数据库 - KEY GENE",
+  "weaponsDesc": "PUBG武器数据库：伤害、射速、TTK、后坐力数据。",
+  "weaponsTag": "武器数据库",
+  "weaponsHeroTitle": "武器<span style=\"color:var(--color-red)\">数据库</span>",
+  "weaponsHeroSub": "浏览所有 PUBG 武器，对比伤害、TTK 和后坐力。",
+  "weaponsAll": "全部",
+  "weaponsSearch": "搜索武器...",
+  "weaponsSortDmg": "伤害",
+  "weaponsSortRof": "射速",
+  "weaponsSortRng": "弹速"
 }

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import WeaponFilter from '../islands/WeaponFilter.tsx';
+import { t } from '../i18n/utils';
+import fs from 'node:fs';
+
+const lang = Astro.currentLocale ?? 'zh';
+
+const raw = fs.readFileSync(new URL('../../assert/data/weapons.json', import.meta.url), 'utf-8');
+const weaponsData = JSON.parse(raw);
+
+const labels = {
+  all: t('weaponsAll', lang),
+  search: t('weaponsSearch', lang),
+  sortDmg: t('weaponsSortDmg', lang),
+  sortRof: t('weaponsSortRof', lang),
+  sortRng: t('weaponsSortRng', lang),
+};
+---
+
+<Base title={t('weaponsTitle', lang)} description={t('weaponsDesc', lang)}>
+  <section style="padding: var(--space-xl) 0 var(--space-2xl); text-align: center;">
+    <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-red); margin-bottom: 16px;">
+      <span style="width: 24px; height: 2px; background: var(--color-red); display: inline-block;"></span>
+      {t('weaponsTag', lang)}
+    </div>
+    <h1 style="font-size: var(--text-3xl); font-weight: 800; letter-spacing: -0.04em; text-transform: uppercase; line-height: 1.1; margin: 0 0 10px;">
+      <Fragment set:html={t('weaponsHeroTitle', lang)} />
+    </h1>
+    <p style="font-size: var(--text-base); color: var(--color-text-muted); margin: 0;">
+      {t('weaponsHeroSub', lang)}
+    </p>
+  </section>
+
+  <WeaponFilter client:visible data={weaponsData} lang={lang} labels={labels} />
+</Base>

@@ -105,5 +105,16 @@
 
   "loading": "로딩 중...",
   "playerNotFound": "플레이어를 찾을 수 없습니다. 이름을 확인하고 다시 시도해 주세요.",
-  "copied": "✓ 복사 완료"
+  "copied": "✓ 복사 완료",
+
+  "weaponsTitle": "무기 데이터베이스 - KEY GENE",
+  "weaponsDesc": "PUBG 무기 데이터베이스: 데미지, 연사속도, TTK, 반동 데이터.",
+  "weaponsTag": "무기 데이터베이스",
+  "weaponsHeroTitle": "무기 <span style=\"color:var(--color-red)\">데이터베이스</span>",
+  "weaponsHeroSub": "모든 PUBG 무기를 검색하고 데미지, TTK, 반동 패턴을 비교하세요.",
+  "weaponsAll": "전체",
+  "weaponsSearch": "무기 검색...",
+  "weaponsSortDmg": "데미지",
+  "weaponsSortRof": "연사속도",
+  "weaponsSortRng": "탄속"
 }

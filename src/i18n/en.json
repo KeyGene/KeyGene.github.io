@@ -105,5 +105,16 @@
 
   "loading": "Loading...",
   "playerNotFound": "Player not found. Check the name and try again.",
-  "copied": "✓ Copied"
+  "copied": "✓ Copied",
+
+  "weaponsTitle": "Weapon Database - KEY GENE",
+  "weaponsDesc": "PUBG weapon database: damage, fire rate, TTK, recoil data.",
+  "weaponsTag": "Weapon Database",
+  "weaponsHeroTitle": "WEAPON <span style=\"color:var(--color-red)\">DATABASE</span>",
+  "weaponsHeroSub": "Browse all PUBG weapons. Compare damage, TTK, and recoil patterns.",
+  "weaponsAll": "All",
+  "weaponsSearch": "Search weapons...",
+  "weaponsSortDmg": "Damage",
+  "weaponsSortRof": "Fire Rate",
+  "weaponsSortRng": "Bullet Speed"
 }
