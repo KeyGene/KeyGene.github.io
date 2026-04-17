@@ -1,3 +1,9 @@
 ---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/utils';
+const lang = Astro.currentLocale ?? 'zh';
 ---
-<html><head><title>KeyGene</title></head><body><h1>KeyGene</h1></body></html>
+<Base title={t('siteTitle', lang)}>
+  <h1>KeyGene PUBG</h1>
+  <p>Migration in progress...</p>
+</Base>
