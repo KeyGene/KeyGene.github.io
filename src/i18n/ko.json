@@ -274,5 +274,22 @@
   "statsBanTotalMatches": "총 매치",
   "statsBanRecent2w": "최근 2주",
   "statsBanChecking": "조회 중...",
-  "statsBanPlaceholder": "플레이어 이름 입력..."
+  "statsBanPlaceholder": "플레이어 이름 입력...",
+
+  "lbTitle": "랭킹 보드",
+  "lbRank": "#",
+  "lbPlayer": "플레이어",
+  "lbGames": "경기수",
+  "lbWinRate": "승률",
+  "lbKills": "킬수",
+  "lbKDA": "K/D/A",
+  "lbAvgDmg": "평균 딜량",
+  "lbLoading": "데이터 로딩 중...",
+  "lbError": "랭킹 데이터를 불러오지 못했습니다.",
+  "lbNoData": "해당 서버/시즌의 랭킹 데이터가 없습니다. 서버 또는 시즌을 변경해 보세요.",
+  "lbServer": "서버",
+  "lbSeason": "시즌",
+  "lbMode": "모드",
+  "lbSeasonLoading": "로딩 중...",
+  "lbSeasonCurrent": "(현재)"
 }

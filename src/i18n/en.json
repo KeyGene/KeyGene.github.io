@@ -274,5 +274,22 @@
   "statsBanTotalMatches": "Total Matches",
   "statsBanRecent2w": "Last 2 Weeks",
   "statsBanChecking": "Checking...",
-  "statsBanPlaceholder": "Enter player name..."
+  "statsBanPlaceholder": "Enter player name...",
+
+  "lbTitle": "Competitive Board",
+  "lbRank": "#",
+  "lbPlayer": "Player",
+  "lbGames": "Games",
+  "lbWinRate": "Win %",
+  "lbKills": "Kills",
+  "lbKDA": "K/D/A",
+  "lbAvgDmg": "Avg Dmg",
+  "lbLoading": "Loading data...",
+  "lbError": "Failed to load data.",
+  "lbNoData": "No leaderboard data available for this server/season. Try switching server or season.",
+  "lbServer": "Server",
+  "lbSeason": "Season",
+  "lbMode": "Mode",
+  "lbSeasonLoading": "Loading...",
+  "lbSeasonCurrent": "(Current)"
 }

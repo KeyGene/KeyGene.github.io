@@ -274,5 +274,22 @@
   "statsBanTotalMatches": "总场次",
   "statsBanRecent2w": "2周内",
   "statsBanChecking": "查询中...",
-  "statsBanPlaceholder": "输入玩家名..."
+  "statsBanPlaceholder": "输入玩家名...",
+
+  "lbTitle": "排行榜",
+  "lbRank": "#",
+  "lbPlayer": "玩家",
+  "lbGames": "场次",
+  "lbWinRate": "胜率",
+  "lbKills": "击杀",
+  "lbKDA": "K/D/A",
+  "lbAvgDmg": "场均伤害",
+  "lbLoading": "加载数据中...",
+  "lbError": "排行榜数据加载失败。",
+  "lbNoData": "该服务器/赛季暂无排行榜数据。请尝试切换服务器或赛季。",
+  "lbServer": "服务器",
+  "lbSeason": "赛季",
+  "lbMode": "模式",
+  "lbSeasonLoading": "加载中...",
+  "lbSeasonCurrent": "(当前)"
 }
