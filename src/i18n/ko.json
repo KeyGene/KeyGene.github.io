@@ -311,5 +311,10 @@
   "resultNemesis": "천적",
   "resultRetry": "다시 테스트",
   "resultViewAll": "모든 성격 보기 →",
-  "allTypesTitle": "전체 16가지 성격"
+  "allTypesTitle": "전체 16가지 성격",
+
+  "cmdPages": "페이지",
+  "cmdTools": "도구",
+  "cmdPlaceholder": "페이지 검색...",
+  "cmdNoResults": "결과 없음"
 }

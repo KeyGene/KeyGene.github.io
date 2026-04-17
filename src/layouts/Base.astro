@@ -2,6 +2,9 @@
 import { ViewTransitions } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Toast from '../islands/Toast.tsx';
+import CommandPalette from '../islands/CommandPalette.tsx';
+import { t } from '../i18n/utils';
 import '../styles/tokens.css';
 
 interface Props {
@@ -14,6 +17,21 @@ const { title, description, ogImage } = Astro.props;
 const lang = Astro.currentLocale ?? 'zh';
 const desc = description ?? '';
 const og = ogImage ?? 'https://keygene.top/assert/images/hero-bg.jpg';
+
+const cmdItems = [
+  { id: 'stats', title: t('navStatsLookup', lang), section: t('cmdPages', lang), href: '/stats/' },
+  { id: 'maps', title: t('navMapsInteractive', lang), section: t('cmdPages', lang), href: '/maps/' },
+  { id: 'quiz', title: t('navQuiz', lang), section: t('cmdPages', lang), href: '/quiz/' },
+  { id: 'lb', title: t('navLeaderboard', lang), section: t('cmdPages', lang), href: '/leaderboard/' },
+  { id: 'sens', title: t('navSensitivity', lang), section: t('cmdTools', lang), href: '/sensitivity/' },
+  { id: 'weapons', title: t('navWeapons', lang), section: t('cmdTools', lang), href: '/weapons/' },
+  { id: 'team', title: t('navTeam', lang), section: t('cmdTools', lang), href: '/team/' },
+  { id: 'flight', title: t('navFlight', lang), section: t('cmdTools', lang), href: '/flight/' },
+];
+const cmdLabels = {
+  cmdPlaceholder: t('cmdPlaceholder', lang),
+  cmdNoResults: t('cmdNoResults', lang),
+};
 ---
 
 <!DOCTYPE html>
@@ -40,12 +58,65 @@ const og = ogImage ?? 'https://keygene.top/assert/images/hero-bg.jpg';
       if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
     })();
   </script>
+  <style>
+    .skip-nav {
+      position: absolute;
+      top: -100%;
+      left: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: var(--radius-md);
+      z-index: 999;
+      font-size: var(--text-sm);
+      text-decoration: none;
+    }
+    .skip-nav:focus { top: var(--space-md); }
+
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toast-progress {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+  </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-nav">Skip to content</a>
   <Nav />
-  <main transition:animate="fade" style={`min-height: calc(100vh - 160px); padding-top: var(--header-height);`}>
+  <main id="main-content" transition:animate="fade" style={`min-height: calc(100vh - 160px); padding-top: var(--header-height);`}>
     <slot />
   </main>
   <Footer />
+  <Toast client:load />
+  <CommandPalette client:idle items={cmdItems} labels={cmdLabels} />
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      let gPressed = false;
+      let gTimeout: number;
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.target as HTMLElement).tagName === 'INPUT' || (e.target as HTMLElement).tagName === 'TEXTAREA') return;
+
+        if (e.key === 'g' && !e.metaKey && !e.ctrlKey) {
+          gPressed = true;
+          clearTimeout(gTimeout);
+          gTimeout = window.setTimeout(() => { gPressed = false; }, 500);
+          return;
+        }
+
+        if (gPressed) {
+          gPressed = false;
+          const routes: Record<string, string> = { s: '/stats/', m: '/maps/', q: '/quiz/', l: '/leaderboard/' };
+          if (routes[e.key]) {
+            e.preventDefault();
+            window.location.href = routes[e.key];
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>

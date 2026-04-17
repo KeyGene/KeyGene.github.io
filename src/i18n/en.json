@@ -311,5 +311,10 @@
   "resultNemesis": "Nemesis",
   "resultRetry": "Retake Quiz",
   "resultViewAll": "View all personalities →",
-  "allTypesTitle": "All 16 Personalities"
+  "allTypesTitle": "All 16 Personalities",
+
+  "cmdPages": "Pages",
+  "cmdTools": "Tools",
+  "cmdPlaceholder": "Search pages...",
+  "cmdNoResults": "No results"
 }

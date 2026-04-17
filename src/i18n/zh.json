@@ -311,5 +311,10 @@
   "resultNemesis": "天敌",
   "resultRetry": "重新测试",
   "resultViewAll": "查看全部人格 →",
-  "allTypesTitle": "全部 16 种人格"
+  "allTypesTitle": "全部 16 种人格",
+
+  "cmdPages": "页面",
+  "cmdTools": "工具",
+  "cmdPlaceholder": "搜索页面...",
+  "cmdNoResults": "无结果"
 }
