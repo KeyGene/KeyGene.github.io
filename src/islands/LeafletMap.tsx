@@ -411,9 +411,14 @@ export default function LeafletMap({ labels }: { labels: Labels }) {
 
   /* ── Init ── */
   useEffect(() => {
-    const Lf = (window as any).L;
-    if (!Lf) return;
-    L.current = Lf;
+    let cancelled = false;
+    let onResize: (() => void) | null = null;
+
+    function tryInit() {
+      if (cancelled) return;
+      const Lf = (window as any).L;
+      if (!Lf) { setTimeout(tryInit, 100); return; }
+      L.current = Lf;
 
     const pubgCRS = Lf.extend({}, Lf.CRS.EPSG4326, {
       transformation: new Lf.Transformation(1 / 360, 0.5, 1 / 180, 0.5),
@@ -451,12 +456,16 @@ export default function LeafletMap({ labels }: { labels: Labels }) {
     loadMarkers();
 
     setTimeout(() => map.invalidateSize(), 200);
-    const onResize = () => map.invalidateSize();
+    onResize = () => map.invalidateSize();
     window.addEventListener('resize', onResize);
+    } // end tryInit
+
+    tryInit();
 
     return () => {
-      window.removeEventListener('resize', onResize);
-      map.remove();
+      cancelled = true;
+      if (onResize) window.removeEventListener('resize', onResize);
+      if (leafletRef.current) leafletRef.current.remove();
     };
   }, []);
 
