@@ -1,0 +1,12 @@
+{
+  "name": "KeyGene PUBG Tools",
+  "short_name": "KeyGene",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1117",
+  "theme_color": "#EE3F2C",
+  "icons": [
+    { "src": "/assert/images/helmet-red.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assert/images/helmet-red.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
