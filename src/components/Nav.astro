@@ -1,0 +1,263 @@
+---
+import { t } from '../i18n/utils';
+import ThemeToggle from '../islands/ThemeToggle.tsx';
+
+const lang = Astro.currentLocale ?? 'zh';
+const localePath = (path: string) => lang === 'zh' ? path : `/${lang}${path}`;
+---
+
+<header transition:persist>
+  <a href={localePath('/')} class="logo" transition:name="logo">
+    <img src="/assert/images/helmet-red.png" alt="KEY GENE" width="40" height="40" />
+    <span class="logo-text">Key<span class="accent">Gene</span></span>
+  </a>
+
+  <nav>
+    <div class="nav-dropdown">
+      <a href={localePath('/stats/')} class="nav-link">{t('navStats', lang)}</a>
+      <div class="dropdown-menu">
+        <a href={localePath('/stats/')}>{t('navStatsLookup', lang)}</a>
+        <a href={localePath('/leaderboard/')}>{t('navLeaderboard', lang)}</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <a href={localePath('/maps/')} class="nav-link">{t('navMaps', lang)}</a>
+      <div class="dropdown-menu">
+        <a href={localePath('/maps/')}>{t('navMapsInteractive', lang)}</a>
+        <a href={localePath('/flight/')}>{t('navFlight', lang)}</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <a href={localePath('/sensitivity/')} class="nav-link">{t('navTools', lang)}</a>
+      <div class="dropdown-menu">
+        <a href={localePath('/sensitivity/')}>{t('navSensitivity', lang)}</a>
+        <a href={localePath('/weapons/')}>{t('navWeapons', lang)}</a>
+        <a href={localePath('/team/')}>{t('navTeam', lang)}</a>
+      </div>
+    </div>
+    <a href={localePath('/quiz/')} class="nav-link">{t('navQuiz', lang)}</a>
+  </nav>
+
+  <div class="nav-right">
+    <ThemeToggle client:load />
+    <div class="lang-switcher">
+      <a href="/" class:list={[{ active: lang === 'zh' }]}>中</a>
+      <a href="/en/" class:list={[{ active: lang === 'en' }]}>EN</a>
+      <a href="/ko/" class:list={[{ active: lang === 'ko' }]}>한</a>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile Nav Overlay -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" id="mobileNavClose">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+  <div class="mobile-group">
+    <span class="mobile-group-label">{t('navStats', lang)}</span>
+    <div class="mobile-sub">
+      <a href={localePath('/stats/')}>{t('navStatsLookup', lang)}</a>
+      <a href={localePath('/leaderboard/')}>{t('navLeaderboard', lang)}</a>
+    </div>
+  </div>
+  <div class="mobile-group">
+    <span class="mobile-group-label">{t('navMaps', lang)}</span>
+    <div class="mobile-sub">
+      <a href={localePath('/maps/')}>{t('navMapsInteractive', lang)}</a>
+      <a href={localePath('/flight/')}>{t('navFlight', lang)}</a>
+    </div>
+  </div>
+  <div class="mobile-group">
+    <span class="mobile-group-label">{t('navTools', lang)}</span>
+    <div class="mobile-sub">
+      <a href={localePath('/sensitivity/')}>{t('navSensitivity', lang)}</a>
+      <a href={localePath('/weapons/')}>{t('navWeapons', lang)}</a>
+      <a href={localePath('/team/')}>{t('navTeam', lang)}</a>
+    </div>
+  </div>
+  <a href={localePath('/quiz/')} class="mobile-direct">{t('navQuiz', lang)}</a>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileClose = document.getElementById('mobileNavClose');
+
+    function openNav() { mobileNav?.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeNav() { mobileNav?.classList.remove('open'); document.body.style.overflow = ''; }
+
+    hamburger?.addEventListener('click', openNav);
+    mobileClose?.addEventListener('click', closeNav);
+    mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+  });
+</script>
+
+<style>
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-xl);
+    background: var(--color-card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-card-border);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  .logo img { object-fit: contain; }
+  .logo-text { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.02em; }
+  .logo-text .accent { color: var(--color-red); }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .nav-link {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast);
+    text-decoration: none;
+  }
+  .nav-link:hover { color: var(--color-text); background: var(--color-surface-hover); }
+
+  .nav-dropdown { position: relative; }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 170px;
+    padding: var(--space-xs) 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    z-index: 100;
+  }
+  .nav-dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+  .dropdown-menu a:hover { background: var(--color-surface-hover); color: var(--color-text); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .lang-switcher {
+    display: flex;
+    gap: 2px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .lang-switcher a {
+    padding: 4px 8px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+  .lang-switcher a:hover { background: var(--color-surface-hover); color: var(--color-text); }
+  .lang-switcher a.active { background: var(--color-red); color: #fff; }
+
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    padding: var(--space-xs);
+  }
+
+  /* Mobile nav overlay */
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: var(--color-bg);
+    padding: var(--space-2xl) var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+  }
+  .mobile-nav.open { transform: translateX(0); }
+
+  .mobile-nav-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    background: none;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .mobile-group-label {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+  .mobile-sub { display: flex; flex-direction: column; gap: var(--space-xs); }
+  .mobile-sub a,
+  .mobile-direct {
+    font-size: var(--text-lg);
+    color: var(--color-text);
+    text-decoration: none;
+    padding: var(--space-xs) 0;
+  }
+  .mobile-sub a:hover,
+  .mobile-direct:hover { color: var(--color-red); }
+
+  @media (max-width: 768px) {
+    header {
+      height: var(--header-height-mobile);
+      padding: 0 var(--space-md);
+    }
+    nav { display: none; }
+    .lang-switcher { display: none; }
+    .hamburger { display: block; }
+  }
+</style>
