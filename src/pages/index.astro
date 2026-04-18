@@ -429,5 +429,11 @@ const lang = Astro.currentLocale ?? 'zh';
     .stats-result-grid { grid-template-columns: repeat(2, 1fr); }
     .join-section { padding: 60px 24px; }
     .join-actions { flex-direction: column; align-items: center; }
+    .clan-info { gap: var(--space-md); }
+    .stat-card { min-width: 0; padding: 14px 10px; }
+  }
+  @media (max-width: 480px) {
+    .roster-grid { grid-template-columns: 1fr; }
+    section { padding: 48px 16px; }
   }
 </style>

@@ -216,8 +216,8 @@ export default function LeaderboardTable({ labels, lang }: Props) {
             <thead>
               <tr>
                 <th>{labels.rank}</th>
-                <th>{labels.player}</th>
-                <th>{labels.games}</th>
+                <th class="col-player">{labels.player}</th>
+                <th class="col-games">{labels.games}</th>
                 <th>{labels.winRate}</th>
                 <th>{labels.kills}</th>
                 <th>{labels.kda}</th>
@@ -236,10 +236,10 @@ export default function LeaderboardTable({ labels, lang }: Props) {
                 return (
                   <tr key={p.id} class={rank <= 3 ? `rank-${rank}` : ''}>
                     <td><span class="rank-num">{rank}</span></td>
-                    <td class="player-name-cell">
+                    <td class="player-name-cell col-player">
                       <a href={statsUrl(p.id)}>{p.id || '--'}</a>
                     </td>
-                    <td>{s.games ?? '--'}</td>
+                    <td class="col-games">{s.games ?? '--'}</td>
                     <td>{winRate}</td>
                     <td>{s.kills ?? '--'}</td>
                     <td>{kda}</td>

@@ -284,13 +284,13 @@ export default function TeamBuilder({ labels }: Props) {
             />
           ))}
         </div>
-        <div style="margin-top:10px;display:flex;gap:10px">
-          <div style="position:relative;flex:none">
+        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+          <div style="position:relative;flex:1 1 120px;min-width:120px">
             <label style="position:absolute;top:-18px;left:2px;font-size:11px;color:var(--color-text-muted);font-weight:600;letter-spacing:0.05em;text-transform:uppercase">{labels.server}</label>
             <select
               value={shard}
               onChange={(e) => setShard((e.target as HTMLSelectElement).value)}
-              style="padding:12px 16px;background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-sans);font-size:14px;outline:none;cursor:pointer;appearance:auto"
+              style="width:100%;padding:12px 16px;background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-sans);font-size:14px;outline:none;cursor:pointer;appearance:auto"
             >
               {SHARD_OPTIONS.map(s => (
                 <option key={s} value={s}>{s.toUpperCase()}</option>
@@ -301,7 +301,7 @@ export default function TeamBuilder({ labels }: Props) {
             class="btn-clip btn-red"
             onClick={() => handleAnalyze()}
             disabled={loading || names.filter(Boolean).length < 2}
-            style={{flex:1,opacity:loading?0.5:1,cursor:loading||names.filter(Boolean).length<2?'not-allowed':'pointer'}}
+            style={{flex:'1 1 200px',minWidth:'160px',opacity:loading?0.5:1,cursor:loading||names.filter(Boolean).length<2?'not-allowed':'pointer'}}
           >
             {labels.analyze}
           </button>

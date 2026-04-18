@@ -176,4 +176,11 @@ const labels = {
     :global(.lb-table td) { padding: 10px; font-size: 12px; }
     :global(.col-avgdmg) { display: none; }
   }
+  @media (max-width: 480px) {
+    .lb-container { padding: 0 12px; }
+    :global(.col-games) { display: none; }
+    :global(.lb-table th),
+    :global(.lb-table td) { padding: 8px 6px; font-size: 11px; }
+    :global(.col-player) { max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  }
 </style>
