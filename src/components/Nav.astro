@@ -178,9 +178,10 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: calc(100% + 4px);
+    top: 100%;
     left: 0;
     min-width: 160px;
+    margin-top: 4px;
     padding: 6px 0;
     background: var(--header-bg);
     backdrop-filter: blur(20px);
@@ -190,7 +191,16 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     z-index: 150;
   }
-  .nav-dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+  .nav-dropdown:hover .dropdown-menu,
+  .nav-dropdown:focus-within .dropdown-menu { display: block; }
   .dropdown-menu a {
     display: block;
     padding: 10px 20px;
