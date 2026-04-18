@@ -16,6 +16,8 @@ export default function WeaponsTab({ player, labels, matchCache, telemetryCache 
   const killChartRef = useRef<HTMLCanvasElement>(null);
   const dmgChartRef = useRef<HTMLCanvasElement>(null);
   const chartsCreated = useRef(false);
+  const killInst = useRef<any>(null);
+  const dmgInst = useRef<any>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -94,15 +96,17 @@ export default function WeaponsTab({ player, labels, matchCache, telemetryCache 
       }
     };
 
+    if (killInst.current) { try { killInst.current.destroy(); } catch {} killInst.current = null; }
+    if (dmgInst.current) { try { dmgInst.current.destroy(); } catch {} dmgInst.current = null; }
     if (killChartRef.current) {
-      new Chart(killChartRef.current, {
+      killInst.current = new Chart(killChartRef.current, {
         type: 'bar',
         data: { labels: lbls, datasets: [{ data: killData, backgroundColor: '#EE3F2C', borderRadius: 4 }] },
         options: chartOpts
       });
     }
     if (dmgChartRef.current) {
-      new Chart(dmgChartRef.current, {
+      dmgInst.current = new Chart(dmgChartRef.current, {
         type: 'bar',
         data: { labels: lbls, datasets: [{ data: dmgData, backgroundColor: '#ff6b4a', borderRadius: 4 }] },
         options: chartOpts
@@ -110,6 +114,13 @@ export default function WeaponsTab({ player, labels, matchCache, telemetryCache 
     }
     chartsCreated.current = true;
   }, [weaponStats]);
+
+  useEffect(() => {
+    return () => {
+      if (killInst.current) { try { killInst.current.destroy(); } catch {} killInst.current = null; }
+      if (dmgInst.current) { try { dmgInst.current.destroy(); } catch {} dmgInst.current = null; }
+    };
+  }, []);
 
   if (loading) return <div class="loading-msg">{labels.loadingWeapons}</div>;
   if (noData) return <div class="empty-msg">{labels.noWeapons}</div>;

@@ -140,13 +140,14 @@ export function timeAgo(dateStr: string, labels: Labels): string {
   return Math.floor(diff / 86400) + (labels.ago_d || 'd ago');
 }
 
-// Rate-limited fetch queue
-const fetchQueue: { url: string; resolve: (r: Response) => void; reject: (e: any) => void }[] = [];
+// Rate-limited fetch queue with max retries
+const MAX_429_RETRIES = 3;
+const fetchQueue: { url: string; resolve: (r: Response) => void; reject: (e: any) => void; retries: number }[] = [];
 let fetching = false;
 
 export function queueFetch(url: string): Promise<Response> {
   return new Promise((resolve, reject) => {
-    fetchQueue.push({ url, resolve, reject });
+    fetchQueue.push({ url, resolve, reject, retries: 0 });
     processQueue();
   });
 }
@@ -154,16 +155,18 @@ export function queueFetch(url: string): Promise<Response> {
 async function processQueue() {
   if (fetching || fetchQueue.length === 0) return;
   fetching = true;
-  const { url, resolve, reject } = fetchQueue.shift()!;
+  const item = fetchQueue.shift()!;
   try {
-    const r = await fetch(url, { headers: HEADERS });
-    if (r.status === 429) {
-      fetchQueue.unshift({ url, resolve, reject });
-      await new Promise(r => setTimeout(r, 6500));
+    const r = await fetch(item.url, { headers: HEADERS });
+    if (r.status === 429 && item.retries < MAX_429_RETRIES) {
+      item.retries++;
+      fetchQueue.unshift(item);
+      await new Promise(res => setTimeout(res, 6500));
     } else {
-      resolve(r);
+      // Resolve even on 429 after max retries — caller can check r.ok
+      item.resolve(r);
     }
-  } catch (e) { reject(e); }
+  } catch (e) { item.reject(e); }
   fetching = false;
   if (fetchQueue.length > 0) setTimeout(processQueue, 350);
 }

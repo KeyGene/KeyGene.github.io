@@ -13,6 +13,7 @@ export default function MapStatsTab({ player, labels, matchCache }: Props) {
   const [loading, setLoading] = useState(true);
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartCreated = useRef(false);
+  const chartInst = useRef<any>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -58,8 +59,9 @@ export default function MapStatsTab({ player, labels, matchCache }: Props) {
     const Chart = (window as any).Chart;
     if (!Chart || !chartRef.current) return;
 
+    if (chartInst.current) { try { chartInst.current.destroy(); } catch {} chartInst.current = null; }
     const colors = ['#EE3F2C','#ff6b4a','#FFD700','#10B981','#3b82f6','#8b5cf6','#f59e0b','#ec4899'];
-    new Chart(chartRef.current, {
+    chartInst.current = new Chart(chartRef.current, {
       type: 'doughnut',
       data: {
         labels: mapStats.map(([n]) => n),
@@ -73,6 +75,10 @@ export default function MapStatsTab({ player, labels, matchCache }: Props) {
     });
     chartCreated.current = true;
   }, [mapStats]);
+
+  useEffect(() => () => {
+    if (chartInst.current) { try { chartInst.current.destroy(); } catch {} chartInst.current = null; }
+  }, []);
 
   if (loading) return <div class="loading-msg">{labels.loadingMaps}</div>;
   if (!mapStats || mapStats.length === 0) return <div class="empty-msg">{labels.noMatches}</div>;

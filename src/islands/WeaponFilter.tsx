@@ -122,11 +122,17 @@ export default function WeaponFilter({ data, lang, labels }: Props) {
       }
       return;
     }
-    setTimeout(() => {
+    const t = setTimeout(() => {
       compareRef.current?.scrollIntoView({ behavior: 'smooth' });
       renderRadarChart();
     }, 50);
+    return () => clearTimeout(t);
   }, [compareList]);
+
+  // Cleanup chart on unmount
+  useEffect(() => () => {
+    if (chartInstanceRef.current) { try { chartInstanceRef.current.destroy(); } catch {} chartInstanceRef.current = null; }
+  }, []);
 
   function drawRecoil(pattern: number[][]) {
     const canvas = document.getElementById('recoilCanvas') as HTMLCanvasElement | null;
