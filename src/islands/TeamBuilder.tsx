@@ -126,12 +126,15 @@ function assignRoles(players: PlayerData[], roles: RoleDef[]): RoleAssignment[] 
 
 async function fetchPlayer(name: string, shard: string): Promise<PlayerData> {
   const r1 = await fetch(`${PUBG_PROXY}/shards/${shard}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
-  if (!r1.ok) throw new Error('Player not found: ' + name);
+  if (!r1.ok) throw new Error(name);
   const data = await r1.json();
+  if (!data?.data?.[0]?.id) throw new Error(name);
   const pid = data.data[0].id;
   const r2 = await fetch(`${PUBG_PROXY}/shards/${shard}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
+  if (!r2.ok) throw new Error(name);
   const sData = await r2.json();
-  const s = sData.data.attributes.gameModeStats.squad;
+  const s = sData?.data?.attributes?.gameModeStats?.squad;
+  if (!s) throw new Error(name);
   return { name, id: pid, stats: s };
 }
 
@@ -170,18 +173,31 @@ export default function TeamBuilder({ labels }: Props) {
   }
 
   async function handleAnalyze(overrideNames?: string[]) {
-    const n = (overrideNames || names).filter(Boolean);
-    if (n.length < 2) return;
+    if (loading) return;
+    const raw = (overrideNames || names).map(s => s.trim()).filter(Boolean);
+    const n = [...new Set(raw)];
+    if (n.length < 2) {
+      setError(labels.needTwoPlayers || 'Need at least 2 unique players');
+      return;
+    }
     setLoading(true);
     setError('');
     setPlayers(null);
-    try {
-      const result = await Promise.all(n.map(name => fetchPlayer(name, shard)));
-      setPlayers(result);
-      renderRadar(result);
-    } catch (e: any) {
-      setError(e.message);
+    const settled = await Promise.allSettled(n.map(name => fetchPlayer(name, shard)));
+    const ok = settled.filter(r => r.status === 'fulfilled').map((r: any) => r.value);
+    const failed = settled
+      .map((r, i) => r.status === 'rejected' ? n[i] : null)
+      .filter(Boolean);
+    if (ok.length < 2) {
+      setError(`${labels.playerNotFound || 'Not found'}: ${failed.join(', ')}`);
+      setLoading(false);
+      return;
     }
+    if (failed.length > 0) {
+      showToast(`${labels.playerNotFound || 'Skipped'}: ${failed.join(', ')}`);
+    }
+    setPlayers(ok);
+    renderRadar(ok);
     setLoading(false);
   }
 

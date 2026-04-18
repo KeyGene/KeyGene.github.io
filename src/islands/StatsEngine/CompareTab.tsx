@@ -17,27 +17,36 @@ export default function CompareTab({ player, labels }: Props) {
   const chartInstance = useRef<any>(null);
 
   const doCompare = async () => {
+    if (loading) return;
     const name2 = input.trim();
     if (!name2) return;
+    if (name2.toLowerCase() === player.name.toLowerCase()) {
+      setError(true); setMetrics(null); return;
+    }
     setLoading(true); setError(false); setMetrics(null);
 
     try {
       const r1 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name2)}`, { headers: HEADERS });
       if (!r1.ok) throw new Error();
-      const pid2 = (await r1.json()).data[0].id;
+      const d1 = await r1.json();
+      if (!d1?.data?.[0]?.id) throw new Error('not-found');
+      const pid2 = d1.data[0].id;
       const r2 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid2}/seasons/lifetime`, { headers: HEADERS });
-      const s2 = (await r2.json()).data.attributes.gameModeStats.squad;
+      if (!r2.ok) throw new Error();
+      const s2 = (await r2.json())?.data?.attributes?.gameModeStats?.squad;
+      if (!s2) throw new Error('no-stats');
 
       const s1 = player.stats;
       setPlayer2Name(name2);
 
+      const safeMax = (v: number) => v > 0 ? v : 1;
       const m = [
         { key: 'kd', label: labels.kd, v1: s1.losses > 0 ? s1.kills/s1.losses : 0, v2: s2.losses > 0 ? s2.kills/s2.losses : 0, fmt: (v: number) => v.toFixed(2), max: 10 },
         { key: 'wr', label: labels.winRate, v1: s1.roundsPlayed > 0 ? s1.wins/s1.roundsPlayed*100 : 0, v2: s2.roundsPlayed > 0 ? s2.wins/s2.roundsPlayed*100 : 0, fmt: (v: number) => v.toFixed(1) + '%', max: 100 },
-        { key: 'matches', label: labels.matches, v1: s1.roundsPlayed, v2: s2.roundsPlayed, fmt: (v: number) => v.toLocaleString(), max: Math.max(s1.roundsPlayed, s2.roundsPlayed) * 1.1 },
-        { key: 'kills', label: labels.kills, v1: s1.kills, v2: s2.kills, fmt: (v: number) => v.toLocaleString(), max: Math.max(s1.kills, s2.kills) * 1.1 },
+        { key: 'matches', label: labels.matches, v1: s1.roundsPlayed, v2: s2.roundsPlayed, fmt: (v: number) => v.toLocaleString(), max: safeMax(Math.max(s1.roundsPlayed, s2.roundsPlayed) * 1.1) },
+        { key: 'kills', label: labels.kills, v1: s1.kills, v2: s2.kills, fmt: (v: number) => v.toLocaleString(), max: safeMax(Math.max(s1.kills, s2.kills) * 1.1) },
         { key: 't10', label: labels.top10Rate, v1: s1.roundsPlayed > 0 ? s1.top10s/s1.roundsPlayed*100 : 0, v2: s2.roundsPlayed > 0 ? s2.top10s/s2.roundsPlayed*100 : 0, fmt: (v: number) => v.toFixed(1) + '%', max: 100 },
-        { key: 'lk', label: labels.longestKill, v1: s1.longestKill || 0, v2: s2.longestKill || 0, fmt: (v: number) => v.toFixed(0) + 'm', max: Math.max(s1.longestKill||0, s2.longestKill||0) * 1.1 || 1 },
+        { key: 'lk', label: labels.longestKill, v1: s1.longestKill || 0, v2: s2.longestKill || 0, fmt: (v: number) => v.toFixed(0) + 'm', max: safeMax(Math.max(s1.longestKill||0, s2.longestKill||0) * 1.1) },
       ];
       setMetrics(m);
       setLoading(false);
@@ -98,7 +107,7 @@ export default function CompareTab({ player, labels }: Props) {
           placeholder={labels.enterPlayer2}
           aria-label={labels.enterPlayer2}
         />
-        <button class="search-btn" onClick={doCompare}>{labels.compareBtn}</button>
+        <button class="search-btn" onClick={doCompare} disabled={loading}>{labels.compareBtn}</button>
       </div>
 
       {loading && <div class="loading-msg">{labels.loading}</div>}

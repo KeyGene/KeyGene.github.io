@@ -47,15 +47,31 @@ export default function BanCheckTab({ player, labels }: Props) {
 
     try {
       const r = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
-      if (!r.ok) {
-        setResult({ status: 'banned', statusClass: 'banned', statusText: labels.banLikelyBanned, level: '--', totalMatches: 0, recent2w: 0 });
+      if (r.status === 404) {
+        setResult({ status: 'banned', statusClass: 'banned', statusText: labels.banLikelyBanned + ' \u26A0\uFE0F', level: '--', totalMatches: 0, recent2w: 0 });
         addToHistory(name, 'banned');
         setLoading(false);
         return;
       }
+      if (r.status === 429 || r.status >= 500) {
+        setResult({ status: 'unknown', statusClass: 'unknown', statusText: labels.banUncertain + ' \u2753', level: '--', totalMatches: 0, recent2w: 0 });
+        setLoading(false);
+        return;
+      }
+      if (!r.ok) {
+        setResult({ status: 'unknown', statusClass: 'unknown', statusText: labels.banUncertain + ' \u2753', level: '--', totalMatches: 0, recent2w: 0 });
+        setLoading(false);
+        return;
+      }
       const data = await r.json();
+      if (!data.data || !data.data[0]) {
+        setResult({ status: 'banned', statusClass: 'banned', statusText: labels.banLikelyBanned + ' \u26A0\uFE0F', level: '--', totalMatches: 0, recent2w: 0 });
+        addToHistory(name, 'banned');
+        setLoading(false);
+        return;
+      }
       const pid = data.data[0].id;
-      const matchIds = (data.data[0].relationships.matches.data || []).map((m: any) => m.id);
+      const matchIds = (data.data[0].relationships?.matches?.data || []).map((m: any) => m.id);
 
       const sr = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
       const sData = await sr.json();
@@ -106,7 +122,12 @@ export default function BanCheckTab({ player, labels }: Props) {
     }
   };
 
-  // Auto-check when player is set
+  // Auto-check when player is set; reset on player change so new searches re-trigger
+  useEffect(() => {
+    if (player) {
+      autoChecked.current = false;
+    }
+  }, [player?.id]);
   useEffect(() => {
     if (player && !autoChecked.current) {
       autoChecked.current = true;

@@ -36,6 +36,7 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
   const telemetryCache = useRef<Record<string, any>>({});
 
   const doSearch = async (name?: string) => {
+    if (loading) return;
     const query = (name || searchInput).trim();
     if (!query) return;
     setSearchInput(query);
@@ -50,13 +51,16 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
       if (r.status === 429) { setError('rate'); setLoading(false); return; }
       if (!r.ok) throw new Error('not found');
       const data = await r.json();
+      if (!data?.data?.[0]) throw new Error('not found');
       const p = data.data[0];
       const pid = p.id;
-      const matchIds = (p.relationships.matches.data || []).map((m: any) => m.id);
+      const matchIds = (p.relationships?.matches?.data || []).map((m: any) => m.id);
 
       const sr = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
+      if (!sr.ok) throw new Error('season failed');
       const sData = await sr.json();
-      const stats = sData.data.attributes.gameModeStats.squad;
+      const stats = sData?.data?.attributes?.gameModeStats?.squad;
+      if (!stats) throw new Error('no squad stats');
 
       let rankedTier = null;
       try {
@@ -86,6 +90,12 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
 
   useEffect(() => {
     if (initialPlayer) doSearch(initialPlayer);
+    const onPop = () => {
+      const p = new URLSearchParams(window.location.search).get('player');
+      if (p && p !== searchInput) doSearch(p);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
   }, []);
 
   const renderTab = () => {
@@ -120,7 +130,7 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
             onInput={e => setSearchInput((e.target as HTMLInputElement).value)}
             onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
           />
-          <button class="search-btn" onClick={() => doSearch()}>{labels.searchBtn}</button>
+          <button class="search-btn" onClick={() => doSearch()} disabled={loading}>{labels.searchBtn}</button>
         </div>
       </div>
 
