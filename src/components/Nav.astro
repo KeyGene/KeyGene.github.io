@@ -12,7 +12,7 @@ const pagePath = rawPath.replace(/^\/(en|ko)/, '') || '/';
 const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${pagePath}`;
 ---
 
-<header transition:persist>
+<header>
   <a href={localePath('/')} class="logo" transition:name="logo">
     <img src="/assert/images/helmet-red.png" alt="KEY GENE" width="40" height="40" />
     <span class="logo-text">Key<span class="accent">Gene</span></span>
