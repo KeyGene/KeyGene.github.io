@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import { t } from '../../i18n/utils';
+const lang = Astro.currentLocale ?? 'zh';
+const homeHref = lang === 'zh' ? '/' : `/${lang}/`;
+---
+
+<Base title="404">
+  <div class="not-found">
+    <h1>404</h1>
+    <p>{t('notFoundMsg', lang)}</p>
+    <a href={homeHref} class="btn-clip btn-red">{t('backHome', lang)}</a>
+  </div>
+</Base>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding: 120px var(--space-lg);
+  }
+  .not-found h1 {
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--color-red);
+  }
+  .not-found p {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin: var(--space-md) 0 var(--space-xl);
+  }
+  @media (max-width: 768px) {
+    .not-found { padding: 80px var(--space-md); }
+    .not-found h1 { font-size: 4rem; }
+  }
+</style>
