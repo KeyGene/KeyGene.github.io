@@ -388,10 +388,18 @@ const labels: Record<string, string> = {
   .ban-history-item {
     display: flex; align-items: center; justify-content: space-between;
     padding: 8px 12px; background: rgba(255,255,255,0.04); border-radius: 6px;
-    font-size: 13px; color: var(--color-text-muted); cursor: pointer; transition: background 0.2s;
+    font-size: 13px; color: var(--color-text-muted); transition: background 0.2s;
   }
   .ban-history-item:hover { background: rgba(255,255,255,0.08); }
-  .ban-history-remove { color: var(--color-gray-500); font-size: 16px; cursor: pointer; }
+  .ban-history-name-btn {
+    background: none; border: none; color: var(--color-text-muted); font: inherit;
+    cursor: pointer; padding: 0; text-align: left; flex: 1;
+  }
+  .ban-history-name-btn:hover { color: var(--color-text); }
+  .ban-history-remove {
+    background: none; border: none; color: var(--color-gray-500);
+    font-size: 16px; cursor: pointer; padding: 0 4px; line-height: 1;
+  }
   .ban-history-remove:hover { color: var(--color-red); }
 
   .loading-msg, .empty-msg { text-align: center; padding: 60px 20px; color: var(--color-gray-500); font-size: 14px; }

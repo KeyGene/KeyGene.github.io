@@ -454,12 +454,14 @@ export default function WeaponFilter({ data, lang, labels }: Props) {
                   fontSize: '13px', fontWeight: 600, color: 'var(--color-text)',
                 }}>
                   {w.name}
-                  <span
+                  <button
+                    type="button"
+                    aria-label={`Remove ${w.name}`}
                     onClick={() => toggleCompare(id)}
-                    style={{ cursor: 'pointer', color: 'var(--color-text-muted)', marginLeft: '4px' }}
+                    style={{ cursor: 'pointer', color: 'var(--color-text-muted)', marginLeft: '4px', background: 'none', border: 'none', padding: 0, font: 'inherit' }}
                   >
                     &times;
-                  </span>
+                  </button>
                 </span>
               ) : null;
             })}

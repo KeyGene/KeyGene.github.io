@@ -367,9 +367,9 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
         </div>
         {savedResult && (
           <div style="margin-top:16px;font-size:14px;">
-            <a onClick={showSavedResult} style="color:var(--color-red);text-decoration:underline;cursor:pointer;">
+            <button type="button" onClick={showSavedResult} style="color:var(--color-red);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font:inherit;">
               {labels.quizLastResult}
-            </a>
+            </button>
           </div>
         )}
       </div>
@@ -620,12 +620,13 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
             {labels.resultRetry}
           </button>
           <br />
-          <a
+          <button
+            type="button"
             onClick={() => setShowAllTypes(true)}
-            style="display:inline-block;margin-top:16px;font-size:13px;color:var(--color-text-muted);text-decoration:underline;cursor:pointer;"
+            style="display:inline-block;margin-top:16px;font-size:13px;color:var(--color-text-muted);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font:inherit;"
           >
             {labels.resultViewAll}
-          </a>
+          </button>
         </div>
 
         {/* Share card overlay */}
@@ -673,11 +674,13 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
             </div>
             <div class="quiz-types-grid" style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;">
               {Object.values(types).map((t) => (
-                <div
+                <button
                   key={t.code}
+                  type="button"
                   className="quiz-type-card"
+                  aria-label={t.nickname[lang as keyof typeof t.nickname]}
                   onClick={() => viewTypeResult(t.code)}
-                  style={`background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;`}
+                  style={`background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;font-family:inherit;color:inherit;`}
                 >
                   <div style="width:64px;height:64px;margin:0 auto 8px;">
                     <img src={t.image} alt={t.nickname[lang as keyof typeof t.nickname]} style="width:100%;height:100%;object-fit:contain;" />
@@ -686,7 +689,7 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
                   <div style="font-size:12px;color:var(--color-text-muted);margin-top:2px;">
                     {t.nickname[lang as keyof typeof t.nickname]}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>

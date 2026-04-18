@@ -171,13 +171,15 @@ export default function BanCheckTab({ player, labels }: Props) {
           <div class="ban-history-title">{labels.banHistory}</div>
           <div class="ban-history-list">
             {history.map((item, i) => (
-              <div class="ban-history-item" key={item.name + item.time} onClick={() => doBanCheck(item.name)}>
-                <span>{item.name}</span>
+              <div class="ban-history-item" key={item.name + item.time}>
+                <button type="button" class="ban-history-name-btn" aria-label={`Re-check ${item.name}`} onClick={() => doBanCheck(item.name)}>
+                  {item.name}
+                </button>
                 <span style="display:flex;align-items:center;gap:12px;">
                   <span style={`color:${item.status === 'ok' ? '#10B981' : item.status === 'banned' ? 'var(--color-red)' : '#F59E0B'};font-weight:600;font-size:12px;`}>
                     {item.status === 'ok' ? labels.banNotBanned : item.status === 'banned' ? labels.banLikelyBanned : labels.banUncertain}
                   </span>
-                  <span class="ban-history-remove" onClick={(e) => { e.stopPropagation(); removeHistory(i); }}>&times;</span>
+                  <button type="button" class="ban-history-remove" aria-label={`Remove ${item.name}`} onClick={() => removeHistory(i)}>&times;</button>
                 </span>
               </div>
             ))}
