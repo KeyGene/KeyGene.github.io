@@ -150,7 +150,7 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
           <div class="wrapped-rank">
             <div class="wrapped-rank-icon">{formatTier(player.rankedTier).icon}</div>
             <div style="font-size:16px;font-weight:800;color:#FFD700;margin-top:4px;">{formatTier(player.rankedTier).name}</div>
-            <div style="font-size:13px;color:var(--color-text-muted);margin-top:4px;">Steam \u00b7 Squad \u00b7 Lifetime</div>
+            <div style="font-size:13px;color:var(--color-text-muted);margin-top:4px;">{labels.wrappedModeTag || 'Steam \u00b7 Squad \u00b7 Lifetime'}</div>
           </div>
         </div>
 
@@ -192,7 +192,7 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
               </div>
             );
           }) : loaded ? (
-            <div style="color:var(--color-gray-500);font-size:13px;">No weapon data available</div>
+            <div style="color:var(--color-gray-500);font-size:13px;">{labels.wrappedNoWeapon || 'No weapon data available'}</div>
           ) : (
             <div class="loading-msg" style="padding:10px">{labels.loading}</div>
           )}
@@ -215,7 +215,7 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
         <div class="wrapped-card">
           <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-red);margin-bottom:16px;">{labels.wrappedTags}</div>
           <div>
-            {tags.length > 0 ? tags.map(tag => <span class="wrapped-tag" key={tag}>#{labels[tag] || tag}</span>) : <span class="wrapped-tag">#PUBG Player</span>}
+            {tags.length > 0 ? tags.map(tag => <span class="wrapped-tag" key={tag}>#{labels[tag] || tag}</span>) : <span class="wrapped-tag">#{labels.wrappedPubgTag || 'PUBG Player'}</span>}
           </div>
           <div class="wrapped-logo">KEY<span class="accent">GENE</span></div>
         </div>

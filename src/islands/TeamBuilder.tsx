@@ -407,7 +407,7 @@ export default function TeamBuilder({ labels }: Props) {
                 const el = document.querySelector('.team-results');
                 if (!el) return;
                 const html2canvas = (window as any).html2canvas;
-                if (!html2canvas) { showToast('⏳ Loading...'); return; }
+                if (!html2canvas) { showToast(labels.loading || 'Loading\u2026'); return; }
                 try {
                   const canvas = await html2canvas(el, { backgroundColor: '#000000', scale: 2 });
                   const a = document.createElement('a');

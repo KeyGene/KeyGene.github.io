@@ -337,5 +337,9 @@
   "notFoundMsg": "页面未找到",
   "backHome": "返回首页",
   "skipNav": "跳到主内容",
-  "metaKeywords": "PUBG, 绝地求生, 战队, KeyGene, 电竞, 战绩查询, 武器数据, 地图攻略, 灵敏度"
+  "metaKeywords": "PUBG, 绝地求生, 战队, KeyGene, 电竞, 战绩查询, 武器数据, 地图攻略, 灵敏度",
+  "loadingDots": "加载中…",
+  "wrappedModeTag": "Steam · Squad · 全程",
+  "wrappedNoWeapon": "暂无武器数据",
+  "wrappedPubgTag": "PUBG玩家"
 }

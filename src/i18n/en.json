@@ -337,5 +337,9 @@
   "notFoundMsg": "Page not found",
   "backHome": "Back to Home",
   "skipNav": "Skip to content",
-  "metaKeywords": "PUBG, PlayerUnknown's Battlegrounds, esports, KeyGene, team, stats, weapons, maps, sensitivity"
+  "metaKeywords": "PUBG, PlayerUnknown's Battlegrounds, esports, KeyGene, team, stats, weapons, maps, sensitivity",
+  "loadingDots": "Loading…",
+  "wrappedModeTag": "Steam · Squad · Lifetime",
+  "wrappedNoWeapon": "No weapon data available",
+  "wrappedPubgTag": "PUBG Player"
 }

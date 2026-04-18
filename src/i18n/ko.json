@@ -337,5 +337,9 @@
   "notFoundMsg": "페이지를 찾을 수 없습니다",
   "backHome": "홈으로 돌아가기",
   "skipNav": "본문으로 건너뛰기",
-  "metaKeywords": "PUBG, 배틀그라운드, 이스포츠, KeyGene, 팀, 전적, 무기, 지도, 감도"
+  "metaKeywords": "PUBG, 배틀그라운드, 이스포츠, KeyGene, 팀, 전적, 무기, 지도, 감도",
+  "loadingDots": "로딩 중…",
+  "wrappedModeTag": "Steam · Squad · 전체",
+  "wrappedNoWeapon": "무기 데이터 없음",
+  "wrappedPubgTag": "PUBG 플레이어"
 }
