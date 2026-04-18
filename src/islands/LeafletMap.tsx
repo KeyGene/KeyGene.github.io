@@ -407,6 +407,10 @@ export default function LeafletMap({ labels }: { labels: Labels }) {
     clearMeasure();
     clearThrow();
     showMarkersForCurrentMap();
+    setTimeout(() => {
+      const active = document.querySelector('.map-sidebar-item.active');
+      if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, 50);
   }, []);
 
   /* ── Init ── */
@@ -555,7 +559,7 @@ export default function LeafletMap({ labels }: { labels: Labels }) {
   const cursorStyle = (measureMode || throwMode) ? 'crosshair' : undefined;
 
   return (
-    <div class="map-viewer-wrapper" style="display:flex;height:calc(100vh - 64px);overflow:hidden;">
+    <div class="map-viewer-wrapper" style="display:flex;height:calc(100vh - var(--header-height, 72px));overflow:hidden;margin-top:var(--header-height, 72px);">
       {/* ── Sidebar ── */}
       <div class="map-sidebar">
         {MAPS.map((mp, i) => (

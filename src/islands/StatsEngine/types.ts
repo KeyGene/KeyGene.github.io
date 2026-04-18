@@ -83,8 +83,29 @@ export const WEAPON_NAMES: Record<string, string> = {
   'Item_Weapon_Crossbow_C':'Crossbow',
 };
 
+const WEAP_SHORT: Record<string, string> = {
+  'WeapHK416_C':'M416','WeapAK47_C':'AKM','WeapSCAR-L_C':'SCAR-L',
+  'WeapMini14_C':'Mini 14','WeapKar98k_C':'Kar98k','WeapSKS_C':'SKS',
+  'WeapAWM_C':'AWM','WeapM24_C':'M24','WeapUMP_C':'UMP45',
+  'WeapVector_C':'Vector','WeapGroza_C':'Groza','WeapAUG_C':'AUG',
+  'WeapQBZ95_C':'QBZ','WeapSLR_C':'SLR','WeapQBU88_C':'QBU',
+  'WeapDP28_C':'DP-28','WeapM249_C':'M249','WeapUZI_C':'Micro UZI',
+  'WeapTommy_C':'Tommy Gun','WeapWin94_C':'Win94','WeapSaiga12_C':'S12K',
+  'WeapBerreta686_C':'S686','WeapWinchester_C':'S1897','WeapVSS_C':'VSS',
+  'WeapMK14_C':'Mk14','WeapMosin_C':'Mosin','WeapM16A4_C':'M16A4',
+  'WeapMk47Mutant_C':'Mk47 Mutant','WeapBerylM762_C':'Beryl M762',
+  'WeapG36C_C':'G36C','WeapMP5K_C':'MP5K','WeapBizon_C':'Bizon',
+  'WeapMG3_C':'MG3','WeapACE32_C':'ACE32','WeapK2_C':'K2',
+  'WeapFAMAS_C':'FAMAS','WeapL6_C':'Lynx AMR','WeapP90_C':'P90','WeapMP9_C':'MP9',
+  'WeapPan_C':'Pan','WeapMachete_C':'Machete','WeapSickle_C':'Sickle','WeapCrowbar_C':'Crowbar',
+  'WeapDesert_Eagle_C':'Deagle','WeapM9_C':'P92','WeapRhino_C':'R45',
+  'WeapNagantM1895_C':'R1895','WeapSkorpion_C':'Skorpion','WeapP18C_C':'P18C',
+  'WeapG18_C':'P18C','WeapFlareGun_C':'Flare Gun','WeapCrossbow_C':'Crossbow',
+  'WeapDoubleBarrel_C':'Double Barrel',
+};
+
 export function weaponName(raw: string): string {
-  return WEAPON_NAMES[raw] || raw.replace(/^Item_Weapon_/, '').replace(/_C$/, '').replace(/_/g, ' ');
+  return WEAPON_NAMES[raw] || WEAP_SHORT[raw] || raw.replace(/^(Item_Weapon_|Weap)/, '').replace(/_C$/, '').replace(/_/g, ' ');
 }
 
 export const MAP_NAMES: Record<string, string> = {

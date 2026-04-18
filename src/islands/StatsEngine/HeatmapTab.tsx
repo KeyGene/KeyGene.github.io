@@ -46,7 +46,7 @@ export default function HeatmapTab({ player, labels, matchCache }: Props) {
   return (
     <div>
       <div class="section-label">{labels.heatmapTitle}</div>
-      <p style="color:var(--gray-500);font-size:12px;margin-bottom:16px;">{labels.heatmapDesc}</p>
+      <p style="color:var(--color-gray-500);font-size:12px;margin-bottom:16px;">{labels.heatmapDesc}</p>
       <div class="heatmap-grid">
         <div></div>
         {Array.from({ length: 24 }, (_, i) => <div class="heatmap-hour" key={i}>{i}</div>)}

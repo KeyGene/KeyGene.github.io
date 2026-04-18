@@ -16,6 +16,7 @@ const labels = {
   teamPoster: t('teamPoster', lang),
   copyLink: t('teamCopyLink', lang),
   copied: t('teamCopied', lang),
+  teamHeroSub: t('teamHeroSub', lang),
   kd: t('kdRatio', lang),
   winRate: t('winRate', lang),
   kills: t('kills', lang),
@@ -31,6 +32,7 @@ const labels = {
   roleDescSniper: t('teamRoleDescSniper', lang),
   roleDescIgl: t('teamRoleDescIgl', lang),
   roleDescSupport: t('teamRoleDescSupport', lang),
+  server: t('teamServer', lang),
 };
 ---
 
@@ -39,4 +41,22 @@ const labels = {
     <TeamBuilder client:visible labels={labels} />
   </div>
   <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <style is:global>
+    .team-player-grid { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 900px) {
+      .team-results-grid { grid-template-columns: 1fr !important; }
+      .team-player-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .team-input-grid { grid-template-columns: 1fr !important; }
+      .team-hero-title { font-size: 28px !important; }
+      .team-player-grid { grid-template-columns: repeat(2, 1fr); }
+      .team-results { padding-left: var(--space-md) !important; padding-right: var(--space-md) !important; }
+    }
+    @media (max-width: 480px) {
+      .team-player-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </Base>

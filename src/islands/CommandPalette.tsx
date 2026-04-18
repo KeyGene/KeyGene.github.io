@@ -70,6 +70,7 @@ export default function CommandPalette({ items, labels }: Props) {
         <input
           ref={inputRef}
           type="text"
+          aria-label="Search"
           value={query}
           onInput={(e) => { setQuery((e.target as HTMLInputElement).value); setSelected(0); }}
           onKeyDown={onKeyDown}

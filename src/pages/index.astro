@@ -26,7 +26,7 @@ const lang = Astro.currentLocale ?? 'zh';
           <div class="about-visual">
             <picture>
               <source srcset="/assert/images/about-team.webp" type="image/webp" />
-              <img src="/assert/images/about-team.jpg" alt="KEY GENE PUBG" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" />
+              <img src="/assert/images/about-team.jpg" alt="KEY GENE PUBG" width="600" height="450" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" />
             </picture>
           </div>
         </div>
@@ -34,7 +34,7 @@ const lang = Astro.currentLocale ?? 'zh';
     </section>
 
     <!-- ===== ROSTER ===== -->
-    <section id="roster" class="roster-section" transition:name="roster">
+    <section id="roster" class="roster-section reveal" transition:name="roster">
       <div class="section-inner">
         <div class="section-tag">{t('rosterTag', lang)}</div>
         <h2 class="section-title">{t('rosterTitle', lang)}</h2>
@@ -83,11 +83,8 @@ const lang = Astro.currentLocale ?? 'zh';
             />
             <button type="submit" class="btn-clip btn-red">{t('searchBtn', lang)}</button>
           </form>
-          <div id="playerStats"></div>
-          <div id="statsGrid" class="stats-result-grid" style="display:none;"></div>
-          <div id="copyContainer" style="text-align:center;margin-top:20px;display:none;">
-            <button id="copyBtn" class="btn-clip btn-outline" style="font-size:12px;padding:8px 18px;">{t('copyBtn', lang)}</button>
-          </div>
+
+
         </div>
       </div>
     </section>
@@ -206,6 +203,7 @@ const lang = Astro.currentLocale ?? 'zh';
 
         var grid = document.getElementById('rosterGrid');
         if (cards.length > 0) { grid.innerHTML = cards.join(''); membersOk = true; }
+        if (!clanOk) { document.getElementById('clanInfo').style.display = 'none'; }
         if (clanOk || membersOk) { rosterSection.style.display = ''; }
         else { setTimeout(loadClanData, 8000); }
       }
@@ -359,7 +357,7 @@ const lang = Astro.currentLocale ?? 'zh';
   .stats-input {
     flex: 1;
     padding: 14px 20px;
-    background: var(--color-bg);
+    background: var(--color-card-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     color: var(--color-text);

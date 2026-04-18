@@ -18,11 +18,16 @@ export default function OverviewTab({ player, labels }: Props) {
   const exportImage = async () => {
     const el = document.getElementById('overviewCapture');
     if (!el || !(window as any).html2canvas) return;
-    const canvas = await (window as any).html2canvas(el, { backgroundColor: '#000000', scale: 2 });
+    const canvas = await (window as any).html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2 });
     const link = document.createElement('a');
     link.download = `${player.name}-stats.png`;
     link.href = canvas.toDataURL();
     link.click();
+    const toast = document.createElement('div');
+    toast.textContent = '\u2705 Exported!';
+    toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;z-index:9999;';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
   };
 
   return (
@@ -41,7 +46,7 @@ export default function OverviewTab({ player, labels }: Props) {
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-card-value" style="color:var(--red)">{kd}</div><div class="stat-card-label">{labels.kd}</div></div>
+        <div class="stat-card"><div class="stat-card-value" style="color:var(--color-red)">{kd}</div><div class="stat-card-label">{labels.kd}</div></div>
         <div class="stat-card"><div class="stat-card-value" style="color:#10B981">{wr}%</div><div class="stat-card-label">{labels.winRate}</div></div>
         <div class="stat-card"><div class="stat-card-value">{s.roundsPlayed.toLocaleString()}</div><div class="stat-card-label">{labels.matches}</div></div>
         <div class="stat-card"><div class="stat-card-value">{s.kills.toLocaleString()}</div><div class="stat-card-label">{labels.kills}</div></div>
@@ -57,7 +62,7 @@ export default function OverviewTab({ player, labels }: Props) {
       </div>
 
       <div class="export-bar">
-        <button class="export-btn" onClick={exportImage}>{labels.exportImage}</button>
+        <button class="export-btn" onClick={exportImage}>{'\u{1F4F8}'} {labels.exportImage}</button>
       </div>
     </div>
   );

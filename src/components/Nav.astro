@@ -4,6 +4,7 @@ import ThemeToggle from '../islands/ThemeToggle.tsx';
 
 const lang = Astro.currentLocale ?? 'zh';
 const localePath = (path: string) => lang === 'zh' ? path : `/${lang}${path}`;
+const isActive = (path: string) => pagePath.startsWith(path);
 
 // Get current page path without locale prefix for language switcher
 const rawPath = Astro.url.pathname;
@@ -19,28 +20,28 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 
   <nav>
     <div class="nav-dropdown">
-      <a href={localePath('/stats/')} class="nav-link">{t('navStats', lang)}</a>
+      <a href={localePath('/stats/')} class:list={['nav-link', { active: isActive('/stats/') || isActive('/leaderboard/') }]}>{t('navStats', lang)}</a>
       <div class="dropdown-menu">
         <a href={localePath('/stats/')}>{t('navStatsLookup', lang)}</a>
         <a href={localePath('/leaderboard/')}>{t('navLeaderboard', lang)}</a>
       </div>
     </div>
     <div class="nav-dropdown">
-      <a href={localePath('/maps/')} class="nav-link">{t('navMaps', lang)}</a>
+      <a href={localePath('/maps/')} class:list={['nav-link', { active: isActive('/maps/') || isActive('/flight/') }]}>{t('navMaps', lang)}</a>
       <div class="dropdown-menu">
         <a href={localePath('/maps/')}>{t('navMapsInteractive', lang)}</a>
         <a href={localePath('/flight/')}>{t('navFlight', lang)}</a>
       </div>
     </div>
     <div class="nav-dropdown">
-      <a href={localePath('/sensitivity/')} class="nav-link">{t('navTools', lang)}</a>
+      <a href={localePath('/sensitivity/')} class:list={['nav-link', { active: isActive('/sensitivity/') || isActive('/weapons/') || isActive('/team/') }]}>{t('navTools', lang)}</a>
       <div class="dropdown-menu">
         <a href={localePath('/sensitivity/')}>{t('navSensitivity', lang)}</a>
         <a href={localePath('/weapons/')}>{t('navWeapons', lang)}</a>
         <a href={localePath('/team/')}>{t('navTeam', lang)}</a>
       </div>
     </div>
-    <a href={localePath('/quiz/')} class="nav-link">{t('navQuiz', lang)}</a>
+    <a href={localePath('/quiz/')} class:list={['nav-link', { active: isActive('/quiz/') }]}>{t('navQuiz', lang)}</a>
   </nav>
 
   <div class="nav-right">
@@ -60,7 +61,7 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 
 <!-- Mobile Nav Overlay -->
 <div class="mobile-nav" id="mobileNav">
-  <button class="mobile-nav-close" id="mobileNavClose">
+  <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
     </svg>
@@ -150,6 +151,7 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     text-decoration: none;
   }
   .nav-link:hover { color: var(--color-text); background: var(--color-surface-hover); }
+  .nav-link.active { color: var(--color-red); }
 
   .nav-dropdown { position: relative; }
   .dropdown-menu {

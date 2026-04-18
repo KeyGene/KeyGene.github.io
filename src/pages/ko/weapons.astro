@@ -16,11 +16,24 @@ const labels = {
   sortDmg: t('weaponsSortDmg', lang),
   sortRof: t('weaponsSortRof', lang),
   sortRng: t('weaponsSortRng', lang),
+  detailClose: t('weaponsDetailClose', lang),
+  detailReload: t('weaponsDetailReload', lang),
+  detailMag: t('weaponsDetailMag', lang),
+  detailAttachments: t('weaponsDetailAttachments', lang),
+  detailBaseStats: t('weaponsDetailBaseStats', lang),
+  detailRecoil: t('weaponsDetailRecoil', lang),
+  detailDamage: t('weaponsDetailDamage', lang),
+  detailRpm: t('weaponsDetailRpm', lang),
+  detailVelocity: t('weaponsDetailVelocity', lang),
+  compareTitle: t('weaponsCompareTitle', lang),
+  compareClear: t('weaponsCompareClear', lang),
+  compareHint: t('weaponsCompareHint', lang),
 };
 ---
 
 <Base title={t('weaponsTitle', lang)} description={t('weaponsDesc', lang)}>
-  <section style="padding: var(--space-xl) 0 var(--space-2xl); text-align: center;">
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" slot="head"></script>
+  <section style="padding: 120px 24px 32px; text-align: center;">
     <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-red); margin-bottom: 16px;">
       <span style="width: 24px; height: 2px; background: var(--color-red); display: inline-block;"></span>
       {t('weaponsTag', lang)}

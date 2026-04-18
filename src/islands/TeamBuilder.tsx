@@ -12,6 +12,7 @@ interface Labels {
   teamPoster: string;
   copyLink: string;
   copied: string;
+  teamHeroSub: string;
   kd: string;
   winRate: string;
   kills: string;
@@ -27,6 +28,7 @@ interface Labels {
   roleDescSniper: string;
   roleDescIgl: string;
   roleDescSupport: string;
+  server: string;
 }
 
 interface Props {
@@ -34,7 +36,7 @@ interface Props {
 }
 
 const PUBG_PROXY = '/api';
-const SHARD = 'steam';
+const SHARD_OPTIONS = ['steam', 'kakao', 'psn', 'xbox'] as const;
 const HEADERS = { Accept: 'application/vnd.api+json' };
 const TEAM_COLORS = ['#EE3F2C', '#3B82F6', '#10B981', '#F59E0B'];
 
@@ -122,12 +124,12 @@ function assignRoles(players: PlayerData[], roles: RoleDef[]): RoleAssignment[] 
   return result.sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
 }
 
-async function fetchPlayer(name: string): Promise<PlayerData> {
-  const r1 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
+async function fetchPlayer(name: string, shard: string): Promise<PlayerData> {
+  const r1 = await fetch(`${PUBG_PROXY}/shards/${shard}/players?filter[playerNames]=${encodeURIComponent(name)}`, { headers: HEADERS });
   if (!r1.ok) throw new Error('Player not found: ' + name);
   const data = await r1.json();
   const pid = data.data[0].id;
-  const r2 = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
+  const r2 = await fetch(`${PUBG_PROXY}/shards/${shard}/players/${pid}/seasons/lifetime`, { headers: HEADERS });
   const sData = await r2.json();
   const s = sData.data.attributes.gameModeStats.squad;
   return { name, id: pid, stats: s };
@@ -135,6 +137,7 @@ async function fetchPlayer(name: string): Promise<PlayerData> {
 
 export default function TeamBuilder({ labels }: Props) {
   const [names, setNames] = useState(['', '', '', '']);
+  const [shard, setShard] = useState('steam');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [players, setPlayers] = useState<PlayerData[] | null>(null);
@@ -173,7 +176,7 @@ export default function TeamBuilder({ labels }: Props) {
     setError('');
     setPlayers(null);
     try {
-      const result = await Promise.all(n.map(fetchPlayer));
+      const result = await Promise.all(n.map(name => fetchPlayer(name, shard)));
       setPlayers(result);
       renderRadar(result);
     } catch (e: any) {
@@ -239,14 +242,15 @@ export default function TeamBuilder({ labels }: Props) {
           <span style="width:24px;height:2px;background:var(--color-red);display:inline-block" />
           {labels.teamRadar.replace(/radar/i, 'Analyzer').includes('Analyzer') ? 'Team Analyzer' : labels.teamRadar}
         </div>
-        <h1 style="font-size:var(--text-3xl);font-weight:800;letter-spacing:-0.04em;text-transform:uppercase;margin-bottom:10px">
+        <h1 class="team-hero-title" style="font-size:var(--text-3xl);font-weight:800;letter-spacing:-0.04em;text-transform:uppercase;margin-bottom:10px">
           TEAM <span style="color:var(--color-red)">ANALYZER</span>
         </h1>
+        <p style="color:var(--color-text-muted);font-size:var(--text-base);max-width:480px;margin:0 auto">{labels.teamHeroSub}</p>
       </div>
 
       {/* Input */}
       <div style="max-width:800px;margin:0 auto;padding:0 var(--space-2xl) var(--space-xl)">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="team-input-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           {[0, 1, 2, 3].map(i => (
             <input
               key={i}
@@ -264,11 +268,24 @@ export default function TeamBuilder({ labels }: Props) {
             />
           ))}
         </div>
-        <div style="margin-top:10px">
+        <div style="margin-top:10px;display:flex;gap:10px">
+          <div style="position:relative;flex:none">
+            <label style="position:absolute;top:-18px;left:2px;font-size:11px;color:var(--color-text-muted);font-weight:600;letter-spacing:0.05em;text-transform:uppercase">{labels.server}</label>
+            <select
+              value={shard}
+              onChange={(e) => setShard((e.target as HTMLSelectElement).value)}
+              style="padding:12px 16px;background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-sans);font-size:14px;outline:none;cursor:pointer;appearance:auto"
+            >
+              {SHARD_OPTIONS.map(s => (
+                <option key={s} value={s}>{s.toUpperCase()}</option>
+              ))}
+            </select>
+          </div>
           <button
+            class="btn-clip btn-red"
             onClick={() => handleAnalyze()}
             disabled={loading || names.filter(Boolean).length < 2}
-            style="width:100%;padding:14px;background:var(--color-red);color:#fff;border:none;border-radius:var(--radius-md);font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;opacity:loading?0.5:1"
+            style={{flex:1,opacity:loading?0.5:1,cursor:loading||names.filter(Boolean).length<2?'not-allowed':'pointer'}}
           >
             {labels.analyze}
           </button>
@@ -291,8 +308,8 @@ export default function TeamBuilder({ labels }: Props) {
 
       {/* Results */}
       {players && (
-        <div style="max-width:1100px;margin:0 auto;padding:0 var(--space-2xl) 60px">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+        <div class="team-results" style="max-width:1100px;margin:0 auto;padding:0 var(--space-2xl) 60px">
+          <div class="team-results-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
             {/* Radar */}
             <div style="background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:var(--radius-lg);padding:28px">
               <div style="display:inline-flex;align-items:center;gap:8px;font-size:var(--text-xs);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-red);margin-bottom:var(--space-md)">
@@ -324,7 +341,7 @@ export default function TeamBuilder({ labels }: Props) {
           </div>
 
           {/* Player cards */}
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+          <div class="team-player-grid" style="display:grid;gap:12px;margin-bottom:24px">
             {players.map((p, i) => {
               const s = p.stats;
               const kd = s.losses > 0 ? (s.kills / s.losses).toFixed(2) : '0.00';
@@ -356,14 +373,32 @@ export default function TeamBuilder({ labels }: Props) {
           </div>
 
           {/* Actions */}
-          <div style="display:flex;gap:12px;justify-content:center">
+<div style="display:flex;gap:12px;justify-content:center">
             <button
+              class="btn-clip btn-outline"
               onClick={() => {
                 navigator.clipboard.writeText(encodeParams()).then(() => showToast(labels.copied));
               }}
-              style="padding:12px 28px;border:1px solid var(--btn-outline-border);border-radius:var(--radius-md);font-family:var(--font-sans);font-size:var(--text-sm);font-weight:700;cursor:pointer;background:transparent;color:var(--color-text)"
             >
               {labels.copyLink}
+            </button>
+            <button
+              class="btn-clip btn-red"
+              onClick={async () => {
+                const el = document.querySelector('.team-results');
+                if (!el) return;
+                const html2canvas = (window as any).html2canvas;
+                if (!html2canvas) { showToast('⏳ Loading...'); return; }
+                try {
+                  const canvas = await html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2 });
+                  const a = document.createElement('a');
+                  a.href = canvas.toDataURL('image/png');
+                  a.download = 'keygene-team.png';
+                  a.click();
+                } catch { showToast('Export failed'); }
+              }}
+            >
+              {labels.teamPoster}
             </button>
           </div>
         </div>

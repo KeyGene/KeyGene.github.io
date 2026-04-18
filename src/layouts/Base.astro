@@ -18,6 +18,23 @@ const lang = Astro.currentLocale ?? 'zh';
 const desc = description ?? '';
 const og = ogImage ?? 'https://keygene.top/assert/images/hero-bg.jpg';
 
+const pathname = Astro.url.pathname;
+const basePath = pathname.replace(/^\/(en|ko)\//, '/');
+const hreflangs = [
+  { lang: 'zh-CN', href: `https://keygene.top${basePath}` },
+  { lang: 'en', href: `https://keygene.top/en${basePath}` },
+  { lang: 'ko', href: `https://keygene.top/ko${basePath}` },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'KeyGene',
+  url: 'https://keygene.top',
+  description: 'PUBG Guild Tools & Analytics',
+  inLanguage: ['zh-CN', 'en', 'ko'],
+};
+
 const cmdItems = [
   { id: 'stats', title: t('navStatsLookup', lang), section: t('cmdPages', lang), href: '/stats/' },
   { id: 'maps', title: t('navMapsInteractive', lang), section: t('cmdPages', lang), href: '/maps/' },
@@ -45,7 +62,12 @@ const cmdLabels = {
   {desc && <meta property="og:description" content={desc} />}
   <meta property="og:image" content={og} />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content={Astro.url.href} />
   <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href={Astro.url.href} />
+  {hreflangs.map(h => <link rel="alternate" hreflang={h.lang} href={h.href} />)}
+  <link rel="alternate" hreflang="x-default" href={`https://keygene.top${basePath}`} />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <link rel="icon" href="/assert/images/favicon.ico" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

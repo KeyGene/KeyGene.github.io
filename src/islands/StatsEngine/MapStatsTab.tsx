@@ -90,7 +90,7 @@ export default function MapStatsTab({ player, labels, matchCache }: Props) {
               <div class="map-card-name">{name}</div>
               <div class="map-card-stat">{labels.winRate}: <span style="color:#10B981">{wr}%</span></div>
               <div class="map-card-stat">{labels.games}: <span>{s.games}</span></div>
-              <div class="map-card-stat">{labels.kd}: <span style="color:var(--red)">{kd}</span></div>
+              <div class="map-card-stat">{labels.kd}: <span style="color:var(--color-red)">{kd}</span></div>
             </div>
           );
         })}

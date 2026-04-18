@@ -1,6 +1,24 @@
 import { useState, useEffect } from 'preact/hooks';
 import type { PlayerData, Labels, WeaponStat } from './types';
-import { PUBG_PROXY, SHARD, weaponName, queueFetch } from './types';
+import { PUBG_PROXY, SHARD, weaponName, queueFetch, formatTier } from './types';
+
+function useCountUp(target: number, duration = 1000) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!target) { setVal(0); return; }
+    const start = performance.now();
+    let raf: number;
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      setVal(Math.round(target * progress));
+      if (progress < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration]);
+  return val;
+}
 
 interface Props {
   player: PlayerData;
@@ -101,6 +119,12 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
   const totalWeaponKills = weaponData.reduce((sum, w) => sum + w[1], 0) || 1;
   const medals = ['\u{1F947}', '\u{1F948}', '\u{1F949}'];
 
+  const animKills = useCountUp(s.kills, 1200);
+  const animMatches = useCountUp(s.roundsPlayed, 1200);
+  const animAvgDmg = useCountUp(avgDmg, 1000);
+  const animLongestKill = useCountUp(Math.round(s.longestKill || 0), 1000);
+  const animMostKills = useCountUp(s.roundMostKills || 0, 800);
+
   const generatePoster = () => {
     const el = document.getElementById('wrappedCapture');
     if (!el || !(window as any).html2canvas) return;
@@ -109,6 +133,11 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
       link.download = `keygene-wrapped-${player.name}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+      const toast = document.createElement('div');
+      toast.textContent = '\u2705 Exported!';
+      toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;z-index:9999;';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
     });
   };
 
@@ -119,19 +148,20 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
           <div class="wrapped-season">{labels.wrappedSeason}</div>
           <div class="wrapped-player">{player.name}</div>
           <div class="wrapped-rank">
-            <div class="wrapped-rank-icon">{'\u{1F3C5}'}</div>
-            <div style="font-size:13px;color:var(--gray-400);margin-top:4px;">Steam \u00b7 Squad \u00b7 Lifetime</div>
+            <div class="wrapped-rank-icon">{formatTier(player.rankedTier).icon}</div>
+            <div style="font-size:16px;font-weight:800;color:#FFD700;margin-top:4px;">{formatTier(player.rankedTier).name}</div>
+            <div style="font-size:13px;color:var(--color-text-muted);margin-top:4px;">Steam \u00b7 Squad \u00b7 Lifetime</div>
           </div>
         </div>
 
         <div class="wrapped-card">
           <div class="wrapped-stats-grid">
             <div>
-              <div class="wrapped-big-stat">{s.kills.toLocaleString()}</div>
+              <div class="wrapped-big-stat">{animKills.toLocaleString()}</div>
               <div class="wrapped-stat-label">{labels.kills}</div>
             </div>
             <div>
-              <div class="wrapped-big-stat">{s.roundsPlayed.toLocaleString()}</div>
+              <div class="wrapped-big-stat">{animMatches.toLocaleString()}</div>
               <div class="wrapped-stat-label">{labels.matches}</div>
             </div>
             <div>
@@ -144,12 +174,12 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
             <div><span style="font-size:20px;font-weight:800;">{wr}%</span><br/><span class="wrapped-stat-label">{labels.winRate}</span></div>
-            <div><span style="font-size:20px;font-weight:800;">{avgDmg}</span><br/><span class="wrapped-stat-label">{labels.wrappedAvgDmg}</span></div>
+            <div><span style="font-size:20px;font-weight:800;">{animAvgDmg}</span><br/><span class="wrapped-stat-label">{labels.wrappedAvgDmg}</span></div>
           </div>
         </div>
 
         <div class="wrapped-card">
-          <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:16px;">{labels.wrappedWeapons}</div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-red);margin-bottom:16px;">{labels.wrappedWeapons}</div>
           {loaded && weaponData.length > 0 ? weaponData.map((w, i) => {
             const wpct = Math.round(w[1] / totalWeaponKills * 100);
             const name = cleanWeaponName(w[0]);
@@ -162,28 +192,28 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
               </div>
             );
           }) : loaded ? (
-            <div style="color:var(--gray-500);font-size:13px;">No weapon data available</div>
+            <div style="color:var(--color-gray-500);font-size:13px;">No weapon data available</div>
           ) : (
             <div class="loading-msg" style="padding:10px">{labels.loading}</div>
           )}
         </div>
 
         <div class="wrapped-card">
-          <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:16px;">{labels.wrappedRecords}</div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-red);margin-bottom:16px;">{labels.wrappedRecords}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <span style="font-size:24px;font-weight:800;">{Math.round(s.longestKill || 0)}m</span>
+              <span style="font-size:24px;font-weight:800;">{animLongestKill}m</span>
               <div class="wrapped-stat-label">{'\u{1F3AF}'} {labels.wrappedFarthest}</div>
             </div>
             <div>
-              <span style="font-size:24px;font-weight:800;">{s.roundMostKills || 0}</span>
+              <span style="font-size:24px;font-weight:800;">{animMostKills}</span>
               <div class="wrapped-stat-label">{'\u{1F480}'} {labels.mostKills}</div>
             </div>
           </div>
         </div>
 
         <div class="wrapped-card">
-          <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:16px;">{labels.wrappedTags}</div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-red);margin-bottom:16px;">{labels.wrappedTags}</div>
           <div>
             {tags.length > 0 ? tags.map(tag => <span class="wrapped-tag" key={tag}>#{labels[tag] || tag}</span>) : <span class="wrapped-tag">#PUBG Player</span>}
           </div>
@@ -191,7 +221,7 @@ export default function WrappedTab({ player, labels, matchCache, telemetryCache 
         </div>
       </div>
       <div style="text-align:center;margin-top:24px;">
-        <button class="wrapped-poster-btn" onClick={generatePoster}>{labels.wrappedPoster}</button>
+        <button class="wrapped-poster-btn" onClick={generatePoster}>{'\u{1F4F8}'} {labels.wrappedPoster}</button>
       </div>
     </div>
   );

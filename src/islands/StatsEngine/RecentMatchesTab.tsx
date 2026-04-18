@@ -68,7 +68,7 @@ export default function RecentMatchesTab({ player, labels, matchCache }: Props) 
               </div>
               <div class="match-details">
                 <div class="match-detail-item">
-                  <div class="match-detail-value" style="color:var(--red)">{c.ps.kills}</div>
+                  <div class="match-detail-value" style="color:var(--color-red)">{c.ps.kills}</div>
                   <div class="match-detail-label">{labels.kills}</div>
                 </div>
                 <div class="match-detail-item">

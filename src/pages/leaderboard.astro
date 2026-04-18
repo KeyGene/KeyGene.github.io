@@ -23,7 +23,7 @@ const labels = {
 };
 ---
 
-<Base title={`${t('lbTitle', lang)} - KEY GENE`} description={t('lbNoData', lang)}>
+<Base title={`${t('lbTitle', lang)} - KEY GENE`} description={`${t('lbTitle', lang)} - PUBG Guild Leaderboard`}>
   <div class="lb-container">
     <div class="lb-header">
       <h1 class="lb-page-title">{t('lbTitle', lang)}</h1>
@@ -34,9 +34,9 @@ const labels = {
 
 <style>
   .lb-container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 48px;
   }
   .lb-header {
     padding: 48px 0 0;
@@ -68,7 +68,7 @@ const labels = {
     letter-spacing: 0.04em;
   }
   :global(.lb-select) {
-    font-family: var(--font-body, 'Rubik', sans-serif);
+    font-family: var(--font-sans);
     font-size: 13px;
     font-weight: 500;
     color: var(--color-white, #fff);
@@ -85,7 +85,7 @@ const labels = {
     transition: border-color 0.2s;
   }
   :global(.lb-select:hover) { border-color: rgba(255,255,255,0.4); }
-  :global(.lb-select:focus) { outline: none; border-color: var(--color-red, #EE3F2C); }
+  :global(.lb-select:focus-visible) { outline: none; border-color: var(--color-red, #EE3F2C); }
   :global(.lb-select option) { background: #1a1a1a; color: #fff; }
 
   /* Status */
@@ -134,6 +134,7 @@ const labels = {
   }
   :global(.lb-table tbody tr:nth-child(odd)) { background: rgba(255,255,255,0.02); }
   :global(.lb-table tbody tr:nth-child(even)) { background: rgba(255,255,255,0.04); }
+  :global(.lb-table tbody tr) { transition: background 0.15s; }
   :global(.lb-table tbody tr:hover) { background: rgba(255,255,255,0.08); }
 
   :global(.lb-table tbody tr.rank-1) { border-left: 3px solid #FFD700; }
@@ -156,7 +157,18 @@ const labels = {
     text-decoration: underline;
   }
 
+  /* Light theme */
+  :global([data-theme="light"] .lb-table th) { border-bottom-color: rgba(0,0,0,0.1); }
+  :global([data-theme="light"] .lb-table td) { border-bottom-color: rgba(0,0,0,0.06); }
+  :global([data-theme="light"] .lb-table tbody tr:nth-child(odd)) { background: rgba(0,0,0,0.02); }
+  :global([data-theme="light"] .lb-table tbody tr:nth-child(even)) { background: transparent; }
+  :global([data-theme="light"] .lb-table tbody tr:hover) { background: rgba(0,0,0,0.04); }
+  :global([data-theme="light"] .lb-spinner) { border-color: rgba(0,0,0,0.1); border-top-color: var(--color-red); }
+  :global([data-theme="light"] .lb-select) { background: #fff; border-color: rgba(0,0,0,0.15); color: var(--color-text); }
+  :global([data-theme="light"] .lb-select option) { background: #fff; color: #1a1a1a; }
+
   @media (max-width: 768px) {
+    .lb-container { padding: 0 16px; }
     .lb-header { padding: 32px 0 0; }
     .lb-page-title { font-size: 28px; }
     :global(.lb-select) { font-size: 12px; padding: 6px 28px 6px 10px; }

@@ -78,20 +78,25 @@ export default function CompareTab({ player, labels }: Props) {
       link.download = `keygene-vs-${player.name}-${player2Name}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+      const toast = document.createElement('div');
+      toast.textContent = '\u2705 Exported!';
+      toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;z-index:9999;';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
     });
   };
 
   return (
     <div>
       <div class="compare-search">
-        <input type="text" value={player.name} disabled style="opacity:0.6;flex:1;min-width:150px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:var(--white);font-family:var(--font);font-size:14px;" />
+        <input type="text" value={player.name} disabled aria-label={labels.enterPlayer2} style="opacity:0.6;" />
         <span class="vs-label">{labels.vs}</span>
         <input
           type="text" value={input}
           onInput={(e) => setInput((e.target as HTMLInputElement).value)}
           onKeyDown={(e) => { if (e.key === 'Enter') doCompare(); }}
           placeholder={labels.enterPlayer2}
-          style="flex:1;min-width:150px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:var(--white);font-family:var(--font);font-size:14px;outline:none;"
+          aria-label={labels.enterPlayer2}
         />
         <button class="search-btn" onClick={doCompare}>{labels.compareBtn}</button>
       </div>
@@ -109,15 +114,15 @@ export default function CompareTab({ player, labels }: Props) {
                 {metrics.map(m => (
                   <tr key={m.key}>
                     <td class={m.v1 >= m.v2 ? 'compare-winner' : 'compare-loser'}>{m.fmt(m.v1)}</td>
-                    <td style="color:var(--gray-500)">{m.label}</td>
+                    <td style="color:var(--color-gray-500)">{m.label}</td>
                     <td class={m.v2 >= m.v1 ? 'compare-winner' : 'compare-loser'}>{m.fmt(m.v2)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--gray-500);">keygene.top</div>
+            <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--color-gray-500);">keygene.top</div>
           </div>
-          <button class="compare-poster-btn" onClick={generatePoster}>{labels.vsPoster}</button>
+          <button class="compare-poster-btn" onClick={generatePoster}>{'\u{1F4F8}'} {labels.vsPoster}</button>
         </div>
       )}
     </div>

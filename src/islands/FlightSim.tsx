@@ -82,6 +82,7 @@ export default function FlightSim({ labels }: { labels: Labels }) {
   const [flightEnd, setFlightEnd] = useState<{ x: number; y: number } | null>(null);
   const [dropSpots, setDropSpots] = useState<Record<string, DropSpot[]>>({});
   const [drops, setDrops] = useState<DropResult[]>([]);
+  const [toast, setToast] = useState('');
 
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMapRef = useRef<any>(null);
@@ -247,7 +248,7 @@ export default function FlightSim({ labels }: { labels: Labels }) {
         const dm = L.marker([r.x, r.y], {
           icon: L.divIcon({
             className: '',
-            html: `<div style="background:#222;border:1px solid ${col};border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;color:#fff;white-space:nowrap;font-family:Rubik;">${name} <span style="color:${col};">${r.spot.loot}</span></div>`,
+            html: `<div style="background:#222;border:1px solid ${col};border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;color:#fff;white-space:nowrap;font-family:var(--font-sans);">${name} <span style="color:${col};">${r.spot.loot}</span></div>`,
             iconSize: null as any, iconAnchor: [40, 12],
           }),
         }).addTo(map);
@@ -361,9 +362,23 @@ export default function FlightSim({ labels }: { labels: Labels }) {
           <button class="sidebar-btn sidebar-btn-outline" onClick={clearFlight}>
             {labels.clear}
           </button>
-          <button class="sidebar-btn sidebar-btn-red" onClick={() => {
-            // Simple share: copy URL
-            navigator.clipboard?.writeText(window.location.href);
+          <button class="sidebar-btn sidebar-btn-red" onClick={async () => {
+            const el = document.querySelector('.flight-page');
+            if (!el) return;
+            const html2canvas = (window as any).html2canvas;
+            if (!html2canvas) {
+              navigator.clipboard?.writeText(window.location.href);
+              setToast('Link copied');
+              setTimeout(() => setToast(''), 2000);
+              return;
+            }
+            try {
+              const canvas = await html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2 });
+              const a = document.createElement('a');
+              a.href = canvas.toDataURL('image/png');
+              a.download = 'keygene-flight.png';
+              a.click();
+            } catch { setToast('Export failed'); setTimeout(() => setToast(''), 2000); }
           }}>
             {labels.share}
           </button>
@@ -374,6 +389,9 @@ export default function FlightSim({ labels }: { labels: Labels }) {
       <div class="flight-map">
         <div ref={mapRef} id="leafletMap" />
       </div>
+      {toast && <div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 24px;background:#222;color:#fff;border-radius:8px;font-size:14px;font-weight:600;z-index:1000">
+        {toast}
+      </div>}
     </div>
   );
 }

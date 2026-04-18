@@ -13,6 +13,9 @@
   --color-warning: #f59e0b;
   --color-error: #ef4444;
 
+  --color-gray-500: #6b7280;
+  --color-gray-800: #1f2937;
+
   --color-card-bg: rgba(26, 29, 39, 0.85);
   --color-card-border: rgba(255, 255, 255, 0.06);
   --color-backdrop: rgba(15, 17, 23, 0.5);
@@ -131,4 +134,13 @@ a {
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: var(--radius-md);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

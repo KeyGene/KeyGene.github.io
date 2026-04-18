@@ -121,7 +121,7 @@ export default function BanCheckTab({ player, labels }: Props) {
         <div class="empty-msg">{labels.banSearchFirst}</div>
       )}
 
-      <div class="ban-search-box" style={player ? 'display:none' : ''}>
+      <div class="ban-search-box">
         <input
           type="text" value={input}
           onInput={e => setInput((e.target as HTMLInputElement).value)}
@@ -152,7 +152,7 @@ export default function BanCheckTab({ player, labels }: Props) {
               <div class="ban-history-item" key={item.name + item.time} onClick={() => doBanCheck(item.name)}>
                 <span>{item.name}</span>
                 <span style="display:flex;align-items:center;gap:12px;">
-                  <span style={`color:${item.status === 'ok' ? '#10B981' : item.status === 'banned' ? 'var(--red)' : '#F59E0B'};font-weight:600;font-size:12px;`}>
+                  <span style={`color:${item.status === 'ok' ? '#10B981' : item.status === 'banned' ? 'var(--color-red)' : '#F59E0B'};font-weight:600;font-size:12px;`}>
                     {item.status === 'ok' ? labels.banNotBanned : item.status === 'banned' ? labels.banLikelyBanned : labels.banUncertain}
                   </span>
                   <span class="ban-history-remove" onClick={(e) => { e.stopPropagation(); removeHistory(i); }}>&times;</span>

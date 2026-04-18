@@ -31,7 +31,7 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
   const [searchInput, setSearchInput] = useState(initialPlayer || '');
   const [player, setPlayer] = useState<PlayerData | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<false | true | 'rate'>(false);
   const matchCache = useRef<Record<string, any>>({});
   const telemetryCache = useRef<Record<string, any>>({});
 
@@ -47,6 +47,7 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
 
     try {
       const r = await fetch(`${PUBG_PROXY}/shards/${SHARD}/players?filter[playerNames]=${encodeURIComponent(query)}`, { headers: HEADERS });
+      if (r.status === 429) { setError('rate'); setLoading(false); return; }
       if (!r.ok) throw new Error('not found');
       const data = await r.json();
       const p = data.data[0];
@@ -76,6 +77,7 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
 
       setPlayer({ id: pid, name: p.attributes.name, stats, matchIds, rankedTier });
       setLoading(false);
+      history.replaceState(null, '', `?player=${encodeURIComponent(p.attributes.name)}`);
     } catch {
       setError(true);
       setLoading(false);
@@ -88,7 +90,7 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
 
   const renderTab = () => {
     if (loading) return <div class="loading-msg">{labels.loading}</div>;
-    if (error) return <div class="empty-msg">{labels.playerNotFound}</div>;
+    if (error) return <div class="empty-msg">{error === 'rate' ? labels.rateLimited : labels.playerNotFound}</div>;
     if (!player) return <div class="empty-msg">{labels.searchPrompt}</div>;
 
     switch (activeTab) {
@@ -112,6 +114,7 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
           <input
             type="text"
             class="search-input"
+            aria-label={labels.searchPlaceholder}
             placeholder={labels.searchPlaceholder}
             value={searchInput}
             onInput={e => setSearchInput((e.target as HTMLInputElement).value)}

@@ -129,7 +129,7 @@ export default function WeaponsTab({ player, labels, matchCache, telemetryCache 
           {weaponStats.map(([w, s]) => (
             <tr key={w}>
               <td>{weaponName(w)}</td>
-              <td style="color:var(--red);font-weight:700">{s.kills}</td>
+              <td style="color:var(--color-red);font-weight:700">{s.kills}</td>
               <td>{s.headshots}</td>
               <td>{Math.round(s.damage).toLocaleString()}</td>
             </tr>

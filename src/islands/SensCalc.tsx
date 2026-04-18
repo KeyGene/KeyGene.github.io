@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'preact/hooks';
+import { useState, useMemo, useEffect } from 'preact/hooks';
 
 interface ScopeConfig {
   id: string;
@@ -96,6 +96,28 @@ export default function SensCalc({ labels }: Props) {
   const [newDpi, setNewDpi] = useState('');
   const [filter, setFilter] = useState<'all' | 'low' | 'high'>('all');
   const [toast, setToast] = useState('');
+  const [toastFading, setToastFading] = useState(false);
+
+  // Decode URL params on mount (?d=DPI&s=sens&v=vRatio + scope ids)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const d = params.get('d');
+    const s = params.get('s');
+    const v = params.get('v');
+    if (d) setDpi(Math.max(100, Math.min(16000, parseInt(d) || 800)));
+    if (s) setSens(Math.max(1, Math.min(100, parseInt(s) || 50)));
+    if (v) setVRatio(Math.max(50, Math.min(150, parseInt(v) || 100)));
+    const scopeUpdate: Record<string, number> = {};
+    let hasScope = false;
+    SCOPES.forEach((sc) => {
+      const val = params.get(sc.id);
+      if (val) {
+        scopeUpdate[sc.id] = Math.max(1, Math.min(100, parseInt(val) || 50));
+        hasScope = true;
+      }
+    });
+    if (hasScope) setScopeSens((prev) => ({ ...prev, ...scopeUpdate }));
+  }, []);
 
   const edpi = dpi * sens;
   const baseCm = calcCm360(dpi, sens, 1);
@@ -117,11 +139,21 @@ export default function SensCalc({ labels }: Props) {
 
   const filteredPros = filter === 'all' ? PRO_SETTINGS : PRO_SETTINGS.filter((p) => p.style === filter);
 
+  function showToast(msg: string) {
+    setToast(msg);
+    setToastFading(false);
+    setTimeout(() => setToastFading(true), 1700);
+    setTimeout(() => { setToast(''); setToastFading(false); }, 2000);
+  }
+
   function applyPro(p: ProPlayer) {
     setDpi(p.dpi);
     setSens(p.sens);
     setVRatio(p.vRatio);
     setScopeSens({ ...p.scopes });
+    setTimeout(() => {
+      document.querySelector('.sc-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   }
 
   function copyLink() {
@@ -131,10 +163,7 @@ export default function SensCalc({ labels }: Props) {
     params.set('v', String(vRatio));
     SCOPES.forEach((s) => params.set(s.id, String(scopeSens[s.id] ?? 50)));
     const url = location.origin + location.pathname + '?' + params.toString();
-    navigator.clipboard.writeText(url).then(() => {
-      setToast(labels.copied);
-      setTimeout(() => setToast(''), 2000);
-    });
+    navigator.clipboard.writeText(url).then(() => showToast(labels.copied));
   }
 
   function updateScope(id: string, val: number) {
@@ -250,6 +279,21 @@ export default function SensCalc({ labels }: Props) {
             <button class="sc-btn sc-btn-outline" onClick={copyLink}>
               {labels.copyLink}
             </button>
+            <button class="sc-btn sc-btn-red" onClick={async () => {
+              const el = document.querySelector('.sc-panel');
+              if (!el) return;
+              const html2canvas = (window as any).html2canvas;
+              if (!html2canvas) { showToast('⏳ Loading...'); return; }
+              try {
+                const canvas = await html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2 });
+                const a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = 'keygene-sensitivity.png';
+                a.click();
+              } catch { showToast('Export failed'); }
+            }}>
+              {labels.shareCard}
+            </button>
           </div>
         </div>
 
@@ -292,7 +336,7 @@ export default function SensCalc({ labels }: Props) {
       </div>
 
       {/* Toast */}
-      {toast && <div class="sc-toast">{toast}</div>}
+      {toast && <div class={`sc-toast${toastFading ? ' sc-toast-out' : ''}`}>{toast}</div>}
 
       <style>{`
         .sc-root { font-family: var(--font-sans); color: var(--color-text); }
@@ -344,11 +388,15 @@ export default function SensCalc({ labels }: Props) {
         .sc-slider::-webkit-slider-thumb {
           -webkit-appearance: none; width: 16px; height: 16px;
           border-radius: 50%; background: var(--color-red); cursor: pointer;
+          transition: transform 0.15s;
         }
+        .sc-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
         .sc-slider::-moz-range-thumb {
           width: 16px; height: 16px; border-radius: 50%;
           background: var(--color-red); border: none; cursor: pointer;
+          transition: transform 0.15s;
         }
+        .sc-slider::-moz-range-thumb:hover { transform: scale(1.2); }
         .sc-val {
           width: 50px; text-align: right; font-size: 14px;
           font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0;
@@ -400,6 +448,13 @@ export default function SensCalc({ labels }: Props) {
           transition: border-color var(--transition-fast);
         }
         .sc-btn-outline:hover { border-color: var(--btn-outline-hover); }
+        .sc-btn-red {
+          flex: 1; padding: 12px 16px; border-radius: var(--radius-md);
+          font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700;
+          cursor: pointer; text-align: center; background: var(--color-red);
+          color: #fff; border: none; transition: background var(--transition-fast);
+        }
+        .sc-btn-red:hover { background: var(--color-red-hover); }
 
         .sc-filters { display: flex; gap: 6px; margin-bottom: var(--space-md); flex-wrap: wrap; }
         .sc-filter-btn {
@@ -447,8 +502,9 @@ export default function SensCalc({ labels }: Props) {
           position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
           padding: 12px 24px; background: #222; color: #fff; border-radius: var(--radius-md);
           font-size: var(--text-sm); font-weight: 600; z-index: 1000;
-          animation: sc-fade-in 0.3s ease;
+          animation: sc-fade-in 0.3s ease; transition: opacity 0.3s;
         }
+        .sc-toast-out { opacity: 0; }
         @keyframes sc-fade-in { from { opacity: 0; } to { opacity: 1; } }
 
         @media (max-width: 900px) {
