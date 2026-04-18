@@ -60,6 +60,9 @@ export default function CommandPalette({ items, labels }: Props) {
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Command palette"
       style="position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.6);display:flex;align-items:flex-start;justify-content:center;padding-top:min(20vh,160px);"
       onClick={() => setOpen(false)}
     >

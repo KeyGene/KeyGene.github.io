@@ -22,8 +22,8 @@ const labels = {
 
 <Base title={t('flightTitle', lang)} description={t('flightDesc', lang)}>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" slot="head" />
-  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" slot="head"></script>
-  <script is:inline src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script is:inline defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" slot="head"></script>
+  <script is:inline defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <div style="max-width:1400px;margin:0 auto;">
     <FlightSim client:load labels={labels} />

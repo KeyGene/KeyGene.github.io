@@ -30,7 +30,7 @@ const labels = {
 <Base title={t('mapTitle', lang)} description={t('mapDesc', lang)}>
   <link rel="preconnect" href="https://r2.pubgmaptile.top" crossorigin slot="head" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" slot="head" />
-  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" slot="head"></script>
+  <script is:inline defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" slot="head"></script>
 
   <LeafletMap client:load labels={labels} />
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'preact/hooks';
+import { useState, useMemo, useEffect } from 'preact/hooks';
 import type { QuizQuestion, PersonalityType } from '../data/quiz';
 
 interface Labels {
@@ -53,6 +53,17 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
   const [showAllTypes, setShowAllTypes] = useState(false);
   const [showShareOverlay, setShowShareOverlay] = useState(false);
   const [shareDataURL, setShareDataURL] = useState<string | null>(null);
+
+  // Esc key closes overlays
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (showShareOverlay) setShowShareOverlay(false);
+      else if (showAllTypes) setShowAllTypes(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [showShareOverlay, showAllTypes]);
 
   // Counter from localStorage
   const counter = useMemo(() => {
@@ -374,54 +385,68 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
           {currentQ + 1} / 16
         </div>
         {/* Progress bar */}
-        <div style="display:flex;gap:4px;margin-bottom:32px;">
-          {questions.map((_, i) => (
-            <div
-              key={i}
-              onClick={() => {
-                if (i < currentQ || answers[i] !== null) setCurrentQ(i);
-              }}
-              style={{
-                flex: 1,
-                height: '4px',
-                borderRadius: '2px',
-                cursor: i < currentQ || answers[i] !== null ? 'pointer' : 'default',
-                background:
-                  answers[i] !== null
-                    ? 'var(--color-red)'
-                    : i === currentQ
-                      ? 'rgba(238,63,44,0.5)'
-                      : 'var(--color-border)',
-              }}
-            />
-          ))}
+        <div style="display:flex;gap:4px;margin-bottom:32px;" role="progressbar" aria-valuemin={1} aria-valuemax={questions.length} aria-valuenow={currentQ + 1} aria-label={`Question ${currentQ + 1} of ${questions.length}`}>
+          {questions.map((_, i) => {
+            const clickable = i < currentQ || answers[i] !== null;
+            return (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Go to question ${i + 1}`}
+                disabled={!clickable}
+                onClick={() => { if (clickable) setCurrentQ(i); }}
+                style={{
+                  flex: 1,
+                  height: '4px',
+                  padding: 0,
+                  border: 'none',
+                  borderRadius: '2px',
+                  cursor: clickable ? 'pointer' : 'default',
+                  background:
+                    answers[i] !== null
+                      ? 'var(--color-red)'
+                      : i === currentQ
+                        ? 'rgba(238,63,44,0.5)'
+                        : 'var(--color-border)',
+                }}
+              />
+            );
+          })}
         </div>
         {/* Question text */}
         <div class="quiz-question" style="font-size:22px;font-weight:700;line-height:1.4;margin-bottom:28px;text-align:center;">
           {q.text[lang as keyof typeof q.text]}
         </div>
         {/* Options */}
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          {q.options.map((opt, oi) => (
-            <div
-              key={oi}
-              className="quiz-option"
-              onClick={() => selectOption(currentQ, oi)}
-              style={{
-                padding: '16px 20px',
-                background: 'var(--color-card-bg)',
-                border: `1.5px solid ${answers[currentQ] === oi ? 'var(--color-red)' : 'var(--color-card-border)'}`,
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontSize: '15px',
-                lineHeight: '1.5',
-                color: answers[currentQ] === oi ? 'var(--color-text)' : 'var(--color-text-muted)',
-                ...(answers[currentQ] === oi ? { background: 'rgba(238,63,44,0.08)' } : {}),
-              }}
-            >
-              {opt.text[lang as keyof typeof opt.text]}
-            </div>
-          ))}
+        <div role="radiogroup" aria-label={q.text[lang as keyof typeof q.text]} style="display:flex;flex-direction:column;gap:12px;">
+          {q.options.map((opt, oi) => {
+            const selected = answers[currentQ] === oi;
+            return (
+              <button
+                key={oi}
+                type="button"
+                role="radio"
+                aria-checked={selected}
+                className="quiz-option"
+                onClick={() => selectOption(currentQ, oi)}
+                style={{
+                  padding: '16px 20px',
+                  textAlign: 'left',
+                  width: '100%',
+                  background: selected ? 'rgba(238,63,44,0.08)' : 'var(--color-card-bg)',
+                  border: `1.5px solid ${selected ? 'var(--color-red)' : 'var(--color-card-border)'}`,
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  fontSize: '15px',
+                  fontFamily: 'var(--font-sans)',
+                  lineHeight: '1.5',
+                  color: selected ? 'var(--color-text)' : 'var(--color-text-muted)',
+                }}
+              >
+                {opt.text[lang as keyof typeof opt.text]}
+              </button>
+            );
+          })}
         </div>
         {/* Nav */}
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:32px;gap:12px;">
