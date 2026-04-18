@@ -1,5 +1,4 @@
-# Fallback 404 pages per locale
-# Static assets take priority over these patterns in CF Pages
-/en/*  /en/404/index.html  404
-/ko/*  /ko/404/index.html  404
-/*     /404.html           404
+# Per-locale 404 fallback
+/en/* /en/404 404
+/ko/* /ko/404 404
+/* /404 404
