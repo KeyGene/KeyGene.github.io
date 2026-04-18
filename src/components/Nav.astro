@@ -111,17 +111,29 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 
   function setupNav() {
     syncLangLinks();
-    const hamburger = document.getElementById('hamburgerBtn');
+    const hamburger = document.getElementById('hamburgerBtn') as HTMLElement | null;
     const mobileNav = document.getElementById('mobileNav');
-    const mobileClose = document.getElementById('mobileNavClose');
+    const mobileClose = document.getElementById('mobileNavClose') as HTMLElement | null;
 
     function openNav() { mobileNav?.classList.add('open'); document.body.style.overflow = 'hidden'; }
     function closeNav() { mobileNav?.classList.remove('open'); document.body.style.overflow = ''; }
 
-    hamburger?.addEventListener('click', openNav);
-    mobileClose?.addEventListener('click', closeNav);
-    mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
-    mobileNav?.querySelectorAll('.mobile-group-label').forEach(label => {
+    if (hamburger && !hamburger.dataset.bound) {
+      hamburger.dataset.bound = '1';
+      hamburger.addEventListener('click', openNav);
+    }
+    if (mobileClose && !mobileClose.dataset.bound) {
+      mobileClose.dataset.bound = '1';
+      mobileClose.addEventListener('click', closeNav);
+    }
+    mobileNav?.querySelectorAll<HTMLAnchorElement>('a').forEach(a => {
+      if (a.dataset.boundClose) return;
+      a.dataset.boundClose = '1';
+      a.addEventListener('click', closeNav);
+    });
+    mobileNav?.querySelectorAll<HTMLElement>('.mobile-group-label').forEach(label => {
+      if (label.dataset.bound) return;
+      label.dataset.bound = '1';
       label.addEventListener('click', () => {
         label.parentElement?.classList.toggle('open');
       });

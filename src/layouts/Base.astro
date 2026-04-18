@@ -125,29 +125,35 @@ const cmdLabels = {
   <Toast client:load />
   <CommandPalette client:idle items={cmdItems} labels={cmdLabels} />
   <script>
+    let gPressed = false;
+    let gTimeout: number = 0;
+    let kbdBound = false;
+
+    function onKeydown(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+      if (e.key === 'g' && !e.metaKey && !e.ctrlKey) {
+        gPressed = true;
+        clearTimeout(gTimeout);
+        gTimeout = window.setTimeout(() => { gPressed = false; }, 500);
+        return;
+      }
+
+      if (gPressed) {
+        gPressed = false;
+        const routes: Record<string, string> = { s: '/stats/', m: '/maps/', q: '/quiz/', l: '/leaderboard/' };
+        if (routes[e.key]) {
+          e.preventDefault();
+          window.location.href = routes[e.key];
+        }
+      }
+    }
+
     document.addEventListener('astro:page-load', () => {
-      let gPressed = false;
-      let gTimeout: number;
-
-      document.addEventListener('keydown', (e) => {
-        if ((e.target as HTMLElement).tagName === 'INPUT' || (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-
-        if (e.key === 'g' && !e.metaKey && !e.ctrlKey) {
-          gPressed = true;
-          clearTimeout(gTimeout);
-          gTimeout = window.setTimeout(() => { gPressed = false; }, 500);
-          return;
-        }
-
-        if (gPressed) {
-          gPressed = false;
-          const routes: Record<string, string> = { s: '/stats/', m: '/maps/', q: '/quiz/', l: '/leaderboard/' };
-          if (routes[e.key]) {
-            e.preventDefault();
-            window.location.href = routes[e.key];
-          }
-        }
-      });
+      if (kbdBound) return;
+      kbdBound = true;
+      document.addEventListener('keydown', onKeydown);
     });
   </script>
 </body>

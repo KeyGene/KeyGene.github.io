@@ -30,49 +30,55 @@ const lang = Astro.currentLocale ?? 'zh';
 </div>
 
 <script is:inline>
-(function serverStatusPoller() {
-  const PUBG_PROXY = '/api';
-  const floatEl = document.getElementById('serverStatusFloat');
-  const dot = document.getElementById('ssDot');
-  const statusText = document.getElementById('ssStatusText');
-  const pingEl = document.getElementById('ssPing');
-  const updatedEl = document.getElementById('ssUpdated');
+(function() {
+  let pollTimer = null;
+  function start() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    const PUBG_PROXY = '/api';
+    const floatEl = document.getElementById('serverStatusFloat');
+    const dot = document.getElementById('ssDot');
+    const statusText = document.getElementById('ssStatusText');
+    const pingEl = document.getElementById('ssPing');
+    const updatedEl = document.getElementById('ssUpdated');
+    if (!floatEl || !dot || !statusText || !pingEl || !updatedEl) return;
 
-  function timeStr() {
-    const now = new Date();
-    return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+    function timeStr() {
+      const now = new Date();
+      return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+    }
+    function pingClass(ms) { if (ms < 200) return 'good'; if (ms < 500) return 'warn'; return 'bad'; }
+    function setOnline(pingMs) {
+      floatEl.className = 'server-status-float online';
+      dot.className = 'ss-dot online';
+      statusText.className = 'ss-status-text online';
+      pingEl.textContent = pingMs + 'ms';
+      pingEl.className = 'ss-row-value ' + pingClass(pingMs);
+      updatedEl.textContent = timeStr();
+    }
+    function setOffline() {
+      floatEl.className = 'server-status-float offline';
+      dot.className = 'ss-dot offline';
+      statusText.className = 'ss-status-text offline';
+      pingEl.textContent = '--';
+      pingEl.className = 'ss-row-value bad';
+      updatedEl.textContent = timeStr();
+    }
+    async function check() {
+      try {
+        const start = performance.now();
+        const res = await fetch(PUBG_PROXY + '/status', { headers: { Accept: 'application/vnd.api+json' } });
+        const pingMs = Math.round(performance.now() - start);
+        if (res.ok) setOnline(pingMs); else setOffline();
+      } catch { setOffline(); }
+    }
+    check();
+    pollTimer = setInterval(check, 60000);
   }
-  function pingClass(ms) {
-    if (ms < 200) return 'good';
-    if (ms < 500) return 'warn';
-    return 'bad';
+  function stop() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
   }
-  function setOnline(pingMs) {
-    floatEl.className = 'server-status-float online';
-    dot.className = 'ss-dot online';
-    statusText.className = 'ss-status-text online';
-    pingEl.textContent = pingMs + 'ms';
-    pingEl.className = 'ss-row-value ' + pingClass(pingMs);
-    updatedEl.textContent = timeStr();
-  }
-  function setOffline() {
-    floatEl.className = 'server-status-float offline';
-    dot.className = 'ss-dot offline';
-    statusText.className = 'ss-status-text offline';
-    pingEl.textContent = '--';
-    pingEl.className = 'ss-row-value bad';
-    updatedEl.textContent = timeStr();
-  }
-  async function check() {
-    try {
-      const start = performance.now();
-      const res = await fetch(PUBG_PROXY + '/status', { headers: { Accept: 'application/vnd.api+json' } });
-      const pingMs = Math.round(performance.now() - start);
-      if (res.ok) setOnline(pingMs); else setOffline();
-    } catch { setOffline(); }
-  }
-  check();
-  setInterval(check, 60000);
+  document.addEventListener('astro:page-load', start);
+  document.addEventListener('astro:before-swap', stop);
 })();
 </script>
 

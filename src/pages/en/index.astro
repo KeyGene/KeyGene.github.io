@@ -106,21 +106,30 @@ const lang = Astro.currentLocale ?? 'zh';
   <!-- Scroll reveal -->
   <script is:inline>
     (function() {
-      var reveals = document.querySelectorAll('.reveal');
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          if (e.isIntersecting) e.target.classList.add('visible');
-        });
-      }, { threshold: 0.15 });
-      reveals.forEach(function(el) { observer.observe(el); });
+      var revealObs = null;
+      function setupReveal() {
+        if (revealObs) { try { revealObs.disconnect(); } catch(e){} }
+        revealObs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (e.isIntersecting) e.target.classList.add('visible');
+          });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(function(el) { revealObs.observe(el); });
+      }
+      document.addEventListener('astro:page-load', setupReveal);
+      document.addEventListener('astro:before-swap', function() {
+        if (revealObs) { try { revealObs.disconnect(); } catch(e){} revealObs = null; }
+      });
     })();
   </script>
 
   <!-- Player search redirect -->
   <script is:inline>
     (function() {
-      var form = document.getElementById('playerForm');
-      if (form) {
+      function setupForm() {
+        var form = document.getElementById('playerForm');
+        if (!form || form.dataset.bound) return;
+        form.dataset.bound = '1';
         form.addEventListener('submit', function(e) {
           e.preventDefault();
           var name = document.getElementById('playerName').value.trim();
@@ -129,6 +138,7 @@ const lang = Astro.currentLocale ?? 'zh';
           }
         });
       }
+      document.addEventListener('astro:page-load', setupForm);
     })();
   </script>
 
@@ -139,8 +149,7 @@ const lang = Astro.currentLocale ?? 'zh';
       var SHARD = 'steam';
       var CLAN_ID = 'clan.c674616417f749be98b20b53e7b01edf';
       var CLAN_MEMBERS = ['SymarsYoung', 'Alrscw'];
-      var rosterSection = document.getElementById('roster');
-      if (rosterSection) rosterSection.style.display = 'none';
+      var clanRetryTimer = null;
 
       var colors = [
         'linear-gradient(135deg, #EE3F2C, #ff5a4a)',
@@ -150,6 +159,9 @@ const lang = Astro.currentLocale ?? 'zh';
       ];
 
       async function loadClanData() {
+        var rosterSection = document.getElementById('roster');
+        if (!rosterSection) return;
+        rosterSection.style.display = 'none';
         var headers = { Accept: 'application/vnd.api+json' };
         var clanOk = false, membersOk = false;
         var currentSeason = '';
@@ -201,12 +213,16 @@ const lang = Astro.currentLocale ?? 'zh';
         }
 
         var grid = document.getElementById('rosterGrid');
-        if (cards.length > 0) { grid.innerHTML = cards.join(''); membersOk = true; }
-        if (!clanOk) { document.getElementById('clanInfo').style.display = 'none'; }
+        if (cards.length > 0 && grid) { grid.innerHTML = cards.join(''); membersOk = true; }
+        var clanInfoEl = document.getElementById('clanInfo');
+        if (!clanOk && clanInfoEl) { clanInfoEl.style.display = 'none'; }
         if (clanOk || membersOk) { rosterSection.style.display = ''; }
-        else { setTimeout(loadClanData, 8000); }
+        else { clanRetryTimer = setTimeout(loadClanData, 8000); }
       }
-      loadClanData();
+      document.addEventListener('astro:page-load', loadClanData);
+      document.addEventListener('astro:before-swap', function() {
+        if (clanRetryTimer) { clearTimeout(clanRetryTimer); clanRetryTimer = null; }
+      });
     })();
   </script>
 </Base>

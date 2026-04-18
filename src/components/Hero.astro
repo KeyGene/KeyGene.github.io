@@ -55,51 +55,61 @@ const lang = Astro.currentLocale ?? 'zh';
 </section>
 
 <script is:inline>
-(async function loadHeroStats() {
-  const PUBG_PROXY = '/api';
-  const SHARD = 'steam';
-  const HERO_PLAYER = 'SymarsYoung';
-  try {
-    const r1 = await fetch(PUBG_PROXY + '/shards/' + SHARD + '/players?filter[playerNames]=' + HERO_PLAYER, {
-      headers: { Accept: 'application/vnd.api+json' }
-    });
-    if (!r1.ok) return;
-    const pid = (await r1.json()).data[0].id;
-    const r2 = await fetch(PUBG_PROXY + '/shards/' + SHARD + '/players/' + pid + '/seasons/lifetime', {
-      headers: { Accept: 'application/vnd.api+json' }
-    });
-    const s = (await r2.json()).data.attributes.gameModeStats.squad;
-    const matches = s.roundsPlayed;
-    const top10 = (s.top10s / matches * 100).toFixed(1);
-    const kd = (s.kills / s.losses).toFixed(2);
-    const mStr = matches >= 1000 ? (matches / 1000).toFixed(1) + 'K' : String(matches);
+(function() {
+  let heroObs = null;
+  async function loadHeroStats() {
+    if (heroObs) { try { heroObs.disconnect(); } catch(e){} heroObs = null; }
+    const elM = document.getElementById('heroMatches');
+    const elT = document.getElementById('heroTop10');
+    const elK = document.getElementById('heroKD');
+    const bar = document.querySelector('.stats-bar');
+    if (!elM || !elT || !elK || !bar) return;
+    const PUBG_PROXY = '/api';
+    const SHARD = 'steam';
+    const HERO_PLAYER = 'SymarsYoung';
+    try {
+      const r1 = await fetch(PUBG_PROXY + '/shards/' + SHARD + '/players?filter[playerNames]=' + HERO_PLAYER, {
+        headers: { Accept: 'application/vnd.api+json' }
+      });
+      if (!r1.ok) return;
+      const pid = (await r1.json()).data[0].id;
+      const r2 = await fetch(PUBG_PROXY + '/shards/' + SHARD + '/players/' + pid + '/seasons/lifetime', {
+        headers: { Accept: 'application/vnd.api+json' }
+      });
+      const s = (await r2.json()).data.attributes.gameModeStats.squad;
+      const matches = s.roundsPlayed;
+      const top10 = (s.top10s / matches * 100).toFixed(1);
+      const kd = (s.kills / s.losses).toFixed(2);
+      const mStr = matches >= 1000 ? (matches / 1000).toFixed(1) + 'K' : String(matches);
 
-    function countUp(el, target, suffix, accent) {
-      var duration = 1200, start = performance.now(), end = parseFloat(target);
-      function tick(now) {
-        var t = Math.min((now - start) / duration, 1);
-        var ease = 1 - Math.pow(1 - t, 3);
-        var val = (end * ease).toFixed(target.indexOf('.') >= 0 ? target.split('.')[1].length : 0);
-        el.innerHTML = val + (accent ? '<span class="accent">' + suffix + '</span>' : suffix);
-        if (t < 1) requestAnimationFrame(tick);
+      function countUp(el, target, suffix, accent) {
+        var duration = 1200, start = performance.now(), end = parseFloat(target);
+        function tick(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var ease = 1 - Math.pow(1 - t, 3);
+          var val = (end * ease).toFixed(target.indexOf('.') >= 0 ? target.split('.')[1].length : 0);
+          el.innerHTML = val + (accent ? '<span class="accent">' + suffix + '</span>' : suffix);
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
       }
-      requestAnimationFrame(tick);
-    }
 
-    var elM = document.getElementById('heroMatches');
-    var elT = document.getElementById('heroTop10');
-    var elK = document.getElementById('heroKD');
-    var bar = document.querySelector('.stats-bar');
-    var obs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) {
-        countUp(elM, mStr.replace('K',''), 'K+', true);
-        countUp(elT, top10, '%', true);
-        countUp(elK, kd, '', false);
-        obs.disconnect();
-      }
-    }, { threshold: 0.5 });
-    obs.observe(bar);
-  } catch(e) { /* keep "--" fallback */ }
+      heroObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          countUp(elM, mStr.replace('K',''), 'K+', true);
+          countUp(elT, top10, '%', true);
+          countUp(elK, kd, '', false);
+          heroObs.disconnect();
+          heroObs = null;
+        }
+      }, { threshold: 0.5 });
+      heroObs.observe(bar);
+    } catch(e) { /* keep "--" fallback */ }
+  }
+  document.addEventListener('astro:page-load', loadHeroStats);
+  document.addEventListener('astro:before-swap', () => {
+    if (heroObs) { try { heroObs.disconnect(); } catch(e){} heroObs = null; }
+  });
 })();
 </script>
 
