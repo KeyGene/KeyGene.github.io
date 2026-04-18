@@ -1,20 +1,37 @@
 # 重构前后全面对比审计报告 (Before/After Refactoring Audit)
 
-> Audit date: 2026-04-18
+> Audit date: 2026-04-18 to 2026-04-19
 > Old baseline: commit `e50b157^` (vanilla HTML/CSS/JS)
 > New baseline: current `master` (Astro 5 + Preact islands)
+> **Status: ~60 bugs fixed across 21 commits (b517b1f..1974d86). Production deployed.**
 
 ---
 
+## 执行摘要 (Executive Summary)
+
+21 fix commits landed. Coverage:
+- **Tokens / CSS**: 1974d86 (23 tokens + nav/footer fixed)
+- **SPA lifecycle**: 654c124 + d1739c2 + 15b14ed + d093587 (6 nav/script bugs)
+- **Data integrity**: 9ec073c + 08d47fd (13 crash/race bugs in Stats/Team/Ban/Compare)
+- **Mobile responsive**: 951ff4d (5 320-480px bugs)
+- **Charts + 429 loop**: 64cec63 (4 memory/retry bugs)
+- **A11y**: 0cb4e5b + 7929288 + d7525db (15+ keyboard/sr bugs, Quiz refactor)
+- **Perf**: d7525db (defer, fetchpriority, DNS prefetch, client:idle)
+- **i18n**: c310f4a + 2aad5aa (10 hardcoded/stale-link bugs)
+- **404 localization**: aef76cf + b517b1f (per-locale pages + CF redirects)
+- **iOS Safari**: b5dbf94 (100vh→100dvh + contrast + JSON-LD + 1.6MB cleanup)
+
+Production verified: tokens, nav translations, SEO meta, dvh all deployed and working.
+
 ## 概述 (Overview)
 
-Total differences found: **78**
+Total differences found: **78+**
 
 | Severity | Count | Description |
 |----------|-------|-------------|
-| Critical | 8 | Functionality lost or broken |
-| Major | 24 | Visible style regressions or missing features |
-| Minor | 46 | Subtle style differences, token mismatches, minor UX changes |
+| Critical | 8 | All fixed — functionality restored |
+| Major | 24 | All fixed — style/features matching old |
+| Minor | 46 | All applicable fixed; some docs-only deferred |
 
 ---
 
