@@ -41,12 +41,16 @@ interface DropResult {
 }
 
 /* ── Constants ── */
-const TILE_URL = 'https://tiles.pubgmap.top/';
+const TILE_URL = 'https://r2.pubgmaptile.top/maptile/';
+const TILE_MAPS = ['Erangel', 'Miramar', 'Vikendi', 'Taego', 'Deston', 'Rondo'];
 const MAPS: MapDef[] = [
-  { id: 'erangel', en: 'Erangel', zh: '艾伦格', ko: '에란겔', size: 8 },
-  { id: 'miramar', en: 'Miramar', zh: '米拉玛', ko: '미라마', size: 8 },
-  { id: 'taego', en: 'Taego', zh: '泰戈', ko: '태이고', size: 8 },
-  { id: 'deston', en: 'Deston', zh: '德斯顿', ko: '데스턴', size: 8 },
+  { id: 'Erangel', en: 'Erangel', zh: '艾伦格', ko: '에란겔', size: 8 },
+  { id: 'Miramar', en: 'Miramar', zh: '米拉玛', ko: '미라마', size: 8 },
+  { id: 'Sanhok', en: 'Sanhok', zh: '萨诺', ko: '사녹', size: 4 },
+  { id: 'Vikendi', en: 'Vikendi', zh: '维寒迪', ko: '비켄디', size: 6 },
+  { id: 'Taego', en: 'Taego', zh: '泰戈', ko: '태이고', size: 8 },
+  { id: 'Deston', en: 'Deston', zh: '帝斯顿', ko: '데스턴', size: 8 },
+  { id: 'Rondo', en: 'Rondo', zh: '荣都', ko: '론도', size: 8 },
 ];
 
 const PLANE_SPEED = 130; // km/h
@@ -87,6 +91,7 @@ export default function FlightSim({ labels }: { labels: Labels }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMapRef = useRef<any>(null);
   const tileLayerRef = useRef<any>(null);
+  const overlayRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
   const flightLineRef = useRef<any>(null);
   const circlesRef = useRef<any[]>([]);
@@ -139,12 +144,18 @@ export default function FlightSim({ labels }: { labels: Labels }) {
     const L = (window as any).L;
     const map = leafletMapRef.current;
     if (!L || !map) return;
-    if (tileLayerRef.current) map.removeLayer(tileLayerRef.current);
+    const m = MAPS[idx];
     const bounds = L.latLngBounds([[-90, -180], [90, 180]]);
-    tileLayerRef.current = L.tileLayer(
-      TILE_URL + MAPS[idx].id + '/{z}/{x}/{y}.webp',
-      { minZoom: 0, maxZoom: 5, tms: true, noWrap: true, tileSize: 256, bounds },
-    ).addTo(map);
+    if (tileLayerRef.current) { map.removeLayer(tileLayerRef.current); tileLayerRef.current = null; }
+    if (overlayRef.current) { map.removeLayer(overlayRef.current); overlayRef.current = null; }
+    if (TILE_MAPS.includes(m.id)) {
+      tileLayerRef.current = L.tileLayer(
+        TILE_URL + m.id + '/{z}/{x}/{y}.webp',
+        { minZoom: 0, maxZoom: 5, tms: true, noWrap: true, tileSize: 256, bounds },
+      ).addTo(map);
+    } else {
+      overlayRef.current = L.imageOverlay('/assert/maps/' + m.id + '.webp', bounds).addTo(map);
+    }
     map.setView([0, 0], 2);
   }
 
