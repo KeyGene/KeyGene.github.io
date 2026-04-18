@@ -148,8 +148,9 @@ export default function BanCheckTab({ player, labels }: Props) {
           onInput={e => setInput((e.target as HTMLInputElement).value)}
           onKeyDown={e => { if (e.key === 'Enter') doBanCheck(); }}
           placeholder={labels.banPlaceholder}
+          aria-label={labels.banPlaceholder}
         />
-        <button class="ban-check-btn" onClick={() => doBanCheck()}>{labels.banCheckBtn}</button>
+        <button class="ban-check-btn" onClick={() => doBanCheck()} disabled={loading}>{labels.banCheckBtn}</button>
       </div>
 
       {loading && <div class="loading-msg">{labels.banChecking}</div>}

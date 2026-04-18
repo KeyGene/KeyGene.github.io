@@ -99,8 +99,8 @@ export default function StatsEngine({ initialPlayer, labels }: Props) {
   }, []);
 
   const renderTab = () => {
-    if (loading) return <div class="loading-msg">{labels.loading}</div>;
-    if (error) return <div class="empty-msg">{error === 'rate' ? labels.rateLimited : labels.playerNotFound}</div>;
+    if (loading) return <div class="loading-msg" role="status" aria-live="polite">{labels.loading}</div>;
+    if (error) return <div class="empty-msg" role="alert" aria-live="assertive">{error === 'rate' ? labels.rateLimited : labels.playerNotFound}</div>;
     if (!player) return <div class="empty-msg">{labels.searchPrompt}</div>;
 
     switch (activeTab) {

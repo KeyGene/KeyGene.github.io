@@ -52,7 +52,7 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
       <a href={langPath('ko')} data-lang="ko" class:list={[{ active: lang === 'ko' }]}>한</a>
     </div>
     <a href={localePath('/#join')} class="btn-clip btn-red nav-join" style="padding:8px 20px; font-size:12px;">{t('navJoin', lang)}</a>
-    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false" aria-controls="mobileNav">
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
       </svg>
@@ -61,7 +61,7 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 </header>
 
 <!-- Mobile Nav Overlay -->
-<div class="mobile-nav" id="mobileNav">
+<div class="mobile-nav" id="mobileNav" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -115,8 +115,17 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     const mobileNav = document.getElementById('mobileNav');
     const mobileClose = document.getElementById('mobileNavClose') as HTMLElement | null;
 
-    function openNav() { mobileNav?.classList.add('open'); document.body.style.overflow = 'hidden'; }
-    function closeNav() { mobileNav?.classList.remove('open'); document.body.style.overflow = ''; }
+    function openNav() {
+      mobileNav?.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      hamburger?.setAttribute('aria-expanded', 'true');
+    }
+    function closeNav() {
+      mobileNav?.classList.remove('open');
+      document.body.style.overflow = '';
+      hamburger?.setAttribute('aria-expanded', 'false');
+      hamburger?.focus();
+    }
 
     if (hamburger && !hamburger.dataset.bound) {
       hamburger.dataset.bound = '1';
@@ -125,6 +134,12 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     if (mobileClose && !mobileClose.dataset.bound) {
       mobileClose.dataset.bound = '1';
       mobileClose.addEventListener('click', closeNav);
+    }
+    if (mobileNav && !mobileNav.dataset.escBound) {
+      mobileNav.dataset.escBound = '1';
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('open')) closeNav();
+      });
     }
     mobileNav?.querySelectorAll<HTMLAnchorElement>('a').forEach(a => {
       if (a.dataset.boundClose) return;

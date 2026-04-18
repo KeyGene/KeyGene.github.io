@@ -3,7 +3,7 @@ import { t } from '../i18n/utils';
 const lang = Astro.currentLocale ?? 'zh';
 ---
 
-<div class="server-status-float" id="serverStatusFloat">
+<div class="server-status-float" id="serverStatusFloat" role="status" aria-live="polite" aria-label={t('serverLabel', lang)}>
   <div class="ss-header">
     <span class="ss-dot" id="ssDot"></span>
     <span class="ss-title">{t('serverLabel', lang)}</span>

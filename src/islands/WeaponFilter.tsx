@@ -244,6 +244,7 @@ export default function WeaponFilter({ data, lang, labels }: Props) {
           value={search}
           onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
           placeholder={labels.search}
+          aria-label={labels.search}
           style={{
             flex: '1', minWidth: '180px', padding: '10px 16px',
             background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)',

@@ -118,7 +118,7 @@ const cmdLabels = {
 <body>
   <a href="#main-content" class="skip-nav">Skip to content</a>
   <Nav />
-  <main id="main-content" transition:animate="fade" style={`min-height: calc(100vh - 160px); padding-top: var(--header-height);`}>
+  <main id="main-content" tabindex="-1" transition:animate="fade" style={`min-height: calc(100vh - 160px); padding-top: var(--header-height);`}>
     <slot />
   </main>
   <Footer />

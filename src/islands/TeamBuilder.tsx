@@ -278,6 +278,7 @@ export default function TeamBuilder({ labels }: Props) {
                 setNames(next);
               }}
               placeholder={[labels.player1, labels.player2, labels.player3, labels.player4][i]}
+              aria-label={[labels.player1, labels.player2, labels.player3, labels.player4][i]}
               style="padding:12px 16px;background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-sans);font-size:14px;outline:none"
               onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = 'var(--color-red)'; }}
               onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = 'var(--color-card-border)'; }}
@@ -290,6 +291,7 @@ export default function TeamBuilder({ labels }: Props) {
             <select
               value={shard}
               onChange={(e) => setShard((e.target as HTMLSelectElement).value)}
+              aria-label={labels.server}
               style="width:100%;padding:12px 16px;background:var(--color-card-bg);border:1px solid var(--color-card-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-sans);font-size:14px;outline:none;cursor:pointer;appearance:auto"
             >
               {SHARD_OPTIONS.map(s => (
