@@ -58,7 +58,7 @@ const cmdLabels = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   {desc && <meta name="description" content={desc} />}
-  <meta name="keywords" content="PUBG, 绝地求生, 战队, KeyGene, 电竞, 战绩查询, 武器数据, 地图攻略, 灵敏度" />
+  <meta name="keywords" content={t('metaKeywords', lang)} />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content={title} />
   {desc && <meta property="og:description" content={desc} />}
@@ -118,7 +118,7 @@ const cmdLabels = {
   </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-nav">Skip to content</a>
+  <a href="#main-content" class="skip-nav">{t('skipNav', lang)}</a>
   <Nav />
   <main id="main-content" tabindex="-1" transition:animate="fade" style={`min-height: calc(100vh - 160px); padding-top: var(--header-height);`}>
     <slot />

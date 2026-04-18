@@ -13,6 +13,7 @@ interface Labels {
   copyLink: string;
   copied: string;
   teamHeroSub: string;
+  teamTitle: string;
   kd: string;
   winRate: string;
   kills: string;
@@ -256,10 +257,10 @@ export default function TeamBuilder({ labels }: Props) {
       <div style="padding:48px 24px 32px;text-align:center">
         <div style="display:inline-flex;align-items:center;gap:8px;font-size:var(--text-xs);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-red);margin-bottom:var(--space-md)">
           <span style="width:24px;height:2px;background:var(--color-red);display:inline-block" />
-          {labels.teamRadar.replace(/radar/i, 'Analyzer').includes('Analyzer') ? 'Team Analyzer' : labels.teamRadar}
+          {labels.teamTitle}
         </div>
         <h1 class="team-hero-title" style="font-size:var(--text-3xl);font-weight:800;letter-spacing:-0.04em;text-transform:uppercase;margin-bottom:10px">
-          TEAM <span style="color:var(--color-red)">ANALYZER</span>
+          {labels.teamTitle}
         </h1>
         <p style="color:var(--color-text-muted);font-size:var(--text-base);max-width:480px;margin:0 auto">{labels.teamHeroSub}</p>
       </div>

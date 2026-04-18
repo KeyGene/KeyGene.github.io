@@ -333,5 +333,9 @@
   "cmdPages": "页面",
   "cmdTools": "工具",
   "cmdPlaceholder": "搜索页面...",
-  "cmdNoResults": "无结果"
+  "cmdNoResults": "无结果",
+  "notFoundMsg": "页面未找到",
+  "backHome": "返回首页",
+  "skipNav": "跳到主内容",
+  "metaKeywords": "PUBG, 绝地求生, 战队, KeyGene, 电竞, 战绩查询, 武器数据, 地图攻略, 灵敏度"
 }

@@ -1,12 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import { t } from '../i18n/utils';
+const lang = Astro.currentLocale ?? 'zh';
+const homeHref = lang === 'zh' ? '/' : `/${lang}/`;
 ---
 
 <Base title="404">
   <div class="not-found">
     <h1>404</h1>
-    <p>Page not found</p>
-    <a href="/" class="btn-clip btn-red">Back to Home</a>
+    <p>{t('notFoundMsg', lang)}</p>
+    <a href={homeHref} class="btn-clip btn-red">{t('backHome', lang)}</a>
   </div>
 </Base>
 

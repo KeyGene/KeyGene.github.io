@@ -1,6 +1,7 @@
 ---
 import { t } from '../i18n/utils';
 const lang = Astro.currentLocale ?? 'zh';
+const localePath = (p: string) => lang === 'zh' ? p : `/${lang}${p}`;
 ---
 
 <section class="hero" transition:name="hero">
@@ -20,9 +21,9 @@ const lang = Astro.currentLocale ?? 'zh';
     </h1>
     <p class="hero-sub">{t('heroSub', lang)}</p>
     <div class="hero-actions">
-      <a href="/stats/" class="btn-clip btn-red">{t('heroBtn1', lang)}</a>
+      <a href={localePath('/stats/')} class="btn-clip btn-red">{t('heroBtn1', lang)}</a>
       <a href="#join" class="btn-clip btn-outline">{t('heroBtn2', lang)}</a>
-      <a href="/quiz/" class="btn-clip btn-outline">{t('heroQuizBtn', lang)}</a>
+      <a href={localePath('/quiz/')} class="btn-clip btn-outline">{t('heroQuizBtn', lang)}</a>
     </div>
   </div>
 

@@ -165,7 +165,7 @@ export default function LeaderboardTable({ labels, lang }: Props) {
   }, [seasonId, mode]);
 
   const statsUrl = (name: string) => {
-    const base = lang === 'en' ? '/stats' : `/${lang}/stats`;
+    const base = lang === 'zh' ? '/stats' : `/${lang}/stats`;
     return `${base}?player=${encodeURIComponent(name)}`;
   };
 

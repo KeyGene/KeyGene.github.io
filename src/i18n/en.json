@@ -333,5 +333,9 @@
   "cmdPages": "Pages",
   "cmdTools": "Tools",
   "cmdPlaceholder": "Search pages...",
-  "cmdNoResults": "No results"
+  "cmdNoResults": "No results",
+  "notFoundMsg": "Page not found",
+  "backHome": "Back to Home",
+  "skipNav": "Skip to content",
+  "metaKeywords": "PUBG, PlayerUnknown's Battlegrounds, esports, KeyGene, team, stats, weapons, maps, sensitivity"
 }
