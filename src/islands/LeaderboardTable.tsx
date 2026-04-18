@@ -142,13 +142,17 @@ export default function LeaderboardTable({ labels, lang }: Props) {
       setPlayers(list);
       setLoading(false);
     } catch (err: any) {
-      // Season fallback: try next season once
+      // Season fallback: try next season once (without re-triggering effect)
       if (!retried && seasons.length > 1) {
         const idx = seasons.findIndex(s => s.id === sid);
         if (idx >= 0 && idx < seasons.length - 1) {
           const next = seasons[idx + 1].id;
-          setSeasonId(next);
-          return loadLeaderboard(next, gm, true);
+          // call with retried=true so further failures don't recurse
+          return loadLeaderboard(next, gm, true).then(() => {
+            // update UI state only after successful retry to avoid effect re-entry
+            retriedRef.current = true;
+            setSeasonId(next);
+          });
         }
       }
       setPlayers([]);
@@ -159,7 +163,7 @@ export default function LeaderboardTable({ labels, lang }: Props) {
 
   useEffect(() => {
     if (seasonId) {
-      retriedRef.current = false;
+      if (retriedRef.current) { retriedRef.current = false; return; }
       loadLeaderboard(seasonId, mode, false);
     }
   }, [seasonId, mode]);

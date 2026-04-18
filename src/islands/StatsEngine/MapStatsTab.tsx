@@ -17,6 +17,9 @@ export default function MapStatsTab({ player, labels, matchCache }: Props) {
 
   useEffect(() => {
     let cancelled = false;
+    setMapStats(null);
+    setLoading(true);
+    chartCreated.current = false;
     (async () => {
       const ms: Record<string, MapStat> = {};
       const ids = player.matchIds.slice(0, 20);
@@ -30,12 +33,14 @@ export default function MapStatsTab({ player, labels, matchCache }: Props) {
             else continue;
           }
           const m = matchCache[mid];
+          if (!m?.data?.attributes || !Array.isArray(m?.included)) continue;
           const mn = mapName(m.data.attributes.mapName);
-          const roster = m.included.find((i: any) => i.type === 'participant' && i.attributes.stats.playerId === player.id);
+          const roster = m.included.find((i: any) => i.type === 'participant' && i.attributes?.stats?.playerId === player.id);
           if (!roster) continue;
-          const ps = roster.attributes.stats;
-          const rosterRef = m.included.find((i: any) => i.type === 'roster' && i.relationships.participants.data.some((p: any) => p.id === roster.id));
-          const won = rosterRef ? rosterRef.attributes.stats.rank === 1 : false;
+          const ps = roster.attributes?.stats;
+          if (!ps) continue;
+          const rosterRef = m.included.find((i: any) => i.type === 'roster' && i.relationships?.participants?.data?.some((p: any) => p.id === roster.id));
+          const won = rosterRef?.attributes?.stats?.rank === 1;
 
           if (!ms[mn]) ms[mn] = { games: 0, wins: 0, kills: 0, deaths: 0 };
           ms[mn].games++;

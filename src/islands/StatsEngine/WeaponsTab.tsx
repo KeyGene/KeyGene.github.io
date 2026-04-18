@@ -21,6 +21,9 @@ export default function WeaponsTab({ player, labels, matchCache, telemetryCache 
 
   useEffect(() => {
     let cancelled = false;
+    setWeaponStats(null);
+    setLoading(true);
+    setNoData(false);
     (async () => {
       const ws: Record<string, WeaponStat> = {};
       const ids = player.matchIds.slice(0, 10);

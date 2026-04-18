@@ -14,6 +14,8 @@ export default function RecentMatchesTab({ player, labels, matchCache }: Props) 
 
   useEffect(() => {
     let cancelled = false;
+    setCards([]);
+    setLoading(true);
     (async () => {
       if (player.matchIds.length === 0) { setLoading(false); return; }
       const ids = player.matchIds.slice(0, 20);
@@ -28,12 +30,14 @@ export default function RecentMatchesTab({ player, labels, matchCache }: Props) 
             else continue;
           }
           const m = matchCache[mid];
-          const attr = m.data.attributes;
-          const roster = m.included.find((i: any) => i.type === 'participant' && i.attributes.stats.playerId === player.id);
+          const attr = m?.data?.attributes;
+          if (!attr || !Array.isArray(m?.included)) continue;
+          const roster = m.included.find((i: any) => i.type === 'participant' && i.attributes?.stats?.playerId === player.id);
           if (!roster) continue;
-          const ps = roster.attributes.stats;
-          const rosterRef = m.included.find((i: any) => i.type === 'roster' && i.relationships.participants.data.some((p: any) => p.id === roster.id));
-          const rk = rosterRef ? rosterRef.attributes.stats.rank : '?';
+          const ps = roster.attributes?.stats;
+          if (!ps) continue;
+          const rosterRef = m.included.find((i: any) => i.type === 'roster' && i.relationships?.participants?.data?.some((p: any) => p.id === roster.id));
+          const rk = rosterRef?.attributes?.stats?.rank ?? '?';
           const mn = mapName(attr.mapName);
           const mapBg = MAP_COLORS[mn] || '#333';
           const isWin = rk === 1;

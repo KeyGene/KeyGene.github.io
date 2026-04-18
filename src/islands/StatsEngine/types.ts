@@ -134,7 +134,10 @@ export function formatTier(tierObj: TierInfo | null): { name: string; icon: stri
 }
 
 export function timeAgo(dateStr: string, labels: Labels): string {
-  const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+  const t = new Date(dateStr).getTime();
+  if (isNaN(t)) return '';
+  const diff = (Date.now() - t) / 1000;
+  if (diff < 60) return '0' + (labels.ago_m || 'm ago');
   if (diff < 3600) return Math.floor(diff / 60) + (labels.ago_m || 'm ago');
   if (diff < 86400) return Math.floor(diff / 3600) + (labels.ago_h || 'h ago');
   return Math.floor(diff / 86400) + (labels.ago_d || 'd ago');

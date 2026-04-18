@@ -15,25 +15,32 @@ export default function OverviewTab({ player, labels }: Props) {
   const mk = s.roundMostKills || 0;
   const rank = formatTier(player.rankedTier);
 
-  const exportImage = async () => {
-    const el = document.getElementById('overviewCapture');
-    if (!el || !(window as any).html2canvas) return;
-    const canvas = await (window as any).html2canvas(el, { backgroundColor: '#000000', scale: 2 });
-    const link = document.createElement('a');
-    link.download = `${player.name}-stats.png`;
-    link.href = canvas.toDataURL();
-    link.click();
+  const showToast = (text: string) => {
     const toast = document.createElement('div');
-    toast.textContent = '\u2705 Exported!';
+    toast.textContent = text;
     toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;z-index:9999;';
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 2000);
+  };
+  const exportImage = async () => {
+    const el = document.getElementById('overviewCapture');
+    if (!el || !(window as any).html2canvas) { showToast('\u23F3'); return; }
+    try {
+      const canvas = await (window as any).html2canvas(el, { backgroundColor: '#000000', scale: 2 });
+      const link = document.createElement('a');
+      link.download = `${player.name}-stats.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+      showToast('\u2705 Exported!');
+    } catch {
+      showToast('\u274C Export failed');
+    }
   };
 
   return (
     <div>
       <div class="player-banner" id="overviewCapture">
-        <div class="player-avatar">{player.name[0].toUpperCase()}</div>
+        <div class="player-avatar">{(player.name?.[0] || '?').toUpperCase()}</div>
         <div class="player-info">
           <div class="player-name">{player.name}</div>
           <div class="player-meta">{labels.platform}</div>

@@ -291,7 +291,9 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
       ctx!.textAlign = 'center';
       ctx!.fillStyle = gc;
       ctx!.font = '600 18px Rubik, sans-serif';
-      const strengths = type.strengths[lang as keyof typeof type.strengths] as string[];
+      const strengths = (type.strengths[lang as keyof typeof type.strengths] as string[])
+        || (type.strengths.zh as string[])
+        || [];
       ctx!.fillText(strengths.join('  ·  '), W / 2, barY);
 
       // URL

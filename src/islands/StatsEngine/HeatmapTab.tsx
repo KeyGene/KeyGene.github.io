@@ -14,6 +14,8 @@ export default function HeatmapTab({ player, labels, matchCache }: Props) {
 
   useEffect(() => {
     let cancelled = false;
+    setGrid(null);
+    setLoading(true);
     (async () => {
       const g = Array.from({ length: 7 }, () => Array(24).fill(0));
       const ids = player.matchIds.slice(0, 50);
@@ -26,7 +28,8 @@ export default function HeatmapTab({ player, labels, matchCache }: Props) {
             if (r.ok) matchCache[mid] = await r.json();
             else continue;
           }
-          const d = new Date(matchCache[mid].data.attributes.createdAt);
+          const d = new Date(matchCache[mid]?.data?.attributes?.createdAt);
+          if (isNaN(d.getTime())) continue;
           const day = (d.getDay() + 6) % 7;
           g[day][d.getHours()]++;
         } catch { continue; }
