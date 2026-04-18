@@ -46,10 +46,10 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 
   <div class="nav-right">
     <ThemeToggle client:load />
-    <div class="lang-switcher">
-      <a href={langPath('zh')} class:list={[{ active: lang === 'zh' }]}>中</a>
-      <a href={langPath('en')} class:list={[{ active: lang === 'en' }]}>EN</a>
-      <a href={langPath('ko')} class:list={[{ active: lang === 'ko' }]}>한</a>
+    <div class="lang-switcher" id="langSwitcher">
+      <a href={langPath('zh')} data-lang="zh" class:list={[{ active: lang === 'zh' }]}>中</a>
+      <a href={langPath('en')} data-lang="en" class:list={[{ active: lang === 'en' }]}>EN</a>
+      <a href={langPath('ko')} data-lang="ko" class:list={[{ active: lang === 'ko' }]}>한</a>
     </div>
     <a href={localePath('/#join')} class="btn-clip btn-red nav-join" style="padding:8px 20px; font-size:12px;">{t('navJoin', lang)}</a>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
@@ -93,7 +93,24 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 </div>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
+  function syncLangLinks() {
+    const path = window.location.pathname;
+    const basePath = path.replace(/^\/(en|ko)(?=\/|$)/, '') || '/';
+    const currentLang = path.match(/^\/(en|ko)(?=\/|$)/)?.[1] || 'zh';
+    const switcher = document.getElementById('langSwitcher');
+    if (!switcher) return;
+    switcher.querySelectorAll<HTMLAnchorElement>('a[data-lang]').forEach(a => {
+      const lang = a.dataset.lang;
+      a.href = lang === 'zh' ? basePath : `/${lang}${basePath}`;
+      a.classList.toggle('active', lang === currentLang);
+    });
+    document.querySelectorAll<HTMLAnchorElement>('a.nav-join').forEach(a => {
+      a.href = currentLang === 'zh' ? '/#join' : `/${currentLang}/#join`;
+    });
+  }
+
+  function setupNav() {
+    syncLangLinks();
     const hamburger = document.getElementById('hamburgerBtn');
     const mobileNav = document.getElementById('mobileNav');
     const mobileClose = document.getElementById('mobileNavClose');
@@ -109,7 +126,10 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
         label.parentElement?.classList.toggle('open');
       });
     });
-  });
+  }
+
+  document.addEventListener('astro:page-load', setupNav);
+  document.addEventListener('astro:after-swap', syncLangLinks);
 </script>
 
 <style>
