@@ -58,12 +58,22 @@ const cmdLabels = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   {desc && <meta name="description" content={desc} />}
+  <meta name="keywords" content="PUBG, 绝地求生, 战队, KeyGene, 电竞, 战绩查询, 武器数据, 地图攻略, 灵敏度" />
+  <meta name="robots" content="index, follow" />
   <meta property="og:title" content={title} />
   {desc && <meta property="og:description" content={desc} />}
   <meta property="og:image" content={og} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={Astro.url.href} />
+  <meta property="og:site_name" content="KeyGene" />
+  <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : lang === 'ko' ? 'ko_KR' : 'en_US'} />
+  <meta property="og:locale:alternate" content="zh_CN" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="ko_KR" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  {desc && <meta name="twitter:description" content={desc} />}
+  <meta name="twitter:image" content={og} />
   <link rel="canonical" href={Astro.url.href} />
   {hreflangs.map(h => <link rel="alternate" hreflang={h.lang} href={h.href} />)}
   <link rel="alternate" hreflang="x-default" href={`https://keygene.top${basePath}`} />

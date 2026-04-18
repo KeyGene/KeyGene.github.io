@@ -9,7 +9,7 @@ export default function SharePoster({ targetId, filename, label }: Props) {
     const el = document.getElementById(targetId);
     if (!el || !(window as any).html2canvas) return;
     const canvas = await (window as any).html2canvas(el, {
-      backgroundColor: '#0a0a0a',
+      backgroundColor: '#000000',
       scale: 2,
       useCORS: true,
       logging: false

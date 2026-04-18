@@ -390,7 +390,7 @@ export default function TeamBuilder({ labels }: Props) {
                 const html2canvas = (window as any).html2canvas;
                 if (!html2canvas) { showToast('⏳ Loading...'); return; }
                 try {
-                  const canvas = await html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2 });
+                  const canvas = await html2canvas(el, { backgroundColor: '#000000', scale: 2 });
                   const a = document.createElement('a');
                   a.href = canvas.toDataURL('image/png');
                   a.download = 'keygene-team.png';

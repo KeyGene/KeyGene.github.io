@@ -373,7 +373,7 @@ export default function FlightSim({ labels }: { labels: Labels }) {
               return;
             }
             try {
-              const canvas = await html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2 });
+              const canvas = await html2canvas(el, { backgroundColor: '#000000', scale: 2 });
               const a = document.createElement('a');
               a.href = canvas.toDataURL('image/png');
               a.download = 'keygene-flight.png';

@@ -51,6 +51,7 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
       <a href={langPath('en')} class:list={[{ active: lang === 'en' }]}>EN</a>
       <a href={langPath('ko')} class:list={[{ active: lang === 'ko' }]}>한</a>
     </div>
+    <a href={localePath('/#join')} class="btn-clip btn-red nav-join" style="padding:8px 20px; font-size:12px;">{t('navJoin', lang)}</a>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
@@ -103,6 +104,11 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     hamburger?.addEventListener('click', openNav);
     mobileClose?.addEventListener('click', closeNav);
     mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+    mobileNav?.querySelectorAll('.mobile-group-label').forEach(label => {
+      label.addEventListener('click', () => {
+        label.parentElement?.classList.toggle('open');
+      });
+    });
   });
 </script>
 
@@ -117,11 +123,11 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--space-xl);
-    background: var(--color-card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--color-card-border);
+    padding: 0 48px;
+    background: var(--header-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .logo {
@@ -138,50 +144,68 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
   nav {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
+    gap: 32px;
   }
 
   .nav-link {
     color: var(--color-text-muted);
-    font-size: var(--text-sm);
+    font-size: 14px;
     font-weight: 500;
-    padding: var(--space-sm) var(--space-md);
-    border-radius: var(--radius-sm);
-    transition: color var(--transition-fast), background var(--transition-fast);
+    letter-spacing: 0.02em;
+    padding: 12px 8px;
+    transition: color 0.2s;
     text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
-  .nav-link:hover { color: var(--color-text); background: var(--color-surface-hover); }
+  .nav-dropdown > .nav-link::after {
+    content: '';
+    display: inline-block;
+    width: 0; height: 0;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+    border-top: 4px solid currentColor;
+    transition: transform 0.2s;
+  }
+  .nav-dropdown:hover > .nav-link::after { transform: rotate(180deg); }
+  .nav-link:hover { color: var(--color-text); }
   .nav-link.active { color: var(--color-red); }
+  .nav-dropdown:hover > .nav-link { color: var(--color-text); }
 
   .nav-dropdown { position: relative; }
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 4px);
     left: 0;
-    min-width: 170px;
-    padding: var(--space-xs) 0;
-    background: var(--color-surface);
+    min-width: 160px;
+    padding: 6px 0;
+    background: var(--header-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    z-index: 100;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    z-index: 150;
   }
   .nav-dropdown:hover .dropdown-menu { display: block; }
   .dropdown-menu a {
     display: block;
-    padding: var(--space-sm) var(--space-md);
-    font-size: var(--text-sm);
+    padding: 10px 20px;
     color: var(--color-text-muted);
     text-decoration: none;
-    transition: background var(--transition-fast), color var(--transition-fast);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.15s, background 0.15s;
   }
-  .dropdown-menu a:hover { background: var(--color-surface-hover); color: var(--color-text); }
+  .dropdown-menu a:hover { background: rgba(255,255,255,0.05); color: var(--color-text); }
 
   .nav-right {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: 20px;
   }
 
   .lang-switcher {
@@ -214,19 +238,20 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 
   /* Mobile nav overlay */
   .mobile-nav {
+    display: none;
     position: fixed;
     inset: 0;
-    z-index: 2000;
-    background: var(--color-bg);
-    padding: var(--space-2xl) var(--space-xl);
-    display: flex;
+    z-index: 200;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
-    gap: var(--space-lg);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
     overflow-y: auto;
   }
-  .mobile-nav.open { transform: translateX(0); }
+  .mobile-nav.open { display: flex; }
 
   .mobile-nav-close {
     position: absolute;
@@ -238,25 +263,40 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     cursor: pointer;
   }
 
+  .mobile-group { text-align: center; }
   .mobile-group-label {
-    font-size: var(--text-xs);
+    color: var(--color-text);
+    font-size: 24px;
     font-weight: 700;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-xs);
+    cursor: pointer;
     display: block;
   }
-  .mobile-sub { display: flex; flex-direction: column; gap: var(--space-xs); }
+  .mobile-sub {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .mobile-group.open .mobile-sub { display: flex; }
   .mobile-sub a,
   .mobile-direct {
-    font-size: var(--text-lg);
-    color: var(--color-text);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-text-muted);
     text-decoration: none;
-    padding: var(--space-xs) 0;
+    text-transform: none;
   }
   .mobile-sub a:hover,
   .mobile-direct:hover { color: var(--color-red); }
+  .mobile-direct {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
 
   @media (max-width: 768px) {
     header {
@@ -265,6 +305,10 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
     }
     nav { display: none; }
     .lang-switcher { display: none; }
+    .nav-join { display: none; }
     .hamburger { display: block; }
+    .logo { gap: 8px; }
+    .logo img { width: 32px; height: 32px; }
+    .logo-text { font-size: 18px; }
   }
 </style>

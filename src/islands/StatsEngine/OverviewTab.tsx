@@ -18,7 +18,7 @@ export default function OverviewTab({ player, labels }: Props) {
   const exportImage = async () => {
     const el = document.getElementById('overviewCapture');
     if (!el || !(window as any).html2canvas) return;
-    const canvas = await (window as any).html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2 });
+    const canvas = await (window as any).html2canvas(el, { backgroundColor: '#000000', scale: 2 });
     const link = document.createElement('a');
     link.download = `${player.name}-stats.png`;
     link.href = canvas.toDataURL();

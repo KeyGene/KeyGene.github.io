@@ -73,7 +73,7 @@ export default function CompareTab({ player, labels }: Props) {
   const generatePoster = () => {
     const el = document.getElementById('compareCapture');
     if (!el || !(window as any).html2canvas) return;
-    (window as any).html2canvas(el, { backgroundColor: '#0a0a0a', scale: 2, useCORS: true, logging: false }).then((canvas: HTMLCanvasElement) => {
+    (window as any).html2canvas(el, { backgroundColor: '#000000', scale: 2, useCORS: true, logging: false }).then((canvas: HTMLCanvasElement) => {
       const link = document.createElement('a');
       link.download = `keygene-vs-${player.name}-${player2Name}.png`;
       link.href = canvas.toDataURL('image/png');

@@ -144,11 +144,13 @@ const labels: Record<string, string> = {
   .search-input:focus { border-color: var(--color-red); }
   .search-input::placeholder { color: var(--color-gray-500); }
   .search-btn {
-    padding: 14px 28px; background: var(--color-red); color: var(--color-text);
-    border: none; border-radius: 8px; font-family: var(--font-sans); font-size: 14px;
-    font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    padding: 12px 28px; background: var(--color-red); color: #fff;
+    border: none; font-family: var(--font-sans); font-size: 14px;
+    font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.15s; white-space: nowrap;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   }
-  .search-btn:hover { background: var(--red-hover); }
+  .search-btn:hover { background: var(--color-red-hover); transform: translateY(-1px); }
 
   .tab-bar {
     display: flex; gap: 0; border-bottom: 1px solid var(--color-card-border);
@@ -360,8 +362,10 @@ const labels: Record<string, string> = {
   .ban-search-box input::placeholder { color: var(--color-gray-500); }
   .ban-check-btn {
     padding: 14px 24px; background: var(--color-red); color: var(--color-text);
-    border: none; border-radius: 8px; font-family: var(--font-sans); font-size: 14px;
-    font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    border: none; font-family: var(--font-sans); font-size: 14px;
+    font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.15s; white-space: nowrap;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   }
   .ban-check-btn:hover { background: var(--red-hover); }
   .ban-result {
