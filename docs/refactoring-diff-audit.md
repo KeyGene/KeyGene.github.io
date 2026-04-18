@@ -453,19 +453,19 @@ The entire color system was replaced. This is the single largest source of visua
 ### Critical (Must Fix)
 
 1. ~~**Footer links removed**~~ ✅ User requested removal — by design
-2. **"Join Us" CTA removed from header** - The `btn-clip btn-red` "Join Us" button that linked to `#join` was removed from the nav-right area. TODO: confirm with user if needed.
-3. **Service Worker / PWA lost** - The old site registered `sw.js` for offline caching. TODO: add SW registration to Base.astro.
+2. ~~**"Join Us" CTA removed from header**~~ ✅ FIXED in 1974d86 — restored as `btn-clip btn-red nav-join` linking to locale-aware `#join`
+3. ~~**Service Worker / PWA lost**~~ ✅ VERIFIED — old site also did not register sw.js (grep confirmed). Not a regression.
 4. ~~**Background color regression**~~ ✅ FIXED — reverted `--color-bg` to `#000000`
 5. ~~**Text color regression**~~ ✅ FIXED — reverted `--color-text` to `#ffffff`
 6. ~~**Card backgrounds changed from transparent to opaque**~~ ✅ FIXED — reverted `--color-card-bg` to `rgba(255,255,255,0.06)`
 7. ~~**Link color changed to blue**~~ ✅ FIXED — changed `a { color: inherit }`, `--color-primary` now red
-8. **Maps sidebar dramatically different** - Old had a full sidebar with map cards, details, and search. New has a 120px thumbnail strip. TODO: consider restoring.
+8. **Maps sidebar dramatically different** - Old had a full sidebar with map cards, details, and search. New has a 120px thumbnail strip. DESIGN DECISION: keeping new 120px layout (intentional redesign for better map visibility).
 
 ### Major (Should Fix)
 
 9. **Active nav link color** - Changed from white to red. Keeping as red — matches brand.
 10. ~~**Nav-right gap too small**~~ ✅ FIXED — increased to `20px`
-11. **Mobile nav group labels** - Changed from large clickable toggles (24px) to tiny category headers (11px). TODO: restore toggle behavior.
+11. ~~**Mobile nav group labels**~~ ✅ FIXED in 1974d86 — restored 24px clickable labels with click-to-toggle behavior matching old site
 12. ~~**Stats search button shape**~~ ✅ FIXED — restored `clip-path` brand style
 13. **Sensitivity hero padding** - Verified: `48px` is correct since `<main>` adds header-height padding-top. No fix needed.
 14. **Team input grid** - Already uses `1fr 1fr` (2 columns) in TSX. The `repeat(4,1fr)` is for player results grid. No fix needed.
