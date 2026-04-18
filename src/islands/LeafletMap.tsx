@@ -559,7 +559,7 @@ export default function LeafletMap({ labels }: { labels: Labels }) {
   const cursorStyle = (measureMode || throwMode) ? 'crosshair' : undefined;
 
   return (
-    <div class="map-viewer-wrapper" style="display:flex;height:calc(100vh - var(--header-height, 72px));overflow:hidden;margin-top:var(--header-height, 72px);">
+    <div class="map-viewer-wrapper" style="display:flex;height:calc(100dvh - var(--header-height, 72px));overflow:hidden;margin-top:var(--header-height, 72px);">
       {/* ── Sidebar ── */}
       <div class="map-sidebar">
         {MAPS.map((mp, i) => (

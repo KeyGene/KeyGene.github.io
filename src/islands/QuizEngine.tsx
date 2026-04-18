@@ -346,7 +346,7 @@ export default function QuizEngine({ questions, types, groupColors, groupInfo, d
   // ===== LANDING =====
   if (screen === 'landing') {
     return (
-      <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 24px 60px;">
+      <div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 24px 60px;">
         <style dangerouslySetInnerHTML={{ __html: responsiveStyles }} />
         <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-red);margin-bottom:20px;">
           <span style="width:24px;height:2px;background:var(--color-red);display:inline-block;" />

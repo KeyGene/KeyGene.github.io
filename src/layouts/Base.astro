@@ -31,7 +31,7 @@ const jsonLd = {
   '@type': 'WebSite',
   name: 'KeyGene',
   url: 'https://keygene.top',
-  description: 'PUBG Guild Tools & Analytics',
+  description: desc || t('siteDesc', lang),
   inLanguage: ['zh-CN', 'en', 'ko'],
 };
 
@@ -120,7 +120,7 @@ const cmdLabels = {
 <body>
   <a href="#main-content" class="skip-nav">{t('skipNav', lang)}</a>
   <Nav />
-  <main id="main-content" tabindex="-1" transition:animate="fade" style={`min-height: calc(100vh - 160px); padding-top: var(--header-height);`}>
+  <main id="main-content" tabindex="-1" transition:animate="fade" style={`min-height: calc(100dvh - 160px); padding-top: var(--header-height);`}>
     <slot />
   </main>
   <Footer />

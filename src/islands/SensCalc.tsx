@@ -354,7 +354,7 @@ export default function SensCalc({ labels }: Props) {
         }
 
         .sc-pro-panel {
-          max-height: calc(100vh - 200px); overflow-y: auto;
+          max-height: calc(100dvh - 200px); overflow-y: auto;
         }
 
         .sc-tag {
