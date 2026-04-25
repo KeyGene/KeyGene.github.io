@@ -1,3 +1,31 @@
+# Strip trailing slashes from canonical pages (must run before 404 catch-all)
+/stats/ /stats 301
+/maps/ /maps 301
+/quiz/ /quiz 301
+/leaderboard/ /leaderboard 301
+/sensitivity/ /sensitivity 301
+/weapons/ /weapons 301
+/team/ /team 301
+/flight/ /flight 301
+
+/en/stats/ /en/stats 301
+/en/maps/ /en/maps 301
+/en/quiz/ /en/quiz 301
+/en/leaderboard/ /en/leaderboard 301
+/en/sensitivity/ /en/sensitivity 301
+/en/weapons/ /en/weapons 301
+/en/team/ /en/team 301
+/en/flight/ /en/flight 301
+
+/ko/stats/ /ko/stats 301
+/ko/maps/ /ko/maps 301
+/ko/quiz/ /ko/quiz 301
+/ko/leaderboard/ /ko/leaderboard 301
+/ko/sensitivity/ /ko/sensitivity 301
+/ko/weapons/ /ko/weapons 301
+/ko/team/ /ko/team 301
+/ko/flight/ /ko/flight 301
+
 # Per-locale 404 fallback
 /en/* /en/404 404
 /ko/* /ko/404 404

@@ -97,7 +97,7 @@ const localePath = (p: string) => lang === 'zh' ? p : `/${lang}${p}`;
       <p class="join-desc">{t('joinDesc', lang)}</p>
       <div class="join-actions">
         <a href="mailto:keygene@hotmail.com" class="btn-clip btn-red">{t('joinBtn1', lang)}</a>
-        <a href={localePath('/stats/')} class="btn-clip btn-outline">{t('joinBtn2', lang)}</a>
+        <a href={localePath('/stats')} class="btn-clip btn-outline">{t('joinBtn2', lang)}</a>
       </div>
       <p class="join-email">
         <span>{t('joinOr', lang)}</span> <a href="mailto:keygene@hotmail.com">keygene@hotmail.com</a>
@@ -136,7 +136,7 @@ const localePath = (p: string) => lang === 'zh' ? p : `/${lang}${p}`;
           e.preventDefault();
           var name = document.getElementById('playerName').value.trim();
           if (name) {
-            window.location.href = '/stats/?player=' + encodeURIComponent(name);
+            window.location.href = '/stats?player=' + encodeURIComponent(name);
           }
         });
       }

@@ -20,28 +20,28 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
 
   <nav>
     <div class="nav-dropdown">
-      <a href={localePath('/stats/')} class:list={['nav-link', { active: isActive('/stats/') || isActive('/leaderboard/') }]}>{t('navStats', lang)}</a>
+      <a href={localePath('/stats')} class:list={['nav-link', { active: isActive('/stats') || isActive('/leaderboard') }]}>{t('navStats', lang)}</a>
       <div class="dropdown-menu">
-        <a href={localePath('/stats/')}>{t('navStatsLookup', lang)}</a>
-        <a href={localePath('/leaderboard/')}>{t('navLeaderboard', lang)}</a>
+        <a href={localePath('/stats')}>{t('navStatsLookup', lang)}</a>
+        <a href={localePath('/leaderboard')}>{t('navLeaderboard', lang)}</a>
       </div>
     </div>
     <div class="nav-dropdown">
-      <a href={localePath('/maps/')} class:list={['nav-link', { active: isActive('/maps/') || isActive('/flight/') }]}>{t('navMaps', lang)}</a>
+      <a href={localePath('/maps')} class:list={['nav-link', { active: isActive('/maps') || isActive('/flight') }]}>{t('navMaps', lang)}</a>
       <div class="dropdown-menu">
-        <a href={localePath('/maps/')}>{t('navMapsInteractive', lang)}</a>
-        <a href={localePath('/flight/')}>{t('navFlight', lang)}</a>
+        <a href={localePath('/maps')}>{t('navMapsInteractive', lang)}</a>
+        <a href={localePath('/flight')}>{t('navFlight', lang)}</a>
       </div>
     </div>
     <div class="nav-dropdown">
-      <a href={localePath('/sensitivity/')} class:list={['nav-link', { active: isActive('/sensitivity/') || isActive('/weapons/') || isActive('/team/') }]}>{t('navTools', lang)}</a>
+      <a href={localePath('/sensitivity')} class:list={['nav-link', { active: isActive('/sensitivity') || isActive('/weapons') || isActive('/team') }]}>{t('navTools', lang)}</a>
       <div class="dropdown-menu">
-        <a href={localePath('/sensitivity/')}>{t('navSensitivity', lang)}</a>
-        <a href={localePath('/weapons/')}>{t('navWeapons', lang)}</a>
-        <a href={localePath('/team/')}>{t('navTeam', lang)}</a>
+        <a href={localePath('/sensitivity')}>{t('navSensitivity', lang)}</a>
+        <a href={localePath('/weapons')}>{t('navWeapons', lang)}</a>
+        <a href={localePath('/team')}>{t('navTeam', lang)}</a>
       </div>
     </div>
-    <a href={localePath('/quiz/')} class:list={['nav-link', { active: isActive('/quiz/') }]}>{t('navQuiz', lang)}</a>
+    <a href={localePath('/quiz')} class:list={['nav-link', { active: isActive('/quiz') }]}>{t('navQuiz', lang)}</a>
   </nav>
 
   <div class="nav-right">
@@ -70,26 +70,26 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
   <div class="mobile-group">
     <span class="mobile-group-label">{t('navStats', lang)}</span>
     <div class="mobile-sub">
-      <a href={localePath('/stats/')}>{t('navStatsLookup', lang)}</a>
-      <a href={localePath('/leaderboard/')}>{t('navLeaderboard', lang)}</a>
+      <a href={localePath('/stats')}>{t('navStatsLookup', lang)}</a>
+      <a href={localePath('/leaderboard')}>{t('navLeaderboard', lang)}</a>
     </div>
   </div>
   <div class="mobile-group">
     <span class="mobile-group-label">{t('navMaps', lang)}</span>
     <div class="mobile-sub">
-      <a href={localePath('/maps/')}>{t('navMapsInteractive', lang)}</a>
-      <a href={localePath('/flight/')}>{t('navFlight', lang)}</a>
+      <a href={localePath('/maps')}>{t('navMapsInteractive', lang)}</a>
+      <a href={localePath('/flight')}>{t('navFlight', lang)}</a>
     </div>
   </div>
   <div class="mobile-group">
     <span class="mobile-group-label">{t('navTools', lang)}</span>
     <div class="mobile-sub">
-      <a href={localePath('/sensitivity/')}>{t('navSensitivity', lang)}</a>
-      <a href={localePath('/weapons/')}>{t('navWeapons', lang)}</a>
-      <a href={localePath('/team/')}>{t('navTeam', lang)}</a>
+      <a href={localePath('/sensitivity')}>{t('navSensitivity', lang)}</a>
+      <a href={localePath('/weapons')}>{t('navWeapons', lang)}</a>
+      <a href={localePath('/team')}>{t('navTeam', lang)}</a>
     </div>
   </div>
-  <a href={localePath('/quiz/')} class="mobile-direct">{t('navQuiz', lang)}</a>
+  <a href={localePath('/quiz')} class="mobile-direct">{t('navQuiz', lang)}</a>
 </div>
 
 <script>

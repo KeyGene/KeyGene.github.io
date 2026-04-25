@@ -19,11 +19,15 @@ const desc = description ?? '';
 const og = ogImage ?? 'https://keygene.top/assert/images/hero-bg.jpg';
 
 const pathname = Astro.url.pathname;
-const basePath = pathname.replace(/^\/(en|ko)\//, '/');
+const basePath = pathname.replace(/^\/(en|ko)(?=\/|$)/, '') || '/';
+const localized = (locale: string) => {
+  if (locale === 'zh') return basePath;
+  return basePath === '/' ? `/${locale}` : `/${locale}${basePath}`;
+};
 const hreflangs = [
-  { lang: 'zh-CN', href: `https://keygene.top${basePath}` },
-  { lang: 'en', href: `https://keygene.top/en${basePath}` },
-  { lang: 'ko', href: `https://keygene.top/ko${basePath}` },
+  { lang: 'zh-CN', href: `https://keygene.top${localized('zh')}` },
+  { lang: 'en', href: `https://keygene.top${localized('en')}` },
+  { lang: 'ko', href: `https://keygene.top${localized('ko')}` },
 ];
 
 const jsonLd = {
@@ -36,14 +40,14 @@ const jsonLd = {
 };
 
 const cmdItems = [
-  { id: 'stats', title: t('navStatsLookup', lang), section: t('cmdPages', lang), href: '/stats/' },
-  { id: 'maps', title: t('navMapsInteractive', lang), section: t('cmdPages', lang), href: '/maps/' },
-  { id: 'quiz', title: t('navQuiz', lang), section: t('cmdPages', lang), href: '/quiz/' },
-  { id: 'lb', title: t('navLeaderboard', lang), section: t('cmdPages', lang), href: '/leaderboard/' },
-  { id: 'sens', title: t('navSensitivity', lang), section: t('cmdTools', lang), href: '/sensitivity/' },
-  { id: 'weapons', title: t('navWeapons', lang), section: t('cmdTools', lang), href: '/weapons/' },
-  { id: 'team', title: t('navTeam', lang), section: t('cmdTools', lang), href: '/team/' },
-  { id: 'flight', title: t('navFlight', lang), section: t('cmdTools', lang), href: '/flight/' },
+  { id: 'stats', title: t('navStatsLookup', lang), section: t('cmdPages', lang), href: '/stats' },
+  { id: 'maps', title: t('navMapsInteractive', lang), section: t('cmdPages', lang), href: '/maps' },
+  { id: 'quiz', title: t('navQuiz', lang), section: t('cmdPages', lang), href: '/quiz' },
+  { id: 'lb', title: t('navLeaderboard', lang), section: t('cmdPages', lang), href: '/leaderboard' },
+  { id: 'sens', title: t('navSensitivity', lang), section: t('cmdTools', lang), href: '/sensitivity' },
+  { id: 'weapons', title: t('navWeapons', lang), section: t('cmdTools', lang), href: '/weapons' },
+  { id: 'team', title: t('navTeam', lang), section: t('cmdTools', lang), href: '/team' },
+  { id: 'flight', title: t('navFlight', lang), section: t('cmdTools', lang), href: '/flight' },
 ];
 const cmdLabels = {
   cmdPlaceholder: t('cmdPlaceholder', lang),
@@ -76,7 +80,7 @@ const cmdLabels = {
   <meta name="twitter:image" content={og} />
   <link rel="canonical" href={Astro.url.href} />
   {hreflangs.map(h => <link rel="alternate" hreflang={h.lang} href={h.href} />)}
-  <link rel="alternate" hreflang="x-default" href={`https://keygene.top${basePath}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://keygene.top${localized('zh')}`} />
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <link rel="icon" href="/assert/images/favicon.ico" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -144,7 +148,7 @@ const cmdLabels = {
 
       if (gPressed) {
         gPressed = false;
-        const routes: Record<string, string> = { s: '/stats/', m: '/maps/', q: '/quiz/', l: '/leaderboard/' };
+        const routes: Record<string, string> = { s: '/stats', m: '/maps', q: '/quiz', l: '/leaderboard' };
         if (routes[e.key]) {
           e.preventDefault();
           window.location.href = routes[e.key];

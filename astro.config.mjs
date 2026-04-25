@@ -4,6 +4,7 @@ import AstroPWA from '@vite-pwa/astro';
 
 export default defineConfig({
   site: 'https://keygene.top',
+  trailingSlash: 'never',
   integrations: [
     preact(),
     AstroPWA({
