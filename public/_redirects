@@ -1,4 +1,4 @@
-# Strip trailing slashes from canonical pages (must run before 404 catch-all)
+# 1. Strip trailing slashes (301 to no-slash canonical)
 /stats/ /stats 301
 /maps/ /maps 301
 /quiz/ /quiz 301
@@ -8,6 +8,7 @@
 /team/ /team 301
 /flight/ /flight 301
 
+/en/ /en 301
 /en/stats/ /en/stats 301
 /en/maps/ /en/maps 301
 /en/quiz/ /en/quiz 301
@@ -17,6 +18,7 @@
 /en/team/ /en/team 301
 /en/flight/ /en/flight 301
 
+/ko/ /ko 301
 /ko/stats/ /ko/stats 301
 /ko/maps/ /ko/maps 301
 /ko/quiz/ /ko/quiz 301
@@ -26,7 +28,37 @@
 /ko/team/ /ko/team 301
 /ko/flight/ /ko/flight 301
 
-# Per-locale 404 fallback
+# 2. Serve directory index.html at no-slash paths (200 rewrite — bypasses CF's auto-308)
+/stats /stats/index.html 200
+/maps /maps/index.html 200
+/quiz /quiz/index.html 200
+/leaderboard /leaderboard/index.html 200
+/sensitivity /sensitivity/index.html 200
+/weapons /weapons/index.html 200
+/team /team/index.html 200
+/flight /flight/index.html 200
+
+/en /en/index.html 200
+/en/stats /en/stats/index.html 200
+/en/maps /en/maps/index.html 200
+/en/quiz /en/quiz/index.html 200
+/en/leaderboard /en/leaderboard/index.html 200
+/en/sensitivity /en/sensitivity/index.html 200
+/en/weapons /en/weapons/index.html 200
+/en/team /en/team/index.html 200
+/en/flight /en/flight/index.html 200
+
+/ko /ko/index.html 200
+/ko/stats /ko/stats/index.html 200
+/ko/maps /ko/maps/index.html 200
+/ko/quiz /ko/quiz/index.html 200
+/ko/leaderboard /ko/leaderboard/index.html 200
+/ko/sensitivity /ko/sensitivity/index.html 200
+/ko/weapons /ko/weapons/index.html 200
+/ko/team /ko/team/index.html 200
+/ko/flight /ko/flight/index.html 200
+
+# 3. Per-locale 404 fallback
 /en/* /en/404 404
 /ko/* /ko/404 404
 /* /404 404
