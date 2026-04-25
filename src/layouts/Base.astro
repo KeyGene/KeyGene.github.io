@@ -43,7 +43,6 @@ const cmdItems = [
   { id: 'stats', title: t('navStatsLookup', lang), section: t('cmdPages', lang), href: '/stats' },
   { id: 'maps', title: t('navMapsInteractive', lang), section: t('cmdPages', lang), href: '/maps' },
   { id: 'quiz', title: t('navQuiz', lang), section: t('cmdPages', lang), href: '/quiz' },
-  { id: 'lb', title: t('navLeaderboard', lang), section: t('cmdPages', lang), href: '/leaderboard' },
   { id: 'sens', title: t('navSensitivity', lang), section: t('cmdTools', lang), href: '/sensitivity' },
   { id: 'weapons', title: t('navWeapons', lang), section: t('cmdTools', lang), href: '/weapons' },
   { id: 'team', title: t('navTeam', lang), section: t('cmdTools', lang), href: '/team' },
@@ -148,7 +147,7 @@ const cmdLabels = {
 
       if (gPressed) {
         gPressed = false;
-        const routes: Record<string, string> = { s: '/stats', m: '/maps', q: '/quiz', l: '/leaderboard' };
+        const routes: Record<string, string> = { s: '/stats', m: '/maps', q: '/quiz' };
         if (routes[e.key]) {
           e.preventDefault();
           window.location.href = routes[e.key];

@@ -19,13 +19,7 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
   </a>
 
   <nav>
-    <div class="nav-dropdown">
-      <a href={localePath('/stats')} class:list={['nav-link', { active: isActive('/stats') || isActive('/leaderboard') }]}>{t('navStats', lang)}</a>
-      <div class="dropdown-menu">
-        <a href={localePath('/stats')}>{t('navStatsLookup', lang)}</a>
-        <a href={localePath('/leaderboard')}>{t('navLeaderboard', lang)}</a>
-      </div>
-    </div>
+    <a href={localePath('/stats')} class:list={['nav-link', { active: isActive('/stats') }]}>{t('navStats', lang)}</a>
     <div class="nav-dropdown">
       <a href={localePath('/maps')} class:list={['nav-link', { active: isActive('/maps') || isActive('/flight') }]}>{t('navMaps', lang)}</a>
       <div class="dropdown-menu">
@@ -67,13 +61,7 @@ const langPath = (locale: string) => locale === 'zh' ? pagePath : `/${locale}${p
       <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   </button>
-  <div class="mobile-group">
-    <span class="mobile-group-label">{t('navStats', lang)}</span>
-    <div class="mobile-sub">
-      <a href={localePath('/stats')}>{t('navStatsLookup', lang)}</a>
-      <a href={localePath('/leaderboard')}>{t('navLeaderboard', lang)}</a>
-    </div>
-  </div>
+  <a href={localePath('/stats')} class="mobile-direct">{t('navStats', lang)}</a>
   <div class="mobile-group">
     <span class="mobile-group-label">{t('navMaps', lang)}</span>
     <div class="mobile-sub">
