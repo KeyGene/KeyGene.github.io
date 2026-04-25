@@ -95,6 +95,34 @@ const cmdLabels = {
       if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
     })();
   </script>
+  <script is:inline>
+    // One-shot eviction: kill stale Service Worker + workbox caches from
+    // pre-2026-04-25 'prompt'-mode builds. Bump APP_VERSION on future deploys
+    // that need a forced client reset.
+    (async function() {
+      var APP_VERSION = '2026-04-25-flatfile';
+      try {
+        if (localStorage.getItem('app_version') === APP_VERSION) return;
+        var didCleanup = false;
+        if ('serviceWorker' in navigator) {
+          var regs = await navigator.serviceWorker.getRegistrations();
+          if (regs.length > 0) {
+            await Promise.all(regs.map(function(r) { return r.unregister(); }));
+            didCleanup = true;
+          }
+        }
+        if ('caches' in window) {
+          var keys = await caches.keys();
+          if (keys.length > 0) {
+            await Promise.all(keys.map(function(k) { return caches.delete(k); }));
+            didCleanup = true;
+          }
+        }
+        localStorage.setItem('app_version', APP_VERSION);
+        if (didCleanup) location.reload();
+      } catch (e) {}
+    })();
+  </script>
   <style>
     .skip-nav {
       position: absolute;
