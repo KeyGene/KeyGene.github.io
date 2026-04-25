@@ -5,10 +5,13 @@ import AstroPWA from '@vite-pwa/astro';
 export default defineConfig({
   site: 'https://keygene.top',
   trailingSlash: 'never',
+  build: {
+    format: 'file',
+  },
   integrations: [
     preact(),
     AstroPWA({
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       manifest: false,
       workbox: {
         globPatterns: ['**/*.{html,css,js,png,jpg,svg,json,woff2}'],
