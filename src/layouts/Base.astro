@@ -16,7 +16,7 @@ interface Props {
 const { title, description, ogImage } = Astro.props;
 const lang = Astro.currentLocale ?? 'zh';
 const desc = description ?? '';
-const og = ogImage ?? 'https://keygene.top/assert/images/hero-bg.jpg';
+const og = ogImage ?? 'https://keygene.top/assert/images/hero-bg.webp';
 
 const pathname = Astro.url.pathname;
 const basePath = pathname.replace(/^\/(en|ko)(?=\/|$)/, '') || '/';
