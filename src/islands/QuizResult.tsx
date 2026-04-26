@@ -114,9 +114,17 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
         @media (max-width: 480px) {
           .qr-actions button { display: block; width: 100%; max-width: 320px; margin: 8px auto !important; }
         }
+        .qr-sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 768px) {
           .qr-sw-grid { grid-template-columns: 1fr !important; }
         }
+        .qr-sw-col { min-width: 0; }
+        .qr-sw-title { display: block; font-size: 13px; font-weight: 600; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1; }
+        .qr-sw-title-muted { color: var(--color-text-muted); }
+        .qr-sw-pills { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
+        .qr-sw-pill { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; line-height: 1.4; white-space: nowrap; }
+        .qr-sw-pill-strength { background: rgba(238,63,44,0.15); color: #ff6b5a; }
+        .qr-sw-pill-weakness { background: var(--color-border); color: var(--color-text-muted); }
         .qr-relation-card:hover { transform: translateY(-1px); }
         @media (prefers-reduced-motion: reduce) {
           .qr-relation-card { transition: none !important; }
@@ -208,22 +216,22 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
 
       {/* Strengths & Weaknesses */}
       <div className="qr-card">
-        <div className="qr-sw-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-          <div>
-            <h4 style={`font-size:13px;font-weight:600;margin:0 0 10px;text-transform:uppercase;letter-spacing:0.06em;color:${gc};`}>{labels.resultStrengths}</h4>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <div className="qr-sw-grid">
+          <div className="qr-sw-col">
+            <h4 className="qr-sw-title" style={`color:${gc};`}>{labels.resultStrengths}</h4>
+            <ul className="qr-sw-pills">
               {type.strengths[lang].map((s) => (
-                <span key={s} style="padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;background:rgba(238,63,44,0.15);color:#ff6b5a;">{s}</span>
+                <li key={s} className="qr-sw-pill qr-sw-pill-strength">{s}</li>
               ))}
-            </div>
+            </ul>
           </div>
-          <div>
-            <h4 style="font-size:13px;font-weight:600;margin:0 0 10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-muted);">{labels.resultWeaknesses}</h4>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <div className="qr-sw-col">
+            <h4 className="qr-sw-title qr-sw-title-muted">{labels.resultWeaknesses}</h4>
+            <ul className="qr-sw-pills">
               {type.weaknesses[lang].map((w) => (
-                <span key={w} style="padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;background:var(--color-border);color:var(--color-text-muted);">{w}</span>
+                <li key={w} className="qr-sw-pill qr-sw-pill-weakness">{w}</li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
