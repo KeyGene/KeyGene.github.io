@@ -30,7 +30,13 @@ interface Props {
 
 const LANG_PREFIX: Record<Lang, string> = { zh: '', en: '/en', ko: '/ko' };
 
-export default function QuizResult({ type, variant, lang, labels, partnerTypes, nemesisType }: Props) {
+export default function QuizResult({ type, variant: variantProp, lang, labels, partnerTypes, nemesisType }: Props) {
+  // Derive variant from URL on client (SSG can't see the ?v= query at build time, so prop is always 'E')
+  const [variant] = useState<Variant>(() => {
+    if (typeof window === 'undefined') return variantProp;
+    const v = new URLSearchParams(window.location.search).get('v');
+    return v === 'D' ? 'D' : 'E';
+  });
   const gc = GROUP_COLORS[type.group];
 
   const matchingScores: DimScores | null = useMemo(() => {
