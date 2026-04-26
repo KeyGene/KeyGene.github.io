@@ -168,10 +168,13 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
   }
 
   // ─── QR code (bottom-right) + URL (bottom-left) ───────────────────────
-  // Dim bars end at y≈1180. Canvas H=1450 leaves 270px below for QR + labels.
+  // Bottom row aligns with dim bars: content area x=60 to x=W-60=690.
+  // QR + 8px white backdrop must end at x=690 to match bar right edge.
+  const CONTENT_LEFT = 60;
+  const CONTENT_RIGHT = W - 60;       // 690
   const QR_SIZE = 140;
-  const QR_X = W - QR_SIZE - 40;     // right edge - QR width - margin
-  const QR_Y = 1240;                  // 60px below dim bars (1180), 70px above bottom
+  const QR_X = CONTENT_RIGHT - QR_SIZE - 8;   // 690 - 140 - 8 = 542 (8 = backdrop pad)
+  const QR_Y = 1240;                  // 60px below dim bars (1180)
 
   const resultUrl = `${SITE_ORIGIN}${LANG_PREFIX_FOR_URL[lang]}/quiz/result/${type.code}?v=${variant}`;
   try {
@@ -198,9 +201,9 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
   }
 
   // ─── Bottom-left: large logo + welcome message + URL ──────────────────
-  // Big helmet logo (re-uses logoImg already loaded for top header)
+  // Aligns left edge with dim-bar content area (x=60).
   const BIG_LOGO_SIZE = 96;
-  const BIG_LOGO_X = 50;
+  const BIG_LOGO_X = CONTENT_LEFT;
   const BIG_LOGO_Y = QR_Y + 4;     // visually align top with QR top
   try { ctx.drawImage(logoImg, BIG_LOGO_X, BIG_LOGO_Y, BIG_LOGO_SIZE, BIG_LOGO_SIZE); } catch {}
 
