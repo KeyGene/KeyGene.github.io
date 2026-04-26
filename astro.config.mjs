@@ -14,7 +14,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{html,css,js,png,jpg,svg,json,woff2}'],
+        globPatterns: ['**/*.{html,css,js,png,jpg,svg,webp,json,woff2}'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024, // 4 MiB — covers large map WebPs
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/keygene\.top\/api\/.*/,
