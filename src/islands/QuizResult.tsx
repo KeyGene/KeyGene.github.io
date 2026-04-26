@@ -117,6 +117,11 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
         @media (max-width: 768px) {
           .qr-sw-grid { grid-template-columns: 1fr !important; }
         }
+        .qr-relation-card:hover { transform: translateY(-1px); }
+        @media (prefers-reduced-motion: reduce) {
+          .qr-relation-card { transition: none !important; }
+          .qr-relation-card:hover { transform: none !important; }
+        }
       ` }} />
 
       {/* Hero */}
@@ -228,29 +233,38 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
         <div style="margin-bottom:18px;">
           <h4 style={`font-size:13px;font-weight:600;margin:0 0 10px;text-transform:uppercase;letter-spacing:0.06em;color:${gc};`}>{labels.resultPartner}</h4>
           {partnerTypes.map((pt) => (
-            <div key={pt.code} style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--color-surface);border-radius:10px;margin-bottom:8px;">
-              <div style="width:40px;height:40px;border-radius:8px;overflow:hidden;background:var(--color-card-bg);">
+            <a
+              key={pt.code}
+              href={`${LANG_PREFIX[lang]}/quiz/types/${pt.code}`}
+              className="qr-relation-card"
+              style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--color-surface);border-radius:10px;margin-bottom:8px;text-decoration:none;color:inherit;cursor:pointer;transition:transform 150ms;"
+            >
+              <div style="width:40px;height:40px;border-radius:8px;overflow:hidden;background:var(--color-card-bg);flex-shrink:0;">
                 <img src={pt.image} alt={pt.nickname[lang]} style="width:100%;height:100%;object-fit:contain;" />
               </div>
               <div>
                 <div style="font-size:14px;font-weight:700;">{pt.code}</div>
                 <div style="font-size:12px;color:var(--color-text-muted);">{pt.nickname[lang]}</div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
         {nemesisType && (
           <div>
             <h4 style="font-size:13px;font-weight:600;margin:0 0 10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-muted);">{labels.resultNemesis}</h4>
-            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--color-surface);border-radius:10px;">
-              <div style="width:40px;height:40px;border-radius:8px;overflow:hidden;background:var(--color-card-bg);">
+            <a
+              href={`${LANG_PREFIX[lang]}/quiz/types/${nemesisType.code}`}
+              className="qr-relation-card"
+              style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--color-surface);border-radius:10px;text-decoration:none;color:inherit;cursor:pointer;transition:transform 150ms;"
+            >
+              <div style="width:40px;height:40px;border-radius:8px;overflow:hidden;background:var(--color-card-bg);flex-shrink:0;">
                 <img src={nemesisType.image} alt={nemesisType.nickname[lang]} style="width:100%;height:100%;object-fit:contain;" />
               </div>
               <div>
                 <div style="font-size:14px;font-weight:700;">{nemesisType.code}</div>
                 <div style="font-size:12px;color:var(--color-text-muted);">{nemesisType.nickname[lang]}</div>
               </div>
-            </div>
+            </a>
           </div>
         )}
       </div>
@@ -265,9 +279,12 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
         <button class="btn-clip btn-outline" onClick={onRetry}>
           {labels.resultRetry}
         </button>
-        <div style="margin-top:16px;font-size:13px;color:var(--color-text-muted);opacity:0.5;">
+        <a
+          href={`${LANG_PREFIX[lang]}/quiz/types`}
+          style="display:inline-block;margin-top:16px;font-size:13px;color:var(--color-text-muted);text-decoration:underline;cursor:pointer;"
+        >
           {labels.resultViewAll}
-        </div>
+        </a>
       </div>
 
       {/* Share overlay */}
