@@ -2,9 +2,9 @@
 import Base from '../layouts/Base.astro';
 import QuizEngine from '../islands/QuizEngine.tsx';
 import { t } from '../i18n/utils';
-import { QUESTIONS, PERSONALITY_TYPES, GROUP_COLORS, GROUP_INFO, DIMENSION_LABELS } from '../data/quiz';
+import { QUESTIONS } from '../data/quiz';
 
-const lang = Astro.currentLocale ?? 'zh';
+const lang = (Astro.currentLocale ?? 'zh') as 'zh' | 'en' | 'ko';
 
 const labels = {
   quizTag: t('quizTag', lang),
@@ -15,34 +15,24 @@ const labels = {
   quizCounterText: t('quizCounterText', lang),
   quizLastResult: t('quizLastResult', lang),
   quizPrev: t('quizPrev', lang),
-  quizNext: t('quizNext', lang),
-  quizViewResult: t('quizViewResult', lang),
-  resultLabel: t('resultLabel', lang),
-  resultGroupLabel: t('resultGroupLabel', lang),
-  resultStrengths: t('resultStrengths', lang),
-  resultWeaknesses: t('resultWeaknesses', lang),
-  resultPartner: t('resultPartner', lang),
-  resultNemesis: t('resultNemesis', lang),
-  resultRetry: t('resultRetry', lang),
-  resultShare: t('resultShare', lang),
-  shareSave: t('shareSave', lang),
-  shareClose: t('shareClose', lang),
-  resultViewAll: t('resultViewAll', lang),
-  allTypesTitle: t('allTypesTitle', lang),
+  quizAgree: t('quizAgree', lang),
+  quizDisagree: t('quizDisagree', lang),
+  quizCounterFmt: t('quizCounterFmt', lang),
+  quizLikertA3: t('quizLikertA3', lang),
+  quizLikertA2: t('quizLikertA2', lang),
+  quizLikertA1: t('quizLikertA1', lang),
+  quizLikertN:  t('quizLikertN',  lang),
+  quizLikertD1: t('quizLikertD1', lang),
+  quizLikertD2: t('quizLikertD2', lang),
+  quizLikertD3: t('quizLikertD3', lang),
 };
 ---
 
 <Base title={t('quizTitle', lang)} description={t('quizSub', lang)}>
-  <div style="max-width:640px;margin:0 auto;">
-    <QuizEngine
-      client:visible
-      questions={QUESTIONS}
-      types={PERSONALITY_TYPES}
-      groupColors={GROUP_COLORS}
-      groupInfo={GROUP_INFO}
-      dimensionLabels={DIMENSION_LABELS}
-      lang={lang}
-      labels={labels}
-    />
-  </div>
+  <QuizEngine
+    client:visible
+    questions={QUESTIONS}
+    lang={lang}
+    labels={labels}
+  />
 </Base>
