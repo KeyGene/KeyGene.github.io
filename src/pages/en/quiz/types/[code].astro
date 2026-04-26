@@ -1,0 +1,270 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { t } from '../../../../i18n/utils';
+import { PERSONALITY_TYPES, GROUP_COLORS, GROUP_INFO, DIMENSION_LABELS, type Lang, type PersonalityType } from '../../../../data/quiz';
+
+export function getStaticPaths() {
+  return Object.keys(PERSONALITY_TYPES).map((code) => ({ params: { code } }));
+}
+
+const { code } = Astro.params;
+const lang = (Astro.currentLocale ?? 'en') as Lang;
+const langPrefix = lang === 'zh' ? '' : `/${lang}`;
+
+const type = code ? PERSONALITY_TYPES[code] : undefined;
+if (!type) return Astro.redirect('/404');
+
+const gc = GROUP_COLORS[type.group];
+const groupLabel = GROUP_INFO[type.group][lang];
+
+const partnerTypes: PersonalityType[] = (type.partner || [])
+  .map((pc) => PERSONALITY_TYPES[pc])
+  .filter((p): p is PersonalityType => Boolean(p));
+const nemesisType: PersonalityType | null = PERSONALITY_TYPES[type.nemesis] ?? null;
+
+const sections = type.sections ?? [];
+const coreSection = sections.find((s) => s.id === 'core');
+const teamworkSection = sections.find((s) => s.id === 'teamwork');
+const tacticsSection = sections.find((s) => s.id === 'tactics');
+
+const pageTitle = `${type.code} ${type.nickname[lang]} — ${t('quizTitle', lang)}`;
+const pageDesc = type.tagline[lang];
+
+const navItems = [
+  { id: 'core', label: t('detailNavCore', lang) },
+  { id: 'teamwork', label: t('detailNavTeamwork', lang) },
+  { id: 'tactics', label: t('detailNavTactics', lang) },
+  { id: 'variants', label: t('detailNavVariants', lang) },
+  { id: 'relations', label: t('detailNavRelations', lang) },
+];
+---
+
+<Base title={pageTitle} description={pageDesc}>
+  <style define:vars={{ gc }}>
+    .td-container { max-width: 1100px; margin: 0 auto; padding: 0; }
+    .td-hero {
+      text-align: center;
+      padding: 80px clamp(16px, 4vw, 24px) 48px;
+      background: color-mix(in srgb, var(--gc) 8%, transparent);
+      position: relative;
+      overflow: hidden;
+    }
+    .td-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gc); }
+    .td-hero-img {
+      width: clamp(200px, 50vw, 320px);
+      height: clamp(200px, 50vw, 320px);
+      margin: 0 auto 24px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--color-surface);
+    }
+    .td-hero-img img { width: 100%; height: 100%; object-fit: contain; }
+    .td-hero-code { font-size: clamp(20px, 5vw, 28px); font-weight: 700; letter-spacing: 0.1em; color: var(--gc); margin-bottom: 4px; }
+    .td-hero-nickname { font-size: clamp(32px, 8vw, 48px); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; color: var(--gc); margin-bottom: 16px; }
+    .td-hero-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 16px; }
+    .td-hero-chip { padding: 4px 10px; border-radius: 14px; background: color-mix(in srgb, var(--gc) 13%, transparent); color: var(--gc); font-size: 12px; font-weight: 600; }
+    .td-hero-tagline { font-size: clamp(15px, 3vw, 17px); color: var(--color-text-muted); line-height: 1.5; max-width: 600px; margin: 0 auto; }
+
+    /* Layout: sidebar + main content */
+    .td-layout { display: grid; grid-template-columns: 1fr; gap: 0; padding: 0 clamp(16px, 4vw, 24px); }
+    @media (min-width: 1024px) {
+      .td-layout { grid-template-columns: 220px minmax(0, 720px); gap: 48px; justify-content: center; padding-top: 32px; }
+    }
+
+    /* Sidebar */
+    .td-nav { padding: 16px 0; }
+    @media (min-width: 1024px) {
+      .td-nav {
+        position: sticky;
+        top: 80px;
+        align-self: start;
+        padding: 0;
+      }
+      .td-nav-list { display: flex; flex-direction: column; gap: 4px; }
+    }
+    @media (max-width: 1023px) {
+      .td-nav {
+        position: sticky;
+        top: 0;
+        background: var(--color-bg, #000);
+        z-index: 10;
+        border-bottom: 1px solid var(--color-card-border);
+        margin: 0 calc(-1 * clamp(16px, 4vw, 24px));
+        padding: 12px clamp(16px, 4vw, 24px);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .td-nav-list {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+        white-space: nowrap;
+      }
+    }
+    .td-nav-link {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: background 150ms, color 150ms;
+      flex-shrink: 0;
+    }
+    .td-nav-link:hover { background: var(--color-card-bg); color: var(--color-text); }
+    @media (prefers-reduced-motion: reduce) {
+      .td-nav-link { transition: none !important; }
+    }
+
+    /* Main content */
+    .td-main { padding-top: 32px; padding-bottom: 60px; }
+    .td-section { margin-bottom: 48px; scroll-margin-top: 100px; }
+    .td-section-title { font-size: clamp(20px, 4vw, 26px); font-weight: 800; margin: 0 0 16px; letter-spacing: -0.01em; color: var(--gc); }
+    .td-section-body { font-size: 15px; line-height: 1.8; color: var(--color-text); }
+
+    .td-variants-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) { .td-variants-grid { grid-template-columns: 1fr; } }
+    .td-variant-card { background: var(--color-card-bg); border: 1px solid var(--color-card-border); border-radius: 12px; padding: 20px; }
+    .td-variant-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gc); margin-bottom: 10px; }
+    .td-variant-blurb { font-size: 14px; line-height: 1.7; color: var(--color-text-muted); }
+
+    .td-relation-card {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; background: var(--color-card-bg); border: 1px solid var(--color-card-border);
+      border-radius: 10px; margin-bottom: 8px;
+      text-decoration: none; color: inherit;
+      transition: transform 150ms, border-color 150ms;
+    }
+    .td-relation-card:hover { transform: translateY(-1px); border-color: var(--color-text-muted); }
+    @media (prefers-reduced-motion: reduce) {
+      .td-relation-card { transition: none !important; }
+      .td-relation-card:hover { transform: none !important; }
+    }
+    .td-relation-img { width: 48px; height: 48px; border-radius: 8px; overflow: hidden; background: var(--color-surface); flex-shrink: 0; }
+    .td-relation-img img { width: 100%; height: 100%; object-fit: contain; }
+    .td-relation-code { font-size: 14px; font-weight: 700; letter-spacing: 0.06em; }
+    .td-relation-nickname { font-size: 12px; color: var(--color-text-muted); margin-top: 2px; }
+    .td-relation-subtitle { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 12px; }
+
+    .td-cta { text-align: center; padding: 48px 0 16px; border-top: 1px solid var(--color-card-border); margin-top: 24px; }
+    .td-cta-question { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+  </style>
+
+  <div class="td-container">
+    <!-- Hero -->
+    <section class="td-hero">
+      <div class="td-hero-img">
+        <img src={type.image} alt={type.nickname[lang]} />
+      </div>
+      <div class="td-hero-code">{type.code}</div>
+      <h1 class="td-hero-nickname">{type.nickname[lang]}</h1>
+      <div class="td-hero-chips">
+        {(['RC','WT','SI','FL'] as const).map((d, i) => {
+          const info = DIMENSION_LABELS[d];
+          const codeLetter = type.code[i];
+          const usesLeft = ['R','W','S','F'].includes(codeLetter);
+          const poleLabel = usesLeft ? info.left[lang] : info.right[lang];
+          return <span class="td-hero-chip">{poleLabel}</span>;
+        })}
+      </div>
+      <p class="td-hero-tagline">{type.tagline[lang]}</p>
+    </section>
+
+    <!-- Layout -->
+    <div class="td-layout">
+      <!-- Sidebar nav -->
+      <aside class="td-nav">
+        <nav class="td-nav-list">
+          {navItems.map((item) => (
+            <a href={`#${item.id}`} class="td-nav-link">{item.label}</a>
+          ))}
+        </nav>
+      </aside>
+
+      <!-- Main -->
+      <main class="td-main">
+        {type.heroDescription && (
+          <p style="font-size:16px;line-height:1.7;color:var(--color-text-muted);margin:0 0 40px;">
+            {type.heroDescription[lang]}
+          </p>
+        )}
+
+        {coreSection && (
+          <section class="td-section" id="core">
+            <h2 class="td-section-title">{coreSection.title[lang]}</h2>
+            <div class="td-section-body">{coreSection.body[lang]}</div>
+          </section>
+        )}
+
+        {teamworkSection && (
+          <section class="td-section" id="teamwork">
+            <h2 class="td-section-title">{teamworkSection.title[lang]}</h2>
+            <div class="td-section-body">{teamworkSection.body[lang]}</div>
+          </section>
+        )}
+
+        {tacticsSection && (
+          <section class="td-section" id="tactics">
+            <h2 class="td-section-title">{tacticsSection.title[lang]}</h2>
+            <div class="td-section-body">{tacticsSection.body[lang]}</div>
+          </section>
+        )}
+
+        <section class="td-section" id="variants">
+          <h2 class="td-section-title">{t('detailNavVariants', lang)}</h2>
+          <div class="td-variants-grid">
+            <div class="td-variant-card">
+              <div class="td-variant-label">{t('detailVariantE', lang)}</div>
+              <p class="td-variant-blurb">{type.variants.E.blurb[lang]}</p>
+            </div>
+            <div class="td-variant-card">
+              <div class="td-variant-label">{t('detailVariantD', lang)}</div>
+              <p class="td-variant-blurb">{type.variants.D.blurb[lang]}</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="td-section" id="relations">
+          <h2 class="td-section-title">{t('detailNavRelations', lang)}</h2>
+
+          <div style="margin-bottom:24px;">
+            <h3 class="td-relation-subtitle" style={`color:${gc};`}>{t('resultPartner', lang)}</h3>
+            {partnerTypes.map((pt) => (
+              <a href={`${langPrefix}/quiz/types/${pt.code}`} class="td-relation-card">
+                <div class="td-relation-img">
+                  <img src={pt.image} alt={pt.nickname[lang]} loading="lazy" />
+                </div>
+                <div>
+                  <div class="td-relation-code">{pt.code}</div>
+                  <div class="td-relation-nickname">{pt.nickname[lang]}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {nemesisType && (
+            <div>
+              <h3 class="td-relation-subtitle" style="color:var(--color-text-muted);">{t('resultNemesis', lang)}</h3>
+              <a href={`${langPrefix}/quiz/types/${nemesisType.code}`} class="td-relation-card">
+                <div class="td-relation-img">
+                  <img src={nemesisType.image} alt={nemesisType.nickname[lang]} loading="lazy" />
+                </div>
+                <div>
+                  <div class="td-relation-code">{nemesisType.code}</div>
+                  <div class="td-relation-nickname">{nemesisType.nickname[lang]}</div>
+                </div>
+              </a>
+            </div>
+          )}
+        </section>
+
+        <div class="td-cta">
+          <div class="td-cta-question">{t('detailCTAQuestion', lang)}</div>
+          <a href={`${langPrefix}/quiz`} class="btn-clip btn-red" style="font-size:15px;padding:14px 32px;">
+            {t('detailCTABtn', lang)}
+          </a>
+        </div>
+      </main>
+    </div>
+  </div>
+</Base>
