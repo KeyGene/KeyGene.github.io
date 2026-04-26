@@ -4,7 +4,10 @@
 
 export type DimCode = 'RC' | 'WT' | 'SI' | 'FL' | 'ED';
 export type Pole = 'R' | 'C' | 'W' | 'T' | 'S' | 'I' | 'F' | 'L' | 'E' | 'D';
+/** All 16 valid 4-letter base codes (RWSF, RWSL, ..., CTIL). Excludes the variant suffix. */
+export type TypeCode = `${'R' | 'C'}${'W' | 'T'}${'S' | 'I'}${'F' | 'L'}`;
 export type Variant = 'E' | 'D';
+export type GroupId = 'rush' | 'brain' | 'shadow' | 'leader';
 export type Lang = 'zh' | 'en' | 'ko';
 
 export interface I18n {
@@ -26,8 +29,8 @@ export interface QuizQuestion {
 }
 
 export interface PersonalityType {
-  code: string;        // 4 letters, e.g. 'RWSF' (variant suffix is NOT stored on type — applied at runtime)
-  group: 'rush' | 'brain' | 'shadow' | 'leader';
+  code: TypeCode;      // 4-letter base code (variant suffix is NOT stored on type — applied at runtime)
+  group: GroupId;
   nickname: I18n;
   tagline: I18n;       // NEW — ~25 char one-liner shown in result hero + types overview
   description: I18n;   // existing — used in result page "描述" section
@@ -51,14 +54,14 @@ export interface PersonalityType {
 
 // ─── Constants ─────────────────────────────────────────────────────────
 
-export const GROUP_COLORS: Record<string, string> = {
+export const GROUP_COLORS: Record<GroupId, string> = {
   rush: '#EE3F2C',
   brain: '#7B5EA7',
   shadow: '#2D7D46',
   leader: '#D4A017',
 };
 
-export const GROUP_INFO: Record<string, I18n> = {
+export const GROUP_INFO: Record<GroupId, I18n> = {
   rush:   { zh: '猛攻组 Rush',   en: 'Rush Group',   ko: '돌격조 Rush' },
   brain:  { zh: '谋略组 Brain',  en: 'Brain Group',  ko: '전략조 Brain' },
   shadow: { zh: '潜伏组 Shadow', en: 'Shadow Group', ko: '잠복조 Shadow' },
@@ -113,12 +116,13 @@ export function contribution(circleIndex: number, direction: 1 | -1): number {
  * From accumulated dimension scores, compute the 4-letter base code + variant suffix.
  * Score >= 0 picks the first pole (R/W/S/F/E), score < 0 picks the second (C/T/I/L/D).
  */
-export function scoreToCode(scores: DimScores): { code: string; variant: Variant } {
-  const code =
+export function scoreToCode(scores: DimScores): { code: TypeCode; variant: Variant } {
+  const code = (
     (scores.RC >= 0 ? 'R' : 'C') +
     (scores.WT >= 0 ? 'W' : 'T') +
     (scores.SI >= 0 ? 'S' : 'I') +
-    (scores.FL >= 0 ? 'F' : 'L');
+    (scores.FL >= 0 ? 'F' : 'L')
+  ) as TypeCode;
   const variant: Variant = scores.ED >= 0 ? 'E' : 'D';
   return { code, variant };
 }
@@ -128,7 +132,7 @@ export function scoreToCode(scores: DimScores): { code: string; variant: Variant
  * 100 = fully first pole, 0 = fully second pole, 50 = balanced.
  */
 export function scoreToPercent(score: number): number {
-  return Math.round(((score + 21) / 42) * 100);
+  return Math.max(0, Math.min(100, Math.round(((score + 21) / 42) * 100)));
 }
 
 // ─── Questions and types: filled in subsequent tasks ───────────────────
