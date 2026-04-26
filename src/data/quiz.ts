@@ -138,7 +138,41 @@ export function scoreToPercent(score: number): number {
 // ─── Questions and types: filled in subsequent tasks ───────────────────
 
 export const QUESTIONS: QuizQuestion[] = [
-  // Task 2 fills in 35 entries here
+  { id: 1,  dim: 'RC', direction:  1, text: { zh: '刚落地听到脚步声我会立刻冲过去刚枪。', en: '', ko: '' } },
+  { id: 2,  dim: 'RC', direction:  1, text: { zh: '我喜欢主动找架打而不是等别人先动手。', en: '', ko: '' } },
+  { id: 3,  dim: 'RC', direction:  1, text: { zh: '看到敌人在 200 米外的空旷地带我会冲过去。', en: '', ko: '' } },
+  { id: 4,  dim: 'RC', direction:  1, text: { zh: '决赛圈我宁可主动出击也不愿意被动包夹。', en: '', ko: '' } },
+  { id: 5,  dim: 'RC', direction:  1, text: { zh: '三级装备到位我马上想出去找人打。', en: '', ko: '' } },
+  { id: 6,  dim: 'RC', direction: -1, text: { zh: '听到枪声我的第一反应是先离远点观察。', en: '', ko: '' } },
+  { id: 7,  dim: 'RC', direction: -1, text: { zh: '宁可绕路十分钟也不愿意正面冲一栋楼。', en: '', ko: '' } },
+  { id: 8,  dim: 'WT', direction:  1, text: { zh: '单排比四排让我更舒服。', en: '', ko: '' } },
+  { id: 9,  dim: 'WT', direction:  1, text: { zh: '我宁可一个人安静练枪也不想跟队友语音吹牛。', en: '', ko: '' } },
+  { id: 10, dim: 'WT', direction:  1, text: { zh: '队友倒了如果会暴露我位置我会先打赢再扶。', en: '', ko: '' } },
+  { id: 11, dim: 'WT', direction:  1, text: { zh: '我相信自己的枪法胜过相信队友的报点。', en: '', ko: '' } },
+  { id: 12, dim: 'WT', direction:  1, text: { zh: '排位我更喜欢挂机随机匹配的陌生人。', en: '', ko: '' } },
+  { id: 13, dim: 'WT', direction: -1, text: { zh: '搜到多余的好装备我会立刻丢给队友。', en: '', ko: '' } },
+  { id: 14, dim: 'WT', direction: -1, text: { zh: '队友倒地哪怕拉烟硬冲我也要扶。', en: '', ko: '' } },
+  { id: 15, dim: 'SI', direction:  1, text: { zh: '第一个圈一刷出来我就立刻规划转移路线。', en: '', ko: '' } },
+  { id: 16, dim: 'SI', direction:  1, text: { zh: '我会研究航线和圈刷新概率来判断落点。', en: '', ko: '' } },
+  { id: 17, dim: 'SI', direction:  1, text: { zh: '我喜欢提前占好位置等敌人主动撞上来。', en: '', ko: '' } },
+  { id: 18, dim: 'SI', direction:  1, text: { zh: '决赛圈我会先想清楚再开枪。', en: '', ko: '' } },
+  { id: 19, dim: 'SI', direction:  1, text: { zh: '看到敌人我会先记位置稍后再处理而不是立刻交火。', en: '', ko: '' } },
+  { id: 20, dim: 'SI', direction: -1, text: { zh: '看到敌人我直接开车撞过去最痛快。', en: '', ko: '' } },
+  { id: 21, dim: 'SI', direction: -1, text: { zh: '听到枪响管他几个人，先冲再说。', en: '', ko: '' } },
+  { id: 22, dim: 'FL', direction:  1, text: { zh: '我跳点选热门点位就为了找架打。', en: '', ko: '' } },
+  { id: 23, dim: 'FL', direction:  1, text: { zh: '比起搜物资我更想找人对枪。', en: '', ko: '' } },
+  { id: 24, dim: 'FL', direction:  1, text: { zh: '枪法练好比装备齐全更重要。', en: '', ko: '' } },
+  { id: 25, dim: 'FL', direction:  1, text: { zh: '我宁可拿三级甲打十枪也不要四级甲蹲在房里。', en: '', ko: '' } },
+  { id: 26, dim: 'FL', direction:  1, text: { zh: '本局零杀吃鸡对我来说没意思。', en: '', ko: '' } },
+  { id: 27, dim: 'FL', direction: -1, text: { zh: '落地优先把整片房区搜干净。', en: '', ko: '' } },
+  { id: 28, dim: 'FL', direction: -1, text: { zh: '看到八倍镜我比看到敌人还兴奋。', en: '', ko: '' } },
+  { id: 29, dim: 'ED', direction:  1, text: { zh: '比赛输了我能很快放下接着打下一局。', en: '', ko: '' } },
+  { id: 30, dim: 'ED', direction:  1, text: { zh: '成盒后我不会反复看回放找不甘心的地方。', en: '', ko: '' } },
+  { id: 31, dim: 'ED', direction:  1, text: { zh: '队友失误骂我我也不会破防。', en: '', ko: '' } },
+  { id: 32, dim: 'ED', direction:  1, text: { zh: '段位掉了一截我也不会立刻打到打回来为止。', en: '', ko: '' } },
+  { id: 33, dim: 'ED', direction:  1, text: { zh: '对枪输了我归结为对面运气好而不是自己菜。', en: '', ko: '' } },
+  { id: 34, dim: 'ED', direction: -1, text: { zh: '被同一个人打死两次我会研究他的打法。', en: '', ko: '' } },
+  { id: 35, dim: 'ED', direction: -1, text: { zh: '排位掉分我会反复研究战绩复盘。', en: '', ko: '' } },
 ];
 
 export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
