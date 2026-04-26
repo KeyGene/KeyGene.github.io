@@ -10,6 +10,8 @@ export interface ShareCardLabels {
   squadText: string;
 }
 
+export type ShareCardTheme = 'light' | 'dark';
+
 const SITE_ORIGIN = 'https://keygene.top';
 const LANG_PREFIX_FOR_URL: Record<Lang, string> = { zh: '', en: '/en', ko: '/ko' };
 
@@ -19,7 +21,43 @@ interface GenerateOpts {
   scores: DimScores;
   lang: Lang;
   labels: ShareCardLabels;
+  theme?: ShareCardTheme;
 }
+
+interface Palette {
+  bg: string;          // canvas background
+  text: string;        // primary text (KEY GENE)
+  textMuted: string;   // labels, dim names, percentages, group badge
+  textSubtle: string;  // tagline
+  textHint: string;    // variant blurb
+  textDim: string;     // pole labels
+  textUrl: string;     // keygene.top URL footer
+  trackBg: string;     // dimension bar track
+  welcomeLine: string; // welcome small text
+}
+
+const PALETTE_DARK: Palette = {
+  bg: '#111111',
+  text: '#ffffff',
+  textMuted: '#888888',
+  textSubtle: '#aaaaaa',
+  textHint: '#bbbbbb',
+  textDim: '#666666',
+  textUrl: '#555555',
+  trackBg: 'rgba(255,255,255,0.1)',
+  welcomeLine: '#aaaaaa',
+};
+const PALETTE_LIGHT: Palette = {
+  bg: '#f5f5f5',
+  text: '#111111',
+  textMuted: '#666666',
+  textSubtle: '#444444',
+  textHint: '#444444',
+  textDim: '#888888',
+  textUrl: '#999999',
+  trackBg: 'rgba(0,0,0,0.08)',
+  welcomeLine: '#666666',
+};
 
 const W = 750;
 const H = 1450;
@@ -67,8 +105,9 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 }
 
 export async function generateShareCard(opts: GenerateOpts): Promise<string> {
-  const { type, variant, scores, lang, labels } = opts;
+  const { type, variant, scores, lang, labels, theme = 'dark' } = opts;
   const gc = GROUP_COLORS[type.group];
+  const P = theme === 'light' ? PALETTE_LIGHT : PALETTE_DARK;
 
   const canvas = document.createElement('canvas');
   canvas.width = W;
@@ -77,7 +116,7 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
   if (!ctx) throw new Error('canvas 2d context unavailable');
 
   // Background
-  ctx.fillStyle = '#111';
+  ctx.fillStyle = P.bg;
   ctx.fillRect(0, 0, W, H);
 
   // Border
@@ -92,13 +131,13 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
 
   // Logo
   try { ctx.drawImage(logoImg, 30, 30, 48, 48); } catch {}
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = P.text;
   ctx.font = '700 24px Rubik, sans-serif';
   ctx.textAlign = 'left';
   ctx.fillText('KEY GENE', 88, 62);
 
   // Label
-  ctx.fillStyle = '#888';
+  ctx.fillStyle = P.textMuted;
   ctx.font = '400 22px Rubik, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(labels.resultLabel, W / 2, 140);
@@ -118,21 +157,21 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
   ctx.fillText(`${type.code}-${variant}`, W / 2, 540);
 
   // Group badge
-  ctx.fillStyle = '#888';
+  ctx.fillStyle = P.textMuted;
   ctx.font = '500 20px Rubik, sans-serif';
   ctx.fillText(GROUP_INFO[type.group][lang], W / 2, 580);
 
-  // Tagline (replaces old description on the share card)
-  ctx.fillStyle = '#aaa';
+  // Tagline
+  ctx.fillStyle = P.textSubtle;
   ctx.font = '400 20px Rubik, sans-serif';
   wrapText(ctx, type.tagline[lang], W / 2, 640, W - 100, 28);
 
-  // Variant blurb (one line, truncate-by-wrap if long)
-  ctx.fillStyle = '#bbb';
+  // Variant blurb
+  ctx.fillStyle = P.textHint;
   ctx.font = '400 18px Rubik, sans-serif';
   wrapText(ctx, type.variants[variant].blurb[lang], W / 2, 700, W - 100, 26);
 
-  // Dimension bars — now 5 dims
+  // Dimension bars
   const dims = ['RC', 'WT', 'SI', 'FL', 'ED'] as const;
   let barY = 820;
   for (const dim of dims) {
@@ -140,7 +179,7 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
     const pct = scoreToPercent(scores[dim]);
 
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#888';
+    ctx.fillStyle = P.textMuted;
     ctx.font = '500 16px Rubik, sans-serif';
     ctx.fillText(info.name[lang], 60, barY);
 
@@ -148,7 +187,7 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
     ctx.fillText(pct + '%', W - 60, barY);
 
     barY += 12;
-    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.fillStyle = P.trackBg;
     roundRect(ctx, 60, barY, W - 120, 10, 5);
     ctx.fill();
 
@@ -157,7 +196,7 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
     ctx.fill();
 
     barY += 24;
-    ctx.fillStyle = '#666';
+    ctx.fillStyle = P.textDim;
     ctx.font = '400 14px Rubik, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(info.left[lang], 60, barY);
@@ -192,7 +231,7 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
     ctx.drawImage(qrImg, QR_X, QR_Y, QR_SIZE, QR_SIZE);
 
     // "扫码查看" / "Scan to view" label below QR
-    ctx.fillStyle = '#888';
+    ctx.fillStyle = P.textMuted;
     ctx.font = '500 16px Rubik, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(labels.scanLabel, QR_X + QR_SIZE / 2, QR_Y + QR_SIZE + 28);
@@ -209,7 +248,7 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
 
   // Welcome line 1 ("欢迎加入" / "Welcome to" / "환영합니다") — small, muted
   const TEXT_X = BIG_LOGO_X + BIG_LOGO_SIZE + 18;
-  ctx.fillStyle = '#aaaaaa';
+  ctx.fillStyle = P.welcomeLine;
   ctx.font = '500 22px Rubik, sans-serif';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
@@ -221,7 +260,7 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
   ctx.fillText(labels.squadText, TEXT_X, BIG_LOGO_Y + 78);
 
   // URL on bottom-left, below the logo block
-  ctx.fillStyle = '#555';
+  ctx.fillStyle = P.textUrl;
   ctx.font = '500 20px Rubik, sans-serif';
   ctx.fillText('keygene.top', BIG_LOGO_X, BIG_LOGO_Y + BIG_LOGO_SIZE + 32);
 

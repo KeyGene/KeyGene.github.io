@@ -70,8 +70,9 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
     if (!matchingScores) return;
     setGenerating(true);
     try {
+      const theme = (document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark') as 'light' | 'dark';
       const url = await generateShareCard({
-        type, variant, scores: matchingScores, lang,
+        type, variant, scores: matchingScores, lang, theme,
         labels: {
           resultLabel: labels.resultLabel,
           scanLabel: labels.shareScanLabel,
@@ -122,14 +123,11 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
         @media (max-width: 480px) {
           .qr-actions button { display: block; width: 100%; max-width: 320px; margin: 8px auto !important; }
         }
-        .qr-sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) {
-          .qr-sw-grid { grid-template-columns: 1fr !important; }
-        }
-        .qr-sw-col { min-width: 0; }
+        .qr-sw-stack { display: flex; flex-direction: column; gap: 28px; }
+        .qr-sw-section { display: block; }
         .qr-sw-title { display: block; font-size: 13px; font-weight: 600; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1; }
         .qr-sw-title-muted { color: var(--color-text-muted); }
-        .qr-sw-pills { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
+        .qr-sw-pills { display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
         .qr-sw-pill { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; line-height: 1.4; white-space: nowrap; }
         .qr-sw-pill-strength { background: rgba(238,63,44,0.15); color: #ff6b5a; }
         .qr-sw-pill-weakness { background: var(--color-border); color: var(--color-text-muted); }
@@ -222,24 +220,24 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
         </div>
       </div>
 
-      {/* Strengths & Weaknesses */}
+      {/* Strengths & Weaknesses — vertical stack */}
       <div className="qr-card">
-        <div className="qr-sw-grid">
-          <div className="qr-sw-col">
+        <div className="qr-sw-stack">
+          <div className="qr-sw-section">
             <h4 className="qr-sw-title" style={`color:${gc};`}>{labels.resultStrengths}</h4>
-            <ul className="qr-sw-pills">
+            <div className="qr-sw-pills">
               {type.strengths[lang].map((s) => (
-                <li key={s} className="qr-sw-pill qr-sw-pill-strength">{s}</li>
+                <span key={s} className="qr-sw-pill qr-sw-pill-strength">{s}</span>
               ))}
-            </ul>
+            </div>
           </div>
-          <div className="qr-sw-col">
+          <div className="qr-sw-section">
             <h4 className="qr-sw-title qr-sw-title-muted">{labels.resultWeaknesses}</h4>
-            <ul className="qr-sw-pills">
+            <div className="qr-sw-pills">
               {type.weaknesses[lang].map((w) => (
-                <li key={w} className="qr-sw-pill qr-sw-pill-weakness">{w}</li>
+                <span key={w} className="qr-sw-pill qr-sw-pill-weakness">{w}</span>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       </div>
