@@ -33,7 +33,6 @@ interface Props {
 type Screen = 'landing' | 'quiz';
 
 const CIRCLE_SIZES = [28, 22, 16, 12, 16, 22, 28];
-const TOTAL = 35;
 const ADVANCE_DELAY_MS = 400;
 const REDUCED_ADVANCE_DELAY_MS = 150; // for prefers-reduced-motion users
 
@@ -49,6 +48,7 @@ function prefersReducedMotion(): boolean {
 }
 
 export default function QuizEngine({ questions, lang, labels }: Props) {
+  const TOTAL = questions.length;
   const [screen, setScreen] = useState<Screen>('landing');
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(() => new Array(TOTAL).fill(null));

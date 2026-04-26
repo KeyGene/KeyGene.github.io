@@ -5,7 +5,6 @@ import { generateShareCard } from '../lib/quiz-share-card';
 
 interface Labels {
   resultLabel: string;
-  resultGroupLabel: string;
   resultStrengths: string;
   resultWeaknesses: string;
   resultPartner: string;
