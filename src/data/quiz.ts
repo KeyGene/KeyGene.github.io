@@ -70,7 +70,7 @@ export const GROUP_INFO: Record<GroupId, I18n> = {
 
 export const DIMENSION_LABELS: Record<DimCode, { left: I18n; right: I18n; name: I18n }> = {
   RC: {
-    left:  { zh: '钢枪 Rush',     en: 'Rush',       ko: '돌격 Rush' },
+    left:  { zh: '突击 Rush',     en: 'Rush',       ko: '돌격 Rush' },
     right: { zh: '苟活 Cautious', en: 'Cautious',   ko: '신중 Cautious' },
     name:  { zh: '战斗风格',       en: 'Combat Style', ko: '전투 스타일' },
   },
