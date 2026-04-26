@@ -20,7 +20,7 @@ interface GenerateOpts {
 }
 
 const W = 750;
-const H = 1334;
+const H = 1450;
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   if (w < 0) w = 0;
@@ -166,9 +166,10 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
   }
 
   // ─── QR code (bottom-right) + URL (bottom-left) ───────────────────────
+  // Dim bars end at y≈1180. Canvas H=1450 leaves 270px below for QR + labels.
   const QR_SIZE = 140;
   const QR_X = W - QR_SIZE - 40;     // right edge - QR width - margin
-  const QR_Y = H - QR_SIZE - 50;     // bottom edge - QR height - margin (room for label below)
+  const QR_Y = 1240;                  // 60px below dim bars (1180), 70px above bottom
 
   const resultUrl = `${SITE_ORIGIN}${LANG_PREFIX_FOR_URL[lang]}/quiz/result/${type.code}?v=${variant}`;
   try {
@@ -194,11 +195,11 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
     // QR generation failed (offline / library issue) — silently skip; share card still useful
   }
 
-  // URL on bottom-left
+  // URL on bottom-left, vertically aligned with QR center
   ctx.fillStyle = '#555';
-  ctx.font = '500 20px Rubik, sans-serif';
+  ctx.font = '500 22px Rubik, sans-serif';
   ctx.textAlign = 'left';
-  ctx.fillText('keygene.top', 60, H - 50);
+  ctx.fillText('keygene.top', 60, QR_Y + QR_SIZE / 2 + 8);
 
   return canvas.toDataURL('image/png');
 }
