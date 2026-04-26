@@ -287,7 +287,7 @@ export default function QuizEngine({ questions, lang, labels }: Props) {
           {CIRCLE_SIZES.map((size, ci) => {
             const isAgree = ci < 3;
             const isNeutral = ci === 3;
-            const baseColor = isNeutral ? 'var(--color-text-muted)' : isAgree ? '#EE3F2C' : '#2D7D46';
+            const baseColor = isNeutral ? 'var(--color-text-muted)' : isAgree ? '#2D7D46' : '#EE3F2C';
             const selected = selectedCircle === ci;
             return (
               <button
