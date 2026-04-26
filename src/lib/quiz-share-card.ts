@@ -6,6 +6,8 @@ import { DIMENSION_LABELS, GROUP_COLORS, GROUP_INFO, scoreToPercent } from '../d
 export interface ShareCardLabels {
   resultLabel: string;
   scanLabel: string;
+  welcomeText: string;
+  squadText: string;
 }
 
 const SITE_ORIGIN = 'https://keygene.top';
@@ -195,11 +197,30 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
     // QR generation failed (offline / library issue) — silently skip; share card still useful
   }
 
-  // URL on bottom-left, vertically aligned with QR center
-  ctx.fillStyle = '#555';
+  // ─── Bottom-left: large logo + welcome message + URL ──────────────────
+  // Big helmet logo (re-uses logoImg already loaded for top header)
+  const BIG_LOGO_SIZE = 96;
+  const BIG_LOGO_X = 50;
+  const BIG_LOGO_Y = QR_Y + 4;     // visually align top with QR top
+  try { ctx.drawImage(logoImg, BIG_LOGO_X, BIG_LOGO_Y, BIG_LOGO_SIZE, BIG_LOGO_SIZE); } catch {}
+
+  // Welcome line 1 ("欢迎加入" / "Welcome to" / "환영합니다") — small, muted
+  const TEXT_X = BIG_LOGO_X + BIG_LOGO_SIZE + 18;
+  ctx.fillStyle = '#aaaaaa';
   ctx.font = '500 22px Rubik, sans-serif';
   ctx.textAlign = 'left';
-  ctx.fillText('keygene.top', 60, QR_Y + QR_SIZE / 2 + 8);
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText(labels.welcomeText, TEXT_X, BIG_LOGO_Y + 38);
+
+  // Welcome line 2 ("KEY GENE 战队" etc.) — bold, brand red (always — represents the brand, not the type's group)
+  ctx.fillStyle = '#EE3F2C';
+  ctx.font = '800 30px Rubik, sans-serif';
+  ctx.fillText(labels.squadText, TEXT_X, BIG_LOGO_Y + 78);
+
+  // URL on bottom-left, below the logo block
+  ctx.fillStyle = '#555';
+  ctx.font = '500 20px Rubik, sans-serif';
+  ctx.fillText('keygene.top', BIG_LOGO_X, BIG_LOGO_Y + BIG_LOGO_SIZE + 32);
 
   return canvas.toDataURL('image/png');
 }
