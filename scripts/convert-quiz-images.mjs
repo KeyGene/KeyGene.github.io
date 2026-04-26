@@ -31,4 +31,4 @@ for (const f of files.sort()) {
 
 console.log('─'.repeat(50));
 console.log(`Total: ${(beforeTotal / 1024 / 1024).toFixed(1)} MB → ${(afterTotal / 1024 / 1024).toFixed(1)} MB  (-${((1 - afterTotal / beforeTotal) * 100).toFixed(0)}%)`);
-console.log(`\nOriginal PNGs left in place. Delete them in Step 1.5.6 after verifying the WebPs render correctly.`);
+console.log(`\nOriginal PNGs left in place. Delete them yourself once you've verified the WebPs render correctly.`);
