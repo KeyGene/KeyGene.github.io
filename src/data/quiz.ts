@@ -71,7 +71,7 @@ export const GROUP_INFO: Record<GroupId, I18n> = {
 export const DIMENSION_LABELS: Record<DimCode, { left: I18n; right: I18n; name: I18n }> = {
   RC: {
     left:  { zh: '干拉 Rush',     en: 'Rush',       ko: '돌격 Rush' },
-    right: { zh: '苟活 Cautious', en: 'Cautious',   ko: '신중 Cautious' },
+    right: { zh: '老六 Cautious', en: 'Cautious',   ko: '신중 Cautious' },
     name:  { zh: '战斗风格',       en: 'Combat Style', ko: '전투 스타일' },
   },
   WT: {
@@ -80,7 +80,7 @@ export const DIMENSION_LABELS: Record<DimCode, { left: I18n; right: I18n; name: 
     name:  { zh: '社交倾向', en: 'Social Style', ko: '소셜 성향' },
   },
   SI: {
-    left:  { zh: '算圈 Strategic', en: 'Strategic', ko: '전략 Strategic' },
+    left:  { zh: '运营 Strategic', en: 'Strategic', ko: '전략 Strategic' },
     right: { zh: '莽夫 Instinct',  en: 'Instinct',  ko: '본능 Instinct' },
     name:  { zh: '决策方式', en: 'Decision Making', ko: '의사결정' },
   },
@@ -90,8 +90,8 @@ export const DIMENSION_LABELS: Record<DimCode, { left: I18n; right: I18n; name: 
     name:  { zh: '资源取向', en: 'Resource Style', ko: '자원 성향' },
   },
   ED: {
-    left:  { zh: '淡定 Even',   en: 'Even',   ko: '평정 Even' },
-    right: { zh: '求胜 Driven', en: 'Driven', ko: '승부욕 Driven' },
+    left:  { zh: '佛系 Even',   en: 'Even',   ko: '평정 Even' },
+    right: { zh: '分奴 Driven', en: 'Driven', ko: '승부욕 Driven' },
     name:  { zh: '心态',         en: 'Identity', ko: '정체성' },
   },
 };
@@ -194,7 +194,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RWSF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RWSF 里那种"输了也不破防"的玩家：连吃几把成盒，下一把仍能保持冷静推进。',
           en: "You're the RWSF who doesn't tilt — back-to-back losses don't slow you down next match.",
@@ -202,7 +202,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RWSF 里那种"输一把研究三天"的玩家：被阴一次，回放、热区、反向找回，一定找回来。',
           en: "You're the RWSF who studies the loss for three days — one bad encounter and you'll grind until you reverse it.",
@@ -258,7 +258,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RWSL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RWSL 里那种"被发现了也无所谓"的玩家：阴人失手，换个角落继续等，心态稳如老狗。',
           en: "You're the RWSL who shrugs when spotted — caught lurking, just find another corner and settle in again.",
@@ -266,7 +266,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RWSL 里那种"这局被绕背就记仇"的玩家：每次死于侧翼，下局必换位置、换路线，直到没人知道你在哪。',
           en: "You're the RWSL who logs every flank death — each time you get caught, next game you reroute and reposition until you're invisible.",
@@ -322,7 +322,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RWIF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RWIF 里那种"莽死了就乐"的玩家：1V4 送包是常态，笑一声接着冲，输赢本来就在其次。',
           en: "You're the RWIF who laughs at every wipe — dying 1V4 is part of the fun, you queue up again with a grin.",
@@ -330,7 +330,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RWIF 里那种"莽死了要研究为什么"的玩家：每次1V4 团灭，回放、路线、时机，莽得要有章法。',
           en: "You're the RWIF who reviews every wipe — each 1V4 fail goes into the playbook so the next rush is smarter.",
@@ -386,7 +386,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RWIL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RWIL 里那种"输了背包没空不算输"的玩家：关键圈手抖阵亡，笑着说"起码装备帅"，下局继续搜。',
           en: "You're the RWIL who finds peace in a full backpack — clutch fail or not, you'll loot even better next game.",
@@ -394,7 +394,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RWIL 里那种"决赛圈手抖死了绝对复盘"的玩家：装备全齐还输，说明实战缺练，搜完就要去刷枪感。',
           en: "You're the RWIL who grinds aim after every clutch fail — fully kitted and still lost means you need more combat reps.",
@@ -450,7 +450,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RTSF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RTSF 里那种"队友没跟上也不急"的玩家：推进失败就收，下次调整节奏，永远不因一次崩盘发火。',
           en: "You're the RTSF who keeps cool when the push fails — regroup, reset the pace, never flame after a collapse.",
@@ -458,7 +458,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RTSF 里那种"队友没执行好要复盘"的玩家：每次进攻失败，时机、路线、报点全要拆开来分析。',
           en: "You're the RTSF who dissects every failed push — timing, route, callout, all broken down until the next push lands.",
@@ -514,7 +514,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RTSL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RTSL 里那种"送完装备输了也不心疼"的玩家：把三级甲丢完然后穿二级甲阵亡，反正是为了大家。',
           en: "You're the RTSL who has zero regrets after losing — you gave the level 3 gear away and died in level 2, and that's fine.",
@@ -522,7 +522,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RTSL 里那种"我把装备给你了你一定要赢"的玩家：无私分配只为最终吃鸡，输了会复盘谁没发挥好。',
           en: "You're the RTSL who expects a win in return for every gear drop — selfless yes, but losses get reviewed for accountability.",
@@ -578,7 +578,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RTIF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RTIF 里那种"送了就送了下局继续"的玩家：天天被抬，天天继续冲，反正伞兵不论输赢都乐在其中。',
           en: "You're the RTIF who treats every wipe as a warm-up — got carried today, charge again tomorrow, it's always fun either way.",
@@ -586,7 +586,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RTIF 里那种"老是第一个倒地必须改"的玩家：勇气不缺，但每次最先死，说明时机和路线要重新算。',
           en: "You're the RTIF who hates always being first down — courage is there but dying first every time means timing needs work.",
@@ -642,7 +642,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/RTIL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 RTIL 里那种"送了好装备只是这局不顺"的玩家：两秒倒地，笑着说"他赚到了"，下局乐呵呵继续搜。',
           en: "You're the RTIL who laughs off every delivery — knocked in 2 seconds, you shrug and start looting again next game.",
@@ -650,7 +650,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 RTIL 里那种"这背包不能白搜"的玩家：搜了好装备被打死，必须搞清楚是时机差还是位置差，下次绝不白送。',
           en: "You're the RTIL who refuses to loot for nothing — every 2-second death gets a post-match debrief until the gear actually pays off.",
@@ -706,7 +706,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CWSF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CWSF 里那种"打偏了就换角度继续等"的玩家：一枪没打中不慌，重新趴好，下一颗子弹自然会到位。',
           en: "You're the CWSF who resets after a miss — one shot off means reposition, breathe, and wait for the next clean angle.",
@@ -714,7 +714,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CWSF 里那种"每次失手都要找原因"的玩家：800米打偏一发，一定复盘弹道、风偏、体位，绝不允许同样的错重现。',
           en: "You're the CWSF who logs every missed shot — 800m miss means a full review of trajectory, sway, and stance before the next session.",
@@ -770,7 +770,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CWSL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CWSL 里那种"最终圈阴人失败也行"的玩家：前期苟得好，结果没拿鸡，无所谓，路线本来就是正确的。',
           en: "You're the CWSL who's fine with a final-circle whiff — perfect zone run is its own reward whether or not the chicken comes.",
@@ -778,7 +778,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CWSL 里那种"苟到决赛圈还没吃鸡说明收割时机没算好"的玩家：苟活只是手段，最后那刀一定要补上。',
           en: "You're the CWSL who demands the payoff — surviving to final circle and not winning means the cleanup timing needs fixing.",
@@ -834,7 +834,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CWIF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CWIF 里那种"被找到了就换个厕所"的玩家：阴人被识破，不急不躁，换个楼继续架枪等下一个推门的人。',
           en: "You're the CWIF who just picks a new bathroom when found — getting spotted is part of the game, a fresh corner is always nearby.",
@@ -842,7 +842,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CWIF 里那种"被识破说明这个位置人尽皆知"的玩家：阴人失败就更新位置库，绝不让同一个点被破防两次。',
           en: "You're the CWIF who retires exposed spots — get caught once and that position is blacklisted, the ambush library keeps growing.",
@@ -898,7 +898,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CWIL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CWIL 里那种"0杀吃鸡就是最高艺术"的玩家：全程没开枪拿鸡，泰然自若，这才叫真正的生存哲学。',
           en: "You're the CWIL who sees 0-kill wins as pure art — zone out everything, let the world burn, and collect the chicken in peace.",
@@ -906,7 +906,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CWIL 里那种"0杀吃鸡也要优化路线"的玩家：每次都想把跑毒路线压缩到极致，0杀也要赢得最干净。',
           en: "You're the CWIL who optimizes every 0-kill run — there's always a cleaner route, a tighter timeline, a more perfect no-shot chicken.",
@@ -962,7 +962,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CTSF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CTSF 里那种"楼被打穿了就换楼"的玩家：阵地失守不慌乱，迅速找下一栋楼，防守指挥从不失控。',
           en: "You're the CTSF who calmly moves to the next building — losing one fort doesn't break you, there's always another floor to hold.",
@@ -970,7 +970,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CTSF 里那种"楼被打穿说明交叉火力没架好"的玩家：每次阵地失守必须复盘，窗口分配、掩护角度，一处都不能差。',
           en: "You're the CTSF who treats every breached building as a failure report — crossfire gaps get identified and closed before the next hold.",
@@ -1026,7 +1026,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CTSL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CTSL 里那种"没收到割也无所谓"的玩家：带队苟到最后，时机没来就撤，结果不理想也不影响下一局指挥。',
           en: "You're the CTSL who accepts a missed harvest — led the team to final circle, timing didn't align, and that's okay for next time.",
@@ -1034,7 +1034,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CTSL 里那种"苟到最后没吃鸡就是收割时机没对"的玩家：每次决赛圈复盘，三方交火哪一秒插刀最划算。',
           en: "You're the CTSL who reviews every third-party window — if the chicken slipped away, it means you need to find the exact right second to push.",
@@ -1090,7 +1090,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CTIF.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CTIF 里那种"打不中人没关系扶起来就行"的玩家：子弹描边是特色，只要队友活着最终赢了，你的工作就完成了。',
           en: "You're the CTIF who's at peace with zero damage — teammates alive and winning is the only score that matters to you.",
@@ -1098,7 +1098,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CTIF 里那种"总不能永远不输出"的玩家：拉烟扶人没问题，但每次全队输出只靠别人，你知道自己迟早要练枪。',
           en: "You're the CTIF who knows the aim gap has to close — smoke revives are locked in, now it's time to grind until the bullets actually land.",
@@ -1154,7 +1154,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
     image: '/assert/images/quiz/CTIL.webp',
     variants: {
       E: {
-        label: { zh: '淡定型', en: 'Even', ko: '평정형' },
+        label: { zh: '佛系型', en: 'Even', ko: '평정형' },
         blurb: {
           zh: '你是 CTIL 里那种"输了也能讲出三个段子的"玩家：全队阵亡语音里还在哈哈大笑，下局继续，开黑本来就是为了开心。',
           en: "You're the CTIL who has three jokes ready after a wipe — squad gone, mic still going, next game queued, having fun is the whole point.",
@@ -1162,7 +1162,7 @@ export const PERSONALITY_TYPES: Record<string, PersonalityType> = {
         },
       },
       D: {
-        label: { zh: '求胜型', en: 'Driven', ko: '승부욕형' },
+        label: { zh: '分奴型', en: 'Driven', ko: '승부욕형' },
         blurb: {
           zh: '你是 CTIL 里那种"笑着笑着也想赢"的玩家：欢乐氛围不减，但鸡没吃到心里还是有点痒，段子讲完了还是要研究一下战术。',
           en: "You're the CTIL who keeps the jokes but still wants the win — fun squad energy all game, and yet not getting chicken still stings a little.",
