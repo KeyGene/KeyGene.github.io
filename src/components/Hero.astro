@@ -1,14 +1,17 @@
 ---
 import { t } from '../i18n/utils';
+import HeroCarousel from '../islands/HeroCarousel.tsx';
 const lang = Astro.currentLocale ?? 'zh';
 const localePath = (p: string) => lang === 'zh' ? p : `/${lang}${p}`;
+
+const banners = [
+  { src: '/assert/images/banners/xeno-point.webp',    alt: 'XENO POINT' },
+  { src: '/assert/images/banners/stellar-blade.webp', alt: 'PUBG x STELLAR BLADE' },
+];
 ---
 
 <section class="hero" transition:name="hero">
-  <picture>
-    <source media="(max-width: 768px)" srcset="/assert/images/hero-bg-mobile.webp" type="image/webp" />
-    <img class="hero-bg" src="/assert/images/hero-bg.webp" alt="KEY GENE PUBG" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" />
-  </picture>
+  <HeroCarousel client:load banners={banners} intervalMs={5000} />
 
   <div class="hero-content">
     <div class="hero-tag" transition:name="hero-tag">{t('heroTag', lang)}</div>
