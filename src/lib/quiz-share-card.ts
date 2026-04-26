@@ -1,10 +1,15 @@
 // src/lib/quiz-share-card.ts — Canvas-based share card generator
+import QRCode from 'qrcode';
 import type { PersonalityType, DimScores, Lang, Variant } from '../data/quiz';
 import { DIMENSION_LABELS, GROUP_COLORS, GROUP_INFO, scoreToPercent } from '../data/quiz';
 
 export interface ShareCardLabels {
   resultLabel: string;
+  scanLabel: string;
 }
+
+const SITE_ORIGIN = 'https://keygene.top';
+const LANG_PREFIX_FOR_URL: Record<Lang, string> = { zh: '', en: '/en', ko: '/ko' };
 
 interface GenerateOpts {
   type: PersonalityType;
@@ -160,11 +165,40 @@ export async function generateShareCard(opts: GenerateOpts): Promise<string> {
     barY += 36;
   }
 
-  // URL
+  // ─── QR code (bottom-right) + URL (bottom-left) ───────────────────────
+  const QR_SIZE = 140;
+  const QR_X = W - QR_SIZE - 40;     // right edge - QR width - margin
+  const QR_Y = H - QR_SIZE - 50;     // bottom edge - QR height - margin (room for label below)
+
+  const resultUrl = `${SITE_ORIGIN}${LANG_PREFIX_FOR_URL[lang]}/quiz/result/${type.code}?v=${variant}`;
+  try {
+    const qrDataUrl = await QRCode.toDataURL(resultUrl, {
+      width: QR_SIZE * 2,           // 2x for crisp rendering
+      margin: 1,
+      errorCorrectionLevel: 'M',
+      color: { dark: '#111111', light: '#ffffff' },
+    });
+    const qrImg = await loadImage(qrDataUrl);
+    // White background with rounded corners as backdrop for the QR
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, QR_X - 8, QR_Y - 8, QR_SIZE + 16, QR_SIZE + 16, 10);
+    ctx.fill();
+    ctx.drawImage(qrImg, QR_X, QR_Y, QR_SIZE, QR_SIZE);
+
+    // "扫码查看" / "Scan to view" label below QR
+    ctx.fillStyle = '#888';
+    ctx.font = '500 16px Rubik, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(labels.scanLabel, QR_X + QR_SIZE / 2, QR_Y + QR_SIZE + 28);
+  } catch {
+    // QR generation failed (offline / library issue) — silently skip; share card still useful
+  }
+
+  // URL on bottom-left
   ctx.fillStyle = '#555';
   ctx.font = '500 20px Rubik, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('keygene.top', W / 2, H - 40);
+  ctx.textAlign = 'left';
+  ctx.fillText('keygene.top', 60, H - 50);
 
   return canvas.toDataURL('image/png');
 }

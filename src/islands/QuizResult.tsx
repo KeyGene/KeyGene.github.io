@@ -16,6 +16,7 @@ interface Labels {
   resultDescriptionTitle: string;
   shareSave: string;
   shareClose: string;
+  shareScanLabel: string;
 }
 
 interface Props {
@@ -69,7 +70,7 @@ export default function QuizResult({ type, variant: variantProp, lang, labels, p
     try {
       const url = await generateShareCard({
         type, variant, scores: matchingScores, lang,
-        labels: { resultLabel: labels.resultLabel },
+        labels: { resultLabel: labels.resultLabel, scanLabel: labels.shareScanLabel },
       });
       setShareUrl(url);
       setShowShare(true);
