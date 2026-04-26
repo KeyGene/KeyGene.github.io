@@ -1,0 +1,56 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import QuizResult from '../../../../islands/QuizResult.tsx';
+import { t } from '../../../../i18n/utils';
+import { PERSONALITY_TYPES, type Variant, type Lang, type PersonalityType } from '../../../../data/quiz';
+
+export function getStaticPaths() {
+  return Object.keys(PERSONALITY_TYPES).map((code) => ({ params: { code } }));
+}
+
+const { code } = Astro.params;
+const lang = (Astro.currentLocale ?? 'en') as Lang;
+
+const type = code ? PERSONALITY_TYPES[code] : undefined;
+if (!type) return Astro.redirect('/404');
+
+const url = Astro.url;
+const vRaw = url.searchParams.get('v');
+const variant: Variant = vRaw === 'D' ? 'D' : 'E';
+
+const partnerTypes: PersonalityType[] = (type.partner || [])
+  .map((pc) => PERSONALITY_TYPES[pc])
+  .filter((p): p is PersonalityType => Boolean(p));
+const nemesisType: PersonalityType | null = PERSONALITY_TYPES[type.nemesis] ?? null;
+
+const labels = {
+  resultLabel: t('resultLabel', lang),
+  resultGroupLabel: t('resultGroupLabel', lang),
+  resultStrengths: t('resultStrengths', lang),
+  resultWeaknesses: t('resultWeaknesses', lang),
+  resultPartner: t('resultPartner', lang),
+  resultNemesis: t('resultNemesis', lang),
+  resultRetry: t('resultRetry', lang),
+  resultShare: t('resultShare', lang),
+  resultViewAll: t('resultViewAll', lang),
+  resultVariantTitle: t('resultVariantTitle', lang),
+  resultDescriptionTitle: t('resultDescriptionTitle', lang),
+  shareSave: t('shareSave', lang),
+  shareClose: t('shareClose', lang),
+};
+
+const pageTitle = `${type.code}-${variant} ${type.nickname[lang]} — ${t('quizTitle', lang)}`;
+const pageDesc = type.tagline[lang];
+---
+
+<Base title={pageTitle} description={pageDesc}>
+  <QuizResult
+    client:load
+    type={type}
+    variant={variant}
+    lang={lang}
+    labels={labels}
+    partnerTypes={partnerTypes}
+    nemesisType={nemesisType}
+  />
+</Base>
